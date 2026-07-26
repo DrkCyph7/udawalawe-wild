@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdminRouteImport } from './routes/admin'
-import { Route as BookRouteImport } from './routes/book'
 import { Route as CancellationPolicyRouteImport } from './routes/cancellation-policy'
 import { Route as EthicalSafariRouteImport } from './routes/ethical-safari'
 import { Route as GuideRouteImport } from './routes/guide'
@@ -39,11 +38,6 @@ const AboutRoute = AboutRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BookRoute = BookRouteImport.update({
-  id: '/book',
-  path: '/book',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CancellationPolicyRoute = CancellationPolicyRouteImport.update({
@@ -111,7 +105,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
-  '/book': typeof BookRoute
   '/cancellation-policy': typeof CancellationPolicyRoute
   '/ethical-safari': typeof EthicalSafariRoute
   '/guide': typeof GuideRoute
@@ -129,7 +122,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
-  '/book': typeof BookRoute
   '/cancellation-policy': typeof CancellationPolicyRoute
   '/ethical-safari': typeof EthicalSafariRoute
   '/guide': typeof GuideRoute
@@ -148,7 +140,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
-  '/book': typeof BookRoute
   '/cancellation-policy': typeof CancellationPolicyRoute
   '/ethical-safari': typeof EthicalSafariRoute
   '/guide': typeof GuideRoute
@@ -168,7 +159,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admin'
-    | '/book'
     | '/cancellation-policy'
     | '/ethical-safari'
     | '/guide'
@@ -186,7 +176,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admin'
-    | '/book'
     | '/cancellation-policy'
     | '/ethical-safari'
     | '/guide'
@@ -204,7 +193,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admin'
-    | '/book'
     | '/cancellation-policy'
     | '/ethical-safari'
     | '/guide'
@@ -223,7 +211,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRoute
-  BookRoute: typeof BookRoute
   CancellationPolicyRoute: typeof CancellationPolicyRoute
   EthicalSafariRoute: typeof EthicalSafariRoute
   GuideRoute: typeof GuideRoute
@@ -259,13 +246,6 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/book': {
-      id: '/book'
-      path: '/book'
-      fullPath: '/book'
-      preLoaderRoute: typeof BookRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cancellation-policy': {
@@ -359,7 +339,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AdminRoute: AdminRoute,
-  BookRoute: BookRoute,
   CancellationPolicyRoute: CancellationPolicyRoute,
   EthicalSafariRoute: EthicalSafariRoute,
   GuideRoute: GuideRoute,

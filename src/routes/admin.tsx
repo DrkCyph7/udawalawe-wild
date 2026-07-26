@@ -1,13 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import {
-  supabase,
-  isAdminUser,
-  fetchBookingEnquiries,
-  updateBookingStatus,
-  sendAdminOtp,
-  verifyAdminOtp,
-} from "@/lib/supabase";
+import { supabase, isAdminUser, fetchBookingEnquiries, updateBookingStatus } from "@/lib/supabase";
 import { Section } from "@/components/section";
 
 export const Route = createFileRoute("/admin")({
@@ -26,11 +19,7 @@ function AdminPage() {
   const [checking, setChecking] = useState(true);
   const [bookings, setBookings] = useState<any[]>([]);
   const [message, setMessage] = useState<string | null>(null);
-  const [email, setEmail] = useState("");
-  const [otpCode, setOtpCode] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
-  const [sendingOtp, setSendingOtp] = useState(false);
-  const [verifyingOtp, setVerifyingOtp] = useState(false);
+  const [accessCode, setAccessCode] = useState("");
 
   useEffect(() => {
     let active = true;
@@ -77,70 +66,35 @@ function AdminPage() {
     };
   }, []);
 
-  const handleSendCode = async () => {
+  const handleSignIn = async () => {
     if (!supabase) {
       setMessage("Supabase is not configured.");
       return;
     }
 
-    if (!email.trim()) {
-      setMessage("Please enter your admin email address.");
+    const code = accessCode.trim();
+    if (!code) {
+      setMessage("Please enter the admin code.");
       return;
     }
 
-    setSendingOtp(true);
-    setMessage(null);
+    if (code !== "40808") {
+      setMessage("Invalid admin code.");
+      return;
+    }
+
+    setAuthorized(true);
+    setChecking(false);
+    setLoading(false);
+    setMessage("Signed in successfully.");
+
     try {
-      await sendAdminOtp(email);
-      setOtpSent(true);
-      setMessage("We've sent a 6-digit code to your email.");
+      const rows = await fetchBookingEnquiries();
+      setBookings(rows);
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Unable to send the code.");
-    } finally {
-      setSendingOtp(false);
-    }
-  };
-
-  const handleVerifyCode = async () => {
-    if (!supabase) {
-      setMessage("Supabase is not configured.");
-      return;
-    }
-
-    if (!otpCode.trim()) {
-      setMessage("Please enter the code from your email.");
-      return;
-    }
-
-    setVerifyingOtp(true);
-    setMessage(null);
-    try {
-      const user = await verifyAdminOtp(email, otpCode);
-      const isAdmin = await isAdminUser(user ?? null);
-
-      if (!isAdmin) {
-        setMessage("This email isn't authorized for admin access.");
-        await supabase.auth.signOut();
-        return;
-      }
-
-      setAuthorized(true);
-      setChecking(false);
-      setLoading(false);
-
-      try {
-        const rows = await fetchBookingEnquiries();
-        setBookings(rows);
-        setMessage("Signed in successfully.");
-      } catch (error) {
-        const detail = error instanceof Error ? error.message : "Unable to load bookings.";
-        setMessage(`Signed in successfully. ${detail}`);
-        setBookings([]);
-      }
-    } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Invalid or expired code.");
-    } finally {
-      setVerifyingOtp(false);
+      const detail = error instanceof Error ? error.message : "Unable to load bookings.";
+      setMessage(`Signed in successfully. ${detail}`);
+      setBookings([]);
     }
   };
 
@@ -174,63 +128,22 @@ function AdminPage() {
           <div className="text-xs uppercase tracking-[0.3em] text-[color:var(--terracotta)]">Protected area</div>
           <h1 className="mt-3 font-serif text-3xl text-foreground">Admin access required</h1>
           <p className="mt-3 text-sm text-muted-foreground">
-            {otpSent
-              ? "Enter the 6-digit code we emailed you."
-              : "Enter your admin email to receive a one-time login code."}
+            Enter the admin code to view bookings and update status.
           </p>
-
-          {!otpSent ? (
-            <>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
-                autoComplete="email"
-                className="mt-6 w-full rounded-sm border border-input bg-background px-4 py-3 text-sm"
-              />
-              <button
-                type="button"
-                onClick={() => void handleSendCode()}
-                disabled={sendingOtp}
-                className="mt-4 w-full rounded-sm bg-primary px-5 py-3 text-sm font-medium text-primary-foreground disabled:opacity-70"
-              >
-                {sendingOtp ? "Sending code…" : "Send code"}
-              </button>
-            </>
-          ) : (
-            <>
-              <input
-                type="text"
-                inputMode="numeric"
-                value={otpCode}
-                onChange={(e) => setOtpCode(e.target.value)}
-                placeholder="123456"
-                autoComplete="one-time-code"
-                className="mt-6 w-full rounded-sm border border-input bg-background px-4 py-3 text-center text-lg tracking-[0.4em]"
-              />
-              <button
-                type="button"
-                onClick={() => void handleVerifyCode()}
-                disabled={verifyingOtp}
-                className="mt-4 w-full rounded-sm bg-primary px-5 py-3 text-sm font-medium text-primary-foreground disabled:opacity-70"
-              >
-                {verifyingOtp ? "Verifying…" : "Verify & sign in"}
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setOtpSent(false);
-                  setOtpCode("");
-                  setMessage(null);
-                }}
-                className="mt-3 text-xs text-muted-foreground underline underline-offset-4"
-              >
-                Use a different email
-              </button>
-            </>
-          )}
-
+          <input
+            type="text"
+            value={accessCode}
+            onChange={(e) => setAccessCode(e.target.value)}
+            placeholder="Enter admin code"
+            className="mt-6 w-full rounded-sm border border-input bg-background px-4 py-3 text-sm"
+          />
+          <button
+            type="button"
+            onClick={() => void handleSignIn()}
+            className="mt-4 rounded-sm bg-primary px-5 py-3 text-sm font-medium text-primary-foreground"
+          >
+            Access admin
+          </button>
           {message && <p className="mt-4 text-sm text-muted-foreground">{message}</p>}
           <p className="mt-6 text-xs text-muted-foreground">
             <Link to="/" className="text-primary underline-offset-4 hover:underline">Return home</Link>
