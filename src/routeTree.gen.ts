@@ -9,8 +9,32 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SafarisRouteImport } from './routes/safaris'
+import { Route as RoutesRouteImport } from './routes/routes'
+import { Route as GuideRouteImport } from './routes/guide'
+import { Route as EthicalSafariRouteImport } from './routes/ethical-safari'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SafarisRoute = SafarisRouteImport.update({
+  id: '/safaris',
+  path: '/safaris',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoutesRoute = RoutesRouteImport.update({
+  id: '/routes',
+  path: '/routes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuideRoute = GuideRouteImport.update({
+  id: '/guide',
+  path: '/guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EthicalSafariRoute = EthicalSafariRouteImport.update({
+  id: '/ethical-safari',
+  path: '/ethical-safari',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +43,72 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ethical-safari': typeof EthicalSafariRoute
+  '/guide': typeof GuideRoute
+  '/routes': typeof RoutesRoute
+  '/safaris': typeof SafarisRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ethical-safari': typeof EthicalSafariRoute
+  '/guide': typeof GuideRoute
+  '/routes': typeof RoutesRoute
+  '/safaris': typeof SafarisRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ethical-safari': typeof EthicalSafariRoute
+  '/guide': typeof GuideRoute
+  '/routes': typeof RoutesRoute
+  '/safaris': typeof SafarisRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/ethical-safari' | '/guide' | '/routes' | '/safaris'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/ethical-safari' | '/guide' | '/routes' | '/safaris'
+  id: '__root__' | '/' | '/ethical-safari' | '/guide' | '/routes' | '/safaris'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  EthicalSafariRoute: typeof EthicalSafariRoute
+  GuideRoute: typeof GuideRoute
+  RoutesRoute: typeof RoutesRoute
+  SafarisRoute: typeof SafarisRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/safaris': {
+      id: '/safaris'
+      path: '/safaris'
+      fullPath: '/safaris'
+      preLoaderRoute: typeof SafarisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/routes': {
+      id: '/routes'
+      path: '/routes'
+      fullPath: '/routes'
+      preLoaderRoute: typeof RoutesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guide': {
+      id: '/guide'
+      path: '/guide'
+      fullPath: '/guide'
+      preLoaderRoute: typeof GuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ethical-safari': {
+      id: '/ethical-safari'
+      path: '/ethical-safari'
+      fullPath: '/ethical-safari'
+      preLoaderRoute: typeof EthicalSafariRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +121,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  EthicalSafariRoute: EthicalSafariRoute,
+  GuideRoute: GuideRoute,
+  RoutesRoute: RoutesRoute,
+  SafarisRoute: SafarisRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
