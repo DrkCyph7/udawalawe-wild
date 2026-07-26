@@ -19,6 +19,7 @@ function AdminPage() {
   const [checking, setChecking] = useState(true);
   const [bookings, setBookings] = useState<any[]>([]);
   const [message, setMessage] = useState<string | null>(null);
+  const [accessCode, setAccessCode] = useState("");
 
   useEffect(() => {
     let active = true;
@@ -71,18 +72,36 @@ function AdminPage() {
       return;
     }
 
-    setMessage(null);
-    const { error } = await supabase.auth.signInWithOtp({
-      email: window.prompt("Enter the admin email") ?? "",
-      options: { emailRedirectTo: `${window.location.origin}/admin` },
-    });
-
-    if (error) {
-      setMessage(error.message);
+    const code = accessCode.trim();
+    if (!code) {
+      setMessage("Please enter the admin code.");
       return;
     }
 
-    setMessage("Magic link sent. Check your inbox and return here.");
+    if (code !== "40808") {
+      setMessage("Invalid admin code.");
+      return;
+    }
+
+    try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const user = sessionData.session?.user ?? null;
+      const isAdmin = await isAdminUser(user);
+
+      if (!isAdmin) {
+        setMessage("This code is not authorized for admin access.");
+        return;
+      }
+
+      setAuthorized(true);
+      setChecking(false);
+      setLoading(false);
+      const rows = await fetchBookingEnquiries();
+      setBookings(rows);
+      setMessage("Signed in successfully.");
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Unable to sign in.");
+    }
   };
 
   const handleStatusChange = async (id: string, status: string) => {
@@ -115,14 +134,21 @@ function AdminPage() {
           <div className="text-xs uppercase tracking-[0.3em] text-[color:var(--terracotta)]">Protected area</div>
           <h1 className="mt-3 font-serif text-3xl text-foreground">Admin access required</h1>
           <p className="mt-3 text-sm text-muted-foreground">
-            Sign in with a verified admin email to view bookings and update status.
+            Enter the admin code to view bookings and update status.
           </p>
+          <input
+            type="text"
+            value={accessCode}
+            onChange={(e) => setAccessCode(e.target.value)}
+            placeholder="Enter admin code"
+            className="mt-6 w-full rounded-sm border border-input bg-background px-4 py-3 text-sm"
+          />
           <button
             type="button"
-            onClick={handleSignIn}
-            className="mt-6 rounded-sm bg-primary px-5 py-3 text-sm font-medium text-primary-foreground"
+            onClick={() => void handleSignIn()}
+            className="mt-4 rounded-sm bg-primary px-5 py-3 text-sm font-medium text-primary-foreground"
           >
-            Send magic link
+            Access admin
           </button>
           {message && <p className="mt-4 text-sm text-muted-foreground">{message}</p>}
           <p className="mt-6 text-xs text-muted-foreground">

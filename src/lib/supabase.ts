@@ -1,6 +1,16 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim() ?? "";
+function normalizeSupabaseUrl(rawUrl: string) {
+  const value = rawUrl.trim();
+  if (!value) {
+    return "";
+  }
+
+  const withoutTrailingSlash = value.replace(/\/+$/, "");
+  return withoutTrailingSlash.replace(/\/(?:rest|auth)\/v1$/i, "");
+}
+
+const supabaseUrl = normalizeSupabaseUrl(import.meta.env.VITE_SUPABASE_URL ?? "");
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim() ?? "";
 
 export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
@@ -48,6 +58,28 @@ type AuthUser = {
   user_metadata?: Record<string, unknown> | null;
 };
 
+function toFriendlySupabaseError(error: unknown) {
+  if (error instanceof Error) {
+    const message = error.message.toLowerCase();
+
+    if (message.includes("relation") && message.includes("does not exist")) {
+      return "The Supabase booking table is not set up yet. Please run the SQL from src/lib/booking-schema.sql in the Supabase SQL editor.";
+    }
+
+    if (message.includes("row-level security") || message.includes("permission denied")) {
+      return "Supabase is rejecting the insert because the table or RLS policies are not configured correctly.";
+    }
+
+    if (message.includes("invalid api key") || message.includes("api key") || message.includes("not configured")) {
+      return "Supabase credentials are missing or invalid. Check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.";
+    }
+
+    return error.message;
+  }
+
+  return "We couldn't sync the enquiry to the database yet.";
+}
+
 export async function createBookingEnquiry(values: Record<string, string>) {
   if (!supabase) {
     throw new Error("Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
@@ -76,7 +108,7 @@ export async function createBookingEnquiry(values: Record<string, string>) {
     .maybeSingle();
 
   if (error) {
-    throw error;
+    throw new Error(toFriendlySupabaseError(error));
   }
 
   return data;
