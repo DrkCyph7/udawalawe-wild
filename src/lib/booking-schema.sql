@@ -85,20 +85,31 @@ create policy "Anyone can submit enquiries"
   to anon
   with check (true);
 
+-- NOTE: admin access is currently gated only by a code checked in the React
+-- app (admin.tsx), not by real Supabase Auth. Since there's no authenticated
+-- session for the admin panel to rely on, these policies grant the `anon`
+-- role read/update access. This means the DATABASE itself does not enforce
+-- who is an admin — only the front-end code does. Anyone who can read the
+-- client bundle can find the code and bypass the front-end gate. Treat this
+-- as an internal/low-stakes safeguard, not real access control. To restore
+-- database-level enforcement, switch admin.tsx back to real Supabase Auth
+-- (e.g. the OTP flow) and change these back to `to authenticated using
+-- (public.is_admin_email())`.
+
 drop policy if exists "Admins can read all enquiries" on public.booking_enquiries;
 create policy "Admins can read all enquiries"
   on public.booking_enquiries
   for select
-  to authenticated
-  using (public.is_admin_email());
+  to anon, authenticated
+  using (true);
 
 drop policy if exists "Admins can update enquiries" on public.booking_enquiries;
 create policy "Admins can update enquiries"
   on public.booking_enquiries
   for update
-  to authenticated
-  using (public.is_admin_email())
-  with check (public.is_admin_email());
+  to anon, authenticated
+  using (true)
+  with check (true);
 
 drop policy if exists "Users can read own profile" on public.profiles;
 create policy "Users can read own profile"
