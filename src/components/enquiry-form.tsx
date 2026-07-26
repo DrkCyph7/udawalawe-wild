@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createBookingEnquiry, isSupabaseConfigured } from "@/lib/supabase";
 
 type Props = {
   compact?: boolean;
@@ -10,6 +11,7 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup }: Props) {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [optimisticSummary, setOptimisticSummary] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -38,6 +40,11 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup }: Props) {
           Your enquiry is with us. We’ll send verified options and a fixed quote within one business
           day.
         </p>
+        {submitError && (
+          <div className="mt-4 rounded-md border border-amber-300/60 bg-amber-50 px-3 py-2 text-xs text-amber-800">
+            {submitError}
+          </div>
+        )}
         {optimisticSummary && (
           <div className="mt-4 rounded-md bg-muted/70 px-3 py-2 text-xs text-muted-foreground">
             {optimisticSummary}
@@ -68,8 +75,9 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup }: Props) {
 
   return (
     <form
-      onSubmit={(e) => {
+      onSubmit={async (e) => {
         e.preventDefault();
+        setSubmitError(null);
 
         const formData = new FormData(e.currentTarget);
         const values = Object.fromEntries(formData.entries()) as Record<string, string>;
@@ -88,10 +96,23 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup }: Props) {
           window.localStorage.setItem("udawalawe-wild-enquiry", JSON.stringify(values));
         }
 
-        window.setTimeout(() => {
+        try {
+          await createBookingEnquiry(values);
           setSubmitted(true);
+        } catch (error) {
+          const fallbackMessage =
+            error instanceof Error
+              ? error.message
+              : "We couldn't sync the enquiry to the database yet.";
+          setSubmitError(
+            isSupabaseConfigured
+              ? fallbackMessage
+              : "Your enquiry was saved locally for now. Connect Supabase to push it into the admin dashboard.",
+          );
+          setSubmitted(true);
+        } finally {
           setIsSubmitting(false);
-        }, 800);
+        }
       }}
       className={`grid gap-3 ${compact ? "sm:grid-cols-2" : "sm:grid-cols-2"}`}
     >
