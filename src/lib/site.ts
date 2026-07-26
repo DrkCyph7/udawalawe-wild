@@ -3,7 +3,7 @@ export const SITE = {
   domain: "udawalawewild.com",
   tagline: "Private, wildlife-first safaris in Sri Lanka.",
   whatsapp: "+94721890006",
-  whatsappDisplay: "+94 72 189 0006",
+  whatsappDisplay: "+94 71 234 5678",
   email: "hello@udawalawewild.com",
   disclaimer:
     "Independent booking platform partnering with verified local operators. Not affiliated with Udawalawe National Park.",
