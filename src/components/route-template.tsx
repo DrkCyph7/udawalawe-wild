@@ -10,7 +10,13 @@ export function RouteTemplate({ info }: { info: RouteInfo }) {
   return (
     <>
       <section className="relative isolate overflow-hidden">
-        <img src={landscape} alt="" aria-hidden loading="eager" className="absolute inset-0 -z-10 h-full w-full object-cover" />
+        <img
+          src={landscape}
+          alt=""
+          aria-hidden
+          loading="eager"
+          className="absolute inset-0 -z-10 h-full w-full object-cover"
+        />
         <div className="absolute inset-0 -z-10 bg-[oklch(0.22_0.035_155_/_0.7)]" />
         <div className="mx-auto max-w-4xl px-5 py-20 text-[color:var(--ivory)] sm:px-8 sm:py-28">
           <div className="text-xs uppercase tracking-[0.25em] text-[color:var(--ivory)]/70">
@@ -22,9 +28,7 @@ export function RouteTemplate({ info }: { info: RouteInfo }) {
           <p className="mt-5 max-w-xl text-base text-[color:var(--ivory)]/85 sm:text-lg">
             {info.summary}
           </p>
-          <div className="mt-5 text-sm text-[color:var(--ivory)]/70">
-            {info.drive}
-          </div>
+          <div className="mt-5 text-sm text-[color:var(--ivory)]/70">{info.drive}</div>
         </div>
       </section>
 
@@ -48,8 +52,8 @@ export function RouteTemplate({ info }: { info: RouteInfo }) {
             <div className="mt-10 rounded-sm border border-border bg-card p-6">
               <div className="font-serif text-xl">Safari + transfer</div>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                Travelling on the same day? We can combine your safari with an
-                onward or return transfer so you don't lose a day to driving.
+                Travelling on the same day? We can combine your safari with an onward or return
+                transfer so you don't lose a day to driving.
               </p>
               <Link
                 to="/safaris"
@@ -60,7 +64,10 @@ export function RouteTemplate({ info }: { info: RouteInfo }) {
             </div>
           </div>
 
-          <div id="enquire" className="rounded-sm border border-border bg-card p-5 shadow-sm sm:p-7">
+          <div
+            id="enquire"
+            className="rounded-sm border border-border bg-card p-5 shadow-sm sm:p-7"
+          >
             <div className="mb-4">
               <div className="text-xs uppercase tracking-widest text-[color:var(--terracotta)]">
                 Enquire

@@ -6,9 +6,16 @@ export const Route = createFileRoute("/ethical-safari")({
   head: () => ({
     meta: [
       { title: "Ethical safari standard — Udawalawe Wild" },
-      { name: "description", content: "Our wildlife-first standard, respectful driving rules, and how we verify local safari partners in Udawalawe." },
+      {
+        name: "description",
+        content:
+          "Our wildlife-first standard, respectful driving rules, and how we verify local safari partners in Udawalawe.",
+      },
       { property: "og:title", content: "Ethical safari standard — Udawalawe Wild" },
-      { property: "og:description", content: "How we protect wildlife and support licensed local drivers." },
+      {
+        property: "og:description",
+        content: "How we protect wildlife and support licensed local drivers.",
+      },
     ],
     links: [{ rel: "canonical", href: "/ethical-safari" }],
   }),
@@ -43,10 +50,22 @@ function EthicalPage() {
           <SectionHeading title="On the tracks" eyebrow="Field code" />
           <div className="mt-8 grid gap-6 sm:grid-cols-2">
             {[
-              { t: "Safe animal distance", d: "Our partners hold back at posted distances and further where behaviour signals stress. If an animal moves toward the road, we let them pass." },
-              { t: "Respectful driving", d: "No revving engines, no reversing at pace toward wildlife, no cutting off herds. Slow is the default speed." },
-              { t: "No feeding, no crowding", d: "We never feed wildlife. We won't queue in a scrum around a single sighting, and we'll leave a scene rather than escalate it." },
-              { t: "Responsible photography", d: "No flash, no drones over the park, no leaning out of the vehicle. Great shots come from patience, not proximity." },
+              {
+                t: "Safe animal distance",
+                d: "Our partners hold back at posted distances and further where behaviour signals stress. If an animal moves toward the road, we let them pass.",
+              },
+              {
+                t: "Respectful driving",
+                d: "No revving engines, no reversing at pace toward wildlife, no cutting off herds. Slow is the default speed.",
+              },
+              {
+                t: "No feeding, no crowding",
+                d: "We never feed wildlife. We won't queue in a scrum around a single sighting, and we'll leave a scene rather than escalate it.",
+              },
+              {
+                t: "Responsible photography",
+                d: "No flash, no drones over the park, no leaning out of the vehicle. Great shots come from patience, not proximity.",
+              },
             ].map((c) => (
               <div key={c.t} className="border-t border-foreground/20 pt-5">
                 <div className="font-serif text-xl text-foreground">{c.t}</div>
@@ -83,9 +102,8 @@ function EthicalPage() {
           ))}
         </ol>
         <p className="mt-10 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          Supporting licensed local drivers and guides keeps expertise — and
-          income — in the community that has cared for this park for
-          generations.
+          Supporting licensed local drivers and guides keeps expertise — and income — in the
+          community that has cared for this park for generations.
         </p>
       </Section>
     </>

@@ -6,9 +6,16 @@ export const Route = createFileRoute("/routes")({
   head: () => ({
     meta: [
       { title: "Travel routes to Udawalawe — Udawalawe Wild" },
-      { name: "description", content: "Reaching Udawalawe from Ella, Mirissa, Galle, and Hiriketiya. Route notes, timings, and safari + transfer options." },
+      {
+        name: "description",
+        content:
+          "Reaching Udawalawe from Ella, Mirissa, Galle, and Hiriketiya. Route notes, timings, and safari + transfer options.",
+      },
       { property: "og:title", content: "Travel routes to Udawalawe" },
-      { property: "og:description", content: "How to reach Udawalawe from popular Sri Lankan bases." },
+      {
+        property: "og:description",
+        content: "How to reach Udawalawe from popular Sri Lankan bases.",
+      },
     ],
     links: [{ rel: "canonical", href: "/routes" }],
   }),

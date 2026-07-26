@@ -9,85 +9,25 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TermsRouteImport } from './routes/terms'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as SafarisRouteImport } from './routes/safaris'
-import { Route as SafariFromMirissaRouteImport } from './routes/safari-from-mirissa'
-import { Route as SafariFromHiriketiyaRouteImport } from './routes/safari-from-hiriketiya'
-import { Route as SafariFromGalleRouteImport } from './routes/safari-from-galle'
-import { Route as SafariFromEllaRouteImport } from './routes/safari-from-ella'
-import { Route as RoutesRouteImport } from './routes/routes'
-import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as GuideRouteImport } from './routes/guide'
-import { Route as EthicalSafariRouteImport } from './routes/ethical-safari'
-import { Route as CancellationPolicyRouteImport } from './routes/cancellation-policy'
-import { Route as BookRouteImport } from './routes/book'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as BookRouteImport } from './routes/book'
+import { Route as CancellationPolicyRouteImport } from './routes/cancellation-policy'
+import { Route as EthicalSafariRouteImport } from './routes/ethical-safari'
+import { Route as GuideRouteImport } from './routes/guide'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as RoutesRouteImport } from './routes/routes'
+import { Route as SafariFromEllaRouteImport } from './routes/safari-from-ella'
+import { Route as SafariFromGalleRouteImport } from './routes/safari-from-galle'
+import { Route as SafariFromHiriketiyaRouteImport } from './routes/safari-from-hiriketiya'
+import { Route as SafariFromMirissaRouteImport } from './routes/safari-from-mirissa'
+import { Route as SafarisRouteImport } from './routes/safaris'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as TermsRouteImport } from './routes/terms'
 
-const TermsRoute = TermsRouteImport.update({
-  id: '/terms',
-  path: '/terms',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SafarisRoute = SafarisRouteImport.update({
-  id: '/safaris',
-  path: '/safaris',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SafariFromMirissaRoute = SafariFromMirissaRouteImport.update({
-  id: '/safari-from-mirissa',
-  path: '/safari-from-mirissa',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SafariFromHiriketiyaRoute = SafariFromHiriketiyaRouteImport.update({
-  id: '/safari-from-hiriketiya',
-  path: '/safari-from-hiriketiya',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SafariFromGalleRoute = SafariFromGalleRouteImport.update({
-  id: '/safari-from-galle',
-  path: '/safari-from-galle',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SafariFromEllaRoute = SafariFromEllaRouteImport.update({
-  id: '/safari-from-ella',
-  path: '/safari-from-ella',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RoutesRoute = RoutesRouteImport.update({
-  id: '/routes',
-  path: '/routes',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacyRoute = PrivacyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GuideRoute = GuideRouteImport.update({
-  id: '/guide',
-  path: '/guide',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EthicalSafariRoute = EthicalSafariRouteImport.update({
-  id: '/ethical-safari',
-  path: '/ethical-safari',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CancellationPolicyRoute = CancellationPolicyRouteImport.update({
-  id: '/cancellation-policy',
-  path: '/cancellation-policy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BookRoute = BookRouteImport.update({
-  id: '/book',
-  path: '/book',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -95,9 +35,69 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const BookRoute = BookRouteImport.update({
+  id: '/book',
+  path: '/book',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CancellationPolicyRoute = CancellationPolicyRouteImport.update({
+  id: '/cancellation-policy',
+  path: '/cancellation-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EthicalSafariRoute = EthicalSafariRouteImport.update({
+  id: '/ethical-safari',
+  path: '/ethical-safari',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuideRoute = GuideRouteImport.update({
+  id: '/guide',
+  path: '/guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoutesRoute = RoutesRouteImport.update({
+  id: '/routes',
+  path: '/routes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SafariFromEllaRoute = SafariFromEllaRouteImport.update({
+  id: '/safari-from-ella',
+  path: '/safari-from-ella',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SafariFromGalleRoute = SafariFromGalleRouteImport.update({
+  id: '/safari-from-galle',
+  path: '/safari-from-galle',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SafariFromHiriketiyaRoute = SafariFromHiriketiyaRouteImport.update({
+  id: '/safari-from-hiriketiya',
+  path: '/safari-from-hiriketiya',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SafariFromMirissaRoute = SafariFromMirissaRouteImport.update({
+  id: '/safari-from-mirissa',
+  path: '/safari-from-mirissa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SafarisRoute = SafarisRouteImport.update({
+  id: '/safaris',
+  path: '/safaris',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -227,95 +227,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/terms': {
-      id: '/terms'
-      path: '/terms'
-      fullPath: '/terms'
-      preLoaderRoute: typeof TermsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/safaris': {
-      id: '/safaris'
-      path: '/safaris'
-      fullPath: '/safaris'
-      preLoaderRoute: typeof SafarisRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/safari-from-mirissa': {
-      id: '/safari-from-mirissa'
-      path: '/safari-from-mirissa'
-      fullPath: '/safari-from-mirissa'
-      preLoaderRoute: typeof SafariFromMirissaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/safari-from-hiriketiya': {
-      id: '/safari-from-hiriketiya'
-      path: '/safari-from-hiriketiya'
-      fullPath: '/safari-from-hiriketiya'
-      preLoaderRoute: typeof SafariFromHiriketiyaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/safari-from-galle': {
-      id: '/safari-from-galle'
-      path: '/safari-from-galle'
-      fullPath: '/safari-from-galle'
-      preLoaderRoute: typeof SafariFromGalleRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/safari-from-ella': {
-      id: '/safari-from-ella'
-      path: '/safari-from-ella'
-      fullPath: '/safari-from-ella'
-      preLoaderRoute: typeof SafariFromEllaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/routes': {
-      id: '/routes'
-      path: '/routes'
-      fullPath: '/routes'
-      preLoaderRoute: typeof RoutesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy': {
-      id: '/privacy'
-      path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/guide': {
-      id: '/guide'
-      path: '/guide'
-      fullPath: '/guide'
-      preLoaderRoute: typeof GuideRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ethical-safari': {
-      id: '/ethical-safari'
-      path: '/ethical-safari'
-      fullPath: '/ethical-safari'
-      preLoaderRoute: typeof EthicalSafariRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cancellation-policy': {
-      id: '/cancellation-policy'
-      path: '/cancellation-policy'
-      fullPath: '/cancellation-policy'
-      preLoaderRoute: typeof CancellationPolicyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/book': {
-      id: '/book'
-      path: '/book'
-      fullPath: '/book'
-      preLoaderRoute: typeof BookRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -325,11 +241,95 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/book': {
+      id: '/book'
+      path: '/book'
+      fullPath: '/book'
+      preLoaderRoute: typeof BookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cancellation-policy': {
+      id: '/cancellation-policy'
+      path: '/cancellation-policy'
+      fullPath: '/cancellation-policy'
+      preLoaderRoute: typeof CancellationPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ethical-safari': {
+      id: '/ethical-safari'
+      path: '/ethical-safari'
+      fullPath: '/ethical-safari'
+      preLoaderRoute: typeof EthicalSafariRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guide': {
+      id: '/guide'
+      path: '/guide'
+      fullPath: '/guide'
+      preLoaderRoute: typeof GuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/routes': {
+      id: '/routes'
+      path: '/routes'
+      fullPath: '/routes'
+      preLoaderRoute: typeof RoutesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/safari-from-ella': {
+      id: '/safari-from-ella'
+      path: '/safari-from-ella'
+      fullPath: '/safari-from-ella'
+      preLoaderRoute: typeof SafariFromEllaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/safari-from-galle': {
+      id: '/safari-from-galle'
+      path: '/safari-from-galle'
+      fullPath: '/safari-from-galle'
+      preLoaderRoute: typeof SafariFromGalleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/safari-from-hiriketiya': {
+      id: '/safari-from-hiriketiya'
+      path: '/safari-from-hiriketiya'
+      fullPath: '/safari-from-hiriketiya'
+      preLoaderRoute: typeof SafariFromHiriketiyaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/safari-from-mirissa': {
+      id: '/safari-from-mirissa'
+      path: '/safari-from-mirissa'
+      fullPath: '/safari-from-mirissa'
+      preLoaderRoute: typeof SafariFromMirissaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/safaris': {
+      id: '/safaris'
+      path: '/safaris'
+      fullPath: '/safaris'
+      preLoaderRoute: typeof SafarisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -355,3 +355,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

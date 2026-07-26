@@ -10,9 +10,16 @@ export const Route = createFileRoute("/safaris")({
   head: () => ({
     meta: [
       { title: "Safari options — Udawalawe Wild" },
-      { name: "description", content: "Compare private morning, afternoon, full-day, and safari + Ella transfer options in Udawalawe. Transparent quotes, verified operators." },
+      {
+        name: "description",
+        content:
+          "Compare private morning, afternoon, full-day, and safari + Ella transfer options in Udawalawe. Transparent quotes, verified operators.",
+      },
       { property: "og:title", content: "Safari options — Udawalawe Wild" },
-      { property: "og:description", content: "Compare private safari options in Udawalawe National Park." },
+      {
+        property: "og:description",
+        content: "Compare private safari options in Udawalawe National Park.",
+      },
     ],
     links: [{ rel: "canonical", href: "/safaris" }],
   }),
@@ -51,12 +58,8 @@ function SafarisPage() {
                 <div className="text-[11px] uppercase tracking-widest text-[color:var(--terracotta)]">
                   Option 0{i + 1}
                 </div>
-                <h2 className="mt-2 font-serif text-3xl text-foreground sm:text-4xl">
-                  {s.name}
-                </h2>
-                <p className="mt-3 text-base leading-relaxed text-muted-foreground">
-                  {s.short}
-                </p>
+                <h2 className="mt-2 font-serif text-3xl text-foreground sm:text-4xl">{s.name}</h2>
+                <p className="mt-3 text-base leading-relaxed text-muted-foreground">{s.short}</p>
 
                 <dl className="mt-6 grid gap-x-8 gap-y-4 sm:grid-cols-2">
                   <Item label="Duration" value={s.duration} />

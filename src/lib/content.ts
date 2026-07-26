@@ -25,8 +25,7 @@ export const safaris: SafariPackage[] = [
     pickup: "Udawalawe town, nearby hotels, or arranged transfer.",
     ethical: "Respectful distance, no engine crowding, no chasing.",
     cancellation: "Flexible cancellation terms shared with your quote.",
-    short:
-      "The classic dawn safari — golden light, cool air, and quieter tracks.",
+    short: "The classic dawn safari — golden light, cool air, and quieter tracks.",
   },
   {
     slug: "afternoon-private-safari",
@@ -42,8 +41,7 @@ export const safaris: SafariPackage[] = [
     pickup: "Udawalawe town, nearby hotels, or arranged transfer.",
     ethical: "Slow, considered driving. No feeding, no crowding.",
     cancellation: "Flexible cancellation terms shared with your quote.",
-    short:
-      "A softer, later start with elephants gathering near the reservoir.",
+    short: "A softer, later start with elephants gathering near the reservoir.",
   },
   {
     slug: "full-day-wildlife-safari",
@@ -59,8 +57,7 @@ export const safaris: SafariPackage[] = [
     pickup: "Udawalawe town or nearby hotels.",
     ethical: "Two calm sessions rather than one rushed loop.",
     cancellation: "Flexible cancellation terms shared with your quote.",
-    short:
-      "Two unhurried sessions in one day — the deepest way to know the park.",
+    short: "Two unhurried sessions in one day — the deepest way to know the park.",
   },
   {
     slug: "safari-ella-transfer",
@@ -76,8 +73,7 @@ export const safaris: SafariPackage[] = [
     pickup: "South coast pickup then safari, ending in Ella.",
     ethical: "Wildlife first; transfer is separate and unhurried.",
     cancellation: "Flexible cancellation terms shared with your quote.",
-    short:
-      "Combine your safari with a smooth onward transfer to the hills.",
+    short: "Combine your safari with a smooth onward transfer to the hills.",
   },
 ];
 
@@ -94,8 +90,7 @@ export const routes: RouteInfo[] = [
     slug: "safari-from-ella",
     from: "Ella",
     drive: "Approx. 2.5 – 3 hours by road",
-    summary:
-      "A scenic descent from the hill country. Popular as a day trip or on the way south.",
+    summary: "A scenic descent from the hill country. Popular as a day trip or on the way south.",
     tips: [
       "Leave early to catch the morning safari window",
       "Roads are winding — allow buffer time",
@@ -106,8 +101,7 @@ export const routes: RouteInfo[] = [
     slug: "safari-from-mirissa",
     from: "Mirissa",
     drive: "Approx. 2 – 2.5 hours by road",
-    summary:
-      "The easiest safari from the south coast — feasible as a long day trip.",
+    summary: "The easiest safari from the south coast — feasible as a long day trip.",
     tips: [
       "Consider an overnight in Udawalawe to avoid a rushed day",
       "Afternoon safaris pair well with a late return",
@@ -118,8 +112,7 @@ export const routes: RouteInfo[] = [
     slug: "safari-from-galle",
     from: "Galle",
     drive: "Approx. 2.5 – 3 hours by road",
-    summary:
-      "A comfortable inland drive from the fort. Great with a hill-country onward transfer.",
+    summary: "A comfortable inland drive from the fort. Great with a hill-country onward transfer.",
     tips: [
       "Early departure is essential for a morning safari",
       "Consider Safari + Ella Transfer to save a driving day",
@@ -130,8 +123,7 @@ export const routes: RouteInfo[] = [
     slug: "safari-from-hiriketiya",
     from: "Hiriketiya",
     drive: "Approx. 2 hours by road",
-    summary:
-      "Quiet coves to open grasslands — one of the shortest coastal routes.",
+    summary: "Quiet coves to open grasslands — one of the shortest coastal routes.",
     tips: [
       "Afternoon safaris are easy on this route",
       "Ask about surfboard-safe transfers if you're moving hotels",

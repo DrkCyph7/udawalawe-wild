@@ -81,7 +81,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Udawalawe Wild — Private safaris in Udawalawe, Sri Lanka" },
-      { name: "description", content: "Private, wildlife-first safaris in Udawalawe National Park. Verified local partners, transparent quotes, and simple planning." },
+      {
+        name: "description",
+        content:
+          "Private, wildlife-first safaris in Udawalawe National Park. Verified local partners, transparent quotes, and simple planning.",
+      },
       { name: "author", content: "Udawalawe Wild" },
       { property: "og:site_name", content: "Udawalawe Wild" },
       { property: "og:type", content: "website" },
@@ -95,7 +99,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600;700&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600;700&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
