@@ -59,25 +59,37 @@ type AuthUser = {
 };
 
 function toFriendlySupabaseError(error: unknown) {
-  if (error instanceof Error) {
-    const message = error.message.toLowerCase();
+  // Supabase-js throws plain PostgrestError objects ({ message, code, details,
+  // hint }), NOT instances of the built-in Error class. `error instanceof Error`
+  // is false for these, so treating that as the only "real error" case caused
+  // every Supabase failure to silently fall through to the generic message
+  // below — hiding the actual cause (RLS, missing table, bad key, etc).
+  const rawMessage =
+    error instanceof Error
+      ? error.message
+      : typeof error === "object" && error !== null && "message" in error
+        ? String((error as { message: unknown }).message)
+        : null;
+
+  if (rawMessage) {
+    const message = rawMessage.toLowerCase();
 
     if (message.includes("relation") && message.includes("does not exist")) {
       return "The Supabase booking table is not set up yet. Please run the SQL from src/lib/booking-schema.sql in the Supabase SQL editor.";
     }
 
     if (message.includes("row-level security") || message.includes("permission denied")) {
-      return "Supabase is rejecting the insert because the table or RLS policies are not configured correctly.";
+      return "Supabase is rejecting the request because the table or RLS policies are not configured correctly.";
     }
 
     if (message.includes("invalid api key") || message.includes("api key") || message.includes("not configured")) {
       return "Supabase credentials are missing or invalid. Check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.";
     }
 
-    return error.message;
+    return rawMessage;
   }
 
-  return "We couldn't sync the enquiry to the database yet.";
+  return "We couldn't reach the database. Check your connection and try again.";
 }
 
 export async function createBookingEnquiry(values: Record<string, string>) {
@@ -139,7 +151,7 @@ export async function updateBookingStatus(id: string, status: string) {
   const { error } = await supabase.from("booking_enquiries").update({ status }).eq("id", id);
 
   if (error) {
-    throw error;
+    throw new Error(toFriendlySupabaseError(error));
   }
 }
 
