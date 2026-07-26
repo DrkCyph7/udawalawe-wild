@@ -3,14 +3,19 @@
 
 create extension if not exists pgcrypto;
 
-create type public.enquiry_status as enum (
-  'new',
-  'reviewing',
-  'quoted',
-  'confirmed',
-  'cancelled',
-  'archived'
-);
+do $$
+begin
+  if not exists (select 1 from pg_type where typname = 'enquiry_status') then
+    create type public.enquiry_status as enum (
+      'new',
+      'reviewing',
+      'quoted',
+      'confirmed',
+      'cancelled',
+      'archived'
+    );
+  end if;
+end $$;
 
 create table if not exists public.booking_enquiries (
   id            uuid primary key default gen_random_uuid(),
