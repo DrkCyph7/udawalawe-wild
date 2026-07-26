@@ -125,7 +125,7 @@ export async function fetchBookingEnquiries() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    throw error;
+    throw new Error(toFriendlySupabaseError(error));
   }
 
   return data ?? [];
@@ -141,6 +141,47 @@ export async function updateBookingStatus(id: string, status: string) {
   if (error) {
     throw error;
   }
+}
+
+export async function sendAdminOtp(email: string) {
+  if (!supabase) {
+    throw new Error("Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
+  }
+
+  const normalizedEmail = email.trim().toLowerCase();
+  if (!normalizedEmail) {
+    throw new Error("Please enter your admin email address.");
+  }
+
+  const { error } = await supabase.auth.signInWithOtp({
+    email: normalizedEmail,
+    options: {
+      // Only allow known admins to receive a code — do not silently create new users.
+      shouldCreateUser: adminEmailAllowList.includes(normalizedEmail),
+    },
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function verifyAdminOtp(email: string, token: string) {
+  if (!supabase) {
+    throw new Error("Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
+  }
+
+  const { data, error } = await supabase.auth.verifyOtp({
+    email: email.trim().toLowerCase(),
+    token: token.trim(),
+    type: "email",
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data.user;
 }
 
 export async function isAdminUser(user: AuthUser | null) {

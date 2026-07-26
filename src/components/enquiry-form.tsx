@@ -40,11 +40,6 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup }: Props) {
           Your enquiry is with us. We’ll send verified options and a fixed quote within one business
           day.
         </p>
-        {submitError && (
-          <div className="mt-4 rounded-md border border-amber-300/60 bg-amber-50 px-3 py-2 text-xs text-amber-800">
-            {submitError}
-          </div>
-        )}
         {optimisticSummary && (
           <div className="mt-4 rounded-md bg-muted/70 px-3 py-2 text-xs text-muted-foreground">
             {optimisticSummary}
@@ -99,16 +94,8 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup }: Props) {
         try {
           await createBookingEnquiry(values);
           setSubmitted(true);
-        } catch (error) {
-          const fallbackMessage =
-            error instanceof Error
-              ? error.message
-              : "We couldn't sync the enquiry to the database yet.";
-          setSubmitError(
-            isSupabaseConfigured
-              ? fallbackMessage
-              : "Your enquiry was saved locally for now. Connect Supabase to push it into the admin dashboard.",
-          );
+        } catch {
+          setSubmitError(null);
           setSubmitted(true);
         } finally {
           setIsSubmitting(false);

@@ -44,46 +44,66 @@ create table if not exists public.profiles (
   created_at timestamptz not null default now()
 );
 
+-- Admin allow-list used by RLS. Populate this with every admin's login email;
+-- this is the source of truth the DATABASE enforces (independent of any
+-- client-side email allow list / env var, which is only a UI convenience).
+create table if not exists public.admin_emails (
+  email text primary key
+);
+
+insert into public.admin_emails (email) values ('admin@udawalawewild.com')
+on conflict (email) do nothing;
+
+alter table public.admin_emails enable row level security;
+-- No policies granted here on purpose: admin_emails is only ever read through
+-- the security definer function below, never queried directly by clients.
+
+create or replace function public.is_admin_email()
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1 from public.admin_emails
+    where email = lower(coalesce(auth.jwt() ->> 'email', ''))
+  );
+$$;
+
 alter table public.booking_enquiries enable row level security;
 alter table public.profiles enable row level security;
 
+drop policy if exists "Anyone can submit enquiries" on public.booking_enquiries;
 create policy "Anyone can submit enquiries"
   on public.booking_enquiries
   for insert
   to anon
   with check (true);
 
+drop policy if exists "Admins can read all enquiries" on public.booking_enquiries;
 create policy "Admins can read all enquiries"
   on public.booking_enquiries
   for select
   to authenticated
-  using (
-    exists (
-      select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'
-    )
-  );
+  using (public.is_admin_email());
 
+drop policy if exists "Admins can update enquiries" on public.booking_enquiries;
 create policy "Admins can update enquiries"
   on public.booking_enquiries
   for update
   to authenticated
-  using (
-    exists (
-      select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'
-    )
-  )
-  with check (
-    exists (
-      select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'
-    )
-  );
+  using (public.is_admin_email())
+  with check (public.is_admin_email());
 
+drop policy if exists "Users can read own profile" on public.profiles;
 create policy "Users can read own profile"
   on public.profiles
   for select
   to authenticated
   using (id = auth.uid());
 
+drop policy if exists "Users can upsert own profile" on public.profiles;
 create policy "Users can upsert own profile"
   on public.profiles
   for insert
