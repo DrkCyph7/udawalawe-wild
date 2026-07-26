@@ -24,7 +24,7 @@ export const supabase: SupabaseClient | null = isSupabaseConfigured
     })
   : null;
 
-export const adminEmailAllowList = (import.meta.env.VITE_ADMIN_EMAILS ?? "admin@udawalawewild.com")
+export const adminEmailAllowList = (import.meta.env.VITE_ADMIN_EMAILS ?? "dinuka@nexcy.lk")
   .split(",")
   .map((email) => email.trim().toLowerCase())
   .filter(Boolean);
@@ -153,11 +153,18 @@ export async function sendAdminOtp(email: string) {
     throw new Error("Please enter your admin email address.");
   }
 
+  // Hard block: never even call Supabase for an email that isn't on the
+  // allow list, so no OTP is sent to anyone else. The real enforcement is
+  // still the `admin_emails` table + RLS policy in booking-schema.sql — this
+  // is just an extra guard so unauthorized emails never trigger an email send.
+  if (!adminEmailAllowList.includes(normalizedEmail)) {
+    throw new Error("This email isn't authorized for admin access.");
+  }
+
   const { error } = await supabase.auth.signInWithOtp({
     email: normalizedEmail,
     options: {
-      // Only allow known admins to receive a code — do not silently create new users.
-      shouldCreateUser: adminEmailAllowList.includes(normalizedEmail),
+      shouldCreateUser: true,
     },
   });
 

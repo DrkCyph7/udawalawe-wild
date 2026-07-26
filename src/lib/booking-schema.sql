@@ -49,14 +49,13 @@ create table if not exists public.profiles (
   created_at timestamptz not null default now()
 );
 
--- Admin allow-list used by RLS. Populate this with every admin's login email;
--- this is the source of truth the DATABASE enforces (independent of any
--- client-side email allow list / env var, which is only a UI convenience).
+-- Admin allow-list used by RLS. This is the DATABASE's source of truth for
+-- who can read/update bookings — independent of any client-side env var.
 create table if not exists public.admin_emails (
   email text primary key
 );
 
-insert into public.admin_emails (email) values ('admin@udawalawewild.com')
+insert into public.admin_emails (email) values ('dinuka@nexcy.lk')
 on conflict (email) do nothing;
 
 alter table public.admin_emails enable row level security;

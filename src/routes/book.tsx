@@ -40,9 +40,7 @@ function BookPage() {
         setStep(3);
       } catch (error) {
         // Stay on the form (do NOT advance to the "confirmed" step) so the guest
-        // sees the real error and can retry. Previously this still called setStep(3),
-        // which showed the "Your request is with us" success screen even when the
-        // insert had failed — silently losing enquiries.
+        // sees the real error and can retry, instead of a false success screen.
         const fallbackMessage = error instanceof Error ? error.message : "Unable to submit enquiry";
         setSubmitError(fallbackMessage);
       } finally {
