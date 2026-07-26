@@ -9,8 +9,92 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SafarisRouteImport } from './routes/safaris'
+import { Route as SafariFromMirissaRouteImport } from './routes/safari-from-mirissa'
+import { Route as SafariFromHiriketiyaRouteImport } from './routes/safari-from-hiriketiya'
+import { Route as SafariFromGalleRouteImport } from './routes/safari-from-galle'
+import { Route as SafariFromEllaRouteImport } from './routes/safari-from-ella'
+import { Route as RoutesRouteImport } from './routes/routes'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as GuideRouteImport } from './routes/guide'
+import { Route as EthicalSafariRouteImport } from './routes/ethical-safari'
+import { Route as CancellationPolicyRouteImport } from './routes/cancellation-policy'
+import { Route as BookRouteImport } from './routes/book'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SafarisRoute = SafarisRouteImport.update({
+  id: '/safaris',
+  path: '/safaris',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SafariFromMirissaRoute = SafariFromMirissaRouteImport.update({
+  id: '/safari-from-mirissa',
+  path: '/safari-from-mirissa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SafariFromHiriketiyaRoute = SafariFromHiriketiyaRouteImport.update({
+  id: '/safari-from-hiriketiya',
+  path: '/safari-from-hiriketiya',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SafariFromGalleRoute = SafariFromGalleRouteImport.update({
+  id: '/safari-from-galle',
+  path: '/safari-from-galle',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SafariFromEllaRoute = SafariFromEllaRouteImport.update({
+  id: '/safari-from-ella',
+  path: '/safari-from-ella',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoutesRoute = RoutesRouteImport.update({
+  id: '/routes',
+  path: '/routes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuideRoute = GuideRouteImport.update({
+  id: '/guide',
+  path: '/guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EthicalSafariRoute = EthicalSafariRouteImport.update({
+  id: '/ethical-safari',
+  path: '/ethical-safari',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CancellationPolicyRoute = CancellationPolicyRouteImport.update({
+  id: '/cancellation-policy',
+  path: '/cancellation-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookRoute = BookRouteImport.update({
+  id: '/book',
+  path: '/book',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +103,228 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/book': typeof BookRoute
+  '/cancellation-policy': typeof CancellationPolicyRoute
+  '/ethical-safari': typeof EthicalSafariRoute
+  '/guide': typeof GuideRoute
+  '/privacy': typeof PrivacyRoute
+  '/routes': typeof RoutesRoute
+  '/safari-from-ella': typeof SafariFromEllaRoute
+  '/safari-from-galle': typeof SafariFromGalleRoute
+  '/safari-from-hiriketiya': typeof SafariFromHiriketiyaRoute
+  '/safari-from-mirissa': typeof SafariFromMirissaRoute
+  '/safaris': typeof SafarisRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/book': typeof BookRoute
+  '/cancellation-policy': typeof CancellationPolicyRoute
+  '/ethical-safari': typeof EthicalSafariRoute
+  '/guide': typeof GuideRoute
+  '/privacy': typeof PrivacyRoute
+  '/routes': typeof RoutesRoute
+  '/safari-from-ella': typeof SafariFromEllaRoute
+  '/safari-from-galle': typeof SafariFromGalleRoute
+  '/safari-from-hiriketiya': typeof SafariFromHiriketiyaRoute
+  '/safari-from-mirissa': typeof SafariFromMirissaRoute
+  '/safaris': typeof SafarisRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/book': typeof BookRoute
+  '/cancellation-policy': typeof CancellationPolicyRoute
+  '/ethical-safari': typeof EthicalSafariRoute
+  '/guide': typeof GuideRoute
+  '/privacy': typeof PrivacyRoute
+  '/routes': typeof RoutesRoute
+  '/safari-from-ella': typeof SafariFromEllaRoute
+  '/safari-from-galle': typeof SafariFromGalleRoute
+  '/safari-from-hiriketiya': typeof SafariFromHiriketiyaRoute
+  '/safari-from-mirissa': typeof SafariFromMirissaRoute
+  '/safaris': typeof SafarisRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/book'
+    | '/cancellation-policy'
+    | '/ethical-safari'
+    | '/guide'
+    | '/privacy'
+    | '/routes'
+    | '/safari-from-ella'
+    | '/safari-from-galle'
+    | '/safari-from-hiriketiya'
+    | '/safari-from-mirissa'
+    | '/safaris'
+    | '/sitemap.xml'
+    | '/terms'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/book'
+    | '/cancellation-policy'
+    | '/ethical-safari'
+    | '/guide'
+    | '/privacy'
+    | '/routes'
+    | '/safari-from-ella'
+    | '/safari-from-galle'
+    | '/safari-from-hiriketiya'
+    | '/safari-from-mirissa'
+    | '/safaris'
+    | '/sitemap.xml'
+    | '/terms'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/book'
+    | '/cancellation-policy'
+    | '/ethical-safari'
+    | '/guide'
+    | '/privacy'
+    | '/routes'
+    | '/safari-from-ella'
+    | '/safari-from-galle'
+    | '/safari-from-hiriketiya'
+    | '/safari-from-mirissa'
+    | '/safaris'
+    | '/sitemap.xml'
+    | '/terms'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  BookRoute: typeof BookRoute
+  CancellationPolicyRoute: typeof CancellationPolicyRoute
+  EthicalSafariRoute: typeof EthicalSafariRoute
+  GuideRoute: typeof GuideRoute
+  PrivacyRoute: typeof PrivacyRoute
+  RoutesRoute: typeof RoutesRoute
+  SafariFromEllaRoute: typeof SafariFromEllaRoute
+  SafariFromGalleRoute: typeof SafariFromGalleRoute
+  SafariFromHiriketiyaRoute: typeof SafariFromHiriketiyaRoute
+  SafariFromMirissaRoute: typeof SafariFromMirissaRoute
+  SafarisRoute: typeof SafarisRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TermsRoute: typeof TermsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/safaris': {
+      id: '/safaris'
+      path: '/safaris'
+      fullPath: '/safaris'
+      preLoaderRoute: typeof SafarisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/safari-from-mirissa': {
+      id: '/safari-from-mirissa'
+      path: '/safari-from-mirissa'
+      fullPath: '/safari-from-mirissa'
+      preLoaderRoute: typeof SafariFromMirissaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/safari-from-hiriketiya': {
+      id: '/safari-from-hiriketiya'
+      path: '/safari-from-hiriketiya'
+      fullPath: '/safari-from-hiriketiya'
+      preLoaderRoute: typeof SafariFromHiriketiyaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/safari-from-galle': {
+      id: '/safari-from-galle'
+      path: '/safari-from-galle'
+      fullPath: '/safari-from-galle'
+      preLoaderRoute: typeof SafariFromGalleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/safari-from-ella': {
+      id: '/safari-from-ella'
+      path: '/safari-from-ella'
+      fullPath: '/safari-from-ella'
+      preLoaderRoute: typeof SafariFromEllaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/routes': {
+      id: '/routes'
+      path: '/routes'
+      fullPath: '/routes'
+      preLoaderRoute: typeof RoutesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guide': {
+      id: '/guide'
+      path: '/guide'
+      fullPath: '/guide'
+      preLoaderRoute: typeof GuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ethical-safari': {
+      id: '/ethical-safari'
+      path: '/ethical-safari'
+      fullPath: '/ethical-safari'
+      preLoaderRoute: typeof EthicalSafariRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cancellation-policy': {
+      id: '/cancellation-policy'
+      path: '/cancellation-policy'
+      fullPath: '/cancellation-policy'
+      preLoaderRoute: typeof CancellationPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book': {
+      id: '/book'
+      path: '/book'
+      fullPath: '/book'
+      preLoaderRoute: typeof BookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,17 +337,21 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  BookRoute: BookRoute,
+  CancellationPolicyRoute: CancellationPolicyRoute,
+  EthicalSafariRoute: EthicalSafariRoute,
+  GuideRoute: GuideRoute,
+  PrivacyRoute: PrivacyRoute,
+  RoutesRoute: RoutesRoute,
+  SafariFromEllaRoute: SafariFromEllaRoute,
+  SafariFromGalleRoute: SafariFromGalleRoute,
+  SafariFromHiriketiyaRoute: SafariFromHiriketiyaRoute,
+  SafariFromMirissaRoute: SafariFromMirissaRoute,
+  SafarisRoute: SafarisRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TermsRoute: TermsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
