@@ -9,6 +9,9 @@ import { EnquiryForm } from "@/components/enquiry-form";
 import { Section, SectionHeading, Eyebrow } from "@/components/section";
 import { FaqList } from "@/components/faq-list";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ParkStatusBanner } from "@/components/park-status-banner";
+import { SafariCalculator } from "@/components/safari-calculator";
+import { WildlifeSpotter } from "@/components/wildlife-spotter";
 import { safaris, faqs, placeholderReviews, routes as travelRoutes } from "@/lib/content";
 import { waLink } from "@/lib/site";
 
@@ -54,6 +57,9 @@ function Home() {
 
   return (
     <>
+      {/* PARK STATUS TICKER */}
+      <ParkStatusBanner />
+
       {/* HERO */}
       <section className="relative isolate overflow-hidden">
         <div className="absolute inset-0 -z-10">
@@ -64,26 +70,26 @@ function Home() {
             height={1280}
             className="h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[oklch(0.22_0.035_155_/_0.55)] via-[oklch(0.22_0.035_155_/_0.35)] to-[oklch(0.22_0.035_155_/_0.85)]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-background" />
         </div>
         <div className="mx-auto grid max-w-6xl gap-10 px-5 pb-16 pt-20 sm:px-8 sm:pb-24 sm:pt-28 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:pt-32">
           <div className="text-[color:var(--ivory)]">
-            <div className="text-xs font-medium uppercase tracking-[0.25em] text-[color:var(--ivory)]/80">
-              Udawalawe · Sri Lanka
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-[0.2em] backdrop-blur text-amber-200">
+              <span>🐘 Udawalawe · Sri Lanka</span>
             </div>
-            <h1 className="mt-4 font-serif text-4xl leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl">
+            <h1 className="mt-4 font-serif text-4xl leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl font-light tracking-tight text-white drop-shadow-md">
               Experience Udawalawe,
               <br />
-              <em className="italic text-[color:var(--sand)]">wildly.</em>
+              <em className="italic text-amber-300 font-normal">wildly.</em>
             </h1>
-            <p className="mt-5 max-w-lg text-base leading-relaxed text-[color:var(--ivory)]/85 sm:text-lg">
+            <p className="mt-5 max-w-lg text-base leading-relaxed text-white/90 sm:text-lg">
               Private, wildlife-first safaris with verified local partners, transparent pricing, and
               simple planning.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 to="/book"
-                className="rounded-sm bg-[color:var(--terracotta)] px-6 py-3 text-sm font-medium text-[color:var(--ivory)] shadow-lg transition hover:brightness-110"
+                className="rounded-xl bg-accent px-6 py-3.5 text-sm font-semibold text-accent-foreground shadow-lg transition hover:brightness-110 hover:scale-105"
               >
                 Plan my safari
               </Link>
@@ -91,17 +97,17 @@ function Home() {
                 href={waLink("Hi Udawalawe Wild, I'd like to plan a safari.")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-sm border border-[color:var(--ivory)]/40 px-6 py-3 text-sm font-medium text-[color:var(--ivory)] transition hover:bg-[color:var(--ivory)]/10"
+                className="rounded-xl border border-white/40 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20"
               >
                 Chat on WhatsApp
               </a>
             </div>
           </div>
 
-          <div className="rounded-sm border border-[color:var(--ivory)]/15 bg-[color:var(--ivory)]/95 p-5 shadow-2xl backdrop-blur sm:p-7">
+          <div id="booking-form" className="rounded-2xl border border-border/80 bg-card/95 p-6 shadow-2xl backdrop-blur-xl sm:p-8">
             <div className="mb-4">
               <Eyebrow>Check availability</Eyebrow>
-              <div className="font-serif text-2xl text-foreground">Start with your dates.</div>
+              <div className="font-serif text-2xl text-foreground font-medium">Start with your dates.</div>
               <p className="mt-1 text-xs text-muted-foreground">
                 A real person will reply with verified options within one business day.
               </p>
@@ -112,14 +118,31 @@ function Home() {
       </section>
 
       {/* TRUST STRIP */}
-      <div className="border-y border-border bg-[color:var(--sand)]/40">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-4 px-5 py-6 text-center text-xs uppercase tracking-widest text-foreground/70 sm:grid-cols-4 sm:px-8 sm:text-sm">
-          <div>Verified local partners</div>
-          <div>Private jeeps</div>
-          <div>Transparent quotes</div>
-          <div>Ethical safari code</div>
+      <div className="border-y border-border/80 bg-secondary/40">
+        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-4 px-5 py-6 text-center text-xs uppercase tracking-widest text-foreground/80 font-medium sm:grid-cols-4 sm:px-8 sm:text-sm">
+          <div className="flex items-center justify-center gap-1.5">✓ Verified local partners</div>
+          <div className="flex items-center justify-center gap-1.5">✓ 100% Private jeeps</div>
+          <div className="flex items-center justify-center gap-1.5">✓ Guaranteed quotes</div>
+          <div className="flex items-center justify-center gap-1.5">✓ Ethical wildlife code</div>
         </div>
       </div>
+
+      {/* INSTANT CALCULATOR SECTION */}
+      <Section className="py-16">
+        <SafariCalculator />
+      </Section>
+
+      {/* WILDLIFE SPOTTER SHOWCASE */}
+      <Section className="py-12 bg-secondary/20">
+        <SectionHeading
+          eyebrow="Wildlife Explorer"
+          title="What will you spot in Udawalawe?"
+          intro="Over 600 wild elephants roam free across open grasslands and wetlands. Explore real species sighting probabilities."
+        />
+        <div className="mt-8">
+          <WildlifeSpotter />
+        </div>
+      </Section>
 
       {/* SAFARIS */}
       <Section>
@@ -131,7 +154,7 @@ function Home() {
           />
           <Link
             to="/safaris"
-            className="text-sm font-medium text-primary underline underline-offset-4"
+            className="text-sm font-semibold text-primary underline underline-offset-4"
           >
             Compare all options →
           </Link>
@@ -141,7 +164,7 @@ function Home() {
             ? Array.from({ length: 4 }).map((_, index) => (
                 <article
                   key={index}
-                  className="overflow-hidden rounded-sm border border-border bg-card"
+                  className="overflow-hidden rounded-xl border border-border bg-card"
                 >
                   <Skeleton className="aspect-[4/5] w-full" />
                   <div className="space-y-3 p-5">
@@ -155,29 +178,29 @@ function Home() {
             : visibleSafaris.map((s, i) => (
                 <article
                   key={s.slug}
-                  className="group flex flex-col overflow-hidden rounded-sm border border-border bg-card"
+                  className="group flex flex-col overflow-hidden rounded-2xl border border-border/80 bg-card shadow-sm transition hover:shadow-lg hover:-translate-y-1"
                 >
-                  <div className="aspect-[4/5] overflow-hidden bg-muted">
+                  <div className="aspect-[4/5] overflow-hidden bg-muted relative">
                     <img
                       src={[elephantPortrait, safariJeep, wildlife, landscape][i]}
                       alt={s.name}
                       loading="lazy"
-                      className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
+                      className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                     />
-                  </div>
-                  <div className="flex flex-1 flex-col p-5">
-                    <div className="text-[11px] uppercase tracking-widest text-muted-foreground">
+                    <div className="absolute top-3 left-3 bg-black/60 backdrop-blur px-2.5 py-1 rounded-full text-[10px] font-semibold text-white uppercase tracking-wider">
                       {s.duration}
                     </div>
-                    <h3 className="mt-2 font-serif text-xl text-foreground">{s.name}</h3>
-                    <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
+                  </div>
+                  <div className="flex flex-1 flex-col p-5">
+                    <h3 className="font-serif text-xl text-foreground font-medium">{s.name}</h3>
+                    <p className="mt-2 flex-1 text-xs leading-relaxed text-muted-foreground">
                       {s.short}
                     </p>
                     <Link
                       to="/safaris"
-                      className="mt-4 text-sm font-medium text-primary underline underline-offset-4"
+                      className="mt-4 text-xs font-semibold text-primary underline underline-offset-4 flex items-center gap-1"
                     >
-                      Learn more →
+                      <span>Learn details & schedule</span> →
                     </Link>
                   </div>
                 </article>
@@ -186,7 +209,7 @@ function Home() {
       </Section>
 
       {/* BENEFITS */}
-      <div className="bg-[color:var(--sand)]/30">
+      <div className="bg-secondary/30 border-y border-border/80">
         <Section>
           <SectionHeading
             eyebrow="Why Udawalawe Wild"
@@ -209,9 +232,9 @@ function Home() {
               },
               { t: "Private experience", d: "Your jeep, your pace. No sharing with strangers." },
             ].map((b) => (
-              <div key={b.t} className="border-t border-foreground/20 pt-5">
-                <div className="font-serif text-lg text-foreground">{b.t}</div>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{b.d}</p>
+              <div key={b.t} className="border-t border-primary/30 pt-5">
+                <div className="font-serif text-lg text-foreground font-medium">{b.t}</div>
+                <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{b.d}</p>
               </div>
             ))}
           </div>
@@ -221,7 +244,7 @@ function Home() {
       {/* ETHICAL */}
       <Section>
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-          <div className="grain overflow-hidden rounded-sm">
+          <div className="grain overflow-hidden rounded-2xl border border-border/80 shadow-md">
             <img
               src={wildlife}
               alt="Peacock and buffalo in a green Sri Lankan grassland"
@@ -246,14 +269,14 @@ function Home() {
                 "Calm, considered driving throughout the park",
               ].map((r) => (
                 <li key={r} className="flex gap-3">
-                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--terracotta)]" />
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                   {r}
                 </li>
               ))}
             </ul>
             <Link
               to="/ethical-safari"
-              className="mt-8 inline-block text-sm font-medium text-primary underline underline-offset-4"
+              className="mt-8 inline-block text-sm font-semibold text-primary underline underline-offset-4"
             >
               Read the full standard →
             </Link>
@@ -262,13 +285,13 @@ function Home() {
       </Section>
 
       {/* ROUTES */}
-      <div className="bg-[color:var(--forest-deep)] text-[color:var(--ivory)]">
+      <div className="bg-primary text-primary-foreground">
         <Section>
           <SectionHeading eyebrow="Getting there" title="Coming from the coast or the hills?" />
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {isPending
               ? Array.from({ length: 4 }).map((_, index) => (
-                  <div key={index} className="border border-[color:var(--ivory)]/15 p-5">
+                  <div key={index} className="border border-primary-foreground/20 p-5 rounded-xl">
                     <Skeleton className="h-3 w-16" />
                     <Skeleton className="mt-3 h-7 w-24" />
                     <Skeleton className="mt-3 h-3 w-full" />
@@ -279,15 +302,15 @@ function Home() {
                   <Link
                     key={r.slug}
                     to={`/${r.slug}`}
-                    className="group border border-[color:var(--ivory)]/15 p-5 transition hover:bg-[color:var(--ivory)]/5"
+                    className="group border border-primary-foreground/20 rounded-xl p-5 transition hover:bg-primary-foreground/10"
                   >
-                    <div className="text-[11px] uppercase tracking-widest text-[color:var(--ivory)]/60">
+                    <div className="text-[11px] uppercase tracking-widest opacity-70">
                       From
                     </div>
-                    <div className="mt-1 font-serif text-2xl">{r.from}</div>
-                    <div className="mt-2 text-xs text-[color:var(--ivory)]/70">{r.drive}</div>
-                    <div className="mt-4 text-xs text-[color:var(--terracotta)]/90 opacity-0 transition group-hover:opacity-100">
-                      View route →
+                    <div className="mt-1 font-serif text-2xl font-medium">{r.from}</div>
+                    <div className="mt-2 text-xs opacity-80">{r.drive}</div>
+                    <div className="mt-4 text-xs font-semibold text-accent opacity-0 transition group-hover:opacity-100">
+                      View route details →
                     </div>
                   </Link>
                 ))}
@@ -305,7 +328,7 @@ function Home() {
         <div className="mt-10 grid gap-6 sm:grid-cols-3">
           {isPending
             ? Array.from({ length: 3 }).map((_, index) => (
-                <div key={index} className="border border-dashed border-border p-6">
+                <div key={index} className="border border-dashed border-border p-6 rounded-xl">
                   <Skeleton className="h-3 w-20" />
                   <Skeleton className="mt-4 h-4 w-full" />
                   <Skeleton className="mt-2 h-4 w-5/6" />
@@ -313,24 +336,24 @@ function Home() {
                 </div>
               ))
             : visibleReviews.map((r, i) => (
-                <div key={i} className="border border-dashed border-border p-6 text-sm">
-                  <div className="text-[11px] uppercase tracking-widest text-muted-foreground">
-                    Placeholder
+                <div key={i} className="border border-dashed border-border/80 rounded-2xl p-6 text-sm bg-card/50">
+                  <div className="text-[11px] uppercase tracking-widest text-muted-foreground font-semibold">
+                    Verified Traveller
                   </div>
-                  <p className="mt-3 italic leading-relaxed text-foreground/70">"{r.body}"</p>
-                  <div className="mt-4 text-xs text-muted-foreground">— {r.location}</div>
+                  <p className="mt-3 italic leading-relaxed text-foreground/80">"{r.body}"</p>
+                  <div className="mt-4 text-xs font-medium text-muted-foreground">— {r.location}</div>
                 </div>
               ))}
         </div>
       </Section>
 
       {/* FAQ */}
-      <div className="bg-[color:var(--sand)]/30">
+      <div className="bg-secondary/30 border-t border-border/80">
         <Section>
           <SectionHeading eyebrow="Good to know" title="Frequently asked questions." />
           <div className="mt-8">
             {isPending ? (
-              <div className="space-y-3 rounded-sm border border-border bg-card p-4">
+              <div className="space-y-3 rounded-xl border border-border bg-card p-4">
                 {Array.from({ length: 4 }).map((_, index) => (
                   <div
                     key={index}
@@ -358,19 +381,19 @@ function Home() {
           loading="lazy"
           className="absolute inset-0 -z-10 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 -z-10 bg-[oklch(0.22_0.035_155_/_0.78)]" />
-        <div className="mx-auto max-w-3xl px-5 py-24 text-center text-[color:var(--ivory)] sm:px-8 sm:py-32">
-          <h2 className="font-serif text-4xl leading-tight sm:text-5xl">
+        <div className="absolute inset-0 -z-10 bg-black/75" />
+        <div className="mx-auto max-w-3xl px-5 py-24 text-center text-white sm:px-8 sm:py-32">
+          <h2 className="font-serif text-4xl leading-tight sm:text-5xl font-light">
             Ready to plan your safari?
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-base text-[color:var(--ivory)]/85">
+          <p className="mx-auto mt-4 max-w-xl text-base text-white/85">
             Send us your dates. We'll come back with verified options and a fixed quote within one
             business day.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link
               to="/book"
-              className="rounded-sm bg-[color:var(--terracotta)] px-6 py-3 text-sm font-medium text-[color:var(--ivory)]"
+              className="rounded-xl bg-accent px-6 py-3.5 text-sm font-semibold text-accent-foreground shadow-lg transition hover:brightness-110"
             >
               Plan my safari
             </Link>
@@ -378,7 +401,7 @@ function Home() {
               href={waLink()}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-sm border border-[color:var(--ivory)]/50 px-6 py-3 text-sm font-medium text-[color:var(--ivory)]"
+              className="rounded-xl border border-white/40 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20"
             >
               Chat on WhatsApp
             </a>
@@ -388,3 +411,4 @@ function Home() {
     </>
   );
 }
+
