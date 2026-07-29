@@ -89,7 +89,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "author", content: "Udawalawe Wild" },
       { property: "og:site_name", content: "Udawalawe Wild" },
       { property: "og:type", content: "website" },
+      { property: "og:title", content: "Udawalawe Wild — Private safaris in Udawalawe, Sri Lanka" },
+      {
+        property: "og:description",
+        content:
+          "Private, wildlife-first safaris in Udawalawe National Park. Verified local partners, transparent quotes, and simple planning.",
+      },
+      { property: "og:image", content: "/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Udawalawe Wild — Private safaris in Udawalawe, Sri Lanka" },
+      {
+        name: "twitter:description",
+        content:
+          "Private, wildlife-first safaris in Udawalawe National Park. Verified local partners, transparent quotes, and simple planning.",
+      },
+      { name: "twitter:image", content: "/og-image.png" },
     ],
     links: [
       {
