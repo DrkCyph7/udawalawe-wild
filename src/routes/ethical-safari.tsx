@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Section, SectionHeading } from "@/components/section";
+import { Reveal } from "@/components/reveal";
 import elephant from "@/assets/elephant-portrait.jpg";
 
 export const Route = createFileRoute("/ethical-safari")({
@@ -27,28 +28,32 @@ function EthicalPage() {
     <>
       <Section>
         <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center">
-          <div>
+          <Reveal direction="left">
             <SectionHeading
               eyebrow="Wildlife first"
               title="A quieter, kinder way to safari."
               intro="Udawalawe is home to wild elephants, water buffalo, crocodiles, peafowl, and hundreds of bird species. Our standard is designed so they barely notice we were there."
             />
-          </div>
-          <div className="aspect-[4/5] overflow-hidden rounded-sm">
-            <img
-              src={elephant}
-              alt="Elephant in Sri Lankan grassland"
-              loading="lazy"
-              className="h-full w-full object-cover"
-            />
-          </div>
+          </Reveal>
+          <Reveal direction="right" delay={100}>
+            <div className="aspect-[4/5] overflow-hidden rounded-2xl">
+              <img
+                src={elephant}
+                alt="Elephant in Sri Lankan grassland"
+                loading="lazy"
+                className="h-full w-full object-cover transition duration-700 hover:scale-[1.03]"
+              />
+            </div>
+          </Reveal>
         </div>
       </Section>
 
       <div className="bg-[color:var(--sand)]/30">
         <Section>
-          <SectionHeading title="On the tracks" eyebrow="Field code" />
-          <div className="mt-8 grid gap-6 sm:grid-cols-2">
+          <Reveal>
+            <SectionHeading title="On the tracks" eyebrow="Field code" />
+          </Reveal>
+          <div className="mt-8 grid gap-5 sm:grid-cols-2">
             {[
               {
                 t: "Safe animal distance",
@@ -66,22 +71,26 @@ function EthicalPage() {
                 t: "Responsible photography",
                 d: "No flash, no drones over the park, no leaning out of the vehicle. Great shots come from patience, not proximity.",
               },
-            ].map((c) => (
-              <div key={c.t} className="border-t border-foreground/20 pt-5">
-                <div className="font-serif text-xl text-foreground">{c.t}</div>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.d}</p>
-              </div>
+            ].map((c, i) => (
+              <Reveal key={c.t} delay={i * 70}>
+                <div className="h-full rounded-xl border border-border bg-background p-6 transition-all duration-250 hover:border-[color:var(--terracotta)]/40 hover:shadow-md hover:-translate-y-1">
+                  <div className="font-serif text-xl text-foreground">{c.t}</div>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.d}</p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </Section>
       </div>
 
       <Section>
-        <SectionHeading
-          eyebrow="Partner verification"
-          title="How we choose the operators we work with."
-          intro="We're an independent booking platform. We don't own jeeps — we partner with licensed local operators who meet a clear standard."
-        />
+        <Reveal>
+          <SectionHeading
+            eyebrow="Partner verification"
+            title="How we choose the operators we work with."
+            intro="We're an independent booking platform. We don't own jeeps — we partner with licensed local operators who meet a clear standard."
+          />
+        </Reveal>
         <ol className="mt-10 grid gap-5 sm:grid-cols-2">
           {[
             "Registered business credentials",
@@ -93,18 +102,22 @@ function EthicalPage() {
             "Written commitment to our ethical safari code",
             "Willingness to receive guest feedback",
           ].map((step, i) => (
-            <li key={step} className="flex gap-4 border-t border-border pt-5">
-              <span className="font-serif text-2xl text-[color:var(--terracotta)]">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <span className="text-sm leading-relaxed text-foreground/85">{step}</span>
-            </li>
+            <Reveal key={step} delay={i * 50}>
+              <li className="flex gap-4 rounded-xl border border-border p-5 transition-all duration-200 hover:border-[color:var(--forest)]/30 hover:shadow-sm">
+                <span className="font-serif text-2xl text-[color:var(--terracotta)]">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="text-sm leading-relaxed text-foreground/85">{step}</span>
+              </li>
+            </Reveal>
           ))}
         </ol>
-        <p className="mt-10 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          Supporting licensed local drivers and guides keeps expertise — and income — in the
-          community that has cared for this park for generations.
-        </p>
+        <Reveal delay={80}>
+          <p className="mt-10 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            Supporting licensed local drivers and guides keeps expertise — and income — in the
+            community that has cared for this park for generations.
+          </p>
+        </Reveal>
       </Section>
     </>
   );

@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Section, SectionHeading } from "@/components/section";
+import { Reveal } from "@/components/reveal";
 import portrait from "@/assets/elephant-portrait.jpg";
+import { CalendarCheck } from "lucide-react";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -27,7 +29,7 @@ function AboutPage() {
     <>
       <Section>
         <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center">
-          <div>
+          <Reveal direction="left">
             <SectionHeading
               eyebrow="Our story"
               title="Simpler. More transparent. Kinder to wildlife."
@@ -49,22 +51,26 @@ function AboutPage() {
                 scripts. And we hold every partner to the same wildlife-first standard.
               </p>
             </div>
-          </div>
-          <div className="aspect-[4/5] overflow-hidden rounded-sm">
-            <img
-              src={portrait}
-              alt="Wild elephant in Udawalawe"
-              loading="lazy"
-              className="h-full w-full object-cover"
-            />
-          </div>
+          </Reveal>
+          <Reveal direction="right" delay={100}>
+            <div className="aspect-[4/5] overflow-hidden rounded-2xl">
+              <img
+                src={portrait}
+                alt="Wild elephant in Udawalawe"
+                loading="lazy"
+                className="h-full w-full object-cover transition duration-700 hover:scale-[1.03]"
+              />
+            </div>
+          </Reveal>
         </div>
       </Section>
 
       <div className="bg-[color:var(--sand)]/30">
         <Section>
-          <SectionHeading eyebrow="How we operate" title="Independent booking platform." />
-          <div className="mt-8 grid gap-6 sm:grid-cols-2">
+          <Reveal>
+            <SectionHeading eyebrow="How we operate" title="Independent booking platform." />
+          </Reveal>
+          <div className="mt-8 grid gap-5 sm:grid-cols-2">
             {[
               {
                 t: "We don't own the jeeps",
@@ -82,22 +88,27 @@ function AboutPage() {
                 t: "We don't fake reviews",
                 d: "Real guest reviews appear when guests give them. Until then, that section stays honestly empty.",
               },
-            ].map((b) => (
-              <div key={b.t} className="border-t border-foreground/20 pt-5">
-                <div className="font-serif text-xl text-foreground">{b.t}</div>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{b.d}</p>
-              </div>
+            ].map((b, i) => (
+              <Reveal key={b.t} delay={i * 70}>
+                <div className="h-full rounded-xl border border-border bg-background p-6 transition-all duration-250 hover:border-[color:var(--terracotta)]/40 hover:shadow-md hover:-translate-y-1">
+                  <div className="font-serif text-xl text-foreground">{b.t}</div>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{b.d}</p>
+                </div>
+              </Reveal>
             ))}
           </div>
 
-          <div className="mt-12">
-            <Link
-              to="/book"
-              className="rounded-sm bg-primary px-5 py-3 text-sm font-medium text-primary-foreground"
-            >
-              Plan my safari
-            </Link>
-          </div>
+          <Reveal delay={100}>
+            <div className="mt-10">
+              <Link
+                to="/book"
+                className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground transition-all duration-200 hover:bg-primary/85 hover:scale-[1.02] hover:shadow-md"
+              >
+                <CalendarCheck className="h-4 w-4" aria-hidden="true" />
+                Plan my safari
+              </Link>
+            </div>
+          </Reveal>
         </Section>
       </div>
     </>

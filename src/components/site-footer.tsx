@@ -81,8 +81,14 @@ export function SiteFooter() {
 
         {/* Brand column */}
         <div className="md:col-span-2 space-y-5">
-          <div className="flex items-center gap-2">
-            <Leaf className="h-5 w-5 text-[color:var(--terracotta)]" aria-hidden="true" />
+          <div className="flex items-center gap-3">
+            <img
+              src="/logo.png"
+              alt="Udawalawe Wild logo"
+              width={48}
+              height={48}
+              className="h-12 w-12 rounded-full object-cover ring-2 ring-[color:var(--ivory)]/20"
+            />
             <span className="font-serif text-2xl text-[color:var(--ivory)]">{SITE.name}</span>
           </div>
           <p className="max-w-sm text-sm leading-relaxed">{SITE.tagline}</p>
