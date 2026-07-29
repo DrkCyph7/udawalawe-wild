@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Compass, ShieldCheck, Heart, Sparkles, ArrowUpRight, CheckCircle2, MapPin, Users, TreePine } from "lucide-react";
+import { Compass, ShieldCheck, Heart, Sparkles, ArrowUpRight, CheckCircle2, MapPin, Users, TreePine, MessageCircle } from "lucide-react";
 import heroImg from "@/assets/hero-elephant.jpg";
 import elephantPortrait from "@/assets/elephant-portrait.jpg";
 import safariJeep from "@/assets/safari-jeep.jpg";
@@ -94,9 +94,10 @@ function Home() {
                 href={waLink("Hi Udawalawe Wild, I'd like to check safari availability.")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-xl border border-white/30 bg-white/10 px-6 py-3.5 text-sm font-medium text-white backdrop-blur transition duration-300 hover:bg-white/20"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/30 bg-white/10 px-6 py-3.5 text-sm font-medium text-white backdrop-blur transition duration-300 hover:bg-white/20 hover:scale-105"
               >
-                Chat on WhatsApp
+                <MessageCircle className="h-4 w-4 text-emerald-400" />
+                <span>Chat on WhatsApp</span>
               </a>
             </div>
           </div>
@@ -385,12 +386,13 @@ function Home() {
               Plan My Safari
             </Link>
             <a
-              href={waLink()}
+              href={waLink("Hi Udawalawe Wild, I'd like to check safari availability.")}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-xl border border-white/30 bg-white/10 px-6 py-3.5 text-sm font-medium text-white backdrop-blur transition hover:bg-white/20"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/30 bg-white/10 px-6 py-3.5 text-sm font-medium text-white backdrop-blur transition duration-300 hover:bg-white/20 hover:scale-105"
             >
-              Chat on WhatsApp
+              <MessageCircle className="h-4 w-4 text-emerald-400" />
+              <span>Chat on WhatsApp</span>
             </a>
           </div>
         </div>
