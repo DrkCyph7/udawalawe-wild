@@ -121,7 +121,7 @@ function Home() {
   return (
     <>
       {/* ═══════════════════════ HERO ══════════════════════════════════ */}
-      <section className="relative isolate overflow-hidden min-h-[90svh] flex items-center">
+      <section className="relative isolate overflow-hidden min-h-[80svh] sm:min-h-[90svh] flex items-center">
         {/* Bg image */}
         <div className="absolute inset-0 -z-10">
           <img
@@ -135,11 +135,11 @@ function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-[oklch(0.22_0.035_155_/_0.65)] via-[oklch(0.22_0.035_155_/_0.4)] to-[oklch(0.22_0.035_155_/_0.88)]" />
         </div>
 
-        <div className="mx-auto w-full grid max-w-6xl gap-10 px-5 pb-16 pt-20 sm:px-8 sm:pb-24 sm:pt-28 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:pt-16">
+        <div className="mx-auto w-full grid max-w-6xl gap-8 px-4 pb-12 pt-16 sm:px-8 sm:pb-24 sm:pt-28 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:pt-16">
           {/* Left: headline */}
           <div className="text-[color:var(--ivory)]">
             <h1
-              className="reveal reveal-visible font-serif text-4xl leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl"
+              className="reveal reveal-visible font-serif text-3xl leading-[1.08] sm:text-5xl md:text-6xl lg:text-7xl"
               style={{ transitionDelay: "80ms" }}
             >
               Experience<br />
@@ -209,7 +209,7 @@ function Home() {
           ].map((label) => (
             <div
               key={label}
-              className="px-5 py-5 text-center text-xs font-medium uppercase tracking-widest text-foreground/60 sm:py-6"
+              className="px-4 py-3.5 text-center text-xs font-medium uppercase tracking-widest text-foreground/60 sm:py-6"
             >
               {label}
             </div>
@@ -428,9 +428,14 @@ function Home() {
       <div className="bg-[color:var(--forest-deep)] text-[color:var(--ivory)]">
         <Section>
           <Reveal>
-            <SectionHeading eyebrow="Getting there" title="Coming from the coast or the hills?" />
+            <SectionHeading
+              eyebrow="Getting there"
+              title="Coming from the coast or the hills?"
+              titleClass="text-[color:var(--ivory)]"
+              introClass="text-[color:var(--ivory)]/70"
+            />
           </Reveal>
-          <div className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <div className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4 items-stretch">
             {isPending
               ? Array.from({ length: 4 }).map((_, idx) => (
                   <div key={idx} className="rounded-xl border border-[color:var(--ivory)]/15 p-4">
@@ -440,18 +445,18 @@ function Home() {
                   </div>
                 ))
               : visibleRoutes.map((r, i) => (
-                  <Reveal key={r.slug} delay={i * 70}>
+                  <Reveal key={r.slug} delay={i * 70} className="h-full">
                     <Link
                       to={`/${r.slug}`}
-                      className="group flex flex-col gap-1.5 rounded-xl border border-[color:var(--ivory)]/20 p-4 transition-all duration-200 hover:bg-[color:var(--ivory)]/8 hover:border-[color:var(--ivory)]/40 hover:-translate-y-1"
+                      className="group flex h-full flex-col gap-1.5 rounded-xl border border-[color:var(--ivory)]/20 p-4 transition-all duration-200 hover:bg-[color:var(--ivory)]/8 hover:border-[color:var(--ivory)]/40 hover:-translate-y-1"
                     >
                       <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-[color:var(--ivory)]/60">
                         <MapPin className="h-2.5 w-2.5" aria-hidden="true" />
                         From
                       </div>
-                      <div className="font-serif text-lg leading-tight text-[color:var(--ivory)] sm:text-xl">{r.from}</div>
+                      <div className="font-serif text-base leading-tight text-[color:var(--ivory)] sm:text-xl">{r.from}</div>
                       <div className="text-xs leading-snug text-[color:var(--ivory)]/75">{r.drive}</div>
-                      <div className="mt-1 flex items-center gap-1 text-xs font-medium text-[color:var(--terracotta)] opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                      <div className="mt-auto pt-2 flex items-center gap-1 text-xs font-medium text-[color:var(--terracotta)] opacity-0 transition-opacity duration-200 group-hover:opacity-100">
                         View route
                         <ChevronRight className="h-3 w-3" aria-hidden="true" />
                       </div>
