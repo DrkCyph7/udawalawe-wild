@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Section, SectionHeading } from "@/components/section";
+import { Reveal } from "@/components/reveal";
 import { routes } from "@/lib/content";
+import { ChevronRight, MapPin } from "lucide-react";
 
 export const Route = createFileRoute("/routes")({
   head: () => ({
@@ -25,30 +27,35 @@ export const Route = createFileRoute("/routes")({
 function RoutesPage() {
   return (
     <Section>
-      <SectionHeading
-        eyebrow="Getting to Udawalawe"
-        title="Popular routes into the park."
-        intro="Pick your starting point. We'll help you shape the day so the safari — not the driving — is the memorable part."
-      />
-      <div className="mt-10 grid gap-6 sm:grid-cols-2">
-        {routes.map((r) => (
-          <Link
-            key={r.slug}
-            to={`/${r.slug}`}
-            className="group flex flex-col justify-between border border-border bg-card p-6 transition hover:border-primary sm:p-8"
-          >
-            <div>
-              <div className="text-[11px] uppercase tracking-widest text-[color:var(--terracotta)]">
-                From
+      <Reveal>
+        <SectionHeading
+          eyebrow="Getting to Udawalawe"
+          title="Popular routes into the park."
+          intro="Pick your starting point. We'll help you shape the day so the safari — not the driving — is the memorable part."
+        />
+      </Reveal>
+      <div className="mt-10 grid gap-5 sm:grid-cols-2">
+        {routes.map((r, i) => (
+          <Reveal key={r.slug} delay={i * 70}>
+            <Link
+              to={`/${r.slug}`}
+              className="group flex h-full flex-col justify-between rounded-xl border border-border bg-card p-6 transition-all duration-250 hover:border-[color:var(--forest)]/40 hover:shadow-md hover:-translate-y-1 sm:p-8"
+            >
+              <div>
+                <div className="flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-[color:var(--terracotta)]">
+                  <MapPin className="h-3 w-3" aria-hidden="true" />
+                  From
+                </div>
+                <h2 className="mt-1 font-serif text-3xl text-foreground">{r.from}</h2>
+                <div className="mt-2 text-xs text-muted-foreground">{r.drive}</div>
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{r.summary}</p>
               </div>
-              <h2 className="mt-1 font-serif text-3xl text-foreground">{r.from}</h2>
-              <div className="mt-2 text-xs text-muted-foreground">{r.drive}</div>
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{r.summary}</p>
-            </div>
-            <div className="mt-6 text-sm font-medium text-primary underline underline-offset-4">
-              View route notes →
-            </div>
-          </Link>
+              <div className="link-underline mt-6 flex items-center gap-1 text-sm font-medium text-primary">
+                View route notes
+                <ChevronRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
+              </div>
+            </Link>
+          </Reveal>
         ))}
       </div>
     </Section>
