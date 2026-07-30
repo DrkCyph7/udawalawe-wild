@@ -217,6 +217,12 @@
   to   { transform: rotate(360deg); }
 }
 
+@keyframes wa-sonar {
+  0%   { transform: scale(1);    opacity: 0.55; }
+  80%  { transform: scale(2.1);  opacity: 0; }
+  100% { transform: scale(2.1);  opacity: 0; }
+}
+
 /* ═══════════════════ BASE LAYER ═══════════════════════════════════════ */
 
 @layer base {
@@ -475,6 +481,22 @@
 .wa-float-btn {
   bottom: max(1.25rem, env(safe-area-inset-bottom, 1.25rem));
   right: max(1.25rem, env(safe-area-inset-right, 1.25rem));
+}
+
+/* Sonar ripple rings */
+.wa-ripple-outer,
+.wa-ripple-inner {
+  background: #25D366;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.wa-ripple-outer {
+  animation: wa-sonar 2.6s ease-out infinite;
+}
+
+.wa-ripple-inner {
+  animation: wa-sonar 2.6s ease-out 1.1s infinite;
 }
 
 /* Animated accordion */
