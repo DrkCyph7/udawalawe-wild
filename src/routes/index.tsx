@@ -138,16 +138,8 @@ function Home() {
         <div className="mx-auto w-full grid max-w-6xl gap-10 px-5 pb-16 pt-20 sm:px-8 sm:pb-24 sm:pt-28 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:pt-16">
           {/* Left: headline */}
           <div className="text-[color:var(--ivory)]">
-            {/* Location badge */}
-            <div
-              className="reveal reveal-visible inline-flex items-center gap-2 rounded-full border border-[color:var(--ivory)]/30 bg-[color:var(--ivory)]/15 px-3.5 py-1.5 text-xs font-medium uppercase tracking-[0.22em] text-[color:var(--ivory)]/90"
-            >
-              <MapPin className="h-3 w-3 text-[color:var(--terracotta)]" aria-hidden="true" />
-              Udawalawe · Sri Lanka
-            </div>
-
             <h1
-              className="reveal reveal-visible mt-5 font-serif text-4xl leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl"
+              className="reveal reveal-visible font-serif text-4xl leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl"
               style={{ transitionDelay: "80ms" }}
             >
               Experience<br />
@@ -170,7 +162,7 @@ function Home() {
             >
               <Link
                 to="/book"
-                className="flex items-center gap-2 rounded-xl bg-[color:var(--terracotta)] px-6 py-3.5 text-sm font-semibold text-[color:var(--ivory)] shadow-lg transition-all duration-200 hover:brightness-110 hover:scale-[1.02] hover:shadow-xl"
+                className="inline-flex items-center gap-2 rounded-lg bg-[color:var(--terracotta)] px-5 py-2.5 text-sm font-semibold text-[color:var(--ivory)] shadow-md transition-colors duration-200 hover:brightness-110"
               >
                 <CalendarCheck className="h-4 w-4" aria-hidden="true" />
                 Plan my safari
@@ -179,7 +171,7 @@ function Home() {
                 href={waLink("Hi Udawalawe Wild, I'd like to plan a safari.")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 rounded-xl border border-[color:var(--ivory)]/40 px-6 py-3.5 text-sm font-medium text-[color:var(--ivory)] transition-all duration-200 hover:bg-[color:var(--ivory)]/15 hover:border-[color:var(--ivory)]/70"
+                className="inline-flex items-center gap-2 rounded-lg border border-[color:var(--ivory)]/40 px-5 py-2.5 text-sm font-medium text-[color:var(--ivory)] transition-colors duration-200 hover:bg-[color:var(--ivory)]/15 hover:border-[color:var(--ivory)]/70"
               >
                 <MessageCircle className="h-4 w-4" aria-hidden="true" />
                 Chat on WhatsApp
@@ -299,9 +291,9 @@ function Home() {
                 ))}
           </div>
 
-          {/* Scroll dots (mobile only) */}
+          {/* Scroll dots — hidden on sm+ via CSS */}
           {!isPending && (
-            <div className="snap-dots sm:hidden">
+            <div className="snap-dots">
               {visibleSafaris.map((_, i) => (
                 <div
                   key={i}
@@ -438,30 +430,30 @@ function Home() {
           <Reveal>
             <SectionHeading eyebrow="Getting there" title="Coming from the coast or the hills?" />
           </Reveal>
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4">
             {isPending
               ? Array.from({ length: 4 }).map((_, idx) => (
-                  <div key={idx} className="rounded-xl border border-[color:var(--ivory)]/15 p-5">
+                  <div key={idx} className="rounded-xl border border-[color:var(--ivory)]/15 p-4">
                     <Skeleton className="h-3 w-16" />
-                    <Skeleton className="mt-3 h-7 w-24" />
-                    <Skeleton className="mt-3 h-3 w-full" />
+                    <Skeleton className="mt-2 h-6 w-20" />
+                    <Skeleton className="mt-2 h-3 w-full" />
                   </div>
                 ))
               : visibleRoutes.map((r, i) => (
                   <Reveal key={r.slug} delay={i * 70}>
                     <Link
                       to={`/${r.slug}`}
-                      className="group flex flex-col gap-2 rounded-xl border border-[color:var(--ivory)]/15 p-5 transition-all duration-250 hover:bg-[color:var(--ivory)]/8 hover:border-[color:var(--ivory)]/35 hover:-translate-y-1"
+                      className="group flex flex-col gap-1.5 rounded-xl border border-[color:var(--ivory)]/20 p-4 transition-all duration-200 hover:bg-[color:var(--ivory)]/8 hover:border-[color:var(--ivory)]/40 hover:-translate-y-1"
                     >
-                      <div className="flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-[color:var(--ivory)]/55">
-                        <MapPin className="h-3 w-3" aria-hidden="true" />
+                      <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-[color:var(--ivory)]/60">
+                        <MapPin className="h-2.5 w-2.5" aria-hidden="true" />
                         From
                       </div>
-                      <div className="font-serif text-2xl">{r.from}</div>
-                      <div className="text-xs text-[color:var(--ivory)]/65">{r.drive}</div>
-                      <div className="mt-2 flex items-center gap-1 text-xs font-medium text-[color:var(--terracotta)]/90 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                      <div className="font-serif text-lg leading-tight text-[color:var(--ivory)] sm:text-xl">{r.from}</div>
+                      <div className="text-xs leading-snug text-[color:var(--ivory)]/75">{r.drive}</div>
+                      <div className="mt-1 flex items-center gap-1 text-xs font-medium text-[color:var(--terracotta)] opacity-0 transition-opacity duration-200 group-hover:opacity-100">
                         View route
-                        <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+                        <ChevronRight className="h-3 w-3" aria-hidden="true" />
                       </div>
                     </Link>
                   </Reveal>
@@ -566,7 +558,7 @@ function Home() {
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Link
                 to="/book"
-                className="flex items-center gap-2 rounded-xl bg-[color:var(--terracotta)] px-7 py-4 text-sm font-semibold text-[color:var(--ivory)] shadow-lg transition-all duration-200 hover:brightness-110 hover:scale-[1.03] hover:shadow-2xl"
+                className="inline-flex items-center gap-2 rounded-lg bg-[color:var(--terracotta)] px-6 py-3 text-sm font-semibold text-[color:var(--ivory)] shadow-md transition-colors duration-200 hover:brightness-110"
               >
                 <CalendarCheck className="h-4 w-4" aria-hidden="true" />
                 Plan my safari
@@ -575,7 +567,7 @@ function Home() {
                 href={waLink()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 rounded-xl border border-[color:var(--ivory)]/50 px-7 py-4 text-sm font-medium text-[color:var(--ivory)] transition-all duration-200 hover:bg-[color:var(--ivory)]/15 hover:border-[color:var(--ivory)]/80"
+                className="inline-flex items-center gap-2 rounded-lg border border-[color:var(--ivory)]/50 px-6 py-3 text-sm font-medium text-[color:var(--ivory)] transition-colors duration-200 hover:bg-[color:var(--ivory)]/15 hover:border-[color:var(--ivory)]/80"
               >
                 <MessageCircle className="h-4 w-4" aria-hidden="true" />
                 Chat on WhatsApp

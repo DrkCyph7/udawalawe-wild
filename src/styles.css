@@ -227,6 +227,7 @@
   html {
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
   }
 
   body {
@@ -491,12 +492,18 @@
   opacity: 1;
 }
 
-/* Scroll-indicator dot row */
+/* Scroll-indicator dot row — mobile only */
 .snap-dots {
   display: flex;
   gap: 0.375rem;
   justify-content: center;
   margin-top: 0.875rem;
+}
+
+@media (min-width: 640px) {
+  .snap-dots {
+    display: none;
+  }
 }
 
 .snap-dot {
