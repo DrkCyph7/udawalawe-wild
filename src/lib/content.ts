@@ -60,20 +60,38 @@ export const safaris: SafariPackage[] = [
     short: "Two unhurried sessions in one day — the deepest way to know the park.",
   },
   {
-    slug: "safari-ella-transfer",
-    name: "Safari + Ella Transfer",
-    duration: "Half-day safari + onward transfer to Ella",
-    ideal: "Travelers moving between the south coast and hill country.",
+    slug: "safari-transfer",
+    name: "Safari + Transfer",
+    duration: "Half-day safari + onward transfer to your next destination",
+    ideal: "Travellers moving between the coast, hills, or airport.",
     includes: [
       "Private safari session",
-      "Air-conditioned transfer to Ella",
+      "Air-conditioned transfer to your next stop",
       "Luggage handling coordination",
       "Wildlife-first driving code",
     ],
-    pickup: "South coast pickup then safari, ending in Ella.",
-    ethical: "Wildlife first; transfer is separate and unhurried.",
+    pickup: "South coast, Ella, Colombo, or arranged pick-up — then safari, then onward transfer.",
+    ethical: "Wildlife first; transfer arranged separately so the safari is never rushed.",
     cancellation: "Flexible cancellation terms shared with your quote.",
-    short: "Combine your safari with a smooth onward transfer to the hills.",
+    short: "Combine your safari with a smooth onward transfer to anywhere in Sri Lanka.",
+  },
+  {
+    slug: "safari-elephant-transit-transfer",
+    name: "Safari + Elephant Transit + Transfer",
+    duration: "Half-day safari + ETH visit + onward transfer",
+    ideal: "Anyone who wants to witness elephant conservation up close.",
+    includes: [
+      "Private safari in Udawalawe National Park",
+      "Visit to the Elephant Transit Home (ETH)",
+      "Air-conditioned transfer to your next destination",
+      "Luggage handling coordination",
+      "Wildlife-first driving code throughout",
+    ],
+    pickup: "Flexible pickup — hotel, town, or arranged start point.",
+    ethical: "The ETH is a government-run rehabilitation centre — we observe only, never interfere.",
+    cancellation: "Flexible cancellation terms shared with your quote.",
+    short:
+      "Safari in the park, then a rare glimpse of orphaned elephants being rehabilitated for release at the Elephant Transit Home.",
   },
 ];
 
@@ -89,18 +107,18 @@ export const routes: RouteInfo[] = [
   {
     slug: "safari-from-ella",
     from: "Ella",
-    drive: "Approx. 2.5 – 3 hours by road",
+    drive: "Approx. 2.5 – 3 hrs by road",
     summary: "A scenic descent from the hill country. Popular as a day trip or on the way south.",
     tips: [
       "Leave early to catch the morning safari window",
       "Roads are winding — allow buffer time",
-      "Combine with an onward transfer south",
+      "Combine with a Safari + Transfer onwards to the coast",
     ],
   },
   {
     slug: "safari-from-mirissa",
     from: "Mirissa",
-    drive: "Approx. 2 – 2.5 hours by road",
+    drive: "Approx. 2 – 2.5 hrs by road",
     summary: "The easiest safari from the south coast — feasible as a long day trip.",
     tips: [
       "Consider an overnight in Udawalawe to avoid a rushed day",
@@ -111,23 +129,71 @@ export const routes: RouteInfo[] = [
   {
     slug: "safari-from-galle",
     from: "Galle",
-    drive: "Approx. 2.5 – 3 hours by road",
+    drive: "Approx. 2.5 – 3 hrs by road",
     summary: "A comfortable inland drive from the fort. Great with a hill-country onward transfer.",
     tips: [
       "Early departure is essential for a morning safari",
-      "Consider Safari + Ella Transfer to save a driving day",
+      "Consider Safari + Transfer to save a driving day",
       "Water and sun protection recommended",
     ],
   },
   {
     slug: "safari-from-hiriketiya",
     from: "Hiriketiya",
-    drive: "Approx. 2 hours by road",
+    drive: "Approx. 2 hrs by road",
     summary: "Quiet coves to open grasslands — one of the shortest coastal routes.",
     tips: [
       "Afternoon safaris are easy on this route",
       "Ask about surfboard-safe transfers if you're moving hotels",
       "Bring cash for small roadside stops",
+    ],
+  },
+  {
+    slug: "safari-from-colombo",
+    from: "Colombo / Airport",
+    drive: "Approx. 4 – 4.5 hrs via Southern Expressway",
+    summary:
+      "A long but straightforward drive via the expressway. Often done as a multi-day trip or en route to the south coast.",
+    tips: [
+      "Book an early departure to reach the afternoon safari in time",
+      "Break the journey at Embilipitiya or Hambantota",
+      "Consider staying overnight near the park to enjoy a morning safari",
+    ],
+  },
+  {
+    slug: "safari-from-kandy",
+    from: "Kandy",
+    drive: "Approx. 3.5 – 4 hrs by road",
+    summary:
+      "A beautiful highland-to-lowland journey through tea country and forest roads. Combine with Ella or Nuwara Eliya.",
+    tips: [
+      "Route via Haputale or Welimada offers stunning scenery",
+      "Roads can be narrow — allow extra time",
+      "Pair with a Safari + Elephant Transit + Transfer back north",
+    ],
+  },
+  {
+    slug: "safari-from-tangalle",
+    from: "Tangalle",
+    drive: "Approx. 1.5 – 2 hrs by road",
+    summary:
+      "The closest major coastal town to Udawalawe — ideal for a morning safari and return by lunch.",
+    tips: [
+      "Closest coastal base to the park — no overnights needed",
+      "Start early for the morning window; return for a late lunch",
+      "Hambantota is similarly close if you prefer that area",
+    ],
+  },
+  {
+    slug: "safari-from-nuwara-eliya",
+    from: "Nuwara Eliya",
+    drive: "Approx. 3 – 3.5 hrs by road",
+    summary:
+      "A popular stop on the tea-country circuit. A natural pause before heading to the south coast.",
+    tips: [
+      "Drive via Haputale and Wellawaya for the most scenic route",
+      "Plan a Safari + Transfer onwards to Mirissa or Galle",
+      "Morning departure aligns well with afternoon safari arrival",
     ],
   },
 ];
@@ -156,6 +222,10 @@ export const faqs: { q: string; a: string }[] = [
   {
     q: "What is the best time for a safari?",
     a: "Both morning and late afternoon sessions offer good wildlife activity and softer light. Midday is usually hotter and quieter.",
+  },
+  {
+    q: "What is the Elephant Transit Home?",
+    a: "The Elephant Transit Home (ETH) is a government-run wildlife facility adjacent to Udawalawe National Park. It rehabilitates orphaned elephant calves found in the wild, with the aim of releasing them back into the park. Visitors can observe feeding sessions from a distance. We include an ETH visit in our Safari + Elephant Transit + Transfer package.",
   },
 ];
 

@@ -11,7 +11,7 @@ export const Route = createFileRoute("/routes")({
       {
         name: "description",
         content:
-          "Reaching Udawalawe from Ella, Mirissa, Galle, and Hiriketiya. Route notes, timings, and safari + transfer options.",
+          "Reaching Udawalawe from Ella, Mirissa, Galle, Hiriketiya, Colombo, Kandy, Tangalle, and Nuwara Eliya. Route notes, timings, and safari + transfer options.",
       },
       { property: "og:title", content: "Travel routes to Udawalawe" },
       {

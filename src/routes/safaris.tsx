@@ -15,7 +15,7 @@ export const Route = createFileRoute("/safaris")({
       {
         name: "description",
         content:
-          "Compare private morning, afternoon, full-day, and safari + Ella transfer options in Udawalawe. Transparent quotes, verified operators.",
+          "Compare private morning, afternoon, full-day, safari + transfer, and Elephant Transit Home combo options in Udawalawe. Transparent quotes, verified operators.",
       },
       { property: "og:title", content: "Safari options — Udawalawe Wild" },
       {
@@ -28,7 +28,7 @@ export const Route = createFileRoute("/safaris")({
   component: SafarisPage,
 });
 
-const imgs = [elephantPortrait, safariJeep, wildlife, landscape];
+const imgs = [elephantPortrait, safariJeep, wildlife, landscape, elephantPortrait];
 
 function SafarisPage() {
   return (

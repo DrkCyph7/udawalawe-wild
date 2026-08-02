@@ -140,7 +140,8 @@ function BookPage() {
                   <option value="morning-private-safari">Morning Private Safari</option>
                   <option value="afternoon-private-safari">Afternoon Private Safari</option>
                   <option value="full-day-wildlife-safari">Full-Day Wildlife Safari</option>
-                  <option value="safari-ella-transfer">Safari + Ella Transfer</option>
+                  <option value="safari-transfer">Safari + Transfer</option>
+                  <option value="safari-elephant-transit-transfer">Safari + Elephant Transit + Transfer</option>
                 </select>
               </Field>
               <Field label="Pickup location">

@@ -37,14 +37,14 @@ function GuidePage() {
 
       <Section className="pt-0">
         <Reveal direction="scale">
-          <div className="grain overflow-hidden rounded-2xl">
+          <div className="grain overflow-hidden rounded-2xl max-h-[380px] sm:max-h-[500px]">
             <img
               src={landscape}
               alt="Udawalawe reservoir landscape at sunset"
               loading="lazy"
               width={1920}
               height={1080}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover max-h-[380px] sm:max-h-[500px]"
             />
           </div>
         </Reveal>

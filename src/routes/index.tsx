@@ -223,7 +223,7 @@ function Home() {
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <SectionHeading
               eyebrow="Safari options"
-              title="Four ways to explore the park."
+              title="Five ways to explore the park."
               intro="Each option is a private jeep run by a verified local operator. Wildlife first, always."
             />
             <Link
@@ -236,7 +236,7 @@ function Home() {
           </div>
         </Reveal>
 
-        {/* Mobile: horizontal snap scroll | Desktop: 4-col grid */}
+        {/* Mobile: horizontal snap scroll | Desktop: 5-col grid */}
         <div className="mt-10">
           {/* Mobile scroll container */}
           <div
@@ -244,7 +244,7 @@ function Home() {
             className="flex gap-4 overflow-x-auto scroll-snap-x pb-2 sm:hidden"
           >
             {isPending
-              ? Array.from({ length: 4 }).map((_, idx) => (
+              ? Array.from({ length: 5 }).map((_, idx) => (
                   <div
                     key={idx}
                     className="safari-snap-card overflow-hidden rounded-xl border border-border bg-card"
@@ -264,7 +264,7 @@ function Home() {
                   >
                     <div className="aspect-[3/2] overflow-hidden bg-muted">
                       <img
-                        src={[elephantPortrait, safariJeep, wildlife, landscape][i]}
+                        src={[elephantPortrait, safariJeep, wildlife, landscape, elephantPortrait][i % 5]}
                         alt={s.name}
                         loading="lazy"
                         className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.06]"
@@ -304,15 +304,15 @@ function Home() {
           )}
 
           {/* Desktop grid */}
-          <div className="hidden gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-4">
+          <div className="hidden gap-4 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
             {isPending
-              ? Array.from({ length: 4 }).map((_, idx) => (
+              ? Array.from({ length: 5 }).map((_, idx) => (
                   <article
                     key={idx}
                     className="overflow-hidden rounded-xl border border-border bg-card"
                   >
                     <Skeleton className="aspect-[4/5] w-full" />
-                    <div className="space-y-3 p-5">
+                    <div className="space-y-3 p-4">
                       <Skeleton className="h-3 w-24" />
                       <Skeleton className="h-6 w-3/4" />
                       <Skeleton className="h-4 w-full" />
@@ -324,24 +324,24 @@ function Home() {
                     <article className="card-lift group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card">
                       <div className="aspect-[4/5] overflow-hidden bg-muted">
                         <img
-                          src={[elephantPortrait, safariJeep, wildlife, landscape][i]}
+                          src={[elephantPortrait, safariJeep, wildlife, landscape, elephantPortrait][i % 5]}
                           alt={s.name}
                           loading="lazy"
                           className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.06]"
                         />
                       </div>
-                      <div className="flex flex-1 flex-col p-5">
-                        <div className="flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-muted-foreground">
+                      <div className="flex flex-1 flex-col p-4">
+                        <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-muted-foreground">
                           <Binoculars className="h-3 w-3" aria-hidden="true" />
                           {s.duration}
                         </div>
-                        <h3 className="mt-2 font-serif text-xl text-foreground">{s.name}</h3>
-                        <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
+                        <h3 className="mt-1.5 font-serif text-base font-medium text-foreground">{s.name}</h3>
+                        <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground">
                           {s.short}
                         </p>
                         <Link
                           to="/safaris"
-                          className="link-underline mt-4 flex items-center gap-1 text-sm font-medium text-primary"
+                          className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-primary"
                         >
                           Learn more
                           <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -376,6 +376,48 @@ function Home() {
               </Reveal>
             ))}
           </div>
+        </Section>
+      </div>
+
+      {/* ═══════════════════ ELEPHANT TRANSIT HOME ══════════════════════ */}
+      <div className="border-y border-border bg-[color:var(--sand)]/20">
+        <Section>
+          <Reveal>
+            <div className="grid gap-8 rounded-2xl border border-border/70 bg-card p-6 sm:p-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+              <div>
+                <Eyebrow>Special Experience</Eyebrow>
+                <h2 className="mt-1 font-serif text-2xl text-foreground sm:text-3xl">
+                  Visit the Elephant Transit Home
+                </h2>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                  Located right beside Udawalawe National Park, the Elephant Transit Home (ETH) rehabilitates orphaned wild elephant calves until they are strong enough to be released back into the wild. Combine your safari with a public feeding view for a rare, ethical glimpse into elephant conservation.
+                </p>
+                <div className="mt-6 flex flex-wrap items-center gap-4">
+                  <Link
+                    to="/safaris"
+                    className="inline-flex items-center gap-2 rounded-lg bg-[color:var(--terracotta)] px-5 py-2.5 text-xs font-semibold text-[color:var(--ivory)] shadow-sm transition hover:brightness-110"
+                  >
+                    Explore Combo Package
+                    <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+                  </Link>
+                  <Link
+                    to="/guide"
+                    className="link-underline text-xs font-medium text-primary"
+                  >
+                    Learn about ETH in our guide
+                  </Link>
+                </div>
+              </div>
+              <div className="overflow-hidden rounded-xl bg-muted aspect-[4/3]">
+                <img
+                  src={elephantPortrait}
+                  alt="Orphaned elephant calf at Udawalawe"
+                  loading="lazy"
+                  className="h-full w-full object-cover transition duration-700 hover:scale-105"
+                />
+              </div>
+            </div>
+          </Reveal>
         </Section>
       </div>
 

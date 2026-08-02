@@ -24,7 +24,7 @@ export const Route = createFileRoute("/sitemap.xml")({
         // silently changes on every crawl looks fake to search engines and
         // defeats the point of the freshness signal. Bump it by hand (or
         // per-entry) when you actually change a page.
-        const lastUpdated = "2026-07-26";
+        const lastUpdated = "2026-08-02";
         const entries: SitemapEntry[] = [
           { path: "/", changefreq: "weekly", priority: "1.0", lastmod: lastUpdated },
           { path: "/safaris", changefreq: "monthly", priority: "0.9", lastmod: lastUpdated },
@@ -35,6 +35,10 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/safari-from-mirissa", changefreq: "monthly", priority: "0.7", lastmod: lastUpdated },
           { path: "/safari-from-galle", changefreq: "monthly", priority: "0.7", lastmod: lastUpdated },
           { path: "/safari-from-hiriketiya", changefreq: "monthly", priority: "0.7", lastmod: lastUpdated },
+          { path: "/safari-from-colombo", changefreq: "monthly", priority: "0.7", lastmod: lastUpdated },
+          { path: "/safari-from-kandy", changefreq: "monthly", priority: "0.7", lastmod: lastUpdated },
+          { path: "/safari-from-tangalle", changefreq: "monthly", priority: "0.7", lastmod: lastUpdated },
+          { path: "/safari-from-nuwara-eliya", changefreq: "monthly", priority: "0.7", lastmod: lastUpdated },
           { path: "/about", changefreq: "yearly", priority: "0.5", lastmod: lastUpdated },
           { path: "/privacy", changefreq: "yearly", priority: "0.2", lastmod: lastUpdated },
           { path: "/terms", changefreq: "yearly", priority: "0.2", lastmod: lastUpdated },
