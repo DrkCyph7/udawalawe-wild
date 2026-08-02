@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Section, SectionHeading } from "@/components/section";
 import { Reveal } from "@/components/reveal";
-import elephant from "@/assets/elephant-portrait.jpg";
+import elephant from "@/assets/ethical-safari-img.jpg";
 
 export const Route = createFileRoute("/ethical-safari")({
   head: () => ({
