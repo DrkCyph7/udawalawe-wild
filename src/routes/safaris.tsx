@@ -4,7 +4,7 @@ import { Reveal } from "@/components/reveal";
 import { safaris } from "@/lib/content";
 import elephantPortrait from "@/assets/elephant-portrait.jpg";
 import safariJeep from "@/assets/safari-jeep.jpg";
-import wildlife from "@/assets/wildlife.jpg";
+import wildlife from "@/assets/wildlife.JPG";
 import landscape from "@/assets/landscape.jpg";
 import { CalendarCheck, CheckCircle } from "lucide-react";
 

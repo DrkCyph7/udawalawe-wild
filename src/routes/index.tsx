@@ -19,7 +19,7 @@ import heroImg from "@/assets/hero-elephant.jpg";
 import elephantPortrait from "@/assets/elephant-portrait.jpg";
 import safariJeep from "@/assets/safari-jeep.jpg";
 import landscape from "@/assets/landscape.jpg";
-import wildlife from "@/assets/wildlife.jpg";
+import wildlife from "@/assets/wildlife.JPG";
 import { EnquiryForm } from "@/components/enquiry-form";
 import { Section, SectionHeading, Eyebrow } from "@/components/section";
 import { FaqList } from "@/components/faq-list";
