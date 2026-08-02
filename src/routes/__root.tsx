@@ -89,13 +89,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "author", content: "Udawalawe Wild" },
       { property: "og:site_name", content: "Udawalawe Wild" },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://udawalawe-wild.com" },
       { property: "og:title", content: "Udawalawe Wild — Private safaris in Udawalawe, Sri Lanka" },
       {
         property: "og:description",
         content:
           "Private, wildlife-first safaris in Udawalawe National Park. Verified local partners, transparent quotes, and simple planning.",
       },
-      { property: "og:image", content: "/og-image.png" },
+      { property: "og:image", content: "https://udawalawe-wild.com/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Udawalawe Wild — Private safaris in Udawalawe, Sri Lanka" },
       {
@@ -103,9 +104,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Private, wildlife-first safaris in Udawalawe National Park. Verified local partners, transparent quotes, and simple planning.",
       },
-      { name: "twitter:image", content: "/og-image.png" },
+      { name: "twitter:image", content: "https://udawalawe-wild.com/og-image.png" },
     ],
     links: [
+      { rel: "canonical", href: "https://udawalawe-wild.com" },
       {
         rel: "stylesheet",
         href: appCss,
@@ -131,10 +133,48 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const agencyJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "TravelAgency",
+    "name": "Udawalawe Wild",
+    "url": "https://udawalawe-wild.com",
+    "logo": "https://udawalawe-wild.com/logo.png",
+    "image": "https://udawalawe-wild.com/og-image.png",
+    "telephone": "+94721890006",
+    "email": "hello@udawalawe-wild.com",
+    "priceRange": "$$",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Udawalawe",
+      "addressRegion": "Sabaragamuwa Province",
+      "addressCountry": "LK"
+    },
+    "description": "Private, wildlife-first safaris in Udawalawe National Park with verified local partners and transparent pricing.",
+    "sameAs": [
+      "https://facebook.com/udawalawe-wild",
+      "https://tripadvisor.com"
+    ]
+  };
+
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Udawalawe Wild",
+    "url": "https://udawalawe-wild.com"
+  };
+
   return (
     <html lang="en">
       <head>
         <HeadContent />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(agencyJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
       </head>
       <body>
         {children}

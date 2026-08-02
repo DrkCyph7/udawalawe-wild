@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 
 // Site base URL for absolute canonical links in the sitemap.
-const BASE_URL = "https://udawalawe-wild.vercel.app";
+const BASE_URL = "https://udawalawe-wild.com";
 
 interface SitemapEntry {
   path: string;

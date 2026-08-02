@@ -18,7 +18,9 @@ import {
   ExternalLink,
 } from "lucide-react";
 
-/* ─── TripAdvisor SVG Icon ────────────────────────────── */
+/* ─── User-Specified Brand SVG Icons (24x24 Clean Geometry) ────────────────────── */
+
+/** TripAdvisor Owl Mark */
 function TripAdvisorIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -28,7 +30,41 @@ function TripAdvisorIcon({ className }: { className?: string }) {
       className={className}
       aria-hidden="true"
     >
-      <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-1.84.63-3.53 1.69-4.88l1.42 1.42c-.7.94-1.11 2.1-1.11 3.46 0 3.31 2.69 6 6 6s6-2.69 6-6c0-1.36-.41-2.52-1.11-3.46l1.42-1.42C21.37 8.47 22 10.16 22 12c0 4.41-3.59 8-8 8zm0-13a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm-3 5a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm6 0a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M12 3.5c-3.6 0-6.4 1.8-8 3.5L1.5 6l1.5 3.8C2.2 11.2 2.1 12.7 2.5 14.2c1.3 4.2 5.5 7 9.5 4.5 4 2.5 8.2-.3 9.5-4.5.4-1.5.3-3-.5-4.4L22.5 6l-2.5 1c-1.6-1.7-4.4-3.5-8-3.5zm-4.5 6a3.5 3.5 0 100 7 3.5 3.5 0 000-7zm9 0a3.5 3.5 0 100 7 3.5 3.5 0 000-7zm-9 2a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm9 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"
+      />
+    </svg>
+  );
+}
+
+/** Standalone Facebook "f" Logo */
+function FacebookIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3V2z" />
+    </svg>
+  );
+}
+
+/** Telegram Paper Plane Outline Logo */
+function TelegramIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M22 2L2 10.5l6.5 2.5L17 6l-6.5 8L15 21l7-19zM8.5 13v5l2.5-3.5L8.5 13z" />
     </svg>
   );
 }
@@ -53,20 +89,20 @@ const socials = [
   {
     href: SITE.facebook,
     label: "Facebook",
-    icon: Facebook,
-    color: "hover:text-[#1877F2] hover:border-[#1877F2]/40",
+    icon: FacebookIcon,
+    color: "text-[#1877F2] hover:opacity-80",
   },
   {
     href: SITE.tripadvisor,
     label: "TripAdvisor",
     icon: TripAdvisorIcon,
-    color: "hover:text-[#00AF87] hover:border-[#00AF87]/40",
+    color: "text-[#00AF87] hover:opacity-80",
   },
   {
     href: "https://t.me",
     label: "Telegram",
-    icon: Send,
-    color: "hover:text-[#2AABEE] hover:border-[#2AABEE]/40",
+    icon: TelegramIcon,
+    color: "text-[#2AABEE] hover:opacity-80",
   },
 ];
 
@@ -103,7 +139,7 @@ export function SiteFooter() {
             {SITE.disclaimer}
           </p>
 
-          {/* Social icons */}
+          {/* Social icons — inside styled circular badges */}
           <div className="flex items-center gap-3 pt-2">
             {socials.map(({ href, label, icon: Icon, color }) => (
               <a
@@ -112,9 +148,9 @@ export function SiteFooter() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className={`flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--ivory)]/15 text-[color:var(--ivory)]/60 transition-all duration-200 hover:scale-110 ${color}`}
+                className={`flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 shadow-sm transition-all duration-200 hover:scale-110 hover:border-white/30 hover:bg-white/10 ${color}`}
               >
-                <Icon className="h-4 w-4" />
+                <Icon className="h-5 w-5" />
               </a>
             ))}
           </div>

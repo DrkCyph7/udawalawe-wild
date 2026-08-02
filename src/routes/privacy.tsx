@@ -12,8 +12,13 @@ export const Route = createFileRoute("/privacy")({
       },
       { property: "og:title", content: "Privacy policy — Udawalawe Wild" },
       { property: "og:description", content: "How we handle enquiry data." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://udawalawe-wild.com/privacy" },
+      { property: "og:image", content: "https://udawalawe-wild.com/og-image.png" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://udawalawe-wild.com/og-image.png" },
     ],
-    links: [{ rel: "canonical", href: "/privacy" }],
+    links: [{ rel: "canonical", href: "https://udawalawe-wild.com/privacy" }],
   }),
   component: () => (
     <Section>
@@ -56,14 +61,14 @@ export const Route = createFileRoute("/privacy")({
 
         <h3 className="font-serif text-lg text-foreground">6. Data Retention & Your Rights</h3>
         <p>
-          We retain enquiry data for as long as necessary to complete your booking coordination and fulfill accounting or legal obligations. You have the right to request a copy of your personal data or request deletion of your records at any time by emailing us at hello@udawalawewild.com or messaging us on WhatsApp (+94 72 189 0006).
+          We retain enquiry data for as long as necessary to complete your booking coordination and fulfill accounting or legal obligations. You have the right to request a copy of your personal data or request deletion of your records at any time by emailing us at hello@udawalawe-wild.com or messaging us on WhatsApp (+94 72 189 0006).
         </p>
 
         <h3 className="font-serif text-lg text-foreground">7. Contact Us</h3>
         <p>
           For any privacy inquiries or data requests, please contact us at:
           <br />
-          Email: hello@udawalawewild.com | Phone / WhatsApp: +94 72 189 0006
+          Email: hello@udawalawe-wild.com | Phone / WhatsApp: +94 72 189 0006
         </p>
       </div>
     </Section>

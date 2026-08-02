@@ -11,8 +11,13 @@ export const Route = createFileRoute("/cancellation-policy")({
       },
       { property: "og:title", content: "Cancellation policy — Udawalawe Wild" },
       { property: "og:description", content: "Cancellation and change policy." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://udawalawe-wild.com/cancellation-policy" },
+      { property: "og:image", content: "https://udawalawe-wild.com/og-image.png" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://udawalawe-wild.com/og-image.png" },
     ],
-    links: [{ rel: "canonical", href: "/cancellation-policy" }],
+    links: [{ rel: "canonical", href: "https://udawalawe-wild.com/cancellation-policy" }],
   }),
   component: () => (
     <Section>
@@ -44,7 +49,7 @@ export const Route = createFileRoute("/cancellation-policy")({
 
         <h3 className="font-serif text-lg text-foreground">How to Request a Change</h3>
         <p>
-          To change or cancel your booking, simply message us on WhatsApp (+94 72 189 0006) or email hello@udawalawewild.com with your booking name and date. We respond within hours.
+          To change or cancel your booking, simply message us on WhatsApp (+94 72 189 0006) or email hello@udawalawe-wild.com with your booking name and date. We respond within hours.
         </p>
       </div>
     </Section>

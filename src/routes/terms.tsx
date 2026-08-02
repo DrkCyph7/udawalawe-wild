@@ -11,8 +11,13 @@ export const Route = createFileRoute("/terms")({
         property: "og:description",
         content: "Terms of use for the Udawalawe Wild booking platform.",
       },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://udawalawe-wild.com/terms" },
+      { property: "og:image", content: "https://udawalawe-wild.com/og-image.png" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://udawalawe-wild.com/og-image.png" },
     ],
-    links: [{ rel: "canonical", href: "/terms" }],
+    links: [{ rel: "canonical", href: "https://udawalawe-wild.com/terms" }],
   }),
   component: () => (
     <Section>
@@ -52,7 +57,7 @@ export const Route = createFileRoute("/terms")({
 
         <h3 className="font-serif text-lg text-foreground">7. Contact & Governing Law</h3>
         <p>
-          These Terms are governed by the laws of Sri Lanka. For questions regarding these terms, reach us at hello@udawalawewild.com.
+          These Terms are governed by the laws of Sri Lanka. For questions regarding these terms, reach us at hello@udawalawe-wild.com.
         </p>
       </div>
     </Section>

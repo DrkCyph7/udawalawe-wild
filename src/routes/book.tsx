@@ -16,7 +16,7 @@ export const Route = createFileRoute("/book")({
       { property: "og:description", content: "Send an enquiry for a private Udawalawe safari." },
       { name: "robots", content: "noindex" },
     ],
-    links: [{ rel: "canonical", href: "/book" }],
+    links: [{ rel: "canonical", href: "https://udawalawe-wild.com/book" }],
   }),
   component: BookPage,
 });
