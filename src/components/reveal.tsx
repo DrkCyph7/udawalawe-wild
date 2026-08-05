@@ -1,21 +1,7 @@
-import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 
-type Direction = "up" | "left" | "right" | "scale";
+type Direction = "up" | "down" | "left" | "right" | "scale";
 
-function getBase(direction: Direction) {
-  if (direction === "left") return "reveal-left";
-  if (direction === "right") return "reveal-right";
-  if (direction === "scale") return "reveal-scale";
-  return "reveal";
-}
-
-/**
- * Intersection-observer powered scroll-reveal wrapper.
- * Wraps children in a <div> that fades/slides into view once scrolled into viewport.
- *
- * Usage:
- *   <Reveal delay={80} direction="up">…</Reveal>
- */
 export function Reveal({
   children,
   delay = 0,
@@ -27,31 +13,35 @@ export function Reveal({
   className?: string;
   direction?: Direction;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.classList.add("reveal-visible");
-          obs.unobserve(el);
-        }
+  const variants = {
+    hidden: {
+      opacity: 0,
+      y: direction === "up" ? 32 : direction === "down" ? -32 : 0,
+      x: direction === "left" ? -32 : direction === "right" ? 32 : 0,
+      scale: direction === "scale" ? 0.94 : 1,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      x: 0,
+      scale: 1,
+      transition: {
+        duration: 0.8,
+        ease: [0.22, 1, 0.36, 1], // easeOutQuint for smooth deceleration
+        delay: delay / 1000,
       },
-      { rootMargin: "0px 0px -70px 0px" },
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
+    },
+  };
 
   return (
-    <div
-      ref={ref}
-      className={`${getBase(direction)} ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
+    <motion.div
+      variants={variants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-70px" }}
+      className={className}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }

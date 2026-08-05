@@ -4,10 +4,14 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
+  useLocation,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { SafariLoader } from "@/components/safari-loader";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -186,14 +190,42 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const location = useLocation();
+  const isLoading = useRouterState({ select: (s) => s.status === "pending" });
+  const [initialLoad, setInitialLoad] = useState(true);
+
+  useEffect(() => {
+    // Show splash screen for 1.8 seconds on initial load
+    const timer = setTimeout(() => setInitialLoad(false), 1800);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const showLoader = initialLoad || isLoading;
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="flex min-h-screen flex-col bg-background text-foreground overflow-x-hidden">
+      <div className="flex min-h-screen flex-col bg-background text-foreground overflow-x-hidden relative">
         <SiteHeader />
-        <main className="flex-1 overflow-x-hidden">
-          <Outlet />
+        
+        <AnimatePresence>
+          {showLoader && <SafariLoader />}
+        </AnimatePresence>
+
+        <main className="flex-1 overflow-x-hidden relative">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="h-full w-full"
+            >
+              <Outlet />
+            </motion.div>
+          </AnimatePresence>
         </main>
+        
         <SiteFooter />
         <WhatsAppButton />
       </div>
