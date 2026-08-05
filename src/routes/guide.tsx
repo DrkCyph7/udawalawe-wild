@@ -80,6 +80,10 @@ function GuidePage() {
                 body: "A single half-day safari works well for travellers passing through. Two safaris in one day (or across two days) gives you a better chance of unhurried sightings. Photographers usually prefer the full-day option.",
               },
               {
+                title: "Elephant Transit Home (ETH)",
+                body: "Located just outside the park, the ETH cares for orphaned elephant calves until they can be released back into the wild. You can observe the calves from a viewing platform during feeding times (typically 9am, 12pm, 3pm, and 6pm). It's a completely ethical experience where the elephants' wellbeing comes first. You can easily combine a visit with your safari.",
+              },
+              {
                 title: "Park etiquette",
                 body: "Stay in the vehicle. Keep your voice low. No feeding. No leaning out. No drones. Respect posted distances. If a driver breaks these, tell them politely — and tell us.",
               },

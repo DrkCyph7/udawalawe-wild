@@ -140,7 +140,7 @@ function Home() {
           {/* Left: headline */}
           <div className="text-[color:var(--ivory)]">
             <h1
-              className="reveal reveal-visible font-serif text-3xl leading-[1.08] sm:text-5xl md:text-6xl lg:text-7xl"
+              className="reveal reveal-visible font-serif text-5xl leading-[1.08] sm:text-6xl md:text-6xl lg:text-7xl"
               style={{ transitionDelay: "80ms" }}
             >
               Experience<br />
@@ -149,7 +149,7 @@ function Home() {
             </h1>
 
             <p
-              className="reveal reveal-visible mt-5 max-w-lg text-base leading-relaxed text-[color:var(--ivory)]/85 sm:text-lg"
+              className="reveal reveal-visible mt-5 max-w-lg text-lg leading-relaxed text-[color:var(--ivory)]/85 sm:text-xl"
               style={{ transitionDelay: "160ms" }}
             >
               Private, wildlife-first safaris with verified local partners, transparent pricing, and
@@ -182,7 +182,7 @@ function Home() {
 
           {/* Right: enquiry glass card */}
           <div
-            className="reveal reveal-visible"
+            className="reveal reveal-visible hidden sm:block"
             style={{ transitionDelay: "200ms" }}
           >
             <div className="glass rounded-2xl p-5 sm:p-7">
@@ -432,7 +432,7 @@ function Home() {
               loading="lazy"
               width={1400}
               height={1000}
-              className="h-full w-full object-cover"
+              className="h-full max-h-[280px] sm:max-h-[380px] lg:max-h-[480px] w-full object-cover"
             />
           </Reveal>
 
