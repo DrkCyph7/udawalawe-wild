@@ -246,50 +246,50 @@ function Home() {
           >
             {isPending
               ? Array.from({ length: 5 }).map((_, idx) => (
-                  <div
-                    key={idx}
-                    className="safari-snap-card overflow-hidden rounded-xl border border-border bg-card"
-                  >
-                    <Skeleton className="aspect-[3/2] w-full" />
-                    <div className="space-y-3 p-4">
-                      <Skeleton className="h-3 w-24" />
-                      <Skeleton className="h-5 w-3/4" />
-                      <Skeleton className="h-4 w-full" />
-                    </div>
+                <div
+                  key={idx}
+                  className="safari-snap-card overflow-hidden rounded-xl border border-border bg-card"
+                >
+                  <Skeleton className="aspect-[3/2] w-full" />
+                  <div className="space-y-3 p-4">
+                    <Skeleton className="h-3 w-24" />
+                    <Skeleton className="h-5 w-3/4" />
+                    <Skeleton className="h-4 w-full" />
                   </div>
-                ))
+                </div>
+              ))
               : visibleSafaris.map((s, i) => (
-                  <article
-                    key={s.slug}
-                    className="safari-snap-card card-lift group flex flex-col overflow-hidden rounded-xl border border-border bg-card"
-                  >
-                    <div className="aspect-[3/2] overflow-hidden bg-muted">
-                      <img
-                        src={[elephantPortrait, safariJeep, wildlife, landscape, elephantPortrait][i % 5]}
-                        alt={s.name}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.06]"
-                      />
+                <article
+                  key={s.slug}
+                  className="safari-snap-card card-lift group flex flex-col overflow-hidden rounded-xl border border-border bg-card"
+                >
+                  <div className="aspect-[3/2] overflow-hidden bg-muted">
+                    <img
+                      src={[elephantPortrait, safariJeep, wildlife, landscape, elephantPortrait][i % 5]}
+                      alt={s.name}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.06]"
+                    />
+                  </div>
+                  <div className="flex flex-1 flex-col p-4">
+                    <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-muted-foreground">
+                      <Binoculars className="h-3 w-3" aria-hidden="true" />
+                      {s.duration}
                     </div>
-                    <div className="flex flex-1 flex-col p-4">
-                      <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-muted-foreground">
-                        <Binoculars className="h-3 w-3" aria-hidden="true" />
-                        {s.duration}
-                      </div>
-                      <h3 className="mt-1.5 font-serif text-lg text-foreground">{s.name}</h3>
-                      <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground">
-                        {s.short}
-                      </p>
-                      <Link
-                        to="/safaris"
-                        className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-primary"
-                      >
-                        Learn more
-                        <ChevronRight className="h-3 w-3" aria-hidden="true" />
-                      </Link>
-                    </div>
-                  </article>
-                ))}
+                    <h3 className="mt-1.5 font-serif text-lg text-foreground">{s.name}</h3>
+                    <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground">
+                      {s.short}
+                    </p>
+                    <Link
+                      to="/safaris"
+                      className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-primary"
+                    >
+                      Learn more
+                      <ChevronRight className="h-3 w-3" aria-hidden="true" />
+                    </Link>
+                  </div>
+                </article>
+              ))}
           </div>
 
           {/* Scroll dots — hidden on sm+ via CSS */}
@@ -308,49 +308,49 @@ function Home() {
           <div className="hidden gap-4 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
             {isPending
               ? Array.from({ length: 5 }).map((_, idx) => (
-                  <article
-                    key={idx}
-                    className="overflow-hidden rounded-xl border border-border bg-card"
-                  >
-                    <Skeleton className="aspect-[4/5] w-full" />
-                    <div className="space-y-3 p-4">
-                      <Skeleton className="h-3 w-24" />
-                      <Skeleton className="h-6 w-3/4" />
-                      <Skeleton className="h-4 w-full" />
+                <article
+                  key={idx}
+                  className="overflow-hidden rounded-xl border border-border bg-card"
+                >
+                  <Skeleton className="aspect-[4/5] w-full" />
+                  <div className="space-y-3 p-4">
+                    <Skeleton className="h-3 w-24" />
+                    <Skeleton className="h-6 w-3/4" />
+                    <Skeleton className="h-4 w-full" />
+                  </div>
+                </article>
+              ))
+              : visibleSafaris.map((s, i) => (
+                <Reveal key={s.slug} delay={i * 70} className="h-full">
+                  <article className="card-lift group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card">
+                    <div className="aspect-[4/5] overflow-hidden bg-muted">
+                      <img
+                        src={[elephantPortrait, safariJeep, wildlife, landscape, elephantPortrait][i % 5]}
+                        alt={s.name}
+                        loading="lazy"
+                        className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.06]"
+                      />
+                    </div>
+                    <div className="flex flex-1 flex-col p-4">
+                      <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-muted-foreground">
+                        <Binoculars className="h-3 w-3" aria-hidden="true" />
+                        {s.duration}
+                      </div>
+                      <h3 className="mt-1.5 font-serif text-base font-medium text-foreground">{s.name}</h3>
+                      <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground">
+                        {s.short}
+                      </p>
+                      <Link
+                        to="/safaris"
+                        className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-primary"
+                      >
+                        Learn more
+                        <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+                      </Link>
                     </div>
                   </article>
-                ))
-              : visibleSafaris.map((s, i) => (
-                  <Reveal key={s.slug} delay={i * 70} className="h-full">
-                    <article className="card-lift group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card">
-                      <div className="aspect-[4/5] overflow-hidden bg-muted">
-                        <img
-                          src={[elephantPortrait, safariJeep, wildlife, landscape, elephantPortrait][i % 5]}
-                          alt={s.name}
-                          loading="lazy"
-                          className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.06]"
-                        />
-                      </div>
-                      <div className="flex flex-1 flex-col p-4">
-                        <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-muted-foreground">
-                          <Binoculars className="h-3 w-3" aria-hidden="true" />
-                          {s.duration}
-                        </div>
-                        <h3 className="mt-1.5 font-serif text-base font-medium text-foreground">{s.name}</h3>
-                        <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground">
-                          {s.short}
-                        </p>
-                        <Link
-                          to="/safaris"
-                          className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-primary"
-                        >
-                          Learn more
-                          <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
-                        </Link>
-                      </div>
-                    </article>
-                  </Reveal>
-                ))}
+                </Reveal>
+              ))}
           </div>
         </div>
       </Section>
@@ -481,31 +481,31 @@ function Home() {
           <div className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4 items-stretch">
             {isPending
               ? Array.from({ length: 4 }).map((_, idx) => (
-                  <div key={idx} className="rounded-xl border border-[color:var(--ivory)]/15 p-4">
-                    <Skeleton className="h-3 w-16" />
-                    <Skeleton className="mt-2 h-6 w-20" />
-                    <Skeleton className="mt-2 h-3 w-full" />
-                  </div>
-                ))
+                <div key={idx} className="rounded-xl border border-[color:var(--ivory)]/15 p-4">
+                  <Skeleton className="h-3 w-16" />
+                  <Skeleton className="mt-2 h-6 w-20" />
+                  <Skeleton className="mt-2 h-3 w-full" />
+                </div>
+              ))
               : visibleRoutes.map((r, i) => (
-                  <Reveal key={r.slug} delay={i * 70} className="h-full">
-                    <Link
-                      to={`/${r.slug}`}
-                      className="group flex h-full flex-col gap-1.5 rounded-xl border border-[color:var(--ivory)]/20 p-4 transition-all duration-200 hover:bg-[color:var(--ivory)]/8 hover:border-[color:var(--ivory)]/40 hover:-translate-y-1"
-                    >
-                      <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-[color:var(--ivory)]/60">
-                        <MapPin className="h-2.5 w-2.5" aria-hidden="true" />
-                        From
-                      </div>
-                      <div className="font-serif text-base leading-tight text-[color:var(--ivory)] sm:text-xl">{r.from}</div>
-                      <div className="text-xs leading-snug text-[color:var(--ivory)]/75">{r.drive}</div>
-                      <div className="mt-auto pt-2 flex items-center gap-1 text-xs font-medium text-[color:var(--terracotta)] opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                        View route
-                        <ChevronRight className="h-3 w-3" aria-hidden="true" />
-                      </div>
-                    </Link>
-                  </Reveal>
-                ))}
+                <Reveal key={r.slug} delay={i * 70} className="h-full">
+                  <Link
+                    to={`/${r.slug}`}
+                    className="group flex h-full flex-col gap-1.5 rounded-xl border border-[color:var(--ivory)]/20 p-4 transition-all duration-200 hover:bg-[color:var(--ivory)]/8 hover:border-[color:var(--ivory)]/40 hover:-translate-y-1"
+                  >
+                    <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-[color:var(--ivory)]/60">
+                      <MapPin className="h-2.5 w-2.5" aria-hidden="true" />
+                      From
+                    </div>
+                    <div className="font-serif text-base leading-tight text-[color:var(--ivory)] sm:text-xl">{r.from}</div>
+                    <div className="text-xs leading-snug text-[color:var(--ivory)]/75">{r.drive}</div>
+                    <div className="mt-auto pt-2 flex items-center gap-1 text-xs font-medium text-[color:var(--terracotta)] opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                      View route
+                      <ChevronRight className="h-3 w-3" aria-hidden="true" />
+                    </div>
+                  </Link>
+                </Reveal>
+              ))}
           </div>
         </Section>
       </div>

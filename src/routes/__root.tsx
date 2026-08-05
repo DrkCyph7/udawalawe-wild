@@ -190,8 +190,6 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  const location = useLocation();
-  const isLoading = useRouterState({ select: (s) => s.status === "pending" });
   const [initialLoad, setInitialLoad] = useState(true);
 
   useEffect(() => {
@@ -200,7 +198,7 @@ function RootComponent() {
     return () => clearTimeout(timer);
   }, []);
 
-  const showLoader = initialLoad || isLoading;
+  const showLoader = initialLoad;
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -212,18 +210,7 @@ function RootComponent() {
         </AnimatePresence>
 
         <main className="flex-1 overflow-x-hidden relative">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={location.pathname}
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="h-full w-full"
-            >
-              <Outlet />
-            </motion.div>
-          </AnimatePresence>
+          <Outlet />
         </main>
         
         <SiteFooter />
