@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Reveal } from "@/components/reveal";
 import {
   Binoculars,
@@ -20,6 +21,7 @@ import elephantPortrait from "@/assets/elephant-portrait.jpg";
 import safariJeep from "@/assets/safari-jeep.jpg";
 import landscape from "@/assets/landscape.jpg";
 import wildlife from "@/assets/wildlife.jpg";
+import ethicalImg from "@/assets/ethical-safari-img.jpg";
 import { EnquiryForm } from "@/components/enquiry-form";
 import { Section, SectionHeading, Eyebrow } from "@/components/section";
 import { FaqList } from "@/components/faq-list";
@@ -119,84 +121,307 @@ function Home() {
     return () => el.removeEventListener("scroll", handler);
   }, [visibleSafaris.length]);
 
+  /* Hero background slideshow */
+  const heroImages = [
+    { src: heroImg,           alt: "Wild elephant in the grasslands of Udawalawe at dawn" },
+    { src: landscape,         alt: "Sweeping savanna landscape of Udawalawe National Park" },
+    { src: elephantPortrait,  alt: "Close-up portrait of a Sri Lankan elephant" },
+    { src: safariJeep,        alt: "Safari jeep on the dusty trails of Udawalawe" },
+    { src: ethicalImg,        alt: "Wildlife in the natural habitat of Udawalawe" },
+  ];
+  const [activeHero, setActiveHero] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setActiveHero((i) => (i + 1) % heroImages.length), 6000);
+    return () => clearInterval(id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       {/* ═══════════════════════ HERO ══════════════════════════════════ */}
-      <section className="relative isolate overflow-hidden min-h-[80svh] sm:min-h-[90svh] flex items-center">
-        {/* Bg image */}
+      {/* header is fixed+transparent, so hero fills full 100svh from top */}
+      <section className="relative isolate overflow-hidden h-[100svh] min-h-[680px] flex flex-col">
+
+        {/* ── Crossfade background slideshow ──────────────────────── */}
         <div className="absolute inset-0 -z-10">
-          <img
-            src={heroImg}
-            alt="Wild elephant in the grasslands of Udawalawe at dawn"
-            width={1920}
-            height={1280}
-            className="h-full w-full object-cover"
-            fetchPriority="high"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-[oklch(0.22_0.035_155_/_0.65)] via-[oklch(0.22_0.035_155_/_0.4)] to-[oklch(0.22_0.035_155_/_0.88)]" />
+          <AnimatePresence>
+            <motion.img
+              key={activeHero}
+              src={heroImages[activeHero].src}
+              alt={heroImages[activeHero].alt}
+              width={1920}
+              height={1280}
+              className="absolute inset-0 h-full w-full object-cover object-center"
+              initial={{ opacity: 0, scale: 1.04 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+            />
+          </AnimatePresence>
+          {/* Cinematic dark vignette */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[oklch(0.15_0.06_150_/_0.92)] via-[oklch(0.15_0.06_150_/_0.48)] to-[oklch(0.15_0.06_150_/_0.15)]" />
+          {/* Left-side dark anchor so text always readable */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[oklch(0.15_0.06_150_/_0.72)] via-[oklch(0.15_0.06_150_/_0.2)] to-transparent" />
+          {/* Golden-hour warm wash from right */}
+          <div className="absolute inset-0 bg-gradient-to-l from-[oklch(0.56_0.17_40_/_0.1)] to-transparent" />
         </div>
 
-        <div className="mx-auto w-full grid max-w-6xl gap-8 px-4 pb-12 pt-16 sm:px-8 sm:pb-24 sm:pt-28 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:pt-16">
-          {/* Left: headline */}
-          <div className="text-[color:var(--ivory)]">
-            <h1
-              className="reveal reveal-visible font-serif text-5xl leading-[1.08] sm:text-6xl md:text-6xl lg:text-7xl"
-              style={{ transitionDelay: "80ms" }}
-            >
-              Experience<br />
-              Udawalawe,{" "}
-              <em className="italic text-[color:var(--sand)]">wildly.</em>
-            </h1>
-
-            <p
-              className="reveal reveal-visible mt-5 max-w-lg text-lg leading-relaxed text-[color:var(--ivory)]/85 sm:text-xl"
-              style={{ transitionDelay: "160ms" }}
-            >
-              Private, wildlife-first safaris with verified local partners, transparent pricing, and
-              simple planning.
-            </p>
-
-            {/* CTAs */}
-            <div
-              className="reveal reveal-visible mt-8 flex flex-wrap gap-3"
-              style={{ transitionDelay: "240ms" }}
-            >
-              <Link
-                to="/book"
-                className="inline-flex items-center gap-2 rounded-lg bg-[color:var(--terracotta)] px-5 py-2.5 text-sm font-semibold text-[color:var(--ivory)] shadow-md transition-colors duration-200 hover:brightness-110"
-              >
-                <CalendarCheck className="h-4 w-4" aria-hidden="true" />
-                Plan my safari
-              </Link>
-              <a
-                href={waLink("Hi Udawalawe Wild, I'd like to plan a safari.")}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg border border-[color:var(--ivory)]/40 px-5 py-2.5 text-sm font-medium text-[color:var(--ivory)] transition-colors duration-200 hover:bg-[color:var(--ivory)]/15 hover:border-[color:var(--ivory)]/70"
-              >
-                <MessageCircle className="h-4 w-4" aria-hidden="true" />
-                Chat on WhatsApp
-              </a>
-            </div>
+        {/* ── Wildlife ticker — rendered BELOW the fixed header (top-16) ─ */}
+        {/* Header is ~64px tall, so we offset by that */}
+        <div
+          className="absolute left-0 right-0 h-9 overflow-hidden flex items-center"
+          style={{
+            top: "64px",
+            background: "oklch(0.12 0.05 150 / 0.55)",
+            borderTop: "1px solid oklch(1 0 0 / 0.06)",
+            borderBottom: "1px solid oklch(1 0 0 / 0.08)",
+            backdropFilter: "blur(12px) saturate(1.4)",
+          }}
+        >
+          <div className="flex w-max" style={{ animation: "marquee 32s linear infinite" }}>
+            {[
+              "🐘 Elephant", "🦅 Eagle", "🦊 Jackal", "🐊 Crocodile",
+              "🦚 Peacock", "🦬 Buffalo", "🐆 Leopard", "🐦 Kingfisher",
+              "🐘 Elephant", "🦅 Eagle", "🦊 Jackal", "🐊 Crocodile",
+              "🦚 Peacock", "🦬 Buffalo", "🐆 Leopard", "🐦 Kingfisher",
+            ].map((s, i) => (
+              <span key={i}
+                className="px-5 text-[10px] font-semibold tracking-[0.22em] uppercase whitespace-nowrap"
+                style={{ color: "oklch(0.85 0.02 78 / 0.6)" }}>
+                {s}
+                <span className="ml-5" style={{ color: "oklch(0.56 0.17 40 / 0.4)" }}>·</span>
+              </span>
+            ))}
           </div>
+        </div>
 
-          {/* Right: enquiry glass card */}
-          <div
-            className="reveal reveal-visible hidden sm:block"
-            style={{ transitionDelay: "200ms" }}
-          >
-            <div className="glass rounded-2xl p-5 sm:p-7">
-              <div className="mb-4">
-                <Eyebrow>Check availability</Eyebrow>
-                <div className="font-serif text-2xl text-foreground">Start with your dates.</div>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  A real person will reply with verified options within one business day.
-                </p>
+        {/* ── Live rating badge — liquid glass pill ───────────────── */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 2.2, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute top-[120px] right-4 sm:right-8 hidden sm:flex items-center gap-2 rounded-full px-4 py-2.5"
+          style={{
+            background: "oklch(1 0 0 / 0.08)",
+            border: "1px solid oklch(1 0 0 / 0.18)",
+            backdropFilter: "blur(20px) saturate(1.8)",
+            boxShadow: "0 4px 24px oklch(0 0 0 / 0.25), inset 0 1px 0 oklch(1 0 0 / 0.15)",
+          }}
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[oklch(0.56_0.17_40)] opacity-70" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[oklch(0.56_0.17_40)]" />
+          </span>
+          <span className="text-xs font-semibold" style={{ color: "oklch(0.95 0.02 78)" }}>
+            4.9 ★ · 500+ Travellers
+          </span>
+        </motion.div>
+
+        {/* ── Slide indicator dots — bottom left ──────────────────── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2.5, duration: 0.6 }}
+          className="absolute bottom-16 left-4 sm:left-8 flex gap-1.5 items-center"
+        >
+          {heroImages.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setActiveHero(i)}
+              className="transition-all duration-500 rounded-full"
+              style={{
+                width: i === activeHero ? 22 : 6,
+                height: 4,
+                background: i === activeHero
+                  ? "oklch(0.56 0.17 40)"
+                  : "oklch(1 0 0 / 0.35)",
+              }}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </motion.div>
+
+
+        {/* ── Main content — centered; pt accounts for header (64px) + ticker (36px) ── */}
+        <div className="flex-1 flex items-center" style={{ paddingTop: "100px" }}>
+          <div className="mx-auto w-full max-w-6xl px-4 sm:px-8 py-8 grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:items-center">
+            {/* Left — headline + CTAs */}
+            <div>
+              {/* Eyebrow */}
+              <motion.div
+                initial={{ opacity: 0, y: 14, filter: "blur(4px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.7, delay: 2.0, ease: [0.22, 1, 0.36, 1] }}
+                className="mb-5 inline-flex items-center gap-2 rounded-full px-4 py-2"
+                style={{
+                  background: "oklch(1 0 0 / 0.1)",
+                  border: "1px solid oklch(1 0 0 / 0.2)",
+                  backdropFilter: "blur(20px) saturate(1.6)",
+                  boxShadow: "0 2px 16px oklch(0 0 0 / 0.2), inset 0 1px 0 oklch(1 0 0 / 0.2)",
+                }}
+              >
+                <Sparkles className="h-3 w-3" style={{ color: "oklch(0.72 0.09 52)" }} />
+                <span className="text-[10px] font-semibold uppercase tracking-[0.2em]"
+                  style={{ color: "oklch(0.93 0.035 76 / 0.85)" }}>
+                  Udawalawe, Sri Lanka
+                </span>
+              </motion.div>
+
+              {/* Staggered headline */}
+              <div className="overflow-hidden">
+                <motion.h1
+                  initial={{ opacity: 0, y: 60, filter: "blur(8px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  transition={{ duration: 1.0, delay: 2.15, ease: [0.22, 1, 0.36, 1] }}
+                  className="font-serif leading-[1.05]"
+                  style={{ color: "oklch(0.93 0.035 76)" }}
+                >
+                  <span className="block text-5xl sm:text-6xl lg:text-7xl">Experience</span>
+                  <span className="block text-5xl sm:text-6xl lg:text-7xl">Udawalawe,</span>
+                  <motion.span
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.9, delay: 2.45, ease: [0.22, 1, 0.36, 1] }}
+                    className="block text-5xl italic sm:text-6xl lg:text-7xl"
+                    style={{ color: "oklch(0.72 0.09 52)" }}
+                  >
+                    wildly.
+                  </motion.span>
+                </motion.h1>
               </div>
-              <EnquiryForm />
+
+              {/* Subtext */}
+              <motion.p
+                initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.8, delay: 2.55, ease: [0.22, 1, 0.36, 1] }}
+                className="mt-6 max-w-lg text-base leading-relaxed sm:text-lg"
+                style={{ color: "oklch(0.93 0.035 76 / 0.75)" }}
+              >
+                Private, wildlife-first safaris with verified local partners, transparent pricing, and
+                simple planning.
+              </motion.p>
+
+              {/* CTAs */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 2.7, ease: [0.22, 1, 0.36, 1] }}
+                className="mt-8 flex flex-wrap gap-3"
+              >
+                <Link
+                  to="/book"
+                  className="group inline-flex items-center gap-2.5 rounded-xl px-6 py-3 text-sm font-semibold shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                  style={{
+                    background: "oklch(0.56 0.17 40)",
+                    color: "oklch(0.97 0.018 80)",
+                    boxShadow: "0 4px 24px oklch(0.56 0.17 40 / 0.4)",
+                  }}
+                >
+                  <CalendarCheck className="h-4 w-4" aria-hidden="true" />
+                  Plan my safari
+                </Link>
+                <a
+                  href={waLink("Hi Udawalawe Wild, I'd like to plan a safari.")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2.5 rounded-xl px-6 py-3 text-sm font-semibold transition-all duration-300 hover:scale-105"
+                  style={{
+                    border: "1px solid oklch(1 0 0 / 0.22)",
+                    color: "oklch(0.95 0.02 78)",
+                    background: "oklch(1 0 0 / 0.1)",
+                    backdropFilter: "blur(20px) saturate(1.6)",
+                    boxShadow: "0 4px 20px oklch(0 0 0 / 0.2), inset 0 1px 0 oklch(1 0 0 / 0.2)",
+                  }}
+                >
+                  <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                  Chat on WhatsApp
+                </a>
+              </motion.div>
+
+              {/* Floating stat pills */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 2.85, ease: [0.22, 1, 0.36, 1] }}
+                className="mt-8 flex flex-wrap gap-2.5"
+              >
+                {[
+                  { label: "12+ Years Guiding", icon: "🌿" },
+                  { label: "50+ Species Spotted", icon: "🐾" },
+                  { label: "100% Private Jeeps", icon: "🚙" },
+                ].map(({ label, icon }) => (
+                  <div
+                    key={label}
+                    className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold"
+                    style={{
+                      background: "oklch(1 0 0 / 0.1)",
+                      border: "1px solid oklch(1 0 0 / 0.18)",
+                      color: "oklch(0.95 0.02 78)",
+                      backdropFilter: "blur(20px) saturate(1.6)",
+                      boxShadow: "0 2px 12px oklch(0 0 0 / 0.2), inset 0 1px 0 oklch(1 0 0 / 0.18)",
+                    }}
+                  >
+                    <span>{icon}</span>
+                    {label}
+                  </div>
+                ))}
+              </motion.div>
             </div>
+
+            {/* Right — enquiry glass card */}
+            <motion.div
+              initial={{ opacity: 0, x: 30, filter: "blur(8px)" }}
+              animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.9, delay: 2.4, ease: [0.22, 1, 0.36, 1] }}
+              className="hidden sm:block"
+            >
+              <div
+                className="rounded-3xl p-6 sm:p-8"
+                style={{
+                  background: "oklch(0.97 0.018 80 / 0.88)",
+                  border: "1px solid oklch(1 0 0 / 0.6)",
+                  backdropFilter: "blur(28px) saturate(2)",
+                  boxShadow: "0 32px 80px oklch(0.15 0.06 150 / 0.4), 0 2px 0 oklch(1 0 0 / 0.9) inset, inset 0 0 0 1px oklch(0.84 0.04 73 / 0.4)",
+                }}
+              >
+                <div className="mb-4">
+                  <Eyebrow>Check availability</Eyebrow>
+                  <div className="font-serif text-2xl text-foreground">Start with your dates.</div>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    A real person will reply with verified options within one business day.
+                  </p>
+                </div>
+                <EnquiryForm />
+              </div>
+            </motion.div>
           </div>
         </div>
+
+        {/* ── Scroll cue ──────────────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 3.2, duration: 0.8 }}
+          className="absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+          style={{ color: "oklch(0.93 0.035 76 / 0.5)" }}
+        >
+          <span className="text-[9px] font-semibold uppercase tracking-[0.3em]">Explore</span>
+          <motion.div
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            className="h-8 w-5 rounded-full flex items-start justify-center pt-1.5"
+            style={{ border: "1.5px solid oklch(1 0 0 / 0.25)" }}
+          >
+            <motion.div
+              className="h-1.5 w-1 rounded-full"
+              style={{ background: "oklch(0.56 0.17 40)" }}
+              animate={{ y: [0, 10, 0], opacity: [1, 0, 1] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* ═══════════════════ TRUST STRIP ═══════════════════════════════ */}

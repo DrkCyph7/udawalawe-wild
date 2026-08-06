@@ -2,7 +2,7 @@
 @source "../src";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+/* Single safari theme — no dark mode */
 
 /*
  * Design system definition.
@@ -59,12 +59,21 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --color-forest: var(--forest);
-  --color-forest-deep: var(--forest-deep);
-  --color-sand: var(--sand);
-  --color-terracotta: var(--terracotta);
-  --color-ivory: var(--ivory);
-  --color-charcoal: var(--charcoal);
+  --color-canopy: var(--canopy);
+  --color-canopy-deep: var(--canopy-deep);
+  --color-savanna: var(--savanna);
+  --color-soil: var(--soil);
+  --color-bark: var(--bark);
+  --color-dusk: var(--dusk);
+  --color-khaki: var(--khaki);
+  --color-bone: var(--bone);
+  --color-parchment: var(--parchment);
+  --color-forest: var(--canopy);
+  --color-forest-deep: var(--canopy-deep);
+  --color-sand: var(--parchment);
+  --color-terracotta: var(--dusk);
+  --color-ivory: var(--bone);
+  --color-charcoal: var(--soil);
   --font-serif: "Fraunces", ui-serif, Georgia, serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
@@ -72,57 +81,77 @@
 :root {
   --radius: 0.5rem;
 
-  /* Safari Vibe Brand Palette */
-  --ivory: oklch(0.97 0.015 85);
-  --sand: oklch(0.90 0.03 80);
-  --sand-deep: oklch(0.78 0.055 72);
-  --forest: oklch(0.38 0.06 145);
-  --forest-deep: oklch(0.25 0.04 145);
-  --terracotta: oklch(0.55 0.14 45);
-  --charcoal: oklch(0.25 0.02 70);
+  /* ── Deep Safari Brand Palette ─────────────────────────────────────── */
+  /* Backgrounds / surfaces */
+  --savanna:     oklch(0.93 0.035 76);   /* warm sun-baked savanna grass   */
+  --bone:        oklch(0.97 0.018 80);   /* elevated card surface — bleached bone */
+  --parchment:   oklch(0.89 0.04 75);    /* mid-tone warm surface           */
 
-  /* Map to semantic utilities */
-  --background: var(--ivory);
-  --foreground: var(--charcoal);
-  --card: oklch(0.98 0.01 85);
-  --card-foreground: var(--charcoal);
-  --popover: var(--card);
-  --popover-foreground: var(--charcoal);
-  
-  --primary: var(--forest);
-  --primary-foreground: var(--ivory);
-  
-  --secondary: var(--sand);
-  --secondary-foreground: var(--forest-deep);
-  
-  --muted: oklch(0.94 0.015 80);
-  --muted-foreground: oklch(0.55 0.03 75);
-  
-  --accent: var(--terracotta);
-  --accent-foreground: var(--ivory);
-  
-  --destructive: oklch(0.55 0.19 30);
-  --destructive-foreground: oklch(0.98 0.005 85);
-  
-  --border: oklch(0.88 0.02 78);
-  --input: oklch(0.88 0.02 78);
-  --ring: var(--forest);
-  
-  --chart-1: var(--terracotta);
-  --chart-2: var(--forest);
-  --chart-3: var(--sand-deep);
-  --chart-4: var(--charcoal);
-  --chart-5: var(--forest-deep);
-  
-  --sidebar: var(--card);
-  --sidebar-foreground: var(--charcoal);
-  --sidebar-primary: var(--forest);
-  --sidebar-primary-foreground: var(--ivory);
-  --sidebar-accent: var(--sand);
-  --sidebar-accent-foreground: var(--charcoal);
-  --sidebar-border: var(--border);
-  --sidebar-ring: var(--ring);
+  /* Text */
+  --soil:        oklch(0.20 0.025 55);   /* rich dark earth — main text     */
+  --bark:        oklch(0.52 0.05 68);    /* muted text — tree bark brown    */
+
+  /* Primary brand colors */
+  --canopy:      oklch(0.34 0.09 150);   /* deep olive-forest green         */
+  --canopy-deep: oklch(0.21 0.065 150);  /* night-canopy — dark sections    */
+  --dusk:        oklch(0.56 0.17 40);    /* terracotta/sunset accent        */
+  --dusk-muted:  oklch(0.72 0.09 52);    /* light terracotta for hover      */
+
+  /* Borders / dividers */
+  --khaki:       oklch(0.84 0.04 73);    /* border / divider — dry khaki    */
+
+  /* ── Semantic Tailwind Tokens ──────────────────────────────────────── */
+  --background:           var(--savanna);
+  --foreground:           var(--soil);
+  --card:                 var(--bone);
+  --card-foreground:      var(--soil);
+  --popover:              var(--bone);
+  --popover-foreground:   var(--soil);
+
+  --primary:              var(--canopy);
+  --primary-foreground:   var(--bone);
+
+  --secondary:            var(--parchment);
+  --secondary-foreground: var(--canopy-deep);
+
+  --muted:                oklch(0.89 0.03 76);
+  --muted-foreground:     var(--bark);
+
+  --accent:               var(--dusk);
+  --accent-foreground:    var(--bone);
+
+  --destructive:          oklch(0.55 0.20 28);
+  --destructive-foreground: oklch(0.97 0.008 82);
+
+  --border:     var(--khaki);
+  --input:      var(--khaki);
+  --ring:       var(--canopy);
+
+  --chart-1:    var(--dusk);
+  --chart-2:    var(--canopy);
+  --chart-3:    oklch(0.75 0.08 72);
+  --chart-4:    var(--soil);
+  --chart-5:    var(--canopy-deep);
+
+  --sidebar:              var(--bone);
+  --sidebar-foreground:   var(--soil);
+  --sidebar-primary:      var(--canopy);
+  --sidebar-primary-foreground: var(--bone);
+  --sidebar-accent:       var(--parchment);
+  --sidebar-accent-foreground: var(--soil);
+  --sidebar-border:       var(--khaki);
+  --sidebar-ring:         var(--canopy);
+
+  /* ── Legacy alias names (used in JSX className attributes) ──────── */
+  --ivory:        var(--bone);
+  --sand:         var(--parchment);
+  --sand-deep:    oklch(0.78 0.055 72);
+  --forest:       var(--canopy);
+  --forest-deep:  var(--canopy-deep);
+  --terracotta:   var(--dusk);
+  --charcoal:     var(--soil);
 }
+
 
 /* ═══════════════════ KEYFRAMES ════════════════════════════════════════ */
 

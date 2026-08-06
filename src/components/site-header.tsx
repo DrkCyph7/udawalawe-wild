@@ -1,6 +1,6 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, X, Compass, MapPin, BookOpen, Leaf, Info, CalendarCheck, Home } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const nav = [
   { to: "/", label: "Home", icon: Home },
@@ -13,9 +13,28 @@ const nav = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isHome = pathname === "/";
+
+  useEffect(() => {
+    if (!isHome) { setScrolled(true); return; }
+    const handler = () => setScrolled(window.scrollY > 80);
+    window.addEventListener("scroll", handler, { passive: true });
+    handler();
+    return () => window.removeEventListener("scroll", handler);
+  }, [isHome]);
+
+  const transparent = isHome && !scrolled;
 
   return (
-    <header className="header-glass sticky top-0 z-40 border-b border-border/50 transition-all duration-300">
+    <header
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
+        transparent
+          ? "border-b border-white/10 bg-transparent"
+          : "border-b border-border/50 bg-[oklch(0.93_0.035_76_/_0.97)] backdrop-blur-md shadow-sm"
+      }`}
+    >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3 sm:px-8">
 
         {/* Logo */}
@@ -30,9 +49,11 @@ export function SiteHeader() {
             alt="Udawalawe Wild logo"
             width={40}
             height={40}
-            className="h-10 w-10 rounded-full object-cover ring-2 ring-[color:var(--forest)]/20 transition-all duration-300 group-hover:ring-[color:var(--forest)]/50 group-hover:scale-105"
+            className="h-10 w-10 rounded-full object-cover ring-2 ring-white/20 transition-all duration-300 group-hover:ring-white/50 group-hover:scale-105"
           />
-          <span className="font-serif text-lg tracking-tight text-primary sm:text-xl">
+          <span className={`font-serif text-lg tracking-tight transition-colors duration-300 sm:text-xl ${
+            transparent ? "text-white/90" : "text-primary"
+          }`}>
             Udawalawe Wild
           </span>
         </Link>
@@ -43,9 +64,15 @@ export function SiteHeader() {
             <Link
               key={n.to}
               to={n.to}
-              className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm text-foreground/65 transition-all duration-200 hover:bg-[color:var(--forest)]/8 hover:text-foreground"
+              className={`flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm transition-all duration-200 ${
+                transparent
+                  ? "text-white/75 hover:bg-white/10 hover:text-white"
+                  : "text-foreground/65 hover:bg-[color:var(--forest)]/8 hover:text-foreground"
+              }`}
               activeProps={{
-                className: "text-foreground font-medium bg-[color:var(--forest)]/10",
+                className: transparent
+                  ? "text-white font-medium bg-white/15"
+                  : "text-foreground font-medium bg-[color:var(--forest)]/10",
               }}
               activeOptions={n.to === "/" ? { exact: true } : undefined}
             >
