@@ -83,24 +83,34 @@ export function SiteHeader() {
 
           <Link
             to="/book"
-            className="ml-3 flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-all duration-200 hover:bg-primary/85 hover:shadow-md hover:scale-[1.02]"
+            className={`ml-3 flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-sm font-semibold shadow-sm transition-all duration-300 hover:scale-[1.02] ${
+              transparent
+                ? "bg-[oklch(0.56_0.17_40)] text-[oklch(0.97_0.018_80)] hover:bg-[oklch(0.52_0.17_40)] shadow-[0_4px_16px_oklch(0.56_0.17_40_/_0.45)]"
+                : "bg-primary text-primary-foreground hover:bg-primary/85 hover:shadow-md"
+            }`}
           >
             <CalendarCheck className="h-4 w-4" aria-hidden="true" />
             Plan my safari
           </Link>
         </nav>
 
-        {/* Mobile hamburger */}
+        {/* Mobile hamburger — always-visible glass pill */}
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="inline-flex items-center justify-center rounded-lg p-2.5 transition-all duration-200 hover:bg-[color:var(--forest)]/10 md:hidden"
+          className="inline-flex items-center justify-center rounded-xl p-2.5 transition-all duration-300 md:hidden"
+          style={{
+            background: transparent ? "oklch(1 0 0 / 0.12)" : "oklch(0 0 0 / 0.04)",
+            border: transparent ? "1px solid oklch(1 0 0 / 0.2)" : "1px solid oklch(0 0 0 / 0.08)",
+            backdropFilter: "blur(16px)",
+            boxShadow: transparent ? "inset 0 1px 0 oklch(1 0 0 / 0.2)" : "none",
+          }}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
         >
           {open
-            ? <X className="h-5 w-5 text-foreground" />
-            : <Menu className="h-5 w-5 text-foreground" />}
+            ? <X className={`h-5 w-5 ${transparent ? "text-white" : "text-foreground"}`} />
+            : <Menu className={`h-5 w-5 ${transparent ? "text-white" : "text-foreground"}`} />}
         </button>
       </div>
 

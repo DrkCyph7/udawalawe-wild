@@ -7,6 +7,7 @@ import safariJeep from "@/assets/safari-jeep.jpg";
 import wildlife from "@/assets/wildlife.jpg";
 import landscape from "@/assets/landscape.jpg";
 import { CalendarCheck, CheckCircle } from "lucide-react";
+import { motion } from "framer-motion";
 
 export const Route = createFileRoute("/safaris")({
   head: () => ({
@@ -38,74 +39,111 @@ const imgs = [elephantPortrait, safariJeep, wildlife, landscape, elephantPortrai
 function SafarisPage() {
   return (
     <>
-      <Section className="pb-6">
-        <Reveal>
-          <SectionHeading
-            eyebrow="Safari options"
-            title="Private jeeps. Verified drivers. Wildlife first."
-            intro="Choose a shape for your day. We'll send a fixed, transparent quote before you confirm anything."
-          />
-        </Reveal>
-      </Section>
-
-      <Section className="pt-4">
-        <div className="grid gap-16">
-          {safaris.map((s, i) => (
-            <Reveal key={s.slug} delay={i * 60}>
-              <article className="grid gap-6 overflow-hidden rounded-2xl border border-border bg-card p-6 transition-shadow duration-300 hover:shadow-lg lg:grid-cols-[1fr_1.2fr] lg:gap-10">
-                <div className="aspect-[4/3] overflow-hidden rounded-xl bg-muted">
-                  <img
-                    src={imgs[i]}
-                    alt={s.name}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition duration-700 hover:scale-[1.04]"
-                  />
-                </div>
-                <div>
-                  <div className="text-[11px] uppercase tracking-widest text-[color:var(--terracotta)]">
-                    Option 0{i + 1}
-                  </div>
-                  <h2 className="mt-2 font-serif text-3xl text-foreground sm:text-4xl">{s.name}</h2>
-                  <p className="mt-3 text-base leading-relaxed text-muted-foreground">{s.short}</p>
-
-                  <dl className="mt-6 grid gap-x-8 gap-y-4 sm:grid-cols-2">
-                    <Item label="Duration" value={s.duration} />
-                    <Item label="Ideal for" value={s.ideal} />
-                    <Item label="Pickup" value={s.pickup} />
-                    <Item label="Ethical approach" value={s.ethical} />
-                    <Item label="Cancellation" value={s.cancellation} />
-                    <Item label="Price" value="Receive a transparent fixed quote before you confirm." />
-                  </dl>
-
-                  <div className="mt-6">
-                    <div className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
-                      What's included
-                    </div>
-                    <ul className="mt-3 grid gap-2 text-sm text-foreground/85 sm:grid-cols-2">
-                      {s.includes.map((inc) => (
-                        <li key={inc} className="flex items-start gap-2">
-                          <CheckCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[color:var(--terracotta)]" aria-hidden="true" />
-                          {inc}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="mt-8">
-                    <Link
-                      to="/book"
-                      className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-all duration-200 hover:bg-primary/85 hover:scale-[1.02] hover:shadow-md"
-                    >
-                      <CalendarCheck className="h-4 w-4" aria-hidden="true" />
-                      Request availability
-                    </Link>
-                  </div>
-                </div>
-              </article>
-            </Reveal>
-          ))}
+      {/* Page hero — dark cinematic banner */}
+      <div className="page-hero">
+        <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-8">
+          <Reveal>
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2"
+              style={{ background: "oklch(1 0 0 / 0.08)", border: "1px solid oklch(1 0 0 / 0.15)", backdropFilter: "blur(16px)" }}
+            >
+              <CalendarCheck className="h-3.5 w-3.5" style={{ color: "oklch(0.56 0.17 40)" }} />
+              <span className="text-[10px] font-semibold uppercase tracking-[0.2em]" style={{ color: "oklch(0.85 0.02 78 / 0.8)" }}>
+                Safari Options
+              </span>
+            </motion.div>
+            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08]" style={{ color: "oklch(0.93 0.035 76)" }}>
+              Private jeeps.<br />
+              <span style={{ color: "oklch(0.56 0.17 40)" }}>Verified drivers.</span><br />
+              Wildlife first.
+            </h1>
+            <p className="mt-4 max-w-xl text-base leading-relaxed" style={{ color: "oklch(0.68 0.03 76)" }}>
+              Choose a shape for your day. We'll send a fixed, transparent quote before you confirm anything. Every jeep is private — no shared vehicles, ever.
+            </p>
+          </Reveal>
         </div>
-      </Section>
+      </div>
+
+      {/* Safari cards */}
+      <div className="section-dark">
+        <Section className="pt-4">
+          <div className="grid gap-12" style={{ perspective: "1200px" }}>
+            {safaris.map((s, i) => (
+              <Reveal key={s.slug} delay={i * 60}>
+                <article
+                  className="card-3d card-shine grid gap-0 overflow-hidden rounded-3xl lg:grid-cols-[1fr_1.2fr]"
+                  style={{
+                    background: "oklch(0.21 0.055 150)",
+                    border: "1px solid oklch(1 0 0 / 0.08)",
+                    boxShadow: "0 8px 48px oklch(0 0 0 / 0.35), inset 0 1px 0 oklch(1 0 0 / 0.08)",
+                  }}
+                >
+                  <div className="relative overflow-hidden min-h-[240px] lg:min-h-[340px]">
+                    <img
+                      src={imgs[i % 5]}
+                      alt={s.name}
+                      loading="lazy"
+                      className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.05]"
+                    />
+                    {/* Image gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[oklch(0.21_0.055_150_/_0.8)] hidden lg:block" />
+                    {/* Option badge */}
+                    <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em]"
+                      style={{ background: "oklch(0.56 0.17 40)", color: "oklch(0.97 0.018 80)", boxShadow: "0 4px 16px oklch(0.56 0.17 40 / 0.5)" }}>
+                      Option 0{i + 1}
+                    </div>
+                  </div>
+                  <div className="p-7 lg:p-9">
+                    <h2 className="font-serif text-2xl sm:text-3xl" style={{ color: "oklch(0.93 0.035 76)" }}>{s.name}</h2>
+                    <p className="mt-3 text-sm leading-relaxed" style={{ color: "oklch(0.65 0.03 76)" }}>{s.short}</p>
+
+                    <dl className="mt-6 grid gap-x-8 gap-y-3.5 sm:grid-cols-2">
+                      <Item label="Duration" value={s.duration} />
+                      <Item label="Ideal for" value={s.ideal} />
+                      <Item label="Pickup" value={s.pickup} />
+                      <Item label="Ethical approach" value={s.ethical} />
+                      <Item label="Cancellation" value={s.cancellation} />
+                      <Item label="Price" value="Fixed transparent quote before you confirm." />
+                    </dl>
+
+                    <div className="mt-6">
+                      <div className="text-[10px] font-bold uppercase tracking-[0.18em] mb-3" style={{ color: "oklch(0.56 0.17 40)" }}>
+                        What's included
+                      </div>
+                      <ul className="grid gap-2 text-sm sm:grid-cols-2">
+                        {s.includes.map((inc) => (
+                          <li key={inc} className="flex items-start gap-2.5">
+                            <CheckCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" style={{ color: "oklch(0.56 0.17 40)" }} aria-hidden="true" />
+                            <span style={{ color: "oklch(0.80 0.025 78)" }}>{inc}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="mt-8">
+                      <Link
+                        to="/book"
+                        className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-all duration-300 hover:scale-[1.04]"
+                        style={{
+                          background: "oklch(0.56 0.17 40)",
+                          color: "oklch(0.97 0.018 80)",
+                          boxShadow: "0 4px 20px oklch(0.56 0.17 40 / 0.4)",
+                        }}
+                      >
+                        <CalendarCheck className="h-4 w-4" aria-hidden="true" />
+                        Request availability
+                      </Link>
+                    </div>
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </Section>
+      </div>
     </>
   );
 }
@@ -113,10 +151,11 @@ function SafarisPage() {
 function Item({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <dt className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">
+      <dt className="text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: "oklch(0.56 0.17 40 / 0.8)" }}>
         {label}
       </dt>
-      <dd className="mt-1 text-sm leading-relaxed text-foreground">{value}</dd>
+      <dd className="mt-1 text-sm leading-relaxed" style={{ color: "oklch(0.80 0.025 78)" }}>{value}</dd>
     </div>
   );
 }
+

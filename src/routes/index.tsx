@@ -425,22 +425,64 @@ function Home() {
       </section>
 
       {/* ═══════════════════ TRUST STRIP ═══════════════════════════════ */}
-      <div className="border-y border-border bg-[color:var(--sand)]/40">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 divide-x divide-y divide-border sm:grid-cols-4 sm:divide-y-0">
-          {[
-            "Verified local partners",
-            "Private jeeps only",
-            "Transparent pricing",
-            "Ethical safari code",
-          ].map((label) => (
-            <div
-              key={label}
-              className="px-4 py-3.5 text-center text-xs font-medium uppercase tracking-widest text-foreground/60 sm:py-6"
-            >
-              {label}
-            </div>
-          ))}
-        </div>
+      {/* Dark cinematic band — extends the hero's atmosphere into the page */}
+      <div
+        className="relative overflow-hidden"
+        style={{
+          background: "linear-gradient(180deg, oklch(0.16 0.05 150) 0%, oklch(0.19 0.055 150) 100%)",
+          borderBottom: "1px solid oklch(1 0 0 / 0.08)",
+        }}
+      >
+        {/* Subtle grain overlay */}
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          style={{ backgroundImage: "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")" }} />
+
+        <Reveal>
+          <div className="mx-auto grid max-w-6xl grid-cols-2 lg:grid-cols-4 gap-px px-0"
+            style={{ background: "oklch(1 0 0 / 0.05)" }}>
+            {[
+              { icon: "🤝", stat: "100%", label: "Verified Local Partners", sub: "Every guide is local & licensed" },
+              { icon: "🚙", stat: "0",     label: "Shared Vehicles", sub: "Private jeeps, always" },
+              { icon: "💰", stat: "₀",     label: "Hidden Fees", sub: "Transparent pricing guaranteed" },
+              { icon: "🐘", stat: "50+",   label: "Species in the Park", sub: "Ethical wildlife-first approach" },
+            ].map(({ icon, stat, label, sub }, i) => (
+              <motion.div
+                key={label}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -3, transition: { duration: 0.2 } }}
+                className="group flex flex-col items-center gap-2 px-6 py-8 text-center cursor-default"
+                style={{ background: "oklch(0.19 0.055 150)" }}
+              >
+                {/* Icon circle */}
+                <div
+                  className="mb-1 flex h-11 w-11 items-center justify-center rounded-xl text-xl transition-transform duration-300 group-hover:scale-110"
+                  style={{
+                    background: "oklch(0.56 0.17 40 / 0.15)",
+                    border: "1px solid oklch(0.56 0.17 40 / 0.3)",
+                    boxShadow: "0 0 20px oklch(0.56 0.17 40 / 0.12)",
+                  }}
+                >
+                  {icon}
+                </div>
+                {/* Bold stat */}
+                <div className="font-serif text-2xl font-medium" style={{ color: "oklch(0.56 0.17 40)" }}>
+                  {stat}
+                </div>
+                {/* Label */}
+                <div className="text-xs font-bold uppercase tracking-[0.18em]" style={{ color: "oklch(0.93 0.035 76)" }}>
+                  {label}
+                </div>
+                {/* Sub-label */}
+                <div className="text-[10px] leading-snug" style={{ color: "oklch(0.65 0.03 76)" }}>
+                  {sub}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </Reveal>
       </div>
 
       {/* ═══════════════════ SAFARIS ════════════════════════════════════ */}
@@ -581,23 +623,35 @@ function Home() {
       </Section>
 
       {/* ═══════════════════ BENEFITS ═══════════════════════════════════ */}
-      <div className="bg-[color:var(--sand)]/30">
+      {/* Dark section — directly extends the trust strip's dark atmosphere */}
+      <div className="section-dark">
         <Section>
           <Reveal>
             <SectionHeading
               eyebrow="Why Udawalawe Wild"
               title="A better way to explore the wild."
               intro="We're small on purpose. Our job is to make your safari calmer, clearer, and kinder to the wildlife you came to see."
+              titleClass="text-[oklch(0.93_0.035_76)]"
+              introClass="text-[oklch(0.70_0.03_76)]"
             />
           </Reveal>
 
-          {/* Equal-height grid, no icons */}
-          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {benefits.map((b, i) => (
-              <Reveal key={b.t} delay={i * 75}>
+              <Reveal key={b.t} delay={i * 90}>
                 <div className="benefit-tile h-full">
-                  <div className="font-serif text-xl text-foreground">{b.t}</div>
-                  <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{b.d}</p>
+                  {/* Icon */}
+                  <div
+                    className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl text-lg"
+                    style={{
+                      background: "oklch(0.56 0.17 40 / 0.18)",
+                      border: "1px solid oklch(0.56 0.17 40 / 0.35)",
+                    }}
+                  >
+                    {["🌿", "🐾", "🤝", "💬"][i % 4]}
+                  </div>
+                  <div className="font-serif text-xl" style={{ color: "oklch(0.93 0.035 76)" }}>{b.t}</div>
+                  <p className="mt-3 flex-1 text-sm leading-relaxed" style={{ color: "oklch(0.62 0.03 76)" }}>{b.d}</p>
                 </div>
               </Reveal>
             ))}
@@ -606,35 +660,48 @@ function Home() {
       </div>
 
       {/* ═══════════════════ ELEPHANT TRANSIT HOME ══════════════════════ */}
-      <div className="border-y border-border bg-[color:var(--sand)]/20">
+      <div style={{ background: "oklch(0.93 0.035 76)" }}>
         <Section>
           <Reveal>
-            <div className="grid gap-8 rounded-2xl border border-border/70 bg-card p-6 sm:p-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+            <div
+              className="grid gap-8 rounded-3xl p-7 sm:p-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center"
+              style={{
+                background: "linear-gradient(135deg, oklch(0.19 0.055 150) 0%, oklch(0.22 0.06 145) 100%)",
+                border: "1px solid oklch(1 0 0 / 0.08)",
+                boxShadow: "0 24px 64px oklch(0 0 0 / 0.25), inset 0 1px 0 oklch(1 0 0 / 0.1)",
+              }}
+            >
               <div>
-                <Eyebrow>Special Experience</Eyebrow>
-                <h2 className="mt-1 font-serif text-2xl text-foreground sm:text-3xl">
+                <div className="mb-2 text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: "oklch(0.56 0.17 40)" }}>Special Experience</div>
+                <h2 className="mt-1 font-serif text-2xl sm:text-3xl" style={{ color: "oklch(0.93 0.035 76)" }}>
                   Visit the Elephant Transit Home
                 </h2>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                <p className="mt-3 text-sm leading-relaxed sm:text-base" style={{ color: "oklch(0.68 0.03 76)" }}>
                   Located right beside Udawalawe National Park, the Elephant Transit Home (ETH) rehabilitates orphaned wild elephant calves until they are strong enough to be released back into the wild. Combine your safari with a public feeding view for a rare, ethical glimpse into elephant conservation.
                 </p>
                 <div className="mt-6 flex flex-wrap items-center gap-4">
                   <Link
                     to="/safaris"
-                    className="inline-flex items-center gap-2 rounded-lg bg-[color:var(--terracotta)] px-5 py-2.5 text-xs font-semibold text-[color:var(--ivory)] shadow-sm transition hover:brightness-110"
+                    className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-xs font-semibold transition-all duration-300 hover:scale-105"
+                    style={{
+                      background: "oklch(0.56 0.17 40)",
+                      color: "oklch(0.97 0.018 80)",
+                      boxShadow: "0 4px 20px oklch(0.56 0.17 40 / 0.4)",
+                    }}
                   >
                     Explore Combo Package
                     <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
                   </Link>
                   <Link
                     to="/guide"
-                    className="link-underline text-xs font-medium text-primary"
+                    className="text-xs font-medium transition-colors hover:text-white"
+                    style={{ color: "oklch(0.72 0.09 52)" }}
                   >
-                    Learn about ETH in our guide
+                    Learn about ETH in our guide →
                   </Link>
                 </div>
               </div>
-              <div className="overflow-hidden rounded-xl bg-muted aspect-[4/3]">
+              <div className="overflow-hidden rounded-2xl aspect-[4/3]" style={{ boxShadow: "0 16px 48px oklch(0 0 0 / 0.35)" }}>
                 <img
                   src={elephantPortrait}
                   alt="Orphaned elephant calf at Udawalawe"
@@ -667,18 +734,27 @@ function Home() {
               title="Wildlife comes first."
               intro="Great sightings happen when animals feel unbothered. Our partners agree to a simple, non-negotiable code."
             />
-            <ul className="mt-6 space-y-3.5">
+            <ul className="mt-6 space-y-3">
               {ethicsRules.map(({ icon: Icon, r }, i) => (
-                <li
+                <motion.li
                   key={r}
+                  initial={{ opacity: 0, x: -16 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
                   className="flex items-start gap-3 text-sm text-foreground/85"
-                  style={{ transitionDelay: `${i * 60}ms` }}
                 >
-                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[color:var(--terracotta)]/10">
-                    <Icon className="h-3.5 w-3.5 text-[color:var(--terracotta)]" aria-hidden="true" />
+                  <span
+                    className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
+                    style={{
+                      background: "oklch(0.56 0.17 40 / 0.12)",
+                      border: "1px solid oklch(0.56 0.17 40 / 0.25)",
+                    }}
+                  >
+                    <Icon className="h-3.5 w-3.5" style={{ color: "oklch(0.56 0.17 40)" }} aria-hidden="true" />
                   </span>
                   {r}
-                </li>
+                </motion.li>
               ))}
             </ul>
             <Link
@@ -693,14 +769,14 @@ function Home() {
       </Section>
 
       {/* ═══════════════════ ROUTES ═════════════════════════════════════ */}
-      <div className="bg-[color:var(--forest-deep)] text-[color:var(--ivory)]">
+      <div style={{ background: "oklch(0.16 0.05 150)" }}>
         <Section>
           <Reveal>
             <SectionHeading
               eyebrow="Getting there"
               title="Coming from the coast or the hills?"
-              titleClass="text-[color:var(--ivory)]"
-              introClass="text-[color:var(--ivory)]/70"
+              titleClass="text-[oklch(0.93_0.035_76)]"
+              introClass="text-[oklch(0.65_0.03_76)]"
             />
           </Reveal>
           <div className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4 items-stretch">
@@ -716,15 +792,32 @@ function Home() {
                 <Reveal key={r.slug} delay={i * 70} className="h-full">
                   <Link
                     to={`/${r.slug}`}
-                    className="group flex h-full flex-col gap-1.5 rounded-xl border border-[color:var(--ivory)]/20 p-4 transition-all duration-200 hover:bg-[color:var(--ivory)]/8 hover:border-[color:var(--ivory)]/40 hover:-translate-y-1"
+                    className="group flex h-full flex-col gap-1.5 rounded-xl p-4 transition-all duration-300"
+                    style={{
+                      background: "oklch(0.21 0.055 150)",
+                      border: "1px solid oklch(1 0 0 / 0.08)",
+                      boxShadow: "inset 0 1px 0 oklch(1 0 0 / 0.07)",
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLElement).style.background = "oklch(0.24 0.06 150)";
+                      (e.currentTarget as HTMLElement).style.borderColor = "oklch(0.56 0.17 40 / 0.4)";
+                      (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)";
+                      (e.currentTarget as HTMLElement).style.boxShadow = "0 0 0 1px oklch(0.56 0.17 40 / 0.2), 0 16px 40px oklch(0 0 0 / 0.3)";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLElement).style.background = "oklch(0.21 0.055 150)";
+                      (e.currentTarget as HTMLElement).style.borderColor = "oklch(1 0 0 / 0.08)";
+                      (e.currentTarget as HTMLElement).style.transform = "";
+                      (e.currentTarget as HTMLElement).style.boxShadow = "inset 0 1px 0 oklch(1 0 0 / 0.07)";
+                    }}
                   >
-                    <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-[color:var(--ivory)]/60">
+                    <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest" style={{ color: "oklch(0.56 0.17 40 / 0.8)" }}>
                       <MapPin className="h-2.5 w-2.5" aria-hidden="true" />
                       From
                     </div>
-                    <div className="font-serif text-base leading-tight text-[color:var(--ivory)] sm:text-xl">{r.from}</div>
-                    <div className="text-xs leading-snug text-[color:var(--ivory)]/75">{r.drive}</div>
-                    <div className="mt-auto pt-2 flex items-center gap-1 text-xs font-medium text-[color:var(--terracotta)] opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                    <div className="font-serif text-base leading-tight sm:text-xl" style={{ color: "oklch(0.93 0.035 76)" }}>{r.from}</div>
+                    <div className="text-xs leading-snug" style={{ color: "oklch(0.60 0.03 76)" }}>{r.drive}</div>
+                    <div className="mt-auto pt-2 flex items-center gap-1 text-xs font-medium opacity-0 transition-opacity duration-200 group-hover:opacity-100" style={{ color: "oklch(0.72 0.09 52)" }}>
                       View route
                       <ChevronRight className="h-3 w-3" aria-hidden="true" />
                     </div>
