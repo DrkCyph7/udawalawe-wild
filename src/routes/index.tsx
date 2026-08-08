@@ -204,6 +204,8 @@ function Home() {
               alt={heroImages[activeHero].alt}
               width={1920}
               height={1280}
+              fetchPriority={activeHero === 0 ? "high" : "low"}
+              loading={activeHero === 0 ? "eager" : "lazy"}
               className="absolute inset-0 h-full w-full object-cover object-center"
               initial={{ opacity: 0, scale: 1.06 }}
               animate={{ opacity: 1, scale: 1.02 }}
@@ -281,16 +283,20 @@ function Home() {
             <button
               key={i}
               onClick={() => setActiveHero(i)}
-              className="transition-all duration-500 rounded-full"
-              style={{
-                width: i === activeHero ? 22 : 6,
-                height: 4,
-                background: i === activeHero
-                  ? "oklch(0.56 0.17 40)"
-                  : "oklch(1 0 0 / 0.35)",
-              }}
+              className="group relative flex h-11 w-11 cursor-pointer items-center justify-center rounded-full outline-none"
               aria-label={`Go to slide ${i + 1}`}
-            />
+            >
+              <span
+                className="transition-all duration-500 rounded-full"
+                style={{
+                  width: i === activeHero ? 22 : 6,
+                  height: 4,
+                  background: i === activeHero
+                    ? "oklch(0.56 0.17 40)"
+                    : "oklch(1 0 0 / 0.35)",
+                }}
+              />
+            </button>
           ))}
         </motion.div>
 
@@ -531,7 +537,7 @@ function Home() {
       </div>
 
       {/* ═══════════════════ SAFARIS ════════════════════════════════════ */}
-      <Section>
+      <Section style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 800px' }}>
         <Reveal>
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <SectionHeading
@@ -769,7 +775,7 @@ function Home() {
       </div>
 
       {/* ═══════════════════ ETHICAL ════════════════════════════════════ */}
-      <Section>
+      <Section style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 600px' }}>
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
           <Reveal direction="left" className="grain overflow-hidden rounded-2xl">
             <img
@@ -823,7 +829,7 @@ function Home() {
       </Section>
 
       {/* ═══════════════════ ROUTES ═════════════════════════════════════ */}
-      <div style={{ background: "oklch(0.16 0.05 150)" }}>
+      <div style={{ background: "oklch(0.16 0.05 150)", contentVisibility: 'auto', containIntrinsicSize: 'auto 600px' }}>
         <Section>
           <Reveal>
             <SectionHeading
@@ -883,7 +889,7 @@ function Home() {
       </div>
 
       {/* ═══════════════════ REVIEWS — Marquee ══════════════════════════ */}
-      <section className="overflow-hidden border-y border-border py-16 sm:py-20">
+      <section className="overflow-hidden border-y border-border py-16 sm:py-20" style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 600px' }}>
         <Reveal>
           <div className="mb-10 px-5 sm:px-8">
             <SectionHeading
@@ -941,7 +947,7 @@ function Home() {
       </section>
 
       {/* ═══════════════════ FAQ ════════════════════════════════════════ */}
-      <div className="bg-[color:var(--sand)]/30">
+      <div className="bg-[color:var(--sand)]/30" style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 600px' }}>
         <Section>
           <Reveal>
             <SectionHeading eyebrow="Good to know" title="Frequently asked questions." />

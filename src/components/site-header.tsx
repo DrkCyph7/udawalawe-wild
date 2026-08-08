@@ -1,6 +1,6 @@
 import { useRouterState } from "@tanstack/react-router";
 import { TransitionLink as Link } from "@/components/transition-link";
-import { Menu, X, Compass, MapPin, BookOpen, Leaf, Info, CalendarCheck, Home } from "lucide-react";
+import { Menu, X, Compass, MapPin, BookOpen, Leaf, Info, CalendarCheck, Home, Phone } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const nav = [
@@ -82,6 +82,18 @@ export function SiteHeader() {
             </Link>
           ))}
 
+          <a
+            href="tel:+94721890006"
+            className={`ml-3 flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-sm font-semibold transition-all duration-300 hover:scale-[1.02] ${
+              transparent
+                ? "bg-white/10 text-white hover:bg-white/20"
+                : "bg-muted text-foreground hover:bg-muted/80"
+            }`}
+          >
+            <Phone className="h-4 w-4" aria-hidden="true" />
+            Call
+          </a>
+
           <Link
             to="/book"
             className={`ml-3 flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-sm font-semibold shadow-sm transition-all duration-300 hover:scale-[1.02] ${
@@ -95,24 +107,40 @@ export function SiteHeader() {
           </Link>
         </nav>
 
-        {/* Mobile hamburger — always-visible glass pill */}
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          className="inline-flex items-center justify-center rounded-xl p-2.5 transition-all duration-300 md:hidden"
-          style={{
-            background: transparent ? "oklch(1 0 0 / 0.12)" : "oklch(0 0 0 / 0.04)",
-            border: transparent ? "1px solid oklch(1 0 0 / 0.2)" : "1px solid oklch(0 0 0 / 0.08)",
-            backdropFilter: "blur(16px)",
-            boxShadow: transparent ? "inset 0 1px 0 oklch(1 0 0 / 0.2)" : "none",
-          }}
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-        >
-          {open
-            ? <X className={`h-5 w-5 ${transparent ? "text-white" : "text-foreground"}`} />
-            : <Menu className={`h-5 w-5 ${transparent ? "text-white" : "text-foreground"}`} />}
-        </button>
+        {/* Mobile controls — Call + Hamburger */}
+        <div className="flex items-center gap-2 md:hidden">
+          <a
+            href="tel:+94721890006"
+            className="inline-flex items-center justify-center rounded-xl p-2.5 transition-all duration-300"
+            style={{
+              background: transparent ? "oklch(1 0 0 / 0.12)" : "oklch(0 0 0 / 0.04)",
+              border: transparent ? "1px solid oklch(1 0 0 / 0.2)" : "1px solid oklch(0 0 0 / 0.08)",
+              backdropFilter: "blur(16px)",
+              boxShadow: transparent ? "inset 0 1px 0 oklch(1 0 0 / 0.2)" : "none",
+            }}
+            aria-label="Call us"
+          >
+            <Phone className={`h-5 w-5 ${transparent ? "text-white" : "text-foreground"}`} />
+          </a>
+
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            className="inline-flex items-center justify-center rounded-xl p-2.5 transition-all duration-300"
+            style={{
+              background: transparent ? "oklch(1 0 0 / 0.12)" : "oklch(0 0 0 / 0.04)",
+              border: transparent ? "1px solid oklch(1 0 0 / 0.2)" : "1px solid oklch(0 0 0 / 0.08)",
+              backdropFilter: "blur(16px)",
+              boxShadow: transparent ? "inset 0 1px 0 oklch(1 0 0 / 0.2)" : "none",
+            }}
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+          >
+            {open
+              ? <X className={`h-5 w-5 ${transparent ? "text-white" : "text-foreground"}`} />
+              : <Menu className={`h-5 w-5 ${transparent ? "text-white" : "text-foreground"}`} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile drawer — CSS height-animated, no JS jank */}

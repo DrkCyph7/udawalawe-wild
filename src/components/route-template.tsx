@@ -129,8 +129,8 @@ export function RouteTemplate({ info }: { info: RouteInfo }) {
                       A real person replies within one business day with verified options.
                     </p>
                   </div>
-                  {/* The form inherits dark theme styling via CSS variables or its own implementation. We assume EnquiryForm handles its own dark mode styling gracefully, or we'd need to style it. */}
-                  <EnquiryForm defaultPickup={info.from} />
+                  {/* The form inherits dark theme styling via the theme prop. */}
+                  <EnquiryForm defaultPickup={info.from} theme="dark" />
                 </div>
               </TiltCard>
             </Reveal>
