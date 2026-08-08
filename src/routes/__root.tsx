@@ -104,14 +104,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "revisit-after", content: "7 days" },
       { property: "og:site_name", content: "Udawalawe Wild" },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://udawalawe-wild.com" },
+      { property: "og:url", content: "https://www.udawalawe-wild.com" },
       { property: "og:title", content: "Udawalawe Wild — #1 Private Safari in Udawalawe, Sri Lanka" },
       {
         property: "og:description",
         content:
           "Book the best private safari in Udawalawe National Park, Sri Lanka. Verified local guides, ethical wildlife approach, transparent pricing. 4.9★ rated by 500+ travellers.",
       },
-      { property: "og:image", content: "https://udawalawe-wild.com/og-image.png" },
+      { property: "og:image", content: "https://www.udawalawe-wild.com/og-image.png" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       { property: "og:image:alt", content: "Wild elephants in Udawalawe National Park at golden hour" },
@@ -123,11 +123,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Private, wildlife-first safaris in Udawalawe National Park with verified local guides. Transparent pricing, ethical approach. Book online.",
       },
-      { name: "twitter:image", content: "https://udawalawe-wild.com/og-image.png" },
+      { name: "twitter:image", content: "https://www.udawalawe-wild.com/og-image.png" },
       { name: "twitter:site", content: "@udawalawewild" },
     ],
     links: [
-      { rel: "canonical", href: "https://udawalawe-wild.com" },
+      { rel: "canonical", href: "https://www.udawalawe-wild.com" },
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "icon", href: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
@@ -154,9 +154,9 @@ function RootShell({ children }: { children: ReactNode }) {
     "@context": "https://schema.org",
     "@type": "TravelAgency",
     "name": "Udawalawe Wild",
-    "url": "https://udawalawe-wild.com",
-    "logo": "https://udawalawe-wild.com/logo.png",
-    "image": ["https://udawalawe-wild.com/og-image.png"],
+    "url": "https://www.udawalawe-wild.com",
+    "logo": "https://www.udawalawe-wild.com/logo.png",
+    "image": ["https://www.udawalawe-wild.com/og-image.png"],
     "telephone": "+94721890006",
     "email": "hello@udawalawe-wild.com",
     "priceRange": "$$",
@@ -202,11 +202,11 @@ function RootShell({ children }: { children: ReactNode }) {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Udawalawe Wild",
-    "url": "https://udawalawe-wild.com",
+    "url": "https://www.udawalawe-wild.com",
     "description": "Private safari booking platform for Udawalawe National Park, Sri Lanka",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://udawalawe-wild.com/safaris?q={search_term_string}",
+      "target": "https://www.udawalawe-wild.com/safaris?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   };
@@ -215,9 +215,9 @@ function RootShell({ children }: { children: ReactNode }) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Udawalawe Wild", "item": "https://udawalawe-wild.com" },
-      { "@type": "ListItem", "position": 2, "name": "Safari Options", "item": "https://udawalawe-wild.com/safaris" },
-      { "@type": "ListItem", "position": 3, "name": "Visitor Guide", "item": "https://udawalawe-wild.com/guide" }
+      { "@type": "ListItem", "position": 1, "name": "Udawalawe Wild", "item": "https://www.udawalawe-wild.com" },
+      { "@type": "ListItem", "position": 2, "name": "Safari Options", "item": "https://www.udawalawe-wild.com/safaris" },
+      { "@type": "ListItem", "position": 3, "name": "Visitor Guide", "item": "https://www.udawalawe-wild.com/guide" }
     ]
   };
 

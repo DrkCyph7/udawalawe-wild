@@ -13,12 +13,12 @@ export const Route = createFileRoute("/privacy")({
       { property: "og:title", content: "Privacy policy — Udawalawe Wild" },
       { property: "og:description", content: "How we handle enquiry data." },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://udawalawe-wild.com/privacy" },
-      { property: "og:image", content: "https://udawalawe-wild.com/og-image.png" },
+      { property: "og:url", content: "https://www.udawalawe-wild.com/privacy" },
+      { property: "og:image", content: "https://www.udawalawe-wild.com/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "https://udawalawe-wild.com/og-image.png" },
+      { name: "twitter:image", content: "https://www.udawalawe-wild.com/og-image.png" },
     ],
-    links: [{ rel: "canonical", href: "https://udawalawe-wild.com/privacy" }],
+    links: [{ rel: "canonical", href: "https://www.udawalawe-wild.com/privacy" }],
   }),
   component: () => (
     <Section>

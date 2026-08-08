@@ -17,11 +17,26 @@ import {
   TreePine,
 } from "lucide-react";
 import heroImg from "@/assets/hero-elephant.jpg";
+import heroImg800 from "@/assets/hero-elephant-800w.webp";
+import heroImg1200 from "@/assets/hero-elephant-1200w.webp";
+import heroImg1600 from "@/assets/hero-elephant-1600w.webp";
 import elephantPortrait from "@/assets/elephant-portrait.jpg";
+import elephantPortrait800 from "@/assets/elephant-portrait-800w.webp";
+import elephantPortrait1200 from "@/assets/elephant-portrait-1200w.webp";
+import elephantPortrait1600 from "@/assets/elephant-portrait-1600w.webp";
 import safariJeep from "@/assets/safari-jeep.jpg";
+import safariJeep800 from "@/assets/safari-jeep-800w.webp";
+import safariJeep1200 from "@/assets/safari-jeep-1200w.webp";
+import safariJeep1600 from "@/assets/safari-jeep-1600w.webp";
 import landscape from "@/assets/landscape.jpg";
+import landscape800 from "@/assets/landscape-800w.webp";
+import landscape1200 from "@/assets/landscape-1200w.webp";
+import landscape1600 from "@/assets/landscape-1600w.webp";
 import wildlife from "@/assets/wildlife.jpg";
 import ethicalImg from "@/assets/ethical-safari-img.jpg";
+import ethicalImg800 from "@/assets/ethical-safari-img-800w.webp";
+import ethicalImg1200 from "@/assets/ethical-safari-img-1200w.webp";
+import ethicalImg1600 from "@/assets/ethical-safari-img-1600w.webp";
 import { EnquiryForm } from "@/components/enquiry-form";
 import { Section, SectionHeading, Eyebrow } from "@/components/section";
 import { FaqList } from "@/components/faq-list";
@@ -46,12 +61,12 @@ export const Route = createFileRoute("/")({
           "Verified local partners. Private jeeps. Transparent quotes. Wildlife-first experiences.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://udawalawe-wild.com" },
-      { property: "og:image", content: "https://udawalawe-wild.com/og-image.png" },
+      { property: "og:url", content: "https://www.udawalawe-wild.com" },
+      { property: "og:image", content: "https://www.udawalawe-wild.com/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "https://udawalawe-wild.com/og-image.png" },
+      { name: "twitter:image", content: "https://www.udawalawe-wild.com/og-image.png" },
     ],
-    links: [{ rel: "canonical", href: "https://udawalawe-wild.com" }],
+    links: [{ rel: "canonical", href: "https://www.udawalawe-wild.com" }],
   }),
   component: Home,
 });
@@ -123,18 +138,18 @@ function Home() {
 
   /* Hero background slideshow */
   const heroImages = [
-    { src: heroImg,           alt: "Wild elephant in the grasslands of Udawalawe at dawn" },
-    { src: landscape,         alt: "Sweeping savanna landscape of Udawalawe National Park" },
-    { src: elephantPortrait,  alt: "Close-up portrait of a Sri Lankan elephant" },
-    { src: safariJeep,        alt: "Safari jeep on the dusty trails of Udawalawe" },
-    { src: ethicalImg,        alt: "Wildlife in the natural habitat of Udawalawe" },
+    { src: heroImg, srcSet: `${heroImg800} 800w, ${heroImg1200} 1200w, ${heroImg1600} 1600w`, alt: "Wild elephant in the grasslands of Udawalawe at dawn" },
+    { src: landscape, srcSet: `${landscape800} 800w, ${landscape1200} 1200w, ${landscape1600} 1600w`, alt: "Sweeping savanna landscape of Udawalawe National Park" },
+    { src: elephantPortrait, srcSet: `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w, ${elephantPortrait1600} 1600w`, alt: "Close-up portrait of a Sri Lankan elephant" },
+    { src: safariJeep, srcSet: `${safariJeep800} 800w, ${safariJeep1200} 1200w, ${safariJeep1600} 1600w`, alt: "Safari jeep on the dusty trails of Udawalawe" },
+    { src: ethicalImg, srcSet: `${ethicalImg800} 800w, ${ethicalImg1200} 1200w, ${ethicalImg1600} 1600w`, alt: "Wildlife in the natural habitat of Udawalawe" },
   ];
   const [activeHero, setActiveHero] = useState(0);
 
   useEffect(() => {
     const id = setInterval(() => setActiveHero((i) => (i + 1) % heroImages.length), 6000);
     return () => clearInterval(id);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -149,6 +164,8 @@ function Home() {
             <motion.img
               key={activeHero}
               src={heroImages[activeHero].src}
+              srcSet={heroImages[activeHero].srcSet}
+              sizes="100vw"
               alt={heroImages[activeHero].alt}
               width={1920}
               height={1280}
@@ -277,8 +294,8 @@ function Home() {
                   className="font-serif leading-[1.05]"
                   style={{ color: "oklch(0.93 0.035 76)" }}
                 >
-                  <span className="block text-5xl sm:text-6xl lg:text-7xl">Experience</span>
-                  <span className="block text-5xl sm:text-6xl lg:text-7xl">Udawalawe,</span>
+                  <span className="block text-5xl sm:text-6xl lg:text-7xl">Experience{" "}</span>
+                  <span className="block text-5xl sm:text-6xl lg:text-7xl">Udawalawe,{" "}</span>
                   <motion.span
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -442,9 +459,9 @@ function Home() {
             style={{ background: "oklch(1 0 0 / 0.05)" }}>
             {[
               { icon: "🤝", stat: "100%", label: "Verified Local Partners", sub: "Every guide is local & licensed" },
-              { icon: "🚙", stat: "0",     label: "Shared Vehicles", sub: "Private jeeps, always" },
-              { icon: "💰", stat: "₀",     label: "Hidden Fees", sub: "Transparent pricing guaranteed" },
-              { icon: "🐘", stat: "50+",   label: "Species in the Park", sub: "Ethical wildlife-first approach" },
+              { icon: "🚙", stat: "0", label: "Shared Vehicles", sub: "Private jeeps, always" },
+              { icon: "💰", stat: "₀", label: "Hidden Fees", sub: "Transparent pricing guaranteed" },
+              { icon: "🐘", stat: "50+", label: "Species in the Park", sub: "Ethical wildlife-first approach" },
             ].map(({ icon, stat, label, sub }, i) => (
               <motion.div
                 key={label}
@@ -847,6 +864,7 @@ function Home() {
               <div
                 key={i}
                 className="card-lift w-80 shrink-0 rounded-2xl border border-border bg-card p-6 shadow-sm"
+                aria-hidden={i >= allReviews.length / 2 ? "true" : undefined}
               >
                 {/* Stars */}
                 <div className="flex gap-0.5 mb-3">
@@ -901,8 +919,7 @@ function Home() {
       <section className="relative isolate overflow-hidden">
         <img
           src={landscape}
-          alt=""
-          aria-hidden
+          alt="Grassland landscape in Udawalawe National Park"
           loading="lazy"
           className="absolute inset-0 -z-10 h-full w-full object-cover"
         />

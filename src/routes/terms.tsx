@@ -12,12 +12,12 @@ export const Route = createFileRoute("/terms")({
         content: "Terms of use for the Udawalawe Wild booking platform.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://udawalawe-wild.com/terms" },
-      { property: "og:image", content: "https://udawalawe-wild.com/og-image.png" },
+      { property: "og:url", content: "https://www.udawalawe-wild.com/terms" },
+      { property: "og:image", content: "https://www.udawalawe-wild.com/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "https://udawalawe-wild.com/og-image.png" },
+      { name: "twitter:image", content: "https://www.udawalawe-wild.com/og-image.png" },
     ],
-    links: [{ rel: "canonical", href: "https://udawalawe-wild.com/terms" }],
+    links: [{ rel: "canonical", href: "https://www.udawalawe-wild.com/terms" }],
   }),
   component: () => (
     <Section>

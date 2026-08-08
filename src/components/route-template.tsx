@@ -15,8 +15,7 @@ export function RouteTemplate({ info }: { info: RouteInfo }) {
       <section className="relative isolate overflow-hidden">
         <img
           src={landscape}
-          alt=""
-          aria-hidden
+          alt="Grassland landscape in Udawalawe National Park"
           loading="eager"
           className="absolute inset-0 -z-10 h-full w-full object-cover"
         />

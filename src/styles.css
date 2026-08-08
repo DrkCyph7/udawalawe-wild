@@ -83,124 +83,183 @@
 
   /* ── Deep Safari Brand Palette ─────────────────────────────────────── */
   /* Backgrounds / surfaces */
-  --savanna:     oklch(0.93 0.035 76);   /* warm sun-baked savanna grass   */
-  --bone:        oklch(0.97 0.018 80);   /* elevated card surface — bleached bone */
-  --parchment:   oklch(0.89 0.04 75);    /* mid-tone warm surface           */
+  --savanna: oklch(0.93 0.035 76);
+  /* warm sun-baked savanna grass   */
+  --bone: oklch(0.97 0.018 80);
+  /* elevated card surface — bleached bone */
+  --parchment: oklch(0.89 0.04 75);
+  /* mid-tone warm surface           */
 
   /* Text */
-  --soil:        oklch(0.20 0.025 55);   /* rich dark earth — main text     */
-  --bark:        oklch(0.52 0.05 68);    /* muted text — tree bark brown    */
+  --soil: oklch(0.20 0.025 55);
+  /* rich dark earth — main text     */
+  --bark: oklch(0.52 0.05 68);
+  /* muted text — tree bark brown    */
 
   /* Primary brand colors */
-  --canopy:      oklch(0.34 0.09 150);   /* deep olive-forest green         */
-  --canopy-deep: oklch(0.21 0.065 150);  /* night-canopy — dark sections    */
-  --dusk:        oklch(0.56 0.17 40);    /* terracotta/sunset accent        */
-  --dusk-muted:  oklch(0.72 0.09 52);    /* light terracotta for hover      */
+  --canopy: oklch(0.34 0.09 150);
+  /* deep olive-forest green         */
+  --canopy-deep: oklch(0.21 0.065 150);
+  /* night-canopy — dark sections    */
+  --dusk: oklch(0.56 0.17 40);
+  /* terracotta/sunset accent        */
+  --dusk-muted: oklch(0.72 0.09 52);
+  /* light terracotta for hover      */
 
   /* Borders / dividers */
-  --khaki:       oklch(0.84 0.04 73);    /* border / divider — dry khaki    */
+  --khaki: oklch(0.84 0.04 73);
+  /* border / divider — dry khaki    */
 
   /* ── Semantic Tailwind Tokens ──────────────────────────────────────── */
-  --background:           var(--savanna);
-  --foreground:           var(--soil);
-  --card:                 var(--bone);
-  --card-foreground:      var(--soil);
-  --popover:              var(--bone);
-  --popover-foreground:   var(--soil);
+  --background: var(--savanna);
+  --foreground: var(--soil);
+  --card: var(--bone);
+  --card-foreground: var(--soil);
+  --popover: var(--bone);
+  --popover-foreground: var(--soil);
 
-  --primary:              var(--canopy);
-  --primary-foreground:   var(--bone);
+  --primary: var(--canopy);
+  --primary-foreground: var(--bone);
 
-  --secondary:            var(--parchment);
+  --secondary: var(--parchment);
   --secondary-foreground: var(--canopy-deep);
 
-  --muted:                oklch(0.89 0.03 76);
-  --muted-foreground:     var(--bark);
+  --muted: oklch(0.89 0.03 76);
+  --muted-foreground: var(--bark);
 
-  --accent:               var(--dusk);
-  --accent-foreground:    var(--bone);
+  --accent: var(--dusk);
+  --accent-foreground: var(--bone);
 
-  --destructive:          oklch(0.55 0.20 28);
+  --destructive: oklch(0.55 0.20 28);
   --destructive-foreground: oklch(0.97 0.008 82);
 
-  --border:     var(--khaki);
-  --input:      var(--khaki);
-  --ring:       var(--canopy);
+  --border: var(--khaki);
+  --input: var(--khaki);
+  --ring: var(--canopy);
 
-  --chart-1:    var(--dusk);
-  --chart-2:    var(--canopy);
-  --chart-3:    oklch(0.75 0.08 72);
-  --chart-4:    var(--soil);
-  --chart-5:    var(--canopy-deep);
+  --chart-1: var(--dusk);
+  --chart-2: var(--canopy);
+  --chart-3: oklch(0.75 0.08 72);
+  --chart-4: var(--soil);
+  --chart-5: var(--canopy-deep);
 
-  --sidebar:              var(--bone);
-  --sidebar-foreground:   var(--soil);
-  --sidebar-primary:      var(--canopy);
+  --sidebar: var(--bone);
+  --sidebar-foreground: var(--soil);
+  --sidebar-primary: var(--canopy);
   --sidebar-primary-foreground: var(--bone);
-  --sidebar-accent:       var(--parchment);
+  --sidebar-accent: var(--parchment);
   --sidebar-accent-foreground: var(--soil);
-  --sidebar-border:       var(--khaki);
-  --sidebar-ring:         var(--canopy);
+  --sidebar-border: var(--khaki);
+  --sidebar-ring: var(--canopy);
 
   /* ── Legacy alias names (used in JSX className attributes) ──────── */
-  --ivory:        var(--bone);
-  --sand:         var(--parchment);
-  --sand-deep:    oklch(0.78 0.055 72);
-  --forest:       var(--canopy);
-  --forest-deep:  var(--canopy-deep);
-  --terracotta:   var(--dusk);
-  --charcoal:     var(--soil);
+  --ivory: var(--bone);
+  --sand: var(--parchment);
+  --sand-deep: oklch(0.78 0.055 72);
+  --forest: var(--canopy);
+  --forest-deep: var(--canopy-deep);
+  --terracotta: var(--dusk);
+  --charcoal: var(--soil);
 
   /* ── Dark surface tokens (for hero-level dark sections) ─────────── */
-  --deep:         oklch(0.16 0.05 150);   /* hero-dark background */
-  --deep-surface: oklch(0.21 0.055 150);  /* card on dark bg      */
-  --deep-border:  oklch(1 0 0 / 0.10);   /* border on dark       */
-  --deep-text:    oklch(0.93 0.035 76);   /* warm ivory on dark   */
-  --deep-muted:   oklch(0.70 0.03 76);    /* muted on dark        */
+  --deep: oklch(0.16 0.05 150);
+  /* hero-dark background */
+  --deep-surface: oklch(0.21 0.055 150);
+  /* card on dark bg      */
+  --deep-border: oklch(1 0 0 / 0.10);
+  /* border on dark       */
+  --deep-text: oklch(0.93 0.035 76);
+  /* warm ivory on dark   */
+  --deep-muted: oklch(0.70 0.03 76);
+  /* muted on dark        */
 }
 
 
 /* ═══════════════════ KEYFRAMES ════════════════════════════════════════ */
 
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-8px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 oklch(0.32 0.045 155 / 0.35); }
-  50%       { box-shadow: 0 0 0 10px oklch(0.32 0.045 155 / 0); }
-}
 
-@keyframes shimmer-slide {
-  0%   { background-position: -200% center; }
-  100% { background-position: 200% center; }
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 oklch(0.32 0.045 155 / 0.35);
+  }
+
+  50% {
+    box-shadow: 0 0 0 10px oklch(0.32 0.045 155 / 0);
+  }
 }
 
 @keyframes accordion-down {
-  from { height: 0; opacity: 0; }
-  to   { height: var(--accordion-height); opacity: 1; }
+  from {
+    height: 0;
+    opacity: 0;
+  }
+
+  to {
+    height: var(--accordion-height);
+    opacity: 1;
+  }
 }
 
 @keyframes accordion-up {
-  from { height: var(--accordion-height); opacity: 1; }
-  to   { height: 0; opacity: 0; }
+  from {
+    height: var(--accordion-height);
+    opacity: 1;
+  }
+
+  to {
+    height: 0;
+    opacity: 0;
+  }
 }
 
 @keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes wa-sonar {
-  0%   { transform: scale(1);    opacity: 0.55; }
-  80%  { transform: scale(2.1);  opacity: 0; }
-  100% { transform: scale(2.1);  opacity: 0; }
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+
+  80% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
 }
 
 /* ═══════════════════ BASE LAYER ═══════════════════════════════════════ */
@@ -231,7 +290,10 @@
     color: var(--color-foreground);
   }
 
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     font-family: var(--font-serif);
     font-weight: 400;
     letter-spacing: -0.01em;
@@ -246,6 +308,28 @@
     outline-offset: 2px;
     border-radius: 4px;
   }
+
+  /*
+   * Respect OS-level reduced-motion preference. Users with vestibular
+   * disorders or motion sensitivity who've enabled this setting should
+   * not receive the full marquee/float/shimmer/orbit/glow treatment.
+   * scroll-behavior is also disabled here since smooth scroll counts
+   * as motion for this purpose.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 /* ═══════════════════ UTILITIES ════════════════════════════════════════ */
@@ -256,6 +340,7 @@
 
 @utility grain {
   position: relative;
+
   &::after {
     content: "";
     position: absolute;
@@ -390,7 +475,7 @@
     display: none;
   }
 
-  & > * {
+  &>* {
     scroll-snap-align: start;
     flex-shrink: 0;
   }
@@ -560,12 +645,10 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      135deg,
-      oklch(1 0 0 / 0.08) 0%,
-      transparent 50%,
-      oklch(0.56 0.17 40 / 0.05) 100%
-    );
+    background: linear-gradient(135deg,
+        oklch(1 0 0 / 0.08) 0%,
+        transparent 50%,
+        oklch(0.56 0.17 40 / 0.05) 100%);
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.35s ease;
@@ -615,45 +698,70 @@
 
 /* ═══════════════════ ENHANCED ANIMATIONS ══════════════════════════════ */
 
-@keyframes shimmer-text {
-  0%   { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-
 @keyframes float-slow {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  33%       { transform: translateY(-12px) rotate(1deg); }
-  66%       { transform: translateY(-6px) rotate(-0.5deg); }
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  33% {
+    transform: translateY(-12px) rotate(1deg);
+  }
+
+  66% {
+    transform: translateY(-6px) rotate(-0.5deg);
+  }
 }
 
 @keyframes orbit {
-  from { transform: rotate(0deg) translateX(60px) rotate(0deg); }
-  to   { transform: rotate(360deg) translateX(60px) rotate(-360deg); }
+  from {
+    transform: rotate(0deg) translateX(60px) rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg) translateX(60px) rotate(-360deg);
+  }
 }
 
 @keyframes breathe-glow {
-  0%, 100% { box-shadow: 0 0 20px oklch(0.56 0.17 40 / 0.2); }
-  50%       { box-shadow: 0 0 40px oklch(0.56 0.17 40 / 0.5), 0 0 80px oklch(0.56 0.17 40 / 0.15); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px oklch(0.56 0.17 40 / 0.2);
+  }
+
+  50% {
+    box-shadow: 0 0 40px oklch(0.56 0.17 40 / 0.5), 0 0 80px oklch(0.56 0.17 40 / 0.15);
+  }
 }
 
 @keyframes progress-fill {
-  from { width: 0%; }
-  to   { width: 100%; }
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 100%;
+  }
 }
 
 @keyframes scan-line {
-  from { transform: translateY(-100%); }
-  to   { transform: translateY(100vh); }
+  from {
+    transform: translateY(-100%);
+  }
+
+  to {
+    transform: translateY(100vh);
+  }
 }
 
 @utility shimmer-text {
-  background: linear-gradient(
-    90deg,
-    oklch(0.93 0.035 76) 0%,
-    oklch(0.72 0.09 52) 40%,
-    oklch(0.93 0.035 76) 60%,
-    oklch(0.72 0.09 52) 100%
-  );
+  background: linear-gradient(90deg,
+      oklch(0.93 0.035 76) 0%,
+      oklch(0.72 0.09 52) 40%,
+      oklch(0.93 0.035 76) 60%,
+      oklch(0.72 0.09 52) 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
