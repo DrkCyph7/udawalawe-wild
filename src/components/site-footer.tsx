@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { TransitionLink as Link } from "@/components/transition-link";
 import { SITE, waLink } from "@/lib/site";
 import {
   MapPin,

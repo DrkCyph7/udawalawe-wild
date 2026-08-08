@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { TransitionLink as Link } from "@/components/transition-link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   supabase,

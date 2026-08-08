@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { TransitionLink as Link } from "@/components/transition-link";
 import { Section, SectionHeading } from "@/components/section";
 import { Reveal } from "@/components/reveal";
 import { EnquiryForm } from "@/components/enquiry-form";

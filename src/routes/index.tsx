@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { TransitionLink as Link } from "@/components/transition-link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   motion,

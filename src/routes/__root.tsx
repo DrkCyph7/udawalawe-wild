@@ -1,7 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
-  Link,
   createRootRouteWithContext,
   useRouter,
   HeadContent,
@@ -10,6 +9,8 @@ import {
 import { useEffect, useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { SafariLoader } from "@/components/safari-loader";
+import { CurtainProvider } from "@/components/curtain-provider";
+import { TransitionLink as Link } from "@/components/transition-link";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -258,8 +259,9 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="flex min-h-screen flex-col bg-background text-foreground overflow-x-hidden relative">
-        <SafariLoader visible={showReactLoader} />
+      <CurtainProvider>
+        <div className="flex min-h-screen flex-col bg-background text-foreground overflow-x-hidden relative">
+          <SafariLoader visible={showReactLoader} />
 
         <motion.div
           initial={{ opacity: 0 }}
@@ -275,7 +277,7 @@ function RootComponent() {
           <WhatsAppButton />
         </motion.div>
       </div>
+      </CurtainProvider>
     </QueryClientProvider>
   );
 }
-

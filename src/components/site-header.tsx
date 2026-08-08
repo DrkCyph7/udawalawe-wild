@@ -1,4 +1,5 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { useRouterState } from "@tanstack/react-router";
+import { TransitionLink as Link } from "@/components/transition-link";
 import { Menu, X, Compass, MapPin, BookOpen, Leaf, Info, CalendarCheck, Home } from "lucide-react";
 import { useEffect, useState } from "react";
 
