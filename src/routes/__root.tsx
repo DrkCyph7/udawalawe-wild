@@ -17,25 +17,80 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { WhatsAppButton } from "@/components/whatsapp-button";
+import notFoundBg from "@/assets/wildlife.jpg";
+import { Compass } from "lucide-react";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
-        <div className="mt-6">
+    <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-[oklch(0.1_0.02_150)] text-white selection:bg-primary/30">
+      {/* Background Image with animated scale and overlay */}
+      <motion.div
+        initial={{ scale: 1.1, opacity: 0 }}
+        animate={{ scale: 1, opacity: 0.3 }}
+        transition={{ duration: 1.5, ease: "easeOut" }}
+        className="absolute inset-0 z-0"
+      >
+        <img
+          src={notFoundBg}
+          alt="Lost in the wild"
+          className="h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20" />
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
+      </motion.div>
+
+      {/* Content */}
+      <div className="relative z-10 flex max-w-2xl flex-col items-center px-6 text-center">
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-[oklch(0.97_0.018_80)] backdrop-blur-md">
+            <Compass className="h-3.5 w-3.5 text-primary" />
+            Error 404
+          </span>
+          <h1 className="mt-6 font-serif text-6xl tracking-tight sm:text-8xl lg:text-9xl text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60">
+            Lost in the wild.
+          </h1>
+          <p className="mx-auto mt-6 max-w-md text-base leading-relaxed text-white/70 sm:text-lg">
+            It looks like you've wandered off the trail. The page you're looking for has been moved or doesn't exist.
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
+        >
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="group relative flex items-center gap-2 overflow-hidden rounded-full bg-primary px-8 py-4 text-sm font-bold tracking-wide text-primary-foreground shadow-xl transition-transform hover:scale-105"
           >
-            Go home
+            <div className="absolute inset-0 bg-white/20 translate-y-full transition-transform duration-300 group-hover:translate-y-0" />
+            <span className="relative z-10">Return to camp</span>
           </Link>
-        </div>
+          <Link
+            to="/safaris"
+            className="flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-8 py-4 text-sm font-bold tracking-wide text-white backdrop-blur-md transition-colors hover:bg-white/10 hover:text-white"
+          >
+            Explore safaris
+          </Link>
+        </motion.div>
       </div>
+      
+      {/* Footer minimal logo */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 0.8 }}
+        className="absolute bottom-8 left-0 right-0 flex justify-center"
+      >
+        <Link to="/" className="group">
+          <img src="/logo.png" alt="Udawalawe Wild" className="h-10 w-10 rounded-full border border-white/20 opacity-50 grayscale transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0" />
+        </Link>
+      </motion.div>
     </div>
   );
 }
