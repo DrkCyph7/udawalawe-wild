@@ -24,7 +24,7 @@ export const supabase: SupabaseClient | null = isSupabaseConfigured
     })
   : null;
 
-export const adminEmailAllowList = (import.meta.env.VITE_ADMIN_EMAILS ?? "admin@udawalawewild.com")
+export const adminEmailAllowList = (import.meta.env.VITE_ADMIN_EMAILS ?? "admin@udawalawe-wild.com")
   .split(",")
   .map((email) => email.trim().toLowerCase())
   .filter(Boolean);

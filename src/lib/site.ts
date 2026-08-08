@@ -1,10 +1,16 @@
 export const SITE = {
   name: "Udawalawe Wild",
-  domain: "udawalawewild.com",
+  domain: "udawalawe-wild.com",
+  url: "https://udawalawe-wild.com",
   tagline: "Private, wildlife-first safaris in Sri Lanka.",
   whatsapp: "+94721890006",
-  whatsappDisplay: "+94 71 234 5678",
-  email: "hello@udawalawewild.com",
+  whatsappDisplay: "+94 72 189 0006",
+  phone: "+94721890006",
+  phoneDisplay: "+94 72 189 0006",
+  email: "hello@udawalawe-wild.com",
+  facebook: "https://facebook.com/udawalawe-wild",
+  tripadvisor: "https://tripadvisor.com",
+  location: "Udawalawe, Sabaragamuwa Province, Sri Lanka",
   disclaimer:
     "Independent booking platform partnering with verified local operators. Not affiliated with Udawalawe National Park.",
 };

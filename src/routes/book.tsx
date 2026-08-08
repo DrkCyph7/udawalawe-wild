@@ -16,7 +16,7 @@ export const Route = createFileRoute("/book")({
       { property: "og:description", content: "Send an enquiry for a private Udawalawe safari." },
       { name: "robots", content: "noindex" },
     ],
-    links: [{ rel: "canonical", href: "/book" }],
+    links: [{ rel: "canonical", href: "https://www.udawalawe-wild.com/book" }],
   }),
   component: BookPage,
 });
@@ -140,7 +140,8 @@ function BookPage() {
                   <option value="morning-private-safari">Morning Private Safari</option>
                   <option value="afternoon-private-safari">Afternoon Private Safari</option>
                   <option value="full-day-wildlife-safari">Full-Day Wildlife Safari</option>
-                  <option value="safari-ella-transfer">Safari + Ella Transfer</option>
+                  <option value="safari-transfer">Safari + Transfer</option>
+                  <option value="safari-elephant-transit-transfer">Safari + Elephant Transit + Transfer</option>
                 </select>
               </Field>
               <Field label="Pickup location">

@@ -10,7 +10,7 @@ export function Section({
   as?: "section" | "div";
 }) {
   return (
-    <As className={`mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20 ${className}`}>{children}</As>
+    <As className={`mx-auto max-w-6xl px-4 py-10 sm:px-8 sm:py-20 ${className}`}>{children}</As>
   );
 }
 
@@ -27,17 +27,29 @@ export function SectionHeading({
   title,
   intro,
   center,
+  titleClass,
+  introClass,
 }: {
   eyebrow?: string;
   title: string;
   intro?: string;
   center?: boolean;
+  /** Override the heading colour — e.g. pass "text-[color:var(--ivory)]" on dark sections */
+  titleClass?: string;
+  /** Override the intro paragraph colour */
+  introClass?: string;
 }) {
   return (
     <div className={`max-w-2xl ${center ? "mx-auto text-center" : ""}`}>
       {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
-      <h2 className="font-serif text-3xl leading-tight text-foreground sm:text-4xl">{title}</h2>
-      {intro && <p className="mt-4 text-base leading-relaxed text-muted-foreground">{intro}</p>}
+      <h2 className={`font-serif text-2xl leading-tight sm:text-4xl ${titleClass ?? "text-foreground"}`}>
+        {title}
+      </h2>
+      {intro && (
+        <p className={`mt-3 text-sm leading-relaxed sm:mt-4 sm:text-base ${introClass ?? "text-muted-foreground"}`}>
+          {intro}
+        </p>
+      )}
     </div>
   );
 }
