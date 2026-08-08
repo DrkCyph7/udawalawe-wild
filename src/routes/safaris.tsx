@@ -9,6 +9,7 @@ import wildlife from "@/assets/wildlife.jpg";
 import landscape from "@/assets/landscape.jpg";
 import { CalendarCheck, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
+import { TiltCard } from "@/components/tilt-card";
 
 export const Route = createFileRoute("/safaris")({
   head: () => ({
@@ -74,7 +75,8 @@ function SafarisPage() {
           <div className="grid gap-12" style={{ perspective: "1200px" }}>
             {safaris.map((s, i) => (
               <Reveal key={s.slug} delay={i * 60}>
-                <article
+                <TiltCard
+                  intensity={5}
                   className="card-3d card-shine grid gap-0 overflow-hidden rounded-3xl lg:grid-cols-[1fr_1.2fr]"
                   style={{
                     background: "oklch(0.21 0.055 150)",
@@ -139,7 +141,7 @@ function SafarisPage() {
                       </Link>
                     </div>
                   </div>
-                </article>
+                </TiltCard>
               </Reveal>
             ))}
           </div>

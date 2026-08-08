@@ -108,7 +108,7 @@ const socials = [
 
 export function SiteFooter() {
   return (
-    <footer className="relative isolate mt-24 border-t border-white/10 bg-[color:var(--forest-deep)] text-[color:var(--ivory)]/80">
+    <footer className="relative isolate border-t border-white/10 bg-[color:var(--forest-deep)] text-[color:var(--ivory)]/80">
       {/* Subtle top edge glow */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[color:var(--terracotta)]/40 to-transparent" />
 

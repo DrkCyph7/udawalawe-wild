@@ -675,13 +675,13 @@
   overflow: hidden;
   padding-top: 9rem;
   padding-bottom: 4rem;
-  background: linear-gradient(160deg, oklch(0.15 0.06 150) 0%, oklch(0.19 0.055 150) 100%);
+  background: var(--deep);
 
   &::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 80% 60% at 30% 100%, oklch(0.56 0.17 40 / 0.08) 0%, transparent 70%);
+    background: radial-gradient(ellipse 80% 60% at 30% 100%, oklch(0.56 0.17 40 / 0.1) 0%, transparent 70%);
     pointer-events: none;
   }
 

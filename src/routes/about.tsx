@@ -5,6 +5,7 @@ import { Reveal } from "@/components/reveal";
 import portrait from "@/assets/elephant-portrait.jpg";
 import { CalendarCheck, Handshake, Eye, Ban, Award } from "lucide-react";
 import { motion } from "framer-motion";
+import { TiltCard } from "@/components/tilt-card";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -102,14 +103,16 @@ function AboutPage() {
               </div>
             </Reveal>
             <Reveal direction="right" delay={100}>
-              <div className="aspect-[4/5] overflow-hidden rounded-3xl" style={{ boxShadow: "0 24px 64px oklch(0 0 0 / 0.4)" }}>
-                <img
-                  src={portrait}
-                  alt="Wild elephant roaming free in Udawalawe National Park, Sri Lanka"
-                  loading="lazy"
-                  className="h-full w-full object-cover transition duration-700 hover:scale-[1.04]"
-                />
-              </div>
+              <TiltCard intensity={5}>
+                <div className="aspect-[4/5] overflow-hidden rounded-3xl" style={{ boxShadow: "0 24px 64px oklch(0 0 0 / 0.4)" }}>
+                  <img
+                    src={portrait}
+                    alt="Wild elephant roaming free in Udawalawe National Park, Sri Lanka"
+                    loading="lazy"
+                    className="h-full w-full object-cover transition duration-700 hover:scale-[1.04]"
+                  />
+                </div>
+              </TiltCard>
             </Reveal>
           </div>
         </Section>
@@ -129,16 +132,24 @@ function AboutPage() {
           <div className="mt-8 grid gap-4 sm:grid-cols-2" style={{ perspective: "1000px" }}>
             {pillars.map((b, i) => (
               <Reveal key={b.t} delay={i * 80}>
-                <div className="card-3d card-shine benefit-tile h-full">
-                  <div
-                    className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl"
-                    style={{ background: "oklch(0.56 0.17 40 / 0.15)", border: "1px solid oklch(0.56 0.17 40 / 0.3)" }}
+                <TiltCard intensity={8} className="h-full">
+                  <div className="card-3d card-shine benefit-tile h-full rounded-3xl p-7 sm:p-9"
+                    style={{
+                      background: "oklch(0.21 0.055 150)",
+                      border: "1px solid oklch(1 0 0 / 0.08)",
+                      boxShadow: "0 8px 32px oklch(0 0 0 / 0.3), inset 0 1px 0 oklch(1 0 0 / 0.08)",
+                    }}
                   >
-                    <b.icon className="h-4.5 w-4.5" style={{ color: "oklch(0.56 0.17 40)" }} />
+                    <div
+                      className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl"
+                      style={{ background: "oklch(0.56 0.17 40 / 0.15)", border: "1px solid oklch(0.56 0.17 40 / 0.3)" }}
+                    >
+                      <b.icon className="h-4.5 w-4.5" style={{ color: "oklch(0.56 0.17 40)" }} />
+                    </div>
+                    <div className="font-serif text-xl" style={{ color: "oklch(0.93 0.035 76)" }}>{b.t}</div>
+                    <p className="mt-2 text-sm leading-relaxed" style={{ color: "oklch(0.62 0.03 76)" }}>{b.d}</p>
                   </div>
-                  <div className="font-serif text-xl" style={{ color: "oklch(0.93 0.035 76)" }}>{b.t}</div>
-                  <p className="mt-2 text-sm leading-relaxed" style={{ color: "oklch(0.62 0.03 76)" }}>{b.d}</p>
-                </div>
+                </TiltCard>
               </Reveal>
             ))}
           </div>

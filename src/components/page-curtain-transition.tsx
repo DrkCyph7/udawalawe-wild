@@ -142,8 +142,12 @@ export function CurtainTransition({
           aria-hidden="true"
         >
           <motion.h2
-            className="font-serif italic text-2xl sm:text-3xl whitespace-nowrap"
-            style={{ transform: `skewX(${angle}deg)`, color: "oklch(0.93 0.035 76)" }}
+            className="font-serif italic text-5xl md:text-7xl lg:text-8xl whitespace-nowrap tracking-tight"
+            style={{ 
+              transform: `skewX(${angle}deg)`, 
+              color: "oklch(0.93 0.035 76)",
+              textShadow: "0 10px 30px oklch(0 0 0 / 0.5)"
+            }}
             initial={{ opacity: 0 }}
             animate={{ opacity: phase === "covering" ? 1 : 0 }}
             transition={{ duration: 0.35, delay: phase === "covering" ? 0.35 : 0 }}
