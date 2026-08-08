@@ -75,11 +75,13 @@ function AboutPage() {
               </span>
             </motion.div>
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] text-[color:var(--ivory)]">
-              Simpler. More transparent.<br />
+              Simpler. More transparent.
+              <br />
               <span className="text-[color:var(--terracotta)]">Kinder to wildlife.</span>
             </h1>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-[color:var(--ivory)]/80">
-              Udawalawe Wild exists to make booking a safari simpler, more transparent, and more respectful of wildlife. An independent booking platform — not a tour operator.
+              Udawalawe Wild exists to make booking a safari simpler, more transparent, and more
+              respectful of wildlife. An independent booking platform — not a tour operator.
             </p>
           </Reveal>
         </div>
@@ -92,19 +94,28 @@ function AboutPage() {
             <Reveal direction="left">
               <div className="space-y-4 text-sm leading-relaxed text-muted-foreground">
                 <p className="text-base text-foreground">
-                  We're not a tour operator. We don't own jeeps or dress our drivers in branded uniforms. We're an independent online booking platform, based between Sri Lanka and travellers arriving from all over the world.
+                  We're not a tour operator. We don't own jeeps or dress our drivers in branded
+                  uniforms. We're an independent online booking platform, based between Sri Lanka
+                  and travellers arriving from all over the world.
                 </p>
                 <p>
-                  Our job is to connect you with carefully verified, licensed local safari operators in Udawalawe National Park — and to make sure the experience you're paying for is the one that actually happens in the park.
+                  Our job is to connect you with carefully verified, licensed local safari operators
+                  in Udawalawe National Park — and to make sure the experience you're paying for is
+                  the one that actually happens in the park.
                 </p>
                 <p>
-                  We publish fixed quotes before you confirm. We answer on WhatsApp like humans, not scripts. And we hold every partner to the same wildlife-first ethical safari standard.
+                  We publish fixed quotes before you confirm. We answer on WhatsApp like humans, not
+                  scripts. And we hold every partner to the same wildlife-first ethical safari
+                  standard.
                 </p>
               </div>
             </Reveal>
             <Reveal direction="right" delay={100}>
               <TiltCard intensity={5}>
-                <div className="aspect-[4/5] overflow-hidden rounded-3xl" style={{ boxShadow: "0 24px 64px oklch(0 0 0 / 0.4)" }}>
+                <div
+                  className="aspect-[4/5] overflow-hidden rounded-3xl"
+                  style={{ boxShadow: "0 24px 64px oklch(0 0 0 / 0.4)" }}
+                >
                   <img
                     src={portrait}
                     alt="Wild elephant roaming free in Udawalawe National Park, Sri Lanka"
@@ -134,9 +145,7 @@ function AboutPage() {
               <Reveal key={b.t} delay={i * 80}>
                 <TiltCard intensity={8} className="h-full">
                   <div className="card-3d card-shine benefit-tile h-full rounded-3xl p-7 sm:p-9 card-glass">
-                    <div
-                      className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[color:var(--terracotta)]/15 border border-[color:var(--terracotta)]/30"
-                    >
+                    <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[color:var(--terracotta)]/15 border border-[color:var(--terracotta)]/30">
                       <b.icon className="h-4.5 w-4.5 text-[color:var(--terracotta)]" />
                     </div>
                     <div className="font-serif text-xl text-foreground">{b.t}</div>
@@ -150,13 +159,13 @@ function AboutPage() {
           <Reveal delay={100}>
             <div className="mt-10">
               <Magnetic>
-              <Link
-                to="/book"
-                className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold transition-all duration-300 hover:scale-[1.03] bg-[color:var(--terracotta)] text-[color:var(--ivory)] shadow-[0_4px_20px_oklch(0.56_0.17_40_/_0.4)]"
-              >
-                <CalendarCheck className="h-4 w-4" aria-hidden="true" />
-                Plan my Udawalawe safari
-              </Link>
+                <Link
+                  to="/book"
+                  className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold transition-all duration-300 hover:scale-[1.03] bg-[color:var(--terracotta)] text-[color:var(--ivory)] shadow-[0_4px_20px_oklch(0.56_0.17_40_/_0.4)]"
+                >
+                  <CalendarCheck className="h-4 w-4" aria-hidden="true" />
+                  Plan my Udawalawe safari
+                </Link>
               </Magnetic>
             </div>
           </Reveal>
@@ -165,4 +174,3 @@ function AboutPage() {
     </>
   );
 }
-

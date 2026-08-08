@@ -36,14 +36,22 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup, theme = "li
 
   if (submitted) {
     return (
-      <div className={`rounded-sm border p-6 text-sm shadow-sm ${isDark ? "border-[oklch(1_0_0_/_0.1)] bg-[oklch(0_0_0_/_0.2)]" : "border-border bg-card"}`}>
-        <div className={`font-serif text-xl ${isDark ? "text-[oklch(0.93_0.035_76)]" : "text-primary"}`}>Request received.</div>
+      <div
+        className={`rounded-sm border p-6 text-sm shadow-sm ${isDark ? "border-[oklch(1_0_0_/_0.1)] bg-[oklch(0_0_0_/_0.2)]" : "border-border bg-card"}`}
+      >
+        <div
+          className={`font-serif text-xl ${isDark ? "text-[oklch(0.93_0.035_76)]" : "text-primary"}`}
+        >
+          Request received.
+        </div>
         <p className={`mt-2 ${isDark ? "text-[oklch(0.7_0.03_76)]" : "text-muted-foreground"}`}>
           Your enquiry is with us. We’ll send verified options and a fixed quote within one business
           day.
         </p>
         {optimisticSummary && (
-          <div className={`mt-4 rounded-md px-3 py-2 text-xs ${isDark ? "bg-[oklch(0_0_0_/_0.3)] text-[oklch(0.65_0.03_76)]" : "bg-muted/70 text-muted-foreground"}`}>
+          <div
+            className={`mt-4 rounded-md px-3 py-2 text-xs ${isDark ? "bg-[oklch(0_0_0_/_0.3)] text-[oklch(0.65_0.03_76)]" : "bg-muted/70 text-muted-foreground"}`}
+          >
             {optimisticSummary}
           </div>
         )}
@@ -53,16 +61,26 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup, theme = "li
 
   if (isSubmitting) {
     return (
-      <div className={`rounded-sm border p-6 text-sm shadow-sm ${isDark ? "border-[oklch(1_0_0_/_0.1)] bg-[oklch(0_0_0_/_0.2)]" : "border-border bg-card"}`}>
+      <div
+        className={`rounded-sm border p-6 text-sm shadow-sm ${isDark ? "border-[oklch(1_0_0_/_0.1)] bg-[oklch(0_0_0_/_0.2)]" : "border-border bg-card"}`}
+      >
         <div className="flex items-center gap-3">
-          <div className={`h-2.5 w-2.5 animate-pulse rounded-full ${isDark ? "bg-[oklch(0.56_0.17_40)]" : "bg-primary"}`} />
-          <div className={`font-medium ${isDark ? "text-[oklch(0.95_0.02_78)]" : "text-foreground"}`}>Preparing your enquiry</div>
+          <div
+            className={`h-2.5 w-2.5 animate-pulse rounded-full ${isDark ? "bg-[oklch(0.56_0.17_40)]" : "bg-primary"}`}
+          />
+          <div
+            className={`font-medium ${isDark ? "text-[oklch(0.95_0.02_78)]" : "text-foreground"}`}
+          >
+            Preparing your enquiry
+          </div>
         </div>
         <p className={`mt-3 ${isDark ? "text-[oklch(0.7_0.03_76)]" : "text-muted-foreground"}`}>
           We’re setting up your request with the latest safari details so the handoff feels smooth.
         </p>
         {optimisticSummary && (
-          <div className={`mt-4 rounded-md px-3 py-2 text-xs ${isDark ? "bg-[oklch(0_0_0_/_0.3)] text-[oklch(0.65_0.03_76)]" : "bg-muted/70 text-muted-foreground"}`}>
+          <div
+            className={`mt-4 rounded-md px-3 py-2 text-xs ${isDark ? "bg-[oklch(0_0_0_/_0.3)] text-[oklch(0.65_0.03_76)]" : "bg-muted/70 text-muted-foreground"}`}
+          >
             {optimisticSummary}
           </div>
         )}
@@ -143,7 +161,9 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup, theme = "li
           <option value="afternoon-private-safari">Afternoon Private Safari</option>
           <option value="full-day-wildlife-safari">Full-Day Wildlife Safari</option>
           <option value="safari-transfer">Safari + Transfer</option>
-          <option value="safari-elephant-transit-transfer">Safari + Elephant Transit + Transfer</option>
+          <option value="safari-elephant-transit-transfer">
+            Safari + Elephant Transit + Transfer
+          </option>
         </select>
       </Field>
       <Field label="WhatsApp number" isDark={isDark}>
@@ -162,7 +182,9 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup, theme = "li
         >
           Check availability
         </button>
-        <p className={`mt-3 text-[11px] leading-relaxed ${isDark ? "text-[oklch(0.55_0.03_76)]" : "text-muted-foreground"}`}>
+        <p
+          className={`mt-3 text-[11px] leading-relaxed ${isDark ? "text-[oklch(0.55_0.03_76)]" : "text-muted-foreground"}`}
+        >
           By enquiring you agree to our privacy policy. Independent booking platform partnering with
           verified local operators — we do not collect payment card data at this step.
         </p>
@@ -171,10 +193,20 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup, theme = "li
   );
 }
 
-function Field({ label, isDark, children }: { label: string; isDark?: boolean; children: React.ReactNode }) {
+function Field({
+  label,
+  isDark,
+  children,
+}: {
+  label: string;
+  isDark?: boolean;
+  children: React.ReactNode;
+}) {
   return (
     <label className="block text-sm">
-      <span className={`mb-1.5 block text-xs font-medium uppercase tracking-wider ${isDark ? "text-[oklch(0.65_0.03_76)]" : "text-muted-foreground"}`}>
+      <span
+        className={`mb-1.5 block text-xs font-medium uppercase tracking-wider ${isDark ? "text-[oklch(0.65_0.03_76)]" : "text-muted-foreground"}`}
+      >
         {label}
       </span>
       {children}

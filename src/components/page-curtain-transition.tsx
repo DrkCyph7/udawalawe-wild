@@ -128,7 +128,8 @@ export function CurtainTransition({
           style={{
             left: "-25vw",
             width: "150vw",
-            background: "linear-gradient(135deg, oklch(0.15 0.055 150) 0%, oklch(0.2 0.06 148) 100%)",
+            background:
+              "linear-gradient(135deg, oklch(0.15 0.055 150) 0%, oklch(0.2 0.06 148) 100%)",
             transform: `skewX(-${angle}deg)`,
             boxShadow: "0 0 80px oklch(0 0 0 / 0.4)",
           }}
@@ -145,10 +146,10 @@ export function CurtainTransition({
         >
           <motion.h2
             className="font-serif italic text-5xl md:text-7xl lg:text-8xl whitespace-nowrap tracking-tight"
-            style={{ 
-              transform: `skewX(${angle}deg)`, 
+            style={{
+              transform: `skewX(${angle}deg)`,
               color: "oklch(0.93 0.035 76)",
-              textShadow: "0 10px 30px oklch(0 0 0 / 0.5)"
+              textShadow: "0 10px 30px oklch(0 0 0 / 0.5)",
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: phase === "covering" ? 1 : 0 }}

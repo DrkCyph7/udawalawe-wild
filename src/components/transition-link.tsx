@@ -8,7 +8,10 @@ function formatTitleFromPath(path?: string) {
   const segment = path.split("/")[1]?.split("?")[0]?.split("#")[0];
   if (!segment) return "Udawalawe Wild";
   // capitalize and replace hyphens with spaces
-  return segment.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+  return segment
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }
 
 // @ts-ignore
@@ -22,7 +25,7 @@ export const TransitionLink = forwardRef((props: any, ref: any) => {
       ref={ref}
       onClick={(e: any) => {
         if (props.onClick) props.onClick(e);
-        
+
         // Only intercept normal left clicks, allow cmd+click to open in new tab normally
         if (
           !e.defaultPrevented &&
@@ -34,17 +37,21 @@ export const TransitionLink = forwardRef((props: any, ref: any) => {
           (!props.target || props.target === "_self")
         ) {
           e.preventDefault();
-          
-          run(async () => {
-            // Perform the actual navigation when the curtain covers the screen
-            await navigate({
-              to: props.to,
-              search: props.search,
-              params: props.params,
-              hash: props.hash,
-              replace: props.replace
-            });
-          }, props.transitionTitle || formatTitleFromPath(typeof props.to === "string" ? props.to : props.to?.pathname));
+
+          run(
+            async () => {
+              // Perform the actual navigation when the curtain covers the screen
+              await navigate({
+                to: props.to,
+                search: props.search,
+                params: props.params,
+                hash: props.hash,
+                replace: props.replace,
+              });
+            },
+            props.transitionTitle ||
+              formatTitleFromPath(typeof props.to === "string" ? props.to : props.to?.pathname),
+          );
         }
       }}
     />

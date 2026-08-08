@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import type { } from "@tanstack/react-start";
+import type {} from "@tanstack/react-start";
 
 // FIXED: was non-www, now matches canonical tags (https://www.udawalawe-wild.com)
 const BASE_URL = "https://www.udawalawe-wild.com";
@@ -24,27 +24,81 @@ export const Route = createFileRoute("/sitemap.xml")({
             priority: "1.0",
             lastmod: lastUpdated,
             images: [
-              { loc: `${BASE_URL}/og-image.png`, title: "Wild elephants in Udawalawe National Park", caption: "Private jeep safari with elephants at golden hour" },
+              {
+                loc: `${BASE_URL}/og-image.png`,
+                title: "Wild elephants in Udawalawe National Park",
+                caption: "Private jeep safari with elephants at golden hour",
+              },
             ],
           },
           { path: "/safaris", changefreq: "weekly", priority: "0.95", lastmod: lastUpdated },
           { path: "/guide", changefreq: "monthly", priority: "0.90", lastmod: lastUpdated },
-          { path: "/ethical-safari", changefreq: "monthly", priority: "0.80", lastmod: lastUpdated },
+          {
+            path: "/ethical-safari",
+            changefreq: "monthly",
+            priority: "0.80",
+            lastmod: lastUpdated,
+          },
           { path: "/routes", changefreq: "monthly", priority: "0.75", lastmod: lastUpdated },
           { path: "/about", changefreq: "yearly", priority: "0.60", lastmod: lastUpdated },
           // High-value location-intent pages
-          { path: "/safari-from-colombo", changefreq: "monthly", priority: "0.85", lastmod: lastUpdated },
-          { path: "/safari-from-ella", changefreq: "monthly", priority: "0.85", lastmod: lastUpdated },
-          { path: "/safari-from-mirissa", changefreq: "monthly", priority: "0.82", lastmod: lastUpdated },
-          { path: "/safari-from-galle", changefreq: "monthly", priority: "0.82", lastmod: lastUpdated },
-          { path: "/safari-from-kandy", changefreq: "monthly", priority: "0.82", lastmod: lastUpdated },
-          { path: "/safari-from-hiriketiya", changefreq: "monthly", priority: "0.78", lastmod: lastUpdated },
-          { path: "/safari-from-tangalle", changefreq: "monthly", priority: "0.78", lastmod: lastUpdated },
-          { path: "/safari-from-nuwara-eliya", changefreq: "monthly", priority: "0.78", lastmod: lastUpdated },
+          {
+            path: "/safari-from-colombo",
+            changefreq: "monthly",
+            priority: "0.85",
+            lastmod: lastUpdated,
+          },
+          {
+            path: "/safari-from-ella",
+            changefreq: "monthly",
+            priority: "0.85",
+            lastmod: lastUpdated,
+          },
+          {
+            path: "/safari-from-mirissa",
+            changefreq: "monthly",
+            priority: "0.82",
+            lastmod: lastUpdated,
+          },
+          {
+            path: "/safari-from-galle",
+            changefreq: "monthly",
+            priority: "0.82",
+            lastmod: lastUpdated,
+          },
+          {
+            path: "/safari-from-kandy",
+            changefreq: "monthly",
+            priority: "0.82",
+            lastmod: lastUpdated,
+          },
+          {
+            path: "/safari-from-hiriketiya",
+            changefreq: "monthly",
+            priority: "0.78",
+            lastmod: lastUpdated,
+          },
+          {
+            path: "/safari-from-tangalle",
+            changefreq: "monthly",
+            priority: "0.78",
+            lastmod: lastUpdated,
+          },
+          {
+            path: "/safari-from-nuwara-eliya",
+            changefreq: "monthly",
+            priority: "0.78",
+            lastmod: lastUpdated,
+          },
           // Legal / utility
           { path: "/privacy", changefreq: "yearly", priority: "0.20", lastmod: lastUpdated },
           { path: "/terms", changefreq: "yearly", priority: "0.20", lastmod: lastUpdated },
-          { path: "/cancellation-policy", changefreq: "yearly", priority: "0.30", lastmod: lastUpdated },
+          {
+            path: "/cancellation-policy",
+            changefreq: "yearly",
+            priority: "0.30",
+            lastmod: lastUpdated,
+          },
           // NOTE: /book intentionally excluded — page is noindex + disallowed
           // in robots.txt (booking form, not indexable marketing content).
         ];
@@ -63,7 +117,9 @@ export const Route = createFileRoute("/sitemap.xml")({
                 `      <image:title>${img.title}</image:title>`,
                 img.caption ? `      <image:caption>${img.caption}</image:caption>` : null,
                 `    </image:image>`,
-              ].filter(Boolean).join("\n")
+              ]
+                .filter(Boolean)
+                .join("\n"),
             ),
             `  </url>`,
           ]

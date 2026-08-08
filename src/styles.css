@@ -91,7 +91,7 @@
   /* mid-tone warm surface           */
 
   /* Text */
-  --soil: oklch(0.20 0.025 55);
+  --soil: oklch(0.2 0.025 55);
   /* rich dark earth — main text     */
   --bark: oklch(0.52 0.05 68);
   /* muted text — tree bark brown    */
@@ -130,7 +130,7 @@
   --accent: var(--dusk);
   --accent-foreground: var(--bone);
 
-  --destructive: oklch(0.55 0.20 28);
+  --destructive: oklch(0.55 0.2 28);
   --destructive-foreground: oklch(0.97 0.008 82);
 
   --border: var(--khaki);
@@ -166,14 +166,13 @@
   /* hero-dark background */
   --deep-surface: oklch(0.21 0.055 150);
   /* card on dark bg      */
-  --deep-border: oklch(1 0 0 / 0.10);
+  --deep-border: oklch(1 0 0 / 0.1);
   /* border on dark       */
   --deep-text: oklch(0.93 0.035 76);
   /* warm ivory on dark   */
-  --deep-muted: oklch(0.70 0.03 76);
+  --deep-muted: oklch(0.7 0.03 76);
   /* muted on dark        */
 }
-
 
 /* ═══════════════════ KEYFRAMES ════════════════════════════════════════ */
 
@@ -188,7 +187,6 @@
 }
 
 @keyframes float {
-
   0%,
   100% {
     transform: translateY(0px);
@@ -200,7 +198,6 @@
 }
 
 @keyframes pulse-glow {
-
   0%,
   100% {
     box-shadow: 0 0 0 0 oklch(0.32 0.045 155 / 0.35);
@@ -447,8 +444,6 @@
   }
 }
 
-
-
 /* ─── Float animation ───────────────────────────────────────────────── */
 @utility float {
   animation: float 5s ease-in-out infinite;
@@ -466,7 +461,10 @@
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  transition: opacity 0.15s ease, transform 0.15s ease, background 0.15s ease;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease,
+    background 0.15s ease;
 
   &:hover {
     opacity: 1;
@@ -488,7 +486,7 @@
     display: none;
   }
 
-  &>* {
+  & > * {
     scroll-snap-align: start;
     flex-shrink: 0;
   }
@@ -551,7 +549,9 @@
 
 .benefit-tile:hover {
   border-color: oklch(0.56 0.17 40 / 0.45);
-  box-shadow: 0 0 0 1px oklch(0.56 0.17 40 / 0.2), 0 16px 48px -8px oklch(0 0 0 / 0.35);
+  box-shadow:
+    0 0 0 1px oklch(0.56 0.17 40 / 0.2),
+    0 16px 48px -8px oklch(0 0 0 / 0.35);
   transform: translateY(-4px);
 }
 
@@ -564,7 +564,7 @@
 /* Sonar ripple rings */
 .wa-ripple-outer,
 .wa-ripple-inner {
-  background: #25D366;
+  background: #25d366;
   border-radius: 50%;
   pointer-events: none;
 }
@@ -612,7 +612,9 @@
   border-radius: 50%;
   background: currentColor;
   opacity: 0.25;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
 }
 
 .snap-dot.active {
@@ -658,10 +660,12 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg,
-        oklch(1 0 0 / 0.08) 0%,
-        transparent 50%,
-        oklch(0.56 0.17 40 / 0.05) 100%);
+    background: linear-gradient(
+      135deg,
+      oklch(1 0 0 / 0.08) 0%,
+      transparent 50%,
+      oklch(0.56 0.17 40 / 0.05) 100%
+    );
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.35s ease;
@@ -674,7 +678,9 @@
 
 /* Depth lift — simpler 3D card rise */
 @utility depth-lift {
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s ease;
 
   &:hover {
     transform: translateY(-6px) translateZ(0) scale(1.01);
@@ -694,7 +700,11 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 80% 60% at 30% 100%, oklch(0.56 0.17 40 / 0.1) 0%, transparent 70%);
+    background: radial-gradient(
+      ellipse 80% 60% at 30% 100%,
+      oklch(0.56 0.17 40 / 0.1) 0%,
+      transparent 70%
+    );
     pointer-events: none;
   }
 
@@ -712,7 +722,6 @@
 /* ═══════════════════ ENHANCED ANIMATIONS ══════════════════════════════ */
 
 @keyframes float-slow {
-
   0%,
   100% {
     transform: translateY(0) rotate(0deg);
@@ -738,14 +747,15 @@
 }
 
 @keyframes breathe-glow {
-
   0%,
   100% {
     box-shadow: 0 0 20px oklch(0.56 0.17 40 / 0.2);
   }
 
   50% {
-    box-shadow: 0 0 40px oklch(0.56 0.17 40 / 0.5), 0 0 80px oklch(0.56 0.17 40 / 0.15);
+    box-shadow:
+      0 0 40px oklch(0.56 0.17 40 / 0.5),
+      0 0 80px oklch(0.56 0.17 40 / 0.15);
   }
 }
 
@@ -770,11 +780,13 @@
 }
 
 @utility shimmer-text {
-  background: linear-gradient(90deg,
-      oklch(0.93 0.035 76) 0%,
-      oklch(0.72 0.09 52) 40%,
-      oklch(0.93 0.035 76) 60%,
-      oklch(0.72 0.09 52) 100%);
+  background: linear-gradient(
+    90deg,
+    oklch(0.93 0.035 76) 0%,
+    oklch(0.72 0.09 52) 40%,
+    oklch(0.93 0.035 76) 60%,
+    oklch(0.72 0.09 52) 100%
+  );
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
@@ -788,9 +800,4 @@
 
 @utility breathe-glow {
   animation: breathe-glow 3s ease-in-out infinite;
-}
-
-/* ─── Splash screen skip ────────────────────────────────────────────── */
-.skip-splash .safari-loader {
-  display: none !important;
 }

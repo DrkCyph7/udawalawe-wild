@@ -42,11 +42,15 @@ export function SectionHeading({
   return (
     <div className={`max-w-2xl ${center ? "mx-auto text-center" : ""}`}>
       {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
-      <h2 className={`font-serif text-2xl leading-tight sm:text-4xl ${titleClass ?? "text-foreground"}`}>
+      <h2
+        className={`font-serif text-2xl leading-tight sm:text-4xl ${titleClass ?? "text-foreground"}`}
+      >
         {title}
       </h2>
       {intro && (
-        <p className={`mt-3 text-sm leading-relaxed sm:mt-4 sm:text-base ${introClass ?? "text-muted-foreground"}`}>
+        <p
+          className={`mt-3 text-sm leading-relaxed sm:mt-4 sm:text-base ${introClass ?? "text-muted-foreground"}`}
+        >
           {intro}
         </p>
       )}

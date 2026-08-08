@@ -50,7 +50,8 @@ function GuidePage() {
               </span>
             </motion.div>
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] text-[color:var(--ivory)]">
-              Everything to know<br />
+              Everything to know
+              <br />
               <span className="text-[color:var(--terracotta)]">before you go.</span>
             </h1>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-[color:var(--ivory)]/80">
@@ -64,7 +65,10 @@ function GuidePage() {
         <Section className="pt-0">
           <Reveal direction="scale">
             <TiltCard intensity={3}>
-              <div className="grain overflow-hidden rounded-[2rem] max-h-[380px] sm:max-h-[500px]" style={{ boxShadow: "0 24px 64px oklch(0 0 0 / 0.4)" }}>
+              <div
+                className="grain overflow-hidden rounded-[2rem] max-h-[380px] sm:max-h-[500px]"
+                style={{ boxShadow: "0 24px 64px oklch(0 0 0 / 0.4)" }}
+              >
                 <img
                   src={landscape}
                   alt="Udawalawe reservoir landscape at sunset"
@@ -119,10 +123,13 @@ function GuidePage() {
                     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                       {a.body ?? (
                         <>
-                          From the south coast (Mirissa, Galle, Hiriketiya): roughly 2–3 hours by road.
-                          From Ella: around 2.5–3 hours down through the hills. From Colombo airport:
-                          expect a longer travel day. Our{" "}
-                          <Link to="/routes" className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-foreground">
+                          From the south coast (Mirissa, Galle, Hiriketiya): roughly 2–3 hours by
+                          road. From Ella: around 2.5–3 hours down through the hills. From Colombo
+                          airport: expect a longer travel day. Our{" "}
+                          <Link
+                            to="/routes"
+                            className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-foreground"
+                          >
                             routes guide
                           </Link>{" "}
                           has more detail per starting point.
@@ -141,17 +148,26 @@ function GuidePage() {
                 <div className="font-serif text-2xl text-foreground">Related</div>
                 <ul className="mt-4 space-y-3">
                   <li>
-                    <Link className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground" to="/safaris">
+                    <Link
+                      className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground"
+                      to="/safaris"
+                    >
                       Compare safari options
                     </Link>
                   </li>
                   <li>
-                    <Link className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground" to="/routes">
+                    <Link
+                      className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground"
+                      to="/routes"
+                    >
                       Travel routes to Udawalawe
                     </Link>
                   </li>
                   <li>
-                    <Link className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground" to="/ethical-safari">
+                    <Link
+                      className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground"
+                      to="/ethical-safari"
+                    >
                       Our ethical safari standard
                     </Link>
                   </li>
@@ -165,9 +181,9 @@ function GuidePage() {
       <div className="section-dark" style={{ borderTop: "1px solid oklch(1 0 0 / 0.06)" }}>
         <Section>
           <Reveal>
-            <SectionHeading 
-              title="Frequently asked questions" 
-              eyebrow="FAQ" 
+            <SectionHeading
+              title="Frequently asked questions"
+              eyebrow="FAQ"
               titleClass=""
               introClass=""
             />

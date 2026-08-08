@@ -50,11 +50,13 @@ function EthicalPage() {
               </span>
             </motion.div>
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] text-[color:var(--ivory)]">
-              A quieter, kinder<br />
+              A quieter, kinder
+              <br />
               <span className="text-[color:var(--terracotta)]">way to safari.</span>
             </h1>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-[color:var(--ivory)]/80">
-              Our wildlife-first standard, respectful driving rules, and how we verify local safari partners in Udawalawe.
+              Our wildlife-first standard, respectful driving rules, and how we verify local safari
+              partners in Udawalawe.
             </p>
           </Reveal>
         </div>
@@ -66,19 +68,25 @@ function EthicalPage() {
             <Reveal direction="left">
               <div className="space-y-5 text-sm leading-relaxed text-muted-foreground">
                 <p className="text-lg font-serif text-foreground">
-                  Udawalawe is home to wild elephants, water buffalo, crocodiles, peafowl, and hundreds of bird species.
+                  Udawalawe is home to wild elephants, water buffalo, crocodiles, peafowl, and
+                  hundreds of bird species.
                 </p>
                 <p>
-                  Our standard is designed so they barely notice we were there. We believe that a great safari shouldn't come at the expense of the animals' wellbeing.
+                  Our standard is designed so they barely notice we were there. We believe that a
+                  great safari shouldn't come at the expense of the animals' wellbeing.
                 </p>
                 <p>
-                  We partner exclusively with licensed local operators who share this philosophy, ensuring that every drive respects the natural rhythm of the park.
+                  We partner exclusively with licensed local operators who share this philosophy,
+                  ensuring that every drive respects the natural rhythm of the park.
                 </p>
               </div>
             </Reveal>
             <Reveal direction="right" delay={100}>
               <TiltCard intensity={5}>
-                <div className="aspect-[4/5] overflow-hidden rounded-3xl" style={{ boxShadow: "0 24px 64px oklch(0 0 0 / 0.4)" }}>
+                <div
+                  className="aspect-[4/5] overflow-hidden rounded-3xl"
+                  style={{ boxShadow: "0 24px 64px oklch(0 0 0 / 0.4)" }}
+                >
                   <img
                     src={elephant}
                     alt="Elephant in Sri Lankan grassland"
@@ -95,9 +103,9 @@ function EthicalPage() {
       <div className="section-dark" style={{ borderTop: "1px solid oklch(1 0 0 / 0.06)" }}>
         <Section>
           <Reveal>
-            <SectionHeading 
-              title="On the tracks" 
-              eyebrow="Field code" 
+            <SectionHeading
+              title="On the tracks"
+              eyebrow="Field code"
               titleClass=""
               introClass=""
             />

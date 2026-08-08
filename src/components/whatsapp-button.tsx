@@ -10,15 +10,9 @@ export function WhatsAppButton() {
       className="wa-float-btn fixed z-50 bottom-5 right-5"
     >
       {/* Outer slow ripple */}
-      <span
-        aria-hidden="true"
-        className="wa-ripple-outer absolute inset-0 rounded-full"
-      />
+      <span aria-hidden="true" className="wa-ripple-outer absolute inset-0 rounded-full" />
       {/* Inner faster ripple */}
-      <span
-        aria-hidden="true"
-        className="wa-ripple-inner absolute inset-0 rounded-full"
-      />
+      <span aria-hidden="true" className="wa-ripple-inner absolute inset-0 rounded-full" />
 
       {/* Button circle */}
       <span className="relative flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-[0_4px_18px_rgba(37,211,102,0.5)] transition-transform duration-200 hover:scale-110 hover:shadow-[0_6px_24px_rgba(37,211,102,0.65)]">

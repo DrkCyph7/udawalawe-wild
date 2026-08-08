@@ -37,7 +37,8 @@ export function RouteTemplate({ info }: { info: RouteInfo }) {
               </span>
             </motion.div>
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] text-[color:var(--ivory)]">
-              Udawalawe safaris<br />
+              Udawalawe safaris
+              <br />
               <span className="text-[color:var(--terracotta)]">from {info.from}.</span>
             </h1>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-[color:var(--ivory)]/80">
@@ -79,17 +80,17 @@ export function RouteTemplate({ info }: { info: RouteInfo }) {
                   <div className="mt-8 rounded-3xl p-7 card-3d card-shine card-glass">
                     <div className="font-serif text-2xl text-foreground">Safari + transfer</div>
                     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                      Travelling on the same day? We can combine your safari with an onward or return
-                      transfer so you don't lose a day to driving.
+                      Travelling on the same day? We can combine your safari with an onward or
+                      return transfer so you don't lose a day to driving.
                     </p>
                     <Magnetic>
-                    <Link
-                      to="/safaris"
-                      className="mt-5 inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-all duration-300 hover:scale-[1.04] bg-[color:var(--terracotta)] text-[color:var(--ivory)] shadow-[0_4px_20px_oklch(0.56_0.17_40_/_0.4)]"
-                    >
-                      <CalendarCheck className="h-4 w-4" aria-hidden="true" />
-                      See safari options
-                    </Link>
+                      <Link
+                        to="/safaris"
+                        className="mt-5 inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-all duration-300 hover:scale-[1.04] bg-[color:var(--terracotta)] text-[color:var(--ivory)] shadow-[0_4px_20px_oklch(0.56_0.17_40_/_0.4)]"
+                      >
+                        <CalendarCheck className="h-4 w-4" aria-hidden="true" />
+                        See safari options
+                      </Link>
                     </Magnetic>
                   </div>
                 </TiltCard>
@@ -98,19 +99,16 @@ export function RouteTemplate({ info }: { info: RouteInfo }) {
 
             <Reveal direction="right" delay={100}>
               <TiltCard intensity={4}>
-                  <div
-                    id="enquire"
-                    className="card-3d card-shine rounded-3xl p-6 sm:p-8 card-glass"
-                  >
-                    <div className="mb-6">
-                      <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-[color:var(--terracotta)]">
-                        Enquire
-                      </div>
-                      <div className="font-serif text-3xl mt-1 text-foreground">Start planning.</div>
-                      <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                        A real person replies within one business day with verified options.
-                      </p>
+                <div id="enquire" className="card-3d card-shine rounded-3xl p-6 sm:p-8 card-glass">
+                  <div className="mb-6">
+                    <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-[color:var(--terracotta)]">
+                      Enquire
                     </div>
+                    <div className="font-serif text-3xl mt-1 text-foreground">Start planning.</div>
+                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                      A real person replies within one business day with verified options.
+                    </p>
+                  </div>
                   {/* The form inherits dark theme styling via the theme prop. */}
                   <EnquiryForm defaultPickup={info.from} theme="dark" />
                 </div>
@@ -123,12 +121,7 @@ export function RouteTemplate({ info }: { info: RouteInfo }) {
       <div className="section-dark" style={{ borderTop: "1px solid oklch(1 0 0 / 0.06)" }}>
         <Section>
           <Reveal>
-            <SectionHeading 
-              eyebrow="FAQ" 
-              title="Common questions" 
-              titleClass=""
-              introClass=""
-            />
+            <SectionHeading eyebrow="FAQ" title="Common questions" titleClass="" introClass="" />
           </Reveal>
           <div className="mt-8">
             <FaqList items={faqs} />

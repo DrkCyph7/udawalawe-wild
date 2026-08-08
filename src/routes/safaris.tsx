@@ -58,12 +58,15 @@ function SafarisPage() {
               </span>
             </motion.div>
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] text-[color:var(--ivory)]">
-              Private jeeps.<br />
-              <span className="text-[color:var(--terracotta)]">Verified drivers.</span><br />
+              Private jeeps.
+              <br />
+              <span className="text-[color:var(--terracotta)]">Verified drivers.</span>
+              <br />
               Wildlife first.
             </h1>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-[color:var(--ivory)]/80">
-              Choose a shape for your day. We'll send a fixed, transparent quote before you confirm anything. Every jeep is private — no shared vehicles, ever.
+              Choose a shape for your day. We'll send a fixed, transparent quote before you confirm
+              anything. Every jeep is private — no shared vehicles, ever.
             </p>
           </Reveal>
         </div>
@@ -113,7 +116,10 @@ function SafarisPage() {
                       <ul className="grid gap-2 text-sm sm:grid-cols-2">
                         {s.includes.map((inc) => (
                           <li key={inc} className="flex items-start gap-2.5">
-                            <CheckCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[color:var(--terracotta)]" aria-hidden="true" />
+                            <CheckCircle
+                              className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[color:var(--terracotta)]"
+                              aria-hidden="true"
+                            />
                             <span className="text-foreground">{inc}</span>
                           </li>
                         ))}
@@ -122,13 +128,13 @@ function SafarisPage() {
 
                     <div className="mt-8">
                       <Magnetic>
-                      <Link
-                        to="/book"
-                        className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-all duration-300 hover:scale-[1.04] bg-[color:var(--terracotta)] text-[color:var(--ivory)] shadow-[0_4px_20px_oklch(0.56_0.17_40_/_0.4)]"
-                      >
-                        <CalendarCheck className="h-4 w-4" aria-hidden="true" />
-                        Request availability
-                      </Link>
+                        <Link
+                          to="/book"
+                          className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-all duration-300 hover:scale-[1.04] bg-[color:var(--terracotta)] text-[color:var(--ivory)] shadow-[0_4px_20px_oklch(0.56_0.17_40_/_0.4)]"
+                        >
+                          <CalendarCheck className="h-4 w-4" aria-hidden="true" />
+                          Request availability
+                        </Link>
                       </Magnetic>
                     </div>
                   </div>
@@ -152,4 +158,3 @@ function Item({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
-

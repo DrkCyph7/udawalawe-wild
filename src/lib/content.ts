@@ -88,7 +88,8 @@ export const safaris: SafariPackage[] = [
       "Wildlife-first driving code throughout",
     ],
     pickup: "Flexible pickup — hotel, town, or arranged start point.",
-    ethical: "The ETH is a government-run rehabilitation centre — we observe only, never interfere.",
+    ethical:
+      "The ETH is a government-run rehabilitation centre — we observe only, never interfere.",
     cancellation: "Flexible cancellation terms shared with your quote.",
     short:
       "Safari in the park, then a rare glimpse of orphaned elephants being rehabilitated for release at the Elephant Transit Home.",

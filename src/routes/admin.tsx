@@ -35,10 +35,7 @@ import {
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
-    meta: [
-      { title: "Admin — Udawalawe Wild" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Admin — Udawalawe Wild" }, { name: "robots", content: "noindex" }],
   }),
   component: AdminPage,
 });
@@ -49,7 +46,14 @@ type Booking = BookingEnquiryRow & { id: string };
 type SortKey = keyof Booking | null;
 type SortDir = "asc" | "desc";
 
-const STATUS_OPTIONS = ["new", "reviewing", "quoted", "confirmed", "cancelled", "archived"] as const;
+const STATUS_OPTIONS = [
+  "new",
+  "reviewing",
+  "quoted",
+  "confirmed",
+  "cancelled",
+  "archived",
+] as const;
 type Status = (typeof STATUS_OPTIONS)[number];
 
 const STATUS_STYLES: Record<Status, string> = {
@@ -75,7 +79,11 @@ const STATUS_DOT: Record<Status, string> = {
 function formatDate(s?: string | null) {
   if (!s) return "—";
   try {
-    return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric" }).format(new Date(s));
+    return new Intl.DateTimeFormat("en-GB", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    }).format(new Date(s));
   } catch {
     return s;
   }
@@ -89,17 +97,34 @@ function waLink(phone?: string | null, name?: string | null) {
 
 function exportCsv(rows: Booking[]) {
   const headers = [
-    "id","created_at","guest_name","guest_email","guest_whatsapp","guest_country",
-    "guest_hotel","safari_date","adults","children","safari_type","pickup_location",
-    "dropoff_location","special_requests","assigned_partner","quoted_amount","quoted_currency","status",
+    "id",
+    "created_at",
+    "guest_name",
+    "guest_email",
+    "guest_whatsapp",
+    "guest_country",
+    "guest_hotel",
+    "safari_date",
+    "adults",
+    "children",
+    "safari_type",
+    "pickup_location",
+    "dropoff_location",
+    "special_requests",
+    "assigned_partner",
+    "quoted_amount",
+    "quoted_currency",
+    "status",
   ];
   const lines = [
     headers.join(","),
     ...rows.map((r) =>
-      headers.map((h) => {
-        const val = (r as Record<string, unknown>)[h] ?? "";
-        return `"${String(val).replace(/"/g, '""')}"`;
-      }).join(",")
+      headers
+        .map((h) => {
+          const val = (r as Record<string, unknown>)[h] ?? "";
+          return `"${String(val).replace(/"/g, '""')}"`;
+        })
+        .join(","),
     ),
   ];
   const blob = new Blob([lines.join("\n")], { type: "text/csv" });
@@ -164,7 +189,9 @@ function StatCard({
       </div>
       <div className="font-serif text-3xl">{value}</div>
       {!active && (
-        <div className={`h-1 w-6 rounded-full ${accent} transition-all duration-200 group-hover:w-10`} />
+        <div
+          className={`h-1 w-6 rounded-full ${accent} transition-all duration-200 group-hover:w-10`}
+        />
       )}
     </button>
   );
@@ -208,7 +235,9 @@ function DetailPanel({
 
   const Field = ({ label, value }: { label: string; value?: string | number | null }) => (
     <div>
-      <div className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">{label}</div>
+      <div className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+        {label}
+      </div>
       <div className="mt-0.5 text-sm text-foreground">{value ?? "—"}</div>
     </div>
   );
@@ -228,7 +257,9 @@ function DetailPanel({
         {/* Header */}
         <div className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-card px-6 py-4">
           <div>
-            <div className="text-xs uppercase tracking-widest text-muted-foreground">Enquiry detail</div>
+            <div className="text-xs uppercase tracking-widest text-muted-foreground">
+              Enquiry detail
+            </div>
             <div className="mt-0.5 font-serif text-xl text-foreground">{row.guest_name}</div>
           </div>
           <button
@@ -324,7 +355,9 @@ function DetailPanel({
                 <div className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
                   Special requests
                 </div>
-                <p className="mt-1 text-sm leading-relaxed text-foreground/80">{row.special_requests}</p>
+                <p className="mt-1 text-sm leading-relaxed text-foreground/80">
+                  {row.special_requests}
+                </p>
               </div>
             )}
           </div>
@@ -336,7 +369,14 @@ function DetailPanel({
               Quote &amp; assignment
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <Field label="Quoted amount" value={row.quoted_amount != null ? `${row.quoted_currency ?? "USD"} ${row.quoted_amount}` : null} />
+              <Field
+                label="Quoted amount"
+                value={
+                  row.quoted_amount != null
+                    ? `${row.quoted_currency ?? "USD"} ${row.quoted_amount}`
+                    : null
+                }
+              />
               <Field label="Assigned partner" value={row.assigned_partner} />
             </div>
           </div>
@@ -360,7 +400,11 @@ function DetailPanel({
               onClick={() => void saveNotes()}
               className="mt-2 flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition hover:bg-primary/85 disabled:opacity-60"
             >
-              {savingNotes ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Check className="h-3.5 w-3.5" />}
+              {savingNotes ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <Check className="h-3.5 w-3.5" />
+              )}
               Save notes
             </button>
           </div>
@@ -435,15 +479,23 @@ function AdminPage() {
       }
     }
     void init();
-    return () => { active = false; };
+    return () => {
+      active = false;
+    };
   }, []);
 
   /* Sign in */
   const handleSignIn = async () => {
     setAccessError("");
     const code = accessCode.trim();
-    if (!code) { setAccessError("Please enter the admin code."); return; }
-    if (code !== "40808") { setAccessError("Invalid admin code."); return; }
+    if (!code) {
+      setAccessError("Please enter the admin code.");
+      return;
+    }
+    if (code !== "40808") {
+      setAccessError("Invalid admin code.");
+      return;
+    }
     setAuthorized(true);
     setChecking(false);
     setLoading(false);
@@ -473,10 +525,8 @@ function AdminPage() {
   const handleStatusChange = async (id: string, status: string) => {
     try {
       await updateBookingStatus(id, status);
-      setBookings((current) =>
-        current.map((row) => (row.id === id ? { ...row, status } : row))
-      );
-      if (selected?.id === id) setSelected((s) => s ? { ...s, status } : s);
+      setBookings((current) => current.map((row) => (row.id === id ? { ...row, status } : row)));
+      if (selected?.id === id) setSelected((s) => (s ? { ...s, status } : s));
       toast(`Status updated to "${status}".`);
     } catch (err) {
       toast(err instanceof Error ? err.message : "Unable to update status.", "err");
@@ -484,14 +534,17 @@ function AdminPage() {
   };
 
   /* Derived stats */
-  const stats = useMemo(() => ({
-    total: bookings.length,
-    new: bookings.filter((r) => r.status === "new").length,
-    reviewing: bookings.filter((r) => r.status === "reviewing").length,
-    quoted: bookings.filter((r) => r.status === "quoted").length,
-    confirmed: bookings.filter((r) => r.status === "confirmed").length,
-    cancelled: bookings.filter((r) => r.status === "cancelled").length,
-  }), [bookings]);
+  const stats = useMemo(
+    () => ({
+      total: bookings.length,
+      new: bookings.filter((r) => r.status === "new").length,
+      reviewing: bookings.filter((r) => r.status === "reviewing").length,
+      quoted: bookings.filter((r) => r.status === "quoted").length,
+      confirmed: bookings.filter((r) => r.status === "confirmed").length,
+      cancelled: bookings.filter((r) => r.status === "cancelled").length,
+    }),
+    [bookings],
+  );
 
   /* Safari type options */
   const safariTypes = useMemo(() => {
@@ -516,7 +569,7 @@ function AdminPage() {
           r.guest_whatsapp?.toLowerCase().includes(q) ||
           r.guest_country?.toLowerCase().includes(q) ||
           r.pickup_location?.toLowerCase().includes(q) ||
-          r.safari_type?.toLowerCase().includes(q)
+          r.safari_type?.toLowerCase().includes(q),
       );
     }
 
@@ -536,7 +589,10 @@ function AdminPage() {
   /* Sort toggle */
   const toggleSort = (key: SortKey) => {
     if (sortKey === key) setSortDir((d) => (d === "asc" ? "desc" : "asc"));
-    else { setSortKey(key); setSortDir("asc"); }
+    else {
+      setSortKey(key);
+      setSortDir("asc");
+    }
   };
 
   /* ── Loading ── */
@@ -607,9 +663,17 @@ function AdminPage() {
                 : "border-emerald-200 bg-emerald-50 text-emerald-700"
             }`}
           >
-            {t.type === "err" ? <AlertCircle className="h-4 w-4 shrink-0" /> : <Check className="h-4 w-4 shrink-0" />}
+            {t.type === "err" ? (
+              <AlertCircle className="h-4 w-4 shrink-0" />
+            ) : (
+              <Check className="h-4 w-4 shrink-0" />
+            )}
             {t.text}
-            <button type="button" onClick={() => dismiss(t.id)} className="ml-2 opacity-60 hover:opacity-100">
+            <button
+              type="button"
+              onClick={() => dismiss(t.id)}
+              className="ml-2 opacity-60 hover:opacity-100"
+            >
               <X className="h-3.5 w-3.5" />
             </button>
           </div>
@@ -660,7 +724,10 @@ function AdminPage() {
             </button>
             <button
               type="button"
-              onClick={async () => { await supabase?.auth.signOut(); window.location.reload(); }}
+              onClick={async () => {
+                await supabase?.auth.signOut();
+                window.location.reload();
+              }}
               className="rounded-xl border border-border bg-background px-3.5 py-2 text-xs font-medium text-foreground transition hover:bg-muted"
             >
               Sign out
@@ -670,17 +737,31 @@ function AdminPage() {
       </div>
 
       <div className="mx-auto max-w-7xl px-5 py-8 sm:px-8">
-
         {/* ── Stats row ── */}
         <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
           {(
             [
               { label: "Total", value: stats.total, key: "all", accent: "bg-foreground/20" },
               { label: "New", value: stats.new, key: "new", accent: "bg-blue-400" },
-              { label: "Reviewing", value: stats.reviewing, key: "reviewing", accent: "bg-amber-400" },
+              {
+                label: "Reviewing",
+                value: stats.reviewing,
+                key: "reviewing",
+                accent: "bg-amber-400",
+              },
               { label: "Quoted", value: stats.quoted, key: "quoted", accent: "bg-purple-400" },
-              { label: "Confirmed", value: stats.confirmed, key: "confirmed", accent: "bg-emerald-400" },
-              { label: "Cancelled", value: stats.cancelled, key: "cancelled", accent: "bg-red-400" },
+              {
+                label: "Confirmed",
+                value: stats.confirmed,
+                key: "confirmed",
+                accent: "bg-emerald-400",
+              },
+              {
+                label: "Cancelled",
+                value: stats.cancelled,
+                key: "cancelled",
+                accent: "bg-red-400",
+              },
             ] as const
           ).map((s) => (
             <StatCard
@@ -688,7 +769,9 @@ function AdminPage() {
               label={s.label}
               value={s.value}
               active={statusFilter === s.key}
-              onClick={() => setStatusFilter(statusFilter === s.key ? "all" : (s.key as Status | "all"))}
+              onClick={() =>
+                setStatusFilter(statusFilter === s.key ? "all" : (s.key as Status | "all"))
+              }
               accent={s.accent}
             />
           ))}
@@ -718,7 +801,9 @@ function AdminPage() {
               >
                 <option value="all">All types</option>
                 {safariTypes.map((t) => (
-                  <option key={t} value={t}>{t}</option>
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
                 ))}
               </select>
               <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -748,7 +833,12 @@ function AdminPage() {
             {(search || typeFilter !== "all" || dateFrom || dateTo) && (
               <button
                 type="button"
-                onClick={() => { setSearch(""); setTypeFilter("all"); setDateFrom(""); setDateTo(""); }}
+                onClick={() => {
+                  setSearch("");
+                  setTypeFilter("all");
+                  setDateFrom("");
+                  setDateTo("");
+                }}
                 className="flex items-center gap-1 rounded-xl border border-border px-3 py-2.5 text-xs font-medium text-muted-foreground hover:border-foreground/30 hover:text-foreground"
               >
                 <X className="h-3.5 w-3.5" />
@@ -759,7 +849,8 @@ function AdminPage() {
 
           {/* Result count */}
           <div className="mt-3 text-xs text-muted-foreground">
-            Showing <strong>{filtered.length}</strong> of <strong>{bookings.length}</strong> enquiries
+            Showing <strong>{filtered.length}</strong> of <strong>{bookings.length}</strong>{" "}
+            enquiries
             {statusFilter !== "all" && ` · Status: ${statusFilter}`}
           </div>
         </div>
@@ -772,7 +863,13 @@ function AdminPage() {
               <p className="text-sm">No enquiries match your filters.</p>
               <button
                 type="button"
-                onClick={() => { setSearch(""); setTypeFilter("all"); setDateFrom(""); setDateTo(""); setStatusFilter("all"); }}
+                onClick={() => {
+                  setSearch("");
+                  setTypeFilter("all");
+                  setDateFrom("");
+                  setDateTo("");
+                  setStatusFilter("all");
+                }}
                 className="text-xs underline underline-offset-4 hover:text-foreground"
               >
                 Clear all filters
@@ -828,7 +925,9 @@ function AdminPage() {
                             <Globe className="h-3 w-3" />
                             {row.guest_country ?? "—"}
                           </div>
-                          <div className="mt-0.5 text-[11px] text-muted-foreground truncate max-w-[160px]">{row.guest_email}</div>
+                          <div className="mt-0.5 text-[11px] text-muted-foreground truncate max-w-[160px]">
+                            {row.guest_email}
+                          </div>
                         </td>
 
                         {/* Safari date */}

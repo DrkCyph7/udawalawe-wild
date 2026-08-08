@@ -82,7 +82,11 @@ function toFriendlySupabaseError(error: unknown) {
       return "Supabase is rejecting the request because the table or RLS policies are not configured correctly.";
     }
 
-    if (message.includes("invalid api key") || message.includes("api key") || message.includes("not configured")) {
+    if (
+      message.includes("invalid api key") ||
+      message.includes("api key") ||
+      message.includes("not configured")
+    ) {
       return "Supabase credentials are missing or invalid. Check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.";
     }
 
@@ -94,7 +98,9 @@ function toFriendlySupabaseError(error: unknown) {
 
 export async function createBookingEnquiry(values: Record<string, string>) {
   if (!supabase) {
-    throw new Error("Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
+    throw new Error(
+      "Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.",
+    );
   }
 
   const payload: BookingEnquiryRow = {
@@ -128,7 +134,9 @@ export async function createBookingEnquiry(values: Record<string, string>) {
 
 export async function fetchBookingEnquiries() {
   if (!supabase) {
-    throw new Error("Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
+    throw new Error(
+      "Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.",
+    );
   }
 
   const { data, error } = await supabase
@@ -145,7 +153,9 @@ export async function fetchBookingEnquiries() {
 
 export async function updateBookingStatus(id: string, status: string) {
   if (!supabase) {
-    throw new Error("Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
+    throw new Error(
+      "Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.",
+    );
   }
 
   const { error } = await supabase.from("booking_enquiries").update({ status }).eq("id", id);
@@ -174,7 +184,11 @@ export async function isAdminUser(user: AuthUser | null) {
     return false;
   }
 
-  const { data, error } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .maybeSingle();
   if (error) {
     return false;
   }

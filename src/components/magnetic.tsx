@@ -1,13 +1,13 @@
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useRef, ReactNode } from "react";
 
-export function Magnetic({ 
-  children, 
-  intensity = 0.2, 
+export function Magnetic({
+  children,
+  intensity = 0.2,
   jelly = true,
-  className = ""
-}: { 
-  children: ReactNode; 
+  className = "",
+}: {
+  children: ReactNode;
   intensity?: number;
   jelly?: boolean;
   className?: string;
@@ -31,11 +31,11 @@ export function Magnetic({
     if (!ref.current) return;
     const { clientX, clientY } = e;
     const { height, width, left, top } = ref.current.getBoundingClientRect();
-    
+
     // Calculate distance from center
     const middleX = clientX - (left + width / 2);
     const middleY = clientY - (top + height / 2);
-    
+
     // Pull towards mouse
     x.set(middleX * intensity);
     y.set(middleY * intensity);
@@ -44,10 +44,10 @@ export function Magnetic({
       // Create a "squish" effect based on mouse position relative to center
       const absX = Math.abs(middleX) / (width / 2);
       const absY = Math.abs(middleY) / (height / 2);
-      
+
       // Slightly deform based on pull direction
-      scaleX.set(1 + (absX * 0.05));
-      scaleY.set(1 + (absY * 0.05));
+      scaleX.set(1 + absX * 0.05);
+      scaleY.set(1 + absY * 0.05);
     }
   };
 
@@ -69,12 +69,12 @@ export function Magnetic({
       onMouseMove={handleMouse}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
-      style={{ 
-        x: springX, 
+      style={{
+        x: springX,
         y: springY,
         scale: springScale,
         scaleX: springScaleX,
-        scaleY: springScaleY
+        scaleY: springScaleY,
       }}
       className={`inline-flex ${className}`}
     >

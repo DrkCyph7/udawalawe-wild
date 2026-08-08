@@ -51,7 +51,8 @@ function RoutesPage() {
               </span>
             </motion.div>
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] text-[color:var(--ivory)]">
-              Pick your starting point.<br />
+              Pick your starting point.
+              <br />
               <span className="text-[color:var(--terracotta)]">We'll handle the rest.</span>
             </h1>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-[color:var(--ivory)]/80">
@@ -63,7 +64,10 @@ function RoutesPage() {
 
       <div className="section-dark">
         <Section className="pt-4">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" style={{ perspective: "1000px" }}>
+          <div
+            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            style={{ perspective: "1000px" }}
+          >
             {routes.map((r, i) => (
               <Reveal key={r.slug} delay={i * 70}>
                 <TiltCard intensity={8} className="h-full">
@@ -77,12 +81,19 @@ function RoutesPage() {
                         From
                       </div>
                       <h2 className="mt-2 font-serif text-3xl text-foreground">{r.from}</h2>
-                      <div className="mt-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{r.drive}</div>
-                      <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{r.summary}</p>
+                      <div className="mt-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        {r.drive}
+                      </div>
+                      <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                        {r.summary}
+                      </p>
                     </div>
                     <div className="mt-8 flex items-center gap-1.5 text-sm font-semibold text-foreground">
                       View route notes
-                      <ChevronRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 text-[color:var(--terracotta)]" aria-hidden="true" />
+                      <ChevronRight
+                        className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 text-[color:var(--terracotta)]"
+                        aria-hidden="true"
+                      />
                     </div>
                   </Link>
                 </TiltCard>

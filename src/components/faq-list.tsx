@@ -34,7 +34,10 @@ export function FaqList({ items }: { items: { q: string; a: string }[] }) {
               itemProp="acceptedAnswer"
               itemType="https://schema.org/Answer"
             >
-              <div className="px-6 pb-6 pr-14 text-sm leading-relaxed text-muted-foreground" itemProp="text">
+              <div
+                className="px-6 pb-6 pr-14 text-sm leading-relaxed text-muted-foreground"
+                itemProp="text"
+              >
                 {f.a}
               </div>
             </div>

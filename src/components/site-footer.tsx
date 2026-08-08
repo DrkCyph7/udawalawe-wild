@@ -257,7 +257,9 @@ export function SiteFooter() {
       {/* Bottom bar */}
       <div className="border-t border-white/10 bg-black/20">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-5 py-5 text-xs text-[color:var(--ivory)]/50 sm:flex-row sm:px-8">
-          <span>© {new Date().getFullYear()} {SITE.name} · {SITE.domain}</span>
+          <span>
+            © {new Date().getFullYear()} {SITE.name} · {SITE.domain}
+          </span>
 
           <span className="flex items-center gap-1.5 text-[color:var(--ivory)]/70">
             <Leaf className="h-3.5 w-3.5 text-[color:var(--terracotta)]" />

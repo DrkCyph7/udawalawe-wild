@@ -17,18 +17,21 @@ export function SafariLoader({ visible }: { visible: boolean }) {
           className="safari-loader fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden select-none bg-[#0a0f0a]"
         >
           {/* Subtle noise/texture overlay for a premium analog feel */}
-          <div 
+          <div
             className="absolute inset-0 opacity-[0.035] pointer-events-none mix-blend-overlay"
-            style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}
+            style={{
+              backgroundImage:
+                "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')",
+            }}
           />
 
           {/* Ambient lighting: Soft golden/terracotta sun-like glow behind the center */}
           <motion.div
             className="absolute rounded-full pointer-events-none"
-            style={{ 
-              width: "min(800px, 120vw)", 
-              height: "min(800px, 120vw)", 
-              background: "radial-gradient(circle, oklch(0.45 0.15 45 / 0.15) 0%, transparent 65%)" 
+            style={{
+              width: "min(800px, 120vw)",
+              height: "min(800px, 120vw)",
+              background: "radial-gradient(circle, oklch(0.45 0.15 45 / 0.15) 0%, transparent 65%)",
             }}
             initial={{ scale: 0.7, opacity: 0, y: 50 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
@@ -47,23 +50,27 @@ export function SafariLoader({ visible }: { visible: boolean }) {
                 {/* Elegant Glassmorphism Logo Ring */}
                 <div className="relative flex items-center justify-center w-24 h-24 rounded-full border border-[oklch(1_0_0_/_0.08)] bg-[oklch(1_0_0_/_0.03)] backdrop-blur-xl shadow-[0_0_50px_oklch(0.56_0.17_40_/_0.15)] p-4">
                   {/* Subtle inner rotating ring for detail */}
-                  <motion.div 
+                  <motion.div
                     className="absolute inset-0 rounded-full border border-dashed border-white/10"
                     animate={{ rotate: 360 }}
                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                   />
-                  <img src="/logo.png" alt="Udawalawe Wild" className="w-full h-full object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]" />
+                  <img
+                    src="/logo.png"
+                    alt="Udawalawe Wild"
+                    className="w-full h-full object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]"
+                  />
                 </div>
               </motion.div>
-              
+
               {/* Layered horizon lines for a cinematic flare effect */}
-              <motion.div 
+              <motion.div
                 className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] w-3/4 bg-gradient-to-r from-transparent via-[oklch(0.65_0.2_45)] to-transparent blur-[3px]"
                 initial={{ scaleX: 0, opacity: 0 }}
                 animate={{ scaleX: 1, opacity: [0, 1, 0.7] }}
                 transition={{ duration: 1.6, ease: [0.76, 0, 0.24, 1] }}
               />
-              <motion.div 
+              <motion.div
                 className="absolute bottom-0 left-1/2 -translate-x-1/2 h-px w-full bg-gradient-to-r from-transparent via-white/60 to-transparent"
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
@@ -82,7 +89,7 @@ export function SafariLoader({ visible }: { visible: boolean }) {
                 Udawalawe Wild
               </motion.h1>
             </div>
-            
+
             <div className="overflow-hidden mt-3">
               <motion.div
                 initial={{ y: "-100%", opacity: 0 }}
