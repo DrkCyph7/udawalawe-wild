@@ -35,9 +35,15 @@ export const TransitionLink = forwardRef((props: any, ref: any) => {
         ) {
           e.preventDefault();
           
-          run(() => {
+          run(async () => {
             // Perform the actual navigation when the curtain covers the screen
-            navigate(props);
+            await navigate({
+              to: props.to,
+              search: props.search,
+              params: props.params,
+              hash: props.hash,
+              replace: props.replace
+            });
           }, props.transitionTitle || formatTitleFromPath(typeof props.to === "string" ? props.to : props.to?.pathname));
         }
       }}

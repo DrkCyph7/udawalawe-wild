@@ -21,7 +21,8 @@ export const Route = createFileRoute("/privacy")({
     links: [{ rel: "canonical", href: "https://www.udawalawe-wild.com/privacy" }],
   }),
   component: () => (
-    <Section>
+    <div className="section-dark min-h-[calc(100vh-80px)] pt-12 pb-24">
+      <Section>
       <SectionHeading eyebrow="Legal" title="Privacy Policy" />
       <div className="mt-8 max-w-3xl space-y-6 text-sm leading-relaxed text-foreground/85">
         <p className="text-xs text-muted-foreground">Effective Date: August 2, 2026</p>
@@ -71,6 +72,7 @@ export const Route = createFileRoute("/privacy")({
           Email: hello@udawalawe-wild.com | Phone / WhatsApp: +94 72 189 0006
         </p>
       </div>
-    </Section>
+      </Section>
+    </div>
   ),
 });

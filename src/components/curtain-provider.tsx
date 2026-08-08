@@ -2,7 +2,7 @@ import { createContext, useContext, ReactNode, useState } from "react";
 import { usePageCurtainTransition, CurtainTransition } from "./page-curtain-transition";
 
 interface CurtainContextType {
-  run: (swapContent: () => void, title?: string) => void;
+  run: (swapContent: () => void | Promise<void>, title?: string) => void;
 }
 
 const CurtainContext = createContext<CurtainContextType | null>(null);
@@ -17,7 +17,7 @@ export function CurtainProvider({ children }: { children: ReactNode }) {
   const { phase, run, handleCoverComplete, handleRevealComplete } = usePageCurtainTransition();
   const [curtainTitle, setCurtainTitle] = useState("Udawalawe Wild");
 
-  const runWithTitle = (swapContent: () => void, title?: string) => {
+  const runWithTitle = (swapContent: () => void | Promise<void>, title?: string) => {
     setCurtainTitle(title || "Udawalawe Wild");
     run(swapContent);
   };

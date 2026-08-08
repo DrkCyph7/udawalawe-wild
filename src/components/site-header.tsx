@@ -1,6 +1,7 @@
 import { useRouterState } from "@tanstack/react-router";
 import { TransitionLink as Link } from "@/components/transition-link";
 import { Menu, X, Compass, MapPin, BookOpen, Leaf, Info, CalendarCheck, Home, Phone } from "lucide-react";
+import { Magnetic } from "./magnetic";
 import { useEffect, useState } from "react";
 
 const nav = [
@@ -33,7 +34,7 @@ export function SiteHeader() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         transparent
           ? "border-b border-white/10 bg-transparent"
-          : "border-b border-border/50 bg-[oklch(0.93_0.035_76_/_0.97)] backdrop-blur-md shadow-sm"
+          : "border-b border-border/20 bg-background/60 backdrop-blur-xl saturate-150 shadow-md"
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3 sm:px-8">
@@ -82,9 +83,10 @@ export function SiteHeader() {
             </Link>
           ))}
 
+          <Magnetic className="ml-3">
           <a
             href="tel:+94721890006"
-            className={`ml-3 flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-sm font-semibold transition-all duration-300 hover:scale-[1.02] ${
+            className={`flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-sm font-semibold transition-all duration-300 hover:scale-[1.02] ${
               transparent
                 ? "bg-white/10 text-white hover:bg-white/20"
                 : "bg-muted text-foreground hover:bg-muted/80"
@@ -93,10 +95,12 @@ export function SiteHeader() {
             <Phone className="h-4 w-4" aria-hidden="true" />
             Call
           </a>
+          </Magnetic>
 
+          <Magnetic className="ml-3">
           <Link
             to="/book"
-            className={`ml-3 flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-sm font-semibold shadow-sm transition-all duration-300 hover:scale-[1.02] ${
+            className={`flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-sm font-semibold shadow-sm transition-all duration-300 hover:scale-[1.02] ${
               transparent
                 ? "bg-[oklch(0.56_0.17_40)] text-[oklch(0.97_0.018_80)] hover:bg-[oklch(0.52_0.17_40)] shadow-[0_4px_16px_oklch(0.56_0.17_40_/_0.45)]"
                 : "bg-primary text-primary-foreground hover:bg-primary/85 hover:shadow-md"
@@ -105,10 +109,12 @@ export function SiteHeader() {
             <CalendarCheck className="h-4 w-4" aria-hidden="true" />
             Plan my safari
           </Link>
+          </Magnetic>
         </nav>
 
         {/* Mobile controls — Call + Hamburger */}
         <div className="flex items-center gap-2 md:hidden">
+          <Magnetic>
           <a
             href="tel:+94721890006"
             className="inline-flex items-center justify-center rounded-xl p-2.5 transition-all duration-300"
@@ -122,7 +128,9 @@ export function SiteHeader() {
           >
             <Phone className={`h-5 w-5 ${transparent ? "text-white" : "text-foreground"}`} />
           </a>
+          </Magnetic>
 
+          <Magnetic>
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
@@ -140,11 +148,12 @@ export function SiteHeader() {
               ? <X className={`h-5 w-5 ${transparent ? "text-white" : "text-foreground"}`} />
               : <Menu className={`h-5 w-5 ${transparent ? "text-white" : "text-foreground"}`} />}
           </button>
+          </Magnetic>
         </div>
       </div>
 
       <div
-        className={`overflow-hidden border-t border-border/50 bg-background transition-all duration-350 ease-in-out md:hidden ${
+        className={`overflow-hidden border-t border-border/20 bg-background/60 backdrop-blur-xl saturate-150 shadow-md transition-all duration-350 ease-in-out md:hidden ${
           open ? "max-h-[32rem] opacity-100" : "max-h-0 opacity-0"
         }`}
         aria-hidden={!open}

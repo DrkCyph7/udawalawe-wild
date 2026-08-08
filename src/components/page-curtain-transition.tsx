@@ -84,15 +84,17 @@ type CurtainPhase = "idle" | "covering" | "revealing";
  */
 export function usePageCurtainTransition() {
   const [phase, setPhase] = useState<CurtainPhase>("idle");
-  const [pendingSwap, setPendingSwap] = useState<(() => void) | null>(null);
+  const [pendingSwap, setPendingSwap] = useState<(() => void | Promise<void>) | null>(null);
 
-  const run = useCallback((swapContent: () => void) => {
+  const run = useCallback((swapContent: () => void | Promise<void>) => {
     setPendingSwap(() => swapContent);
     setPhase("covering");
   }, []);
 
-  const handleCoverComplete = useCallback(() => {
-    pendingSwap?.();
+  const handleCoverComplete = useCallback(async () => {
+    if (pendingSwap) {
+      await pendingSwap();
+    }
     setPendingSwap(null);
     setPhase("revealing");
   }, [pendingSwap]);

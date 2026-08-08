@@ -43,19 +43,18 @@ function RoutesPage() {
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2"
-              style={{ background: "oklch(1 0 0 / 0.08)", border: "1px solid oklch(1 0 0 / 0.15)", backdropFilter: "blur(16px)" }}
+              className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20"
             >
-              <Compass className="h-3.5 w-3.5" style={{ color: "oklch(0.56 0.17 40)" }} />
-              <span className="text-[10px] font-semibold uppercase tracking-[0.2em]" style={{ color: "oklch(0.85 0.02 78 / 0.8)" }}>
+              <Compass className="h-3.5 w-3.5 text-[color:var(--terracotta)]" />
+              <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[color:var(--ivory)]/90">
                 Getting to Udawalawe
               </span>
             </motion.div>
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08]" style={{ color: "oklch(0.93 0.035 76)" }}>
+            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] text-[color:var(--ivory)]">
               Pick your starting point.<br />
-              <span style={{ color: "oklch(0.56 0.17 40)" }}>We'll handle the rest.</span>
+              <span className="text-[color:var(--terracotta)]">We'll handle the rest.</span>
             </h1>
-            <p className="mt-4 max-w-xl text-base leading-relaxed" style={{ color: "oklch(0.68 0.03 76)" }}>
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-[color:var(--ivory)]/80">
               We'll help you shape the day so the safari — not the driving — is the memorable part.
             </p>
           </Reveal>
@@ -70,25 +69,20 @@ function RoutesPage() {
                 <TiltCard intensity={8} className="h-full">
                   <Link
                     to={`/${r.slug}`}
-                    className="group card-3d card-shine flex h-full flex-col justify-between rounded-3xl p-7 sm:p-9 transition-all duration-300 hover:scale-[1.02]"
-                    style={{
-                      background: "oklch(0.21 0.055 150)",
-                      border: "1px solid oklch(1 0 0 / 0.08)",
-                      boxShadow: "0 8px 32px oklch(0 0 0 / 0.3), inset 0 1px 0 oklch(1 0 0 / 0.08)",
-                    }}
+                    className="group card-3d card-shine flex h-full flex-col justify-between rounded-3xl p-7 sm:p-9 transition-all duration-300 hover:scale-[1.02] card-glass"
                   >
                     <div>
-                      <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: "oklch(0.56 0.17 40)" }}>
+                      <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[color:var(--terracotta)]">
                         <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
                         From
                       </div>
-                      <h2 className="mt-2 font-serif text-3xl" style={{ color: "oklch(0.93 0.035 76)" }}>{r.from}</h2>
-                      <div className="mt-2 text-[11px] font-semibold uppercase tracking-wider" style={{ color: "oklch(0.72 0.03 76)" }}>{r.drive}</div>
-                      <p className="mt-4 text-sm leading-relaxed" style={{ color: "oklch(0.65 0.03 76)" }}>{r.summary}</p>
+                      <h2 className="mt-2 font-serif text-3xl text-foreground">{r.from}</h2>
+                      <div className="mt-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{r.drive}</div>
+                      <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{r.summary}</p>
                     </div>
-                    <div className="mt-8 flex items-center gap-1.5 text-sm font-semibold" style={{ color: "oklch(0.85 0.02 78)" }}>
+                    <div className="mt-8 flex items-center gap-1.5 text-sm font-semibold text-foreground">
                       View route notes
-                      <ChevronRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" style={{ color: "oklch(0.56 0.17 40)" }} aria-hidden="true" />
+                      <ChevronRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 text-[color:var(--terracotta)]" aria-hidden="true" />
                     </div>
                   </Link>
                 </TiltCard>

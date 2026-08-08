@@ -46,6 +46,7 @@ import ethicalImg1600 from "@/assets/ethical-safari-img-1600w.webp";
 import { EnquiryForm } from "@/components/enquiry-form";
 import { Section, SectionHeading, Eyebrow } from "@/components/section";
 import { FaqList } from "@/components/faq-list";
+import { Magnetic } from "@/components/magnetic";
 import { Skeleton } from "@/components/ui/skeleton";
 import { safaris, faqs, routes as travelRoutes } from "@/lib/content";
 import reviewsData from "@/lib/reviews.json";
@@ -537,7 +538,8 @@ function Home() {
       </div>
 
       {/* ═══════════════════ SAFARIS ════════════════════════════════════ */}
-      <Section style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 800px' }}>
+      <div className="section-dark">
+        <Section style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 800px' }}>
         <Reveal>
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <SectionHeading
@@ -566,7 +568,7 @@ function Home() {
               ? Array.from({ length: 5 }).map((_, idx) => (
                 <div
                   key={idx}
-                  className="safari-snap-card overflow-hidden rounded-xl border border-border bg-card"
+                  className="safari-snap-card overflow-hidden rounded-xl card-glass"
                 >
                   <Skeleton className="aspect-[3/2] w-full" />
                   <div className="space-y-3 p-4">
@@ -579,7 +581,7 @@ function Home() {
               : visibleSafaris.map((s, i) => (
                 <article
                   key={s.slug}
-                  className="safari-snap-card card-lift group flex flex-col overflow-hidden rounded-xl border border-border bg-card"
+                  className="safari-snap-card card-lift group flex flex-col overflow-hidden rounded-xl card-glass"
                 >
                   <div className="aspect-[3/2] overflow-hidden bg-muted">
                     <img
@@ -637,7 +639,7 @@ function Home() {
               ? Array.from({ length: 5 }).map((_, idx) => (
                 <article
                   key={idx}
-                  className="overflow-hidden rounded-xl border border-border bg-card"
+                  className="overflow-hidden rounded-xl card-glass"
                 >
                   <Skeleton className="aspect-[4/5] w-full" />
                   <div className="space-y-3 p-4">
@@ -651,7 +653,7 @@ function Home() {
                 <Reveal key={s.slug} delay={i * 70} className="h-full">
                   <TiltCard className="h-full" intensity={7}>
                     <article
-                      className="card-lift group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card"
+                      className="card-lift group flex h-full flex-col overflow-hidden rounded-xl card-glass"
                       style={{ transformStyle: "preserve-3d" }}
                     >
                       <div className="aspect-[4/5] overflow-hidden bg-muted">
@@ -694,7 +696,8 @@ function Home() {
               ))}
           </div>
         </div>
-      </Section>
+        </Section>
+      </div>
 
       {/* ═══════════════════ BENEFITS ═══════════════════════════════════ */}
       {/* Dark section — directly extends the trust strip's dark atmosphere */}
@@ -736,17 +739,10 @@ function Home() {
       </div>
 
       {/* ═══════════════════ ELEPHANT TRANSIT HOME ══════════════════════ */}
-      <div style={{ background: "oklch(0.93 0.035 76)" }}>
+      <div className="section-dark">
         <Section>
           <Reveal>
-            <div
-              className="grid gap-8 rounded-3xl p-7 sm:p-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center"
-              style={{
-                background: "linear-gradient(135deg, oklch(0.19 0.055 150) 0%, oklch(0.22 0.06 145) 100%)",
-                border: "1px solid oklch(1 0 0 / 0.08)",
-                boxShadow: "0 24px 64px oklch(0 0 0 / 0.25), inset 0 1px 0 oklch(1 0 0 / 0.1)",
-              }}
-            >
+            <div className="grid gap-8 rounded-3xl p-7 sm:p-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center card-glass">
               <div>
                 <div className="mb-2 text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: "oklch(0.56 0.17 40)" }}>Special Experience</div>
                 <h2 className="mt-1 font-serif text-2xl sm:text-3xl" style={{ color: "oklch(0.93 0.035 76)" }}>
@@ -793,7 +789,8 @@ function Home() {
       </div>
 
       {/* ═══════════════════ ETHICAL ════════════════════════════════════ */}
-      <Section style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 600px' }}>
+      <div className="section-dark">
+        <Section style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 600px' }}>
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
           <Reveal direction="left" className="grain overflow-hidden rounded-2xl">
             <img
@@ -844,7 +841,8 @@ function Home() {
             </Link>
           </Reveal>
         </div>
-      </Section>
+        </Section>
+      </div>
 
       {/* ═══════════════════ ROUTES ═════════════════════════════════════ */}
       <div style={{ background: "oklch(0.16 0.05 150)", contentVisibility: 'auto', containIntrinsicSize: 'auto 600px' }}>
@@ -860,7 +858,7 @@ function Home() {
           <div className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4 items-stretch">
             {isPending
               ? Array.from({ length: 4 }).map((_, idx) => (
-                <div key={idx} className="rounded-xl border border-[color:var(--ivory)]/15 p-4">
+                <div key={idx} className="rounded-xl card-glass p-4">
                   <Skeleton className="h-3 w-16" />
                   <Skeleton className="mt-2 h-6 w-20" />
                   <Skeleton className="mt-2 h-3 w-full" />
@@ -868,27 +866,20 @@ function Home() {
               ))
               : visibleRoutes.map((r, i) => (
                 <Reveal key={r.slug} delay={i * 70} className="h-full">
-                  <Link
-                    to={`/${r.slug}`}
-                    className="group flex h-full flex-col gap-1.5 rounded-xl p-4 transition-all duration-300"
-                    style={{
-                      background: "oklch(0.21 0.055 150)",
-                      border: "1px solid oklch(1 0 0 / 0.08)",
-                      boxShadow: "inset 0 1px 0 oklch(1 0 0 / 0.07)",
-                    }}
-                    onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLElement).style.background = "oklch(0.24 0.06 150)";
-                      (e.currentTarget as HTMLElement).style.borderColor = "oklch(0.56 0.17 40 / 0.4)";
-                      (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)";
-                      (e.currentTarget as HTMLElement).style.boxShadow = "0 0 0 1px oklch(0.56 0.17 40 / 0.2), 0 16px 40px oklch(0 0 0 / 0.3)";
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLElement).style.background = "oklch(0.21 0.055 150)";
-                      (e.currentTarget as HTMLElement).style.borderColor = "oklch(1 0 0 / 0.08)";
-                      (e.currentTarget as HTMLElement).style.transform = "";
-                      (e.currentTarget as HTMLElement).style.boxShadow = "inset 0 1px 0 oklch(1 0 0 / 0.07)";
-                    }}
-                  >
+                  <TiltCard className="h-full" intensity={6}>
+                    <Link
+                      to={`/${r.slug}`}
+                      className="group flex h-full flex-col gap-1.5 rounded-xl p-4 transition-all duration-300 card-glass"
+                      style={{ transformStyle: "preserve-3d" }}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLElement).style.borderColor = "oklch(0.56 0.17 40 / 0.4)";
+                        (e.currentTarget as HTMLElement).style.boxShadow = "0 0 0 1px oklch(0.56 0.17 40 / 0.2), 0 16px 40px oklch(0 0 0 / 0.3)";
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLElement).style.borderColor = "oklch(1 0 0 / 0.1)";
+                        (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 32px oklch(0 0 0 / 0.3), inset 0 1px 0 oklch(1 0 0 / 0.12)";
+                      }}
+                    >
                     <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest" style={{ color: "oklch(0.56 0.17 40 / 0.8)" }}>
                       <MapPin className="h-2.5 w-2.5" aria-hidden="true" />
                       From
@@ -900,6 +891,7 @@ function Home() {
                       <ChevronRight className="h-3 w-3" aria-hidden="true" />
                     </div>
                   </Link>
+                  </TiltCard>
                 </Reveal>
               ))}
           </div>
@@ -907,7 +899,7 @@ function Home() {
       </div>
 
       {/* ═══════════════════ REVIEWS — Marquee ══════════════════════════ */}
-      <section className="overflow-hidden border-y border-border py-16 sm:py-20" style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 600px' }}>
+      <section className="section-dark overflow-hidden border-y border-border py-16 sm:py-20" style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 600px' }}>
         <Reveal>
           <div className="mb-10 px-5 sm:px-8">
             <SectionHeading
@@ -924,7 +916,7 @@ function Home() {
             {allReviews.map((r, i) => (
               <div
                 key={i}
-                className="card-lift w-80 shrink-0 rounded-2xl border border-border bg-card p-6 shadow-sm"
+                className="card-lift w-80 shrink-0 rounded-2xl card-glass p-6"
                 aria-hidden={i >= allReviews.length / 2 ? "true" : undefined}
               >
                 {/* Stars */}
@@ -965,7 +957,7 @@ function Home() {
       </section>
 
       {/* ═══════════════════ FAQ ════════════════════════════════════════ */}
-      <div className="bg-[color:var(--sand)]/30" style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 600px' }}>
+      <div className="section-dark" style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 600px' }}>
         <Section>
           <Reveal>
             <SectionHeading eyebrow="Good to know" title="Frequently asked questions." />
@@ -1003,6 +995,7 @@ function Home() {
               business day.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row flex-wrap justify-center gap-3">
+              <Magnetic className="w-full sm:w-auto">
               <Link
                 to="/book"
                 className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-[color:var(--terracotta)] px-6 py-3 text-sm font-semibold text-[color:var(--ivory)] shadow-md transition-all duration-200 hover:brightness-110 active:scale-95"
@@ -1010,6 +1003,8 @@ function Home() {
                 <CalendarCheck className="h-4 w-4" aria-hidden="true" />
                 Plan my safari
               </Link>
+              </Magnetic>
+              <Magnetic className="w-full sm:w-auto">
               <a
                 href={waLink()}
                 target="_blank"
@@ -1019,6 +1014,7 @@ function Home() {
                 <MessageCircle className="h-4 w-4" aria-hidden="true" />
                 Chat on WhatsApp
               </a>
+              </Magnetic>
             </div>
           </Reveal>
         </div>

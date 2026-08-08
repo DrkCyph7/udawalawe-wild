@@ -423,6 +423,19 @@
   position: relative;
   overflow: hidden;
 
+  /* Automatically invert Tailwind semantic tokens for children */
+  --background: var(--deep);
+  --foreground: var(--deep-text);
+  --card: var(--deep-surface);
+  --card-foreground: var(--deep-text);
+  --muted: oklch(1 0 0 / 0.05);
+  --muted-foreground: var(--deep-muted);
+  --border: var(--deep-border);
+  --primary: var(--deep-text);
+  --forest: var(--deep-text);
+  --sand: oklch(1 0 0 / 0.05);
+  --terracotta: var(--dusk-muted);
+
   &::before {
     content: "";
     position: absolute;

@@ -20,7 +20,8 @@ export const Route = createFileRoute("/terms")({
     links: [{ rel: "canonical", href: "https://www.udawalawe-wild.com/terms" }],
   }),
   component: () => (
-    <Section>
+    <div className="section-dark min-h-[calc(100vh-80px)] pt-12 pb-24">
+      <Section>
       <SectionHeading eyebrow="Legal" title="Terms of Use" />
       <div className="mt-8 max-w-3xl space-y-6 text-sm leading-relaxed text-foreground/85">
         <p className="text-xs text-muted-foreground">Effective Date: August 2, 2026</p>
@@ -60,6 +61,7 @@ export const Route = createFileRoute("/terms")({
           These Terms are governed by the laws of Sri Lanka. For questions regarding these terms, reach us at hello@udawalawe-wild.com.
         </p>
       </div>
-    </Section>
+      </Section>
+    </div>
   ),
 });

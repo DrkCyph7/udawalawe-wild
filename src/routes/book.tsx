@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Section } from "@/components/section";
 import { createBookingEnquiry } from "@/lib/supabase";
+import { Magnetic } from "@/components/magnetic";
 
 export const Route = createFileRoute("/book")({
   head: () => ({
@@ -53,7 +54,8 @@ function BookPage() {
   };
 
   return (
-    <Section>
+    <div className="section-dark min-h-[calc(100vh-80px)] pt-12 pb-24">
+      <Section>
       <div className="mx-auto max-w-2xl">
         <div className="text-xs uppercase tracking-[0.25em] text-[color:var(--terracotta)]">
           Booking enquiry
@@ -87,7 +89,7 @@ function BookPage() {
           ))}
         </ol>
 
-        <div className="mt-10 rounded-sm border border-border bg-card p-5 sm:p-8">
+        <div className="mt-10 rounded-3xl p-5 sm:p-8 card-glass">
           {submitError && (
             <div className="mb-4 rounded-sm border border-amber-300/60 bg-amber-50 px-3 py-2 text-sm text-amber-800">
               {submitError}
@@ -241,24 +243,27 @@ function BookPage() {
               >
                 ← Back
               </button>
+              <Magnetic>
               <button
                 type="button"
                 onClick={() => void handleNext()}
                 disabled={isSubmitting}
-                className="rounded-sm bg-primary px-5 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-70"
+                className="rounded-xl bg-[color:var(--terracotta)] px-6 py-3 text-sm font-semibold text-[color:var(--ivory)] shadow-[0_4px_20px_oklch(0.56_0.17_40_/_0.4)] transition-all duration-300 hover:scale-[1.03] disabled:opacity-70 disabled:hover:scale-100"
               >
                 {isSubmitting ? "Sending…" : step === 2 ? "Send enquiry" : "Continue"}
               </button>
+              </Magnetic>
             </div>
           )}
         </div>
       </div>
-    </Section>
+      </Section>
+    </div>
   );
 }
 
 const inputCls =
-  "block w-full rounded-sm border border-input bg-background px-3 py-2.5 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/30";
+  "block w-full rounded-xl border border-input/20 bg-background/50 backdrop-blur-md px-4 py-3 text-sm outline-none transition-colors focus:border-[color:var(--terracotta)]/50 focus:bg-background/80 focus:ring-2 focus:ring-[color:var(--terracotta)]/20";
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (

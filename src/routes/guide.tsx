@@ -42,19 +42,18 @@ function GuidePage() {
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2"
-              style={{ background: "oklch(1 0 0 / 0.08)", border: "1px solid oklch(1 0 0 / 0.15)", backdropFilter: "blur(16px)" }}
+              className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20"
             >
-              <Compass className="h-3.5 w-3.5" style={{ color: "oklch(0.56 0.17 40)" }} />
-              <span className="text-[10px] font-semibold uppercase tracking-[0.2em]" style={{ color: "oklch(0.85 0.02 78 / 0.8)" }}>
+              <Compass className="h-3.5 w-3.5 text-[color:var(--terracotta)]" />
+              <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[color:var(--ivory)]/90">
                 Visitor guide
               </span>
             </motion.div>
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08]" style={{ color: "oklch(0.93 0.035 76)" }}>
+            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] text-[color:var(--ivory)]">
               Everything to know<br />
-              <span style={{ color: "oklch(0.56 0.17 40)" }}>before you go.</span>
+              <span className="text-[color:var(--terracotta)]">before you go.</span>
             </h1>
-            <p className="mt-4 max-w-xl text-base leading-relaxed" style={{ color: "oklch(0.68 0.03 76)" }}>
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-[color:var(--ivory)]/80">
               A short, honest guide from planners who help travellers here every week.
             </p>
           </Reveal>
@@ -115,21 +114,15 @@ function GuidePage() {
             ].map((a, i) => (
               <Reveal key={a.title} delay={i * 60}>
                 <TiltCard intensity={6} className="h-full">
-                  <div className="card-3d card-shine h-full rounded-3xl p-7 sm:p-9"
-                    style={{
-                      background: "oklch(0.21 0.055 150)",
-                      border: "1px solid oklch(1 0 0 / 0.08)",
-                      boxShadow: "0 8px 32px oklch(0 0 0 / 0.3), inset 0 1px 0 oklch(1 0 0 / 0.08)",
-                    }}
-                  >
-                    <h3 className="font-serif text-xl" style={{ color: "oklch(0.93 0.035 76)" }}>{a.title}</h3>
-                    <p className="mt-3 text-sm leading-relaxed" style={{ color: "oklch(0.65 0.03 76)" }}>
+                  <div className="card-3d card-shine h-full rounded-3xl p-7 sm:p-9 card-glass">
+                    <h3 className="font-serif text-xl text-foreground">{a.title}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                       {a.body ?? (
                         <>
                           From the south coast (Mirissa, Galle, Hiriketiya): roughly 2–3 hours by road.
                           From Ella: around 2.5–3 hours down through the hills. From Colombo airport:
                           expect a longer travel day. Our{" "}
-                          <Link to="/routes" className="font-semibold underline underline-offset-4 decoration-[oklch(0.56_0.17_40_/_0.5)] transition-colors hover:text-[oklch(0.56_0.17_40)]">
+                          <Link to="/routes" className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-foreground">
                             routes guide
                           </Link>{" "}
                           has more detail per starting point.
@@ -144,27 +137,21 @@ function GuidePage() {
 
           <Reveal delay={100}>
             <TiltCard intensity={4}>
-              <div className="mt-10 rounded-3xl p-7 sm:p-9"
-                style={{
-                  background: "oklch(1 0 0 / 0.03)",
-                  border: "1px solid oklch(1 0 0 / 0.08)",
-                  boxShadow: "0 4px 16px oklch(0 0 0 / 0.2)",
-                }}
-              >
-                <div className="font-serif text-2xl" style={{ color: "oklch(0.93 0.035 76)" }}>Related</div>
+              <div className="mt-10 rounded-3xl p-7 sm:p-9 card-glass">
+                <div className="font-serif text-2xl text-foreground">Related</div>
                 <ul className="mt-4 space-y-3">
                   <li>
-                    <Link className="font-semibold underline underline-offset-4 decoration-[oklch(0.56_0.17_40_/_0.5)] transition-colors hover:text-[oklch(0.56_0.17_40)] text-[oklch(0.85_0.02_78)]" to="/safaris">
+                    <Link className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground" to="/safaris">
                       Compare safari options
                     </Link>
                   </li>
                   <li>
-                    <Link className="font-semibold underline underline-offset-4 decoration-[oklch(0.56_0.17_40_/_0.5)] transition-colors hover:text-[oklch(0.56_0.17_40)] text-[oklch(0.85_0.02_78)]" to="/routes">
+                    <Link className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground" to="/routes">
                       Travel routes to Udawalawe
                     </Link>
                   </li>
                   <li>
-                    <Link className="font-semibold underline underline-offset-4 decoration-[oklch(0.56_0.17_40_/_0.5)] transition-colors hover:text-[oklch(0.56_0.17_40)] text-[oklch(0.85_0.02_78)]" to="/ethical-safari">
+                    <Link className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground" to="/ethical-safari">
                       Our ethical safari standard
                     </Link>
                   </li>
@@ -181,8 +168,8 @@ function GuidePage() {
             <SectionHeading 
               title="Frequently asked questions" 
               eyebrow="FAQ" 
-              titleClass="text-[oklch(0.93_0.035_76)]"
-              introClass="text-[oklch(0.68_0.03_76)]"
+              titleClass=""
+              introClass=""
             />
           </Reveal>
           <div className="mt-8">

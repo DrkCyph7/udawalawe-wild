@@ -5,7 +5,7 @@ export function FaqList({ items }: { items: { q: string; a: string }[] }) {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <div className="divide-y divide-border rounded-xl border border-border bg-card overflow-hidden">
+    <div className="divide-y divide-border rounded-xl card-glass overflow-hidden">
       {items.map((f, i) => {
         const isOpen = open === i;
         return (

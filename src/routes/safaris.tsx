@@ -10,6 +10,7 @@ import landscape from "@/assets/landscape.jpg";
 import { CalendarCheck, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { TiltCard } from "@/components/tilt-card";
+import { Magnetic } from "@/components/magnetic";
 
 export const Route = createFileRoute("/safaris")({
   head: () => ({
@@ -49,20 +50,19 @@ function SafarisPage() {
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2"
-              style={{ background: "oklch(1 0 0 / 0.08)", border: "1px solid oklch(1 0 0 / 0.15)", backdropFilter: "blur(16px)" }}
+              className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20"
             >
-              <CalendarCheck className="h-3.5 w-3.5" style={{ color: "oklch(0.56 0.17 40)" }} />
-              <span className="text-[10px] font-semibold uppercase tracking-[0.2em]" style={{ color: "oklch(0.85 0.02 78 / 0.8)" }}>
+              <CalendarCheck className="h-3.5 w-3.5 text-[color:var(--terracotta)]" />
+              <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[color:var(--ivory)]/90">
                 Safari Options
               </span>
             </motion.div>
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08]" style={{ color: "oklch(0.93 0.035 76)" }}>
+            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] text-[color:var(--ivory)]">
               Private jeeps.<br />
-              <span style={{ color: "oklch(0.56 0.17 40)" }}>Verified drivers.</span><br />
+              <span className="text-[color:var(--terracotta)]">Verified drivers.</span><br />
               Wildlife first.
             </h1>
-            <p className="mt-4 max-w-xl text-base leading-relaxed" style={{ color: "oklch(0.68 0.03 76)" }}>
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-[color:var(--ivory)]/80">
               Choose a shape for your day. We'll send a fixed, transparent quote before you confirm anything. Every jeep is private — no shared vehicles, ever.
             </p>
           </Reveal>
@@ -77,12 +77,7 @@ function SafarisPage() {
               <Reveal key={s.slug} delay={i * 60}>
                 <TiltCard
                   intensity={5}
-                  className="card-3d card-shine grid gap-0 overflow-hidden rounded-3xl lg:grid-cols-[1fr_1.2fr]"
-                  style={{
-                    background: "oklch(0.21 0.055 150)",
-                    border: "1px solid oklch(1 0 0 / 0.08)",
-                    boxShadow: "0 8px 48px oklch(0 0 0 / 0.35), inset 0 1px 0 oklch(1 0 0 / 0.08)",
-                  }}
+                  className="card-3d card-shine grid gap-0 overflow-hidden rounded-3xl lg:grid-cols-[1fr_1.2fr] card-glass"
                 >
                   <div className="relative overflow-hidden min-h-[240px] lg:min-h-[340px]">
                     <img
@@ -94,14 +89,13 @@ function SafarisPage() {
                     {/* Image gradient overlay */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[oklch(0.21_0.055_150_/_0.8)] hidden lg:block" />
                     {/* Option badge */}
-                    <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em]"
-                      style={{ background: "oklch(0.56 0.17 40)", color: "oklch(0.97 0.018 80)", boxShadow: "0 4px 16px oklch(0.56 0.17 40 / 0.5)" }}>
+                    <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] bg-[color:var(--terracotta)] text-[color:var(--ivory)] shadow-[0_4px_16px_oklch(0.56_0.17_40_/_0.5)]">
                       Option 0{i + 1}
                     </div>
                   </div>
                   <div className="p-7 lg:p-9">
-                    <h2 className="font-serif text-2xl sm:text-3xl" style={{ color: "oklch(0.93 0.035 76)" }}>{s.name}</h2>
-                    <p className="mt-3 text-sm leading-relaxed" style={{ color: "oklch(0.65 0.03 76)" }}>{s.short}</p>
+                    <h2 className="font-serif text-2xl sm:text-3xl text-foreground">{s.name}</h2>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{s.short}</p>
 
                     <dl className="mt-6 grid gap-x-8 gap-y-3.5 sm:grid-cols-2">
                       <Item label="Duration" value={s.duration} />
@@ -113,32 +107,29 @@ function SafarisPage() {
                     </dl>
 
                     <div className="mt-6">
-                      <div className="text-[10px] font-bold uppercase tracking-[0.18em] mb-3" style={{ color: "oklch(0.56 0.17 40)" }}>
+                      <div className="text-[10px] font-bold uppercase tracking-[0.18em] mb-3 text-[color:var(--terracotta)]">
                         What's included
                       </div>
                       <ul className="grid gap-2 text-sm sm:grid-cols-2">
                         {s.includes.map((inc) => (
                           <li key={inc} className="flex items-start gap-2.5">
-                            <CheckCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" style={{ color: "oklch(0.56 0.17 40)" }} aria-hidden="true" />
-                            <span style={{ color: "oklch(0.80 0.025 78)" }}>{inc}</span>
+                            <CheckCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[color:var(--terracotta)]" aria-hidden="true" />
+                            <span className="text-foreground">{inc}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
 
                     <div className="mt-8">
+                      <Magnetic>
                       <Link
                         to="/book"
-                        className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-all duration-300 hover:scale-[1.04]"
-                        style={{
-                          background: "oklch(0.56 0.17 40)",
-                          color: "oklch(0.97 0.018 80)",
-                          boxShadow: "0 4px 20px oklch(0.56 0.17 40 / 0.4)",
-                        }}
+                        className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-all duration-300 hover:scale-[1.04] bg-[color:var(--terracotta)] text-[color:var(--ivory)] shadow-[0_4px_20px_oklch(0.56_0.17_40_/_0.4)]"
                       >
                         <CalendarCheck className="h-4 w-4" aria-hidden="true" />
                         Request availability
                       </Link>
+                      </Magnetic>
                     </div>
                   </div>
                 </TiltCard>
@@ -154,10 +145,10 @@ function SafarisPage() {
 function Item({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <dt className="text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: "oklch(0.56 0.17 40 / 0.8)" }}>
+      <dt className="text-[10px] font-bold uppercase tracking-[0.18em] text-[color:var(--terracotta)]/80">
         {label}
       </dt>
-      <dd className="mt-1 text-sm leading-relaxed" style={{ color: "oklch(0.80 0.025 78)" }}>{value}</dd>
+      <dd className="mt-1 text-sm leading-relaxed text-foreground">{value}</dd>
     </div>
   );
 }
