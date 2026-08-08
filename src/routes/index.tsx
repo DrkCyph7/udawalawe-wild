@@ -190,7 +190,7 @@ function Home() {
       {/* header is fixed+transparent, so hero fills full 100svh from top */}
       <section
         ref={heroSectionRef}
-        className="relative isolate overflow-hidden h-[100svh] min-h-[600px] sm:min-h-[680px] flex flex-col"
+        className="relative isolate z-10 overflow-hidden h-[100svh] min-h-[600px] sm:min-h-[680px] flex flex-col"
       >
 
         {/* ── Crossfade background slideshow ──────────────────────── */}
@@ -483,7 +483,7 @@ function Home() {
       {/* ═══════════════════ TRUST STRIP ═══════════════════════════════ */}
       {/* Dark cinematic band — extends the hero's atmosphere into the page */}
       <div
-        className="relative overflow-hidden"
+        className="relative overflow-hidden min-h-[260px] lg:min-h-[160px]"
         style={{
           background: "linear-gradient(180deg, oklch(0.16 0.05 150) 0%, oklch(0.19 0.055 150) 100%)",
           borderBottom: "1px solid oklch(1 0 0 / 0.08)",
@@ -584,8 +584,17 @@ function Home() {
                   <div className="aspect-[3/2] overflow-hidden bg-muted">
                     <img
                       src={[elephantPortrait, ethicalImg, wildlife, landscape, elephantPortrait][i % 5]}
+                      srcSet={
+                        i % 5 === 0 ? `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w` :
+                        i % 5 === 1 ? `${ethicalImg800} 800w, ${ethicalImg1200} 1200w` :
+                        i % 5 === 3 ? `${landscape800} 800w, ${landscape1200} 1200w` :
+                        i % 5 === 4 ? `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w` :
+                        undefined
+                      }
                       alt={s.name}
                       loading="lazy"
+                      fetchPriority="low"
+                      decoding="async"
                       className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.06]"
                     />
                   </div>
@@ -648,8 +657,17 @@ function Home() {
                       <div className="aspect-[4/5] overflow-hidden bg-muted">
                         <img
                           src={[elephantPortrait, ethicalImg, wildlife, landscape, elephantPortrait][i % 5]}
+                          srcSet={
+                            i % 5 === 0 ? `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w` :
+                            i % 5 === 1 ? `${ethicalImg800} 800w, ${ethicalImg1200} 1200w` :
+                            i % 5 === 3 ? `${landscape800} 800w, ${landscape1200} 1200w` :
+                            i % 5 === 4 ? `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w` :
+                            undefined
+                          }
                           alt={s.name}
                           loading="lazy"
+                          fetchPriority="low"
+                          decoding="async"
                           className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.06]"
                         />
                       </div>
@@ -962,8 +980,11 @@ function Home() {
       <section className="relative isolate overflow-hidden">
         <img
           src={landscape}
+          srcSet={`${landscape800} 800w, ${landscape1200} 1200w, ${landscape1600} 1600w`}
           alt="Grassland landscape in Udawalawe National Park"
           loading="lazy"
+          fetchPriority="low"
+          decoding="async"
           className="absolute inset-0 -z-10 h-full w-full object-cover"
         />
         <div className="absolute inset-0 -z-10 bg-[oklch(0.22_0.035_155_/_0.82)]" />

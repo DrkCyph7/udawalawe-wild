@@ -282,6 +282,11 @@ function RootShell({ children }: { children: ReactNode }) {
       <head>
         <HeadContent />
         <script
+          dangerouslySetInnerHTML={{
+            __html: `if(typeof sessionStorage !== 'undefined' && sessionStorage.getItem('splash_seen')) document.documentElement.classList.add('skip-splash');`,
+          }}
+        />
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(agencyJsonLd) }}
         />
@@ -307,9 +312,15 @@ function RootComponent() {
   const [showReactLoader, setShowReactLoader] = useState(true);
 
   useEffect(() => {
-    // Show the richer React loader for an additional ~1.8s after hydration
-    const timer = setTimeout(() => setShowReactLoader(false), 1800);
-    return () => clearTimeout(timer);
+    const hasSeen = sessionStorage.getItem("splash_seen");
+    if (hasSeen) {
+      setShowReactLoader(false);
+    } else {
+      sessionStorage.setItem("splash_seen", "true");
+      // Cap at 800ms
+      const timer = setTimeout(() => setShowReactLoader(false), 800);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   return (
@@ -318,20 +329,15 @@ function RootComponent() {
         <div className="flex min-h-screen flex-col bg-background text-foreground overflow-x-hidden relative">
           <SafariLoader visible={showReactLoader} />
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: showReactLoader ? 0 : 1 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="flex min-h-screen flex-col"
-        >
-          <SiteHeader />
-          <main className="flex-1 overflow-x-hidden relative">
-            <Outlet />
-          </main>
-          <SiteFooter />
-          <WhatsAppButton />
-        </motion.div>
-      </div>
+          <div className="flex min-h-screen flex-col">
+            <SiteHeader />
+            <main className="flex-1 overflow-x-hidden relative">
+              <Outlet />
+            </main>
+            <SiteFooter />
+            <WhatsAppButton />
+          </div>
+        </div>
       </CurtainProvider>
     </QueryClientProvider>
   );

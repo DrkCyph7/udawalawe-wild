@@ -30,7 +30,7 @@ export function SiteHeader() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         transparent
           ? "border-b border-white/10 bg-transparent"
           : "border-b border-border/50 bg-[oklch(0.93_0.035_76_/_0.97)] backdrop-blur-md shadow-sm"
@@ -143,11 +143,11 @@ export function SiteHeader() {
         </div>
       </div>
 
-      {/* Mobile drawer — CSS height-animated, no JS jank */}
       <div
         className={`overflow-hidden border-t border-border/50 bg-background transition-all duration-350 ease-in-out md:hidden ${
           open ? "max-h-[32rem] opacity-100" : "max-h-0 opacity-0"
         }`}
+        aria-hidden={!open}
       >
         <nav
           className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-4"

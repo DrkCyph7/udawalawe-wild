@@ -14,7 +14,7 @@ export function SafariLoader({ visible }: { visible: boolean }) {
             filter: "blur(12px)",
             transition: { duration: 1.0, ease: [0.76, 0, 0.24, 1] },
           }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden select-none bg-[#0a0f0a]"
+          className="safari-loader fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden select-none bg-[#0a0f0a]"
         >
           {/* Subtle noise/texture overlay for a premium analog feel */}
           <div 
