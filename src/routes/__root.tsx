@@ -237,59 +237,8 @@ function RootShell({ children }: { children: ReactNode }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
         />
-        {/* Priority inline styles — render before any JS for the splash loader */}
-        <style dangerouslySetInnerHTML={{ __html: `
-          #safari-splash{
-            position:fixed;inset:0;z-index:9999;
-            display:flex;flex-direction:column;align-items:center;justify-content:center;
-            background:oklch(0.15 0.06 150);
-            transition:opacity 0.9s cubic-bezier(0.76,0,0.24,1);
-          }
-          #safari-splash.fade-out{ opacity:0; pointer-events:none; }
-          #safari-splash img{ width:72px;height:72px;object-fit:contain;border-radius:50%;padding:8px;background:oklch(0.20 0.07 150 / 0.7); }
-          #safari-splash .brand{ margin-top:28px;font-family:Georgia,serif;font-size:22px;letter-spacing:0.12em;color:oklch(0.93 0.035 76);opacity:0.9; }
-          #safari-splash .sub{ margin-top:4px;font-size:9px;letter-spacing:0.26em;text-transform:uppercase;color:oklch(0.56 0.17 40); }
-          #safari-splash .ring{
-            position:absolute;width:140px;height:140px;border-radius:50%;
-            border:1.5px solid oklch(0.56 0.17 40 / 0.5);
-            box-shadow:0 0 32px oklch(0.56 0.17 40 / 0.25);
-            animation:ring-pulse 2.8s ease-in-out infinite;
-          }
-          #safari-splash .dots{margin-top:36px;display:flex;gap:8px;}
-          #safari-splash .dot{
-            width:6px;height:4px;border-radius:999px;
-            background:oklch(0.56 0.17 40 / 0.4);
-            animation:dot-pulse 1.4s ease-in-out infinite;
-          }
-          #safari-splash .dot:nth-child(2){animation-delay:0.25s;}
-          #safari-splash .dot:nth-child(3){animation-delay:0.5s;}
-          #safari-splash .dot:nth-child(4){animation-delay:0.75s;}
-          @keyframes ring-pulse{
-            0%,100%{transform:scale(1);opacity:0.6;}
-            50%{transform:scale(1.08);opacity:1;}
-          }
-          @keyframes dot-pulse{
-            0%,100%{background:oklch(0.56 0.17 40 / 0.25);}
-            50%{background:oklch(0.56 0.17 40 / 1);}
-          }
-          /* Hide page content until React hydrates and removes splash */
-          body:has(#safari-splash:not(.fade-out)) > div:not(#safari-splash){ visibility:hidden; }
-        `}} />
       </head>
       <body>
-        {/* Inline first-paint splash — renders before any JS/React */}
-        <div id="safari-splash">
-          <div className="ring" />
-          <img src="/logo.png" alt="Udawalawe Wild loading" />
-          <div className="brand">Udawalawe Wild</div>
-          <div className="sub">Sri Lanka</div>
-          <div className="dots">
-            <div className="dot" />
-            <div className="dot" />
-            <div className="dot" />
-            <div className="dot" />
-          </div>
-        </div>
         {children}
         <Scripts />
       </body>
@@ -302,13 +251,6 @@ function RootComponent() {
   const [showReactLoader, setShowReactLoader] = useState(true);
 
   useEffect(() => {
-    // Remove inline splash immediately (React is now hydrated)
-    const splash = document.getElementById("safari-splash");
-    if (splash) {
-      splash.classList.add("fade-out");
-      setTimeout(() => splash.remove(), 950);
-    }
-
     // Show the richer React loader for an additional ~1.8s after hydration
     const timer = setTimeout(() => setShowReactLoader(false), 1800);
     return () => clearTimeout(timer);
@@ -317,7 +259,6 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="flex min-h-screen flex-col bg-background text-foreground overflow-x-hidden relative">
-        {/* Rich React loader takes over from inline HTML splash */}
         <SafariLoader visible={showReactLoader} />
 
         <motion.div

@@ -1,7 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useSpring,
+  useScroll,
+  useTransform,
+  useReducedMotion,
+} from "framer-motion";
 import { Reveal } from "@/components/reveal";
 import {
   Binoculars,
@@ -9,12 +17,16 @@ import {
   Car,
   ChevronRight,
   Footprints,
+  Handshake,
+  Leaf,
   MapPin,
   MessageCircle,
+  PawPrint,
   Quote,
   Sparkles,
   Star,
   TreePine,
+  Wallet,
 } from "lucide-react";
 import heroImg from "@/assets/hero-elephant.jpg";
 import heroImg800 from "@/assets/hero-elephant-800w.webp";
@@ -71,6 +83,58 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
+/* ═══════════════════ 3D TILT CARD ══════════════════════════════════════ */
+/* Mouse-tracked, spring-smoothed 3D tilt. Disabled automatically when the
+   viewer prefers reduced motion, and effectively inert on touch devices
+   since there's no continuous mousemove to drive it. */
+function TiltCard({
+  children,
+  className = "",
+  intensity = 8,
+}: {
+  children: ReactNode;
+  className?: string;
+  intensity?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const rotateX = useMotionValue(0);
+  const rotateY = useMotionValue(0);
+  const springX = useSpring(rotateX, { stiffness: 260, damping: 24, mass: 0.4 });
+  const springY = useSpring(rotateY, { stiffness: 260, damping: 24, mass: 0.4 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (prefersReducedMotion) return;
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width;
+    const py = (e.clientY - rect.top) / rect.height;
+    rotateY.set((px - 0.5) * intensity);
+    rotateX.set((0.5 - py) * intensity);
+  };
+
+  const handleMouseLeave = () => {
+    rotateX.set(0);
+    rotateY.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX: prefersReducedMotion ? 0 : springX,
+        rotateY: prefersReducedMotion ? 0 : springY,
+        transformPerspective: 1000,
+      }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 /* ═══════════════════ ETHICS RULES ═════════════════════════════════════ */
 const ethicsRules = [
@@ -86,19 +150,38 @@ const benefits = [
   {
     t: "Clear pricing",
     d: "Fixed quotes before you confirm. No surprise fees at the gate.",
+    icon: Wallet,
   },
   {
     t: "Carefully selected partners",
     d: "Every operator is licensed, insured, and vetted for conduct.",
+    icon: Handshake,
   },
   {
     t: "Responsive planning",
     d: "Real replies on WhatsApp — usually within a few hours.",
+    icon: MessageCircle,
   },
   {
     t: "Private experience",
     d: "Your jeep, your pace. No sharing with strangers.",
+    icon: Car,
   },
+];
+
+/* ═══════════════════ TRUST STRIP ════════════════════════════════════════ */
+const trustStats = [
+  { icon: Handshake, stat: "100%", label: "Verified Local Partners", sub: "Every guide is local & licensed" },
+  { icon: Car, stat: "0", label: "Shared Vehicles", sub: "Private jeeps, always" },
+  { icon: Wallet, stat: "₀", label: "Hidden Fees", sub: "Transparent pricing guaranteed" },
+  { icon: PawPrint, stat: "50+", label: "Species in the Park", sub: "Ethical wildlife-first approach" },
+];
+
+/* ═══════════════════ STAT PILLS ═════════════════════════════════════════ */
+const statPills = [
+  { label: "12+ Years Guiding", icon: Leaf },
+  { label: "50+ Species Spotted", icon: PawPrint },
+  { label: "100% Private Jeeps", icon: Car },
 ];
 
 /* ═══════════════════ HOME PAGE ═════════════════════════════════════════ */
@@ -152,14 +235,26 @@ function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /* Subtle scroll parallax on the hero background */
+  const prefersReducedMotion = useReducedMotion();
+  const heroSectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: heroScrollProgress } = useScroll({
+    target: heroSectionRef,
+    offset: ["start start", "end start"],
+  });
+  const heroParallaxY = useTransform(heroScrollProgress, [0, 1], prefersReducedMotion ? ["0%", "0%"] : ["0%", "9%"]);
+
   return (
     <>
       {/* ═══════════════════════ HERO ══════════════════════════════════ */}
       {/* header is fixed+transparent, so hero fills full 100svh from top */}
-      <section className="relative isolate overflow-hidden h-[100svh] min-h-[680px] flex flex-col">
+      <section
+        ref={heroSectionRef}
+        className="relative isolate overflow-hidden h-[100svh] min-h-[600px] sm:min-h-[680px] flex flex-col"
+      >
 
         {/* ── Crossfade background slideshow ──────────────────────── */}
-        <div className="absolute inset-0 -z-10">
+        <motion.div className="absolute inset-0 -z-10" style={{ y: heroParallaxY }}>
           <AnimatePresence>
             <motion.img
               key={activeHero}
@@ -170,9 +265,9 @@ function Home() {
               width={1920}
               height={1280}
               className="absolute inset-0 h-full w-full object-cover object-center"
-              initial={{ opacity: 0, scale: 1.04 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
+              initial={{ opacity: 0, scale: 1.06 }}
+              animate={{ opacity: 1, scale: 1.02 }}
+              exit={{ opacity: 0, scale: 1 }}
               transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
             />
           </AnimatePresence>
@@ -182,7 +277,7 @@ function Home() {
           <div className="absolute inset-0 bg-gradient-to-r from-[oklch(0.15_0.06_150_/_0.72)] via-[oklch(0.15_0.06_150_/_0.2)] to-transparent" />
           {/* Golden-hour warm wash from right */}
           <div className="absolute inset-0 bg-gradient-to-l from-[oklch(0.56_0.17_40_/_0.1)] to-transparent" />
-        </div>
+        </motion.div>
 
         {/* ── Wildlife ticker — rendered BELOW the fixed header (top-16) ─ */}
         {/* Header is ~64px tall, so we offset by that */}
@@ -261,7 +356,7 @@ function Home() {
 
 
         {/* ── Main content — centered; pt accounts for header (64px) + ticker (36px) ── */}
-        <div className="flex-1 flex items-center" style={{ paddingTop: "100px" }}>
+        <div className="flex-1 flex items-center pt-[84px] sm:pt-[100px]">
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-8 py-8 grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:items-center">
             {/* Left — headline + CTAs */}
             <div>
@@ -294,13 +389,13 @@ function Home() {
                   className="font-serif leading-[1.05]"
                   style={{ color: "oklch(0.93 0.035 76)" }}
                 >
-                  <span className="block text-5xl sm:text-6xl lg:text-7xl">Experience{" "}</span>
-                  <span className="block text-5xl sm:text-6xl lg:text-7xl">Udawalawe,{" "}</span>
+                  <span className="block text-4xl sm:text-6xl lg:text-7xl">Experience{" "}</span>
+                  <span className="block text-4xl sm:text-6xl lg:text-7xl">Udawalawe,{" "}</span>
                   <motion.span
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.9, delay: 2.45, ease: [0.22, 1, 0.36, 1] }}
-                    className="block text-5xl italic sm:text-6xl lg:text-7xl"
+                    className="block text-4xl italic sm:text-6xl lg:text-7xl"
                     style={{ color: "oklch(0.72 0.09 52)" }}
                   >
                     wildly.
@@ -325,11 +420,11 @@ function Home() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 2.7, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-8 flex flex-wrap gap-3"
+                className="mt-8 flex flex-col sm:flex-row flex-wrap gap-3"
               >
                 <Link
                   to="/book"
-                  className="group inline-flex items-center gap-2.5 rounded-xl px-6 py-3 text-sm font-semibold shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                  className="group inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-xl px-6 py-3.5 sm:py-3 text-sm font-semibold shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl active:scale-95"
                   style={{
                     background: "oklch(0.56 0.17 40)",
                     color: "oklch(0.97 0.018 80)",
@@ -343,7 +438,7 @@ function Home() {
                   href={waLink("Hi Udawalawe Wild, I'd like to plan a safari.")}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2.5 rounded-xl px-6 py-3 text-sm font-semibold transition-all duration-300 hover:scale-105"
+                  className="inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-xl px-6 py-3.5 sm:py-3 text-sm font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
                   style={{
                     border: "1px solid oklch(1 0 0 / 0.22)",
                     color: "oklch(0.95 0.02 78)",
@@ -362,16 +457,12 @@ function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 2.85, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-8 flex flex-wrap gap-2.5"
+                className="mt-8 flex flex-wrap gap-2 sm:gap-2.5"
               >
-                {[
-                  { label: "12+ Years Guiding", icon: "🌿" },
-                  { label: "50+ Species Spotted", icon: "🐾" },
-                  { label: "100% Private Jeeps", icon: "🚙" },
-                ].map(({ label, icon }) => (
+                {statPills.map(({ label, icon: Icon }) => (
                   <div
                     key={label}
-                    className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold"
+                    className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full px-3 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-xs font-semibold"
                     style={{
                       background: "oklch(1 0 0 / 0.1)",
                       border: "1px solid oklch(1 0 0 / 0.18)",
@@ -380,7 +471,7 @@ function Home() {
                       boxShadow: "0 2px 12px oklch(0 0 0 / 0.2), inset 0 1px 0 oklch(1 0 0 / 0.18)",
                     }}
                   >
-                    <span>{icon}</span>
+                    <Icon className="h-3 w-3 sm:h-3.5 sm:w-3.5" style={{ color: "oklch(0.72 0.09 52)" }} aria-hidden="true" />
                     {label}
                   </div>
                 ))}
@@ -426,7 +517,7 @@ function Home() {
         >
           <span className="text-[9px] font-semibold uppercase tracking-[0.3em]">Explore</span>
           <motion.div
-            animate={{ y: [0, 6, 0] }}
+            animate={prefersReducedMotion ? {} : { y: [0, 6, 0] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
             className="h-8 w-5 rounded-full flex items-start justify-center pt-1.5"
             style={{ border: "1.5px solid oklch(1 0 0 / 0.25)" }}
@@ -434,7 +525,7 @@ function Home() {
             <motion.div
               className="h-1.5 w-1 rounded-full"
               style={{ background: "oklch(0.56 0.17 40)" }}
-              animate={{ y: [0, 10, 0], opacity: [1, 0, 1] }}
+              animate={prefersReducedMotion ? {} : { y: [0, 10, 0], opacity: [1, 0, 1] }}
               transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
             />
           </motion.div>
@@ -457,12 +548,7 @@ function Home() {
         <Reveal>
           <div className="mx-auto grid max-w-6xl grid-cols-2 lg:grid-cols-4 gap-px px-0"
             style={{ background: "oklch(1 0 0 / 0.05)" }}>
-            {[
-              { icon: "🤝", stat: "100%", label: "Verified Local Partners", sub: "Every guide is local & licensed" },
-              { icon: "🚙", stat: "0", label: "Shared Vehicles", sub: "Private jeeps, always" },
-              { icon: "💰", stat: "₀", label: "Hidden Fees", sub: "Transparent pricing guaranteed" },
-              { icon: "🐘", stat: "50+", label: "Species in the Park", sub: "Ethical wildlife-first approach" },
-            ].map(({ icon, stat, label, sub }, i) => (
+            {trustStats.map(({ icon: Icon, stat, label, sub }, i) => (
               <motion.div
                 key={label}
                 initial={{ opacity: 0, y: 24 }}
@@ -470,19 +556,19 @@ function Home() {
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
                 whileHover={{ y: -3, transition: { duration: 0.2 } }}
-                className="group flex flex-col items-center gap-2 px-6 py-8 text-center cursor-default"
+                className="group flex flex-col items-center gap-2 px-4 py-7 sm:px-6 sm:py-8 text-center cursor-default"
                 style={{ background: "oklch(0.19 0.055 150)" }}
               >
                 {/* Icon circle */}
                 <div
-                  className="mb-1 flex h-11 w-11 items-center justify-center rounded-xl text-xl transition-transform duration-300 group-hover:scale-110"
+                  className="mb-1 flex h-11 w-11 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110"
                   style={{
                     background: "oklch(0.56 0.17 40 / 0.15)",
                     border: "1px solid oklch(0.56 0.17 40 / 0.3)",
                     boxShadow: "0 0 20px oklch(0.56 0.17 40 / 0.12)",
                   }}
                 >
-                  {icon}
+                  <Icon className="h-5 w-5" style={{ color: "oklch(0.72 0.09 52)" }} aria-hidden="true" />
                 </div>
                 {/* Bold stat */}
                 <div className="font-serif text-2xl font-medium" style={{ color: "oklch(0.56 0.17 40)" }}>
@@ -606,33 +692,38 @@ function Home() {
               ))
               : visibleSafaris.map((s, i) => (
                 <Reveal key={s.slug} delay={i * 70} className="h-full">
-                  <article className="card-lift group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card">
-                    <div className="aspect-[4/5] overflow-hidden bg-muted">
-                      <img
-                        src={[elephantPortrait, safariJeep, wildlife, landscape, elephantPortrait][i % 5]}
-                        alt={s.name}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.06]"
-                      />
-                    </div>
-                    <div className="flex flex-1 flex-col p-4">
-                      <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-muted-foreground">
-                        <Binoculars className="h-3 w-3" aria-hidden="true" />
-                        {s.duration}
+                  <TiltCard className="h-full" intensity={7}>
+                    <article
+                      className="card-lift group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card"
+                      style={{ transformStyle: "preserve-3d" }}
+                    >
+                      <div className="aspect-[4/5] overflow-hidden bg-muted">
+                        <img
+                          src={[elephantPortrait, safariJeep, wildlife, landscape, elephantPortrait][i % 5]}
+                          alt={s.name}
+                          loading="lazy"
+                          className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.06]"
+                        />
                       </div>
-                      <h3 className="mt-1.5 font-serif text-base font-medium text-foreground">{s.name}</h3>
-                      <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground">
-                        {s.short}
-                      </p>
-                      <Link
-                        to="/safaris"
-                        className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-primary"
-                      >
-                        Learn more
-                        <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
-                      </Link>
-                    </div>
-                  </article>
+                      <div className="flex flex-1 flex-col p-4">
+                        <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-muted-foreground">
+                          <Binoculars className="h-3 w-3" aria-hidden="true" />
+                          {s.duration}
+                        </div>
+                        <h3 className="mt-1.5 font-serif text-base font-medium text-foreground">{s.name}</h3>
+                        <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground">
+                          {s.short}
+                        </p>
+                        <Link
+                          to="/safaris"
+                          className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-primary"
+                        >
+                          Learn more
+                          <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+                        </Link>
+                      </div>
+                    </article>
+                  </TiltCard>
                 </Reveal>
               ))}
           </div>
@@ -656,20 +747,22 @@ function Home() {
           <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {benefits.map((b, i) => (
               <Reveal key={b.t} delay={i * 90}>
-                <div className="benefit-tile h-full">
-                  {/* Icon */}
-                  <div
-                    className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl text-lg"
-                    style={{
-                      background: "oklch(0.56 0.17 40 / 0.18)",
-                      border: "1px solid oklch(0.56 0.17 40 / 0.35)",
-                    }}
-                  >
-                    {["🌿", "🐾", "🤝", "💬"][i % 4]}
+                <TiltCard intensity={6} className="h-full">
+                  <div className="benefit-tile h-full" style={{ transformStyle: "preserve-3d" }}>
+                    {/* Icon */}
+                    <div
+                      className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl"
+                      style={{
+                        background: "oklch(0.56 0.17 40 / 0.18)",
+                        border: "1px solid oklch(0.56 0.17 40 / 0.35)",
+                      }}
+                    >
+                      <b.icon className="h-4.5 w-4.5" style={{ color: "oklch(0.72 0.09 52)" }} aria-hidden="true" />
+                    </div>
+                    <div className="font-serif text-xl" style={{ color: "oklch(0.93 0.035 76)" }}>{b.t}</div>
+                    <p className="mt-3 flex-1 text-sm leading-relaxed" style={{ color: "oklch(0.62 0.03 76)" }}>{b.d}</p>
                   </div>
-                  <div className="font-serif text-xl" style={{ color: "oklch(0.93 0.035 76)" }}>{b.t}</div>
-                  <p className="mt-3 flex-1 text-sm leading-relaxed" style={{ color: "oklch(0.62 0.03 76)" }}>{b.d}</p>
-                </div>
+                </TiltCard>
               </Reveal>
             ))}
           </div>
@@ -696,10 +789,10 @@ function Home() {
                 <p className="mt-3 text-sm leading-relaxed sm:text-base" style={{ color: "oklch(0.68 0.03 76)" }}>
                   Located right beside Udawalawe National Park, the Elephant Transit Home (ETH) rehabilitates orphaned wild elephant calves until they are strong enough to be released back into the wild. Combine your safari with a public feeding view for a rare, ethical glimpse into elephant conservation.
                 </p>
-                <div className="mt-6 flex flex-wrap items-center gap-4">
+                <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-4">
                   <Link
                     to="/safaris"
-                    className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-xs font-semibold transition-all duration-300 hover:scale-105"
+                    className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-xs font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
                     style={{
                       background: "oklch(0.56 0.17 40)",
                       color: "oklch(0.97 0.018 80)",
@@ -718,14 +811,16 @@ function Home() {
                   </Link>
                 </div>
               </div>
-              <div className="overflow-hidden rounded-2xl aspect-[4/3]" style={{ boxShadow: "0 16px 48px oklch(0 0 0 / 0.35)" }}>
-                <img
-                  src={elephantPortrait}
-                  alt="Orphaned elephant calf at Udawalawe"
-                  loading="lazy"
-                  className="h-full w-full object-cover transition duration-700 hover:scale-105"
-                />
-              </div>
+              <TiltCard intensity={5} className="overflow-hidden rounded-2xl aspect-[4/3]" >
+                <div style={{ boxShadow: "0 16px 48px oklch(0 0 0 / 0.35)", transformStyle: "preserve-3d" }} className="h-full w-full">
+                  <img
+                    src={elephantPortrait}
+                    alt="Orphaned elephant calf at Udawalawe"
+                    loading="lazy"
+                    className="h-full w-full object-cover transition duration-700 hover:scale-105"
+                  />
+                </div>
+              </TiltCard>
             </div>
           </Reveal>
         </Section>
@@ -938,10 +1033,10 @@ function Home() {
               Send us your dates. We'll come back with verified options and a fixed quote within one
               business day.
             </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <div className="mt-8 flex flex-col sm:flex-row flex-wrap justify-center gap-3">
               <Link
                 to="/book"
-                className="inline-flex items-center gap-2 rounded-lg bg-[color:var(--terracotta)] px-6 py-3 text-sm font-semibold text-[color:var(--ivory)] shadow-md transition-colors duration-200 hover:brightness-110"
+                className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-[color:var(--terracotta)] px-6 py-3 text-sm font-semibold text-[color:var(--ivory)] shadow-md transition-all duration-200 hover:brightness-110 active:scale-95"
               >
                 <CalendarCheck className="h-4 w-4" aria-hidden="true" />
                 Plan my safari
@@ -950,7 +1045,7 @@ function Home() {
                 href={waLink()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg border border-[color:var(--ivory)]/50 px-6 py-3 text-sm font-medium text-[color:var(--ivory)] transition-colors duration-200 hover:bg-[color:var(--ivory)]/15 hover:border-[color:var(--ivory)]/80"
+                className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg border border-[color:var(--ivory)]/50 px-6 py-3 text-sm font-medium text-[color:var(--ivory)] transition-all duration-200 hover:bg-[color:var(--ivory)]/15 hover:border-[color:var(--ivory)]/80 active:scale-95"
               >
                 <MessageCircle className="h-4 w-4" aria-hidden="true" />
                 Chat on WhatsApp
