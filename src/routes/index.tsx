@@ -120,7 +120,7 @@ const trustStats = [
     sub: "Every guide is local & licensed",
   },
   { icon: Car, stat: "0", label: "Shared Vehicles", sub: "Private jeeps, always" },
-  { icon: Wallet, stat: "₀", label: "Hidden Fees", sub: "Transparent pricing guaranteed" },
+  { icon: Wallet, stat: "0", label: "Hidden Fees", sub: "Transparent pricing guaranteed" },
   {
     icon: PawPrint,
     stat: "50+",
@@ -410,34 +410,38 @@ function Home() {
                 transition={{ duration: 0.7, delay: 2.7, ease: [0.22, 1, 0.36, 1] }}
                 className="mt-8 flex flex-col sm:flex-row flex-wrap gap-3"
               >
-                <Link
-                  to="/book"
-                  className="group inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-xl px-6 py-3.5 sm:py-3 text-sm font-semibold shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl active:scale-95"
-                  style={{
-                    background: "oklch(0.56 0.17 40)",
-                    color: "oklch(0.97 0.018 80)",
-                    boxShadow: "0 4px 24px oklch(0.56 0.17 40 / 0.4)",
-                  }}
-                >
-                  <CalendarCheck className="h-4 w-4" aria-hidden="true" />
-                  Plan my safari
-                </Link>
-                <a
-                  href={waLink("Hi Udawalawe Wild, I'd like to plan a safari.")}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-xl px-6 py-3.5 sm:py-3 text-sm font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
-                  style={{
-                    border: "1px solid oklch(1 0 0 / 0.22)",
-                    color: "oklch(0.95 0.02 78)",
-                    background: "oklch(1 0 0 / 0.1)",
-                    backdropFilter: "blur(20px) saturate(1.6)",
-                    boxShadow: "0 4px 20px oklch(0 0 0 / 0.2), inset 0 1px 0 oklch(1 0 0 / 0.2)",
-                  }}
-                >
-                  <MessageCircle className="h-4 w-4" aria-hidden="true" />
-                  Chat on WhatsApp
-                </a>
+                <Magnetic className="w-full sm:w-auto" intensity={0.15}>
+                  <Link
+                    to="/book"
+                    className="group inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-xl px-6 py-3.5 sm:py-3 text-sm font-semibold shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl active:scale-95"
+                    style={{
+                      background: "oklch(0.56 0.17 40)",
+                      color: "oklch(0.97 0.018 80)",
+                      boxShadow: "0 4px 24px oklch(0.56 0.17 40 / 0.4)",
+                    }}
+                  >
+                    <CalendarCheck className="h-4 w-4" aria-hidden="true" />
+                    Plan my safari
+                  </Link>
+                </Magnetic>
+                <Magnetic className="w-full sm:w-auto" intensity={0.15}>
+                  <a
+                    href={waLink("Hi Udawalawe Wild, I'd like to plan a safari.")}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-xl px-6 py-3.5 sm:py-3 text-sm font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
+                    style={{
+                      border: "1px solid oklch(1 0 0 / 0.22)",
+                      color: "oklch(0.95 0.02 78)",
+                      background: "oklch(1 0 0 / 0.1)",
+                      backdropFilter: "blur(20px) saturate(1.6)",
+                      boxShadow: "0 4px 20px oklch(0 0 0 / 0.2), inset 0 1px 0 oklch(1 0 0 / 0.2)",
+                    }}
+                  >
+                    <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                    Chat on WhatsApp
+                  </a>
+                </Magnetic>
               </motion.div>
 
               {/* Floating stat pills */}
@@ -478,23 +482,19 @@ function Home() {
               className="hidden sm:block"
             >
               <div
-                className="rounded-3xl p-6 sm:p-8"
+                className="rounded-3xl p-6 sm:p-8 card-glass"
                 style={{
-                  background: "oklch(0.97 0.018 80 / 0.88)",
-                  border: "1px solid oklch(1 0 0 / 0.6)",
-                  backdropFilter: "blur(28px) saturate(2)",
-                  boxShadow:
-                    "0 32px 80px oklch(0.15 0.06 150 / 0.4), 0 2px 0 oklch(1 0 0 / 0.9) inset, inset 0 0 0 1px oklch(0.84 0.04 73 / 0.4)",
+                  boxShadow: "0 32px 80px oklch(0.15 0.06 150 / 0.4)",
                 }}
               >
                 <div className="mb-4">
                   <Eyebrow>Check availability</Eyebrow>
-                  <div className="font-serif text-2xl text-foreground">Start with your dates.</div>
-                  <p className="mt-1 text-xs text-muted-foreground">
+                  <div className="font-serif text-2xl text-[oklch(0.93_0.035_76)]">Start with your dates.</div>
+                  <p className="mt-1 text-xs text-[oklch(0.70_0.03_76)]">
                     A real person will reply with verified options within one business day.
                   </p>
                 </div>
-                <EnquiryForm />
+                <EnquiryForm theme="dark" />
               </div>
             </motion.div>
           </div>
@@ -577,14 +577,14 @@ function Home() {
                 </div>
                 {/* Bold stat */}
                 <div
-                  className="font-serif text-2xl font-medium"
+                  className="font-serif text-3xl font-medium lining-nums"
                   style={{ color: "oklch(0.56 0.17 40)" }}
                 >
                   {stat}
                 </div>
                 {/* Label */}
                 <div
-                  className="text-xs font-bold uppercase tracking-[0.18em]"
+                  className="text-[11px] sm:text-xs font-bold uppercase tracking-widest"
                   style={{ color: "oklch(0.93 0.035 76)" }}
                 >
                   {label}
