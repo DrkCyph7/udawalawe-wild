@@ -47,6 +47,8 @@ import { EnquiryForm } from "@/components/enquiry-form";
 import { Section, SectionHeading, Eyebrow } from "@/components/section";
 import { FaqList } from "@/components/faq-list";
 import { Magnetic } from "@/components/magnetic";
+import { LogoTicker } from "@/components/ui/logo-ticker";
+import { HeroEditorialStagger, HeroLine, HeroFadeIn } from "@/components/ui/hero-editorial-stagger";
 import { Skeleton } from "@/components/ui/skeleton";
 import { safaris, faqs, routes as travelRoutes } from "@/lib/content";
 import reviewsData from "@/lib/reviews.json";
@@ -258,16 +260,8 @@ function Home() {
             backdropFilter: "blur(12px) saturate(1.4)",
           }}
         >
-          <div className="flex w-max" style={{ animation: "marquee 32s linear infinite" }}>
+          <LogoTicker duration={32} pauseOnHover className="h-full w-full items-center">
             {[
-              "🐘 Elephant",
-              "🦅 Eagle",
-              "🦊 Jackal",
-              "🐊 Crocodile",
-              "🦚 Peacock",
-              "🦬 Buffalo",
-              "🐆 Leopard",
-              "🐦 Kingfisher",
               "🐘 Elephant",
               "🦅 Eagle",
               "🦊 Jackal",
@@ -288,7 +282,7 @@ function Home() {
                 </span>
               </span>
             ))}
-          </div>
+          </LogoTicker>
         </div>
 
         {/* ── Live rating badge — liquid glass pill ───────────────── */}
@@ -343,136 +337,120 @@ function Home() {
         <div className="flex-1 flex items-center pt-[84px] sm:pt-[100px]">
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-8 py-8 grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:items-center">
             {/* Left — headline + CTAs */}
-            <div>
+            <HeroEditorialStagger delay={2.0}>
               {/* Eyebrow */}
-              <motion.div
-                initial={{ opacity: 0, y: 14, filter: "blur(4px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{ duration: 0.7, delay: 2.0, ease: [0.22, 1, 0.36, 1] }}
-                className="mb-5 inline-flex items-center gap-2 rounded-full px-4 py-2"
-                style={{
-                  background: "oklch(1 0 0 / 0.1)",
-                  border: "1px solid oklch(1 0 0 / 0.2)",
-                  backdropFilter: "blur(20px) saturate(1.6)",
-                  boxShadow: "0 2px 16px oklch(0 0 0 / 0.2), inset 0 1px 0 oklch(1 0 0 / 0.2)",
-                }}
-              >
-                <Sparkles className="h-3 w-3" style={{ color: "oklch(0.72 0.09 52)" }} />
-                <span
-                  className="text-[10px] font-semibold uppercase tracking-[0.2em]"
-                  style={{ color: "oklch(0.93 0.035 76 / 0.85)" }}
+              <HeroFadeIn>
+                <div
+                  className="mb-5 inline-flex items-center gap-2 rounded-full px-4 py-2"
+                  style={{
+                    background: "oklch(1 0 0 / 0.1)",
+                    border: "1px solid oklch(1 0 0 / 0.2)",
+                    backdropFilter: "blur(20px) saturate(1.6)",
+                    boxShadow: "0 2px 16px oklch(0 0 0 / 0.2), inset 0 1px 0 oklch(1 0 0 / 0.2)",
+                  }}
                 >
-                  Udawalawe, Sri Lanka
-                </span>
-              </motion.div>
+                  <Sparkles className="h-3 w-3" style={{ color: "oklch(0.72 0.09 52)" }} />
+                  <span
+                    className="text-[10px] font-semibold uppercase tracking-[0.2em]"
+                    style={{ color: "oklch(0.93 0.035 76 / 0.85)" }}
+                  >
+                    Udawalawe, Sri Lanka
+                  </span>
+                </div>
+              </HeroFadeIn>
 
               {/* Staggered headline */}
-              <motion.div
-                initial={{ opacity: 0, y: 60, filter: "blur(8px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{ duration: 1.0, delay: 2.15, ease: [0.22, 1, 0.36, 1] }}
-                className="overflow-hidden"
+              <h1
+                className="font-serif leading-[1.05] text-4xl sm:text-6xl lg:text-7xl"
+                style={{ color: "oklch(0.93 0.035 76)" }}
               >
-                <h1
-                  className="font-serif leading-[1.05] text-4xl sm:text-6xl lg:text-7xl"
-                  style={{ color: "oklch(0.93 0.035 76)" }}
-                >
-                  Experience <br />
-                  Udawalawe, <br />
-                  <motion.span
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.9, delay: 2.45, ease: [0.22, 1, 0.36, 1] }}
+                <HeroLine>Experience</HeroLine>
+                <HeroLine>Udawalawe,</HeroLine>
+                <HeroLine>
+                  <span
                     className="italic inline-block mt-1 sm:mt-0"
                     style={{ color: "oklch(0.72 0.09 52)" }}
                   >
                     wildly.
-                  </motion.span>
-                </h1>
-              </motion.div>
+                  </span>
+                </HeroLine>
+              </h1>
 
               {/* Subtext */}
-              <motion.p
-                initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{ duration: 0.8, delay: 2.55, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-6 max-w-lg text-base leading-relaxed sm:text-lg"
-                style={{ color: "oklch(0.93 0.035 76 / 0.75)" }}
-              >
-                Private, wildlife-first safaris with verified local partners, transparent pricing,
-                and simple planning.
-              </motion.p>
+              <HeroFadeIn>
+                <p
+                  className="mt-6 max-w-lg text-base leading-relaxed sm:text-lg"
+                  style={{ color: "oklch(0.93 0.035 76 / 0.75)" }}
+                >
+                  Private, wildlife-first safaris with verified local partners, transparent pricing,
+                  and simple planning.
+                </p>
+              </HeroFadeIn>
 
               {/* CTAs */}
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 2.7, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-8 flex flex-col sm:flex-row flex-wrap gap-3"
-              >
-                <Magnetic className="w-full sm:w-auto" intensity={0.15}>
-                  <Link
-                    to="/book"
-                    className="group inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-xl px-6 py-3.5 sm:py-3 text-sm font-semibold shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl active:scale-95"
-                    style={{
-                      background: "oklch(0.56 0.17 40)",
-                      color: "oklch(0.97 0.018 80)",
-                      boxShadow: "0 4px 24px oklch(0.56 0.17 40 / 0.4)",
-                    }}
-                  >
-                    <CalendarCheck className="h-4 w-4" aria-hidden="true" />
-                    Plan my safari
-                  </Link>
-                </Magnetic>
-                <Magnetic className="w-full sm:w-auto" intensity={0.15}>
-                  <a
-                    href={waLink("Hi Udawalawe Wild, I'd like to plan a safari.")}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-xl px-6 py-3.5 sm:py-3 text-sm font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
-                    style={{
-                      border: "1px solid oklch(1 0 0 / 0.22)",
-                      color: "oklch(0.95 0.02 78)",
-                      background: "oklch(1 0 0 / 0.1)",
-                      backdropFilter: "blur(20px) saturate(1.6)",
-                      boxShadow: "0 4px 20px oklch(0 0 0 / 0.2), inset 0 1px 0 oklch(1 0 0 / 0.2)",
-                    }}
-                  >
-                    <MessageCircle className="h-4 w-4" aria-hidden="true" />
-                    Chat on WhatsApp
-                  </a>
-                </Magnetic>
-              </motion.div>
+              <HeroFadeIn>
+                <div className="mt-8 flex flex-col sm:flex-row flex-wrap gap-3">
+                  <Magnetic className="w-full sm:w-auto" intensity={0.15}>
+                    <Link
+                      to="/book"
+                      className="group inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-xl px-6 py-3.5 sm:py-3 text-sm font-semibold shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl active:scale-95"
+                      style={{
+                        background: "oklch(0.56 0.17 40)",
+                        color: "oklch(0.97 0.018 80)",
+                        boxShadow: "0 4px 24px oklch(0.56 0.17 40 / 0.4)",
+                      }}
+                    >
+                      <CalendarCheck className="h-4 w-4" aria-hidden="true" />
+                      Plan my safari
+                    </Link>
+                  </Magnetic>
+                  <Magnetic className="w-full sm:w-auto" intensity={0.15}>
+                    <a
+                      href={waLink("Hi Udawalawe Wild, I'd like to plan a safari.")}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-xl px-6 py-3.5 sm:py-3 text-sm font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
+                      style={{
+                        border: "1px solid oklch(1 0 0 / 0.22)",
+                        color: "oklch(0.95 0.02 78)",
+                        background: "oklch(1 0 0 / 0.1)",
+                        backdropFilter: "blur(20px) saturate(1.6)",
+                        boxShadow: "0 4px 20px oklch(0 0 0 / 0.2), inset 0 1px 0 oklch(1 0 0 / 0.2)",
+                      }}
+                    >
+                      <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                      Chat on WhatsApp
+                    </a>
+                  </Magnetic>
+                </div>
+              </HeroFadeIn>
 
               {/* Floating stat pills */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 2.85, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-8 flex flex-wrap gap-2 sm:gap-2.5"
-              >
-                {statPills.map(({ label, icon: Icon }) => (
-                  <div
-                    key={label}
-                    className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full px-3 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-xs font-semibold"
-                    style={{
-                      background: "oklch(1 0 0 / 0.1)",
-                      border: "1px solid oklch(1 0 0 / 0.18)",
-                      color: "oklch(0.95 0.02 78)",
-                      backdropFilter: "blur(20px) saturate(1.6)",
-                      boxShadow: "0 2px 12px oklch(0 0 0 / 0.2), inset 0 1px 0 oklch(1 0 0 / 0.18)",
-                    }}
-                  >
-                    <Icon
-                      className="h-3 w-3 sm:h-3.5 sm:w-3.5"
-                      style={{ color: "oklch(0.72 0.09 52)" }}
-                      aria-hidden="true"
-                    />
-                    {label}
-                  </div>
-                ))}
-              </motion.div>
-            </div>
+              <HeroFadeIn>
+                <div className="mt-8 flex flex-wrap gap-2 sm:gap-2.5">
+                  {statPills.map(({ label, icon: Icon }) => (
+                    <div
+                      key={label}
+                      className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full px-3 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-xs font-semibold"
+                      style={{
+                        background: "oklch(1 0 0 / 0.1)",
+                        border: "1px solid oklch(1 0 0 / 0.18)",
+                        color: "oklch(0.95 0.02 78)",
+                        backdropFilter: "blur(20px) saturate(1.6)",
+                        boxShadow: "0 2px 12px oklch(0 0 0 / 0.2), inset 0 1px 0 oklch(1 0 0 / 0.18)",
+                      }}
+                    >
+                      <Icon
+                        className="h-3 w-3 sm:h-3.5 sm:w-3.5"
+                        style={{ color: "oklch(0.72 0.09 52)" }}
+                        aria-hidden="true"
+                      />
+                      {label}
+                    </div>
+                  ))}
+                </div>
+              </HeroFadeIn>
+            </HeroEditorialStagger>
 
             {/* Right — enquiry glass card */}
             <motion.div
@@ -628,67 +606,67 @@ function Home() {
             >
               {isPending
                 ? Array.from({ length: 5 }).map((_, idx) => (
-                    <div
-                      key={idx}
-                      className="safari-snap-card overflow-hidden rounded-xl card-glass"
-                    >
-                      <Skeleton className="aspect-[3/2] w-full" />
-                      <div className="space-y-3 p-4">
-                        <Skeleton className="h-3 w-24" />
-                        <Skeleton className="h-5 w-3/4" />
-                        <Skeleton className="h-4 w-full" />
-                      </div>
+                  <div
+                    key={idx}
+                    className="safari-snap-card overflow-hidden rounded-xl card-glass"
+                  >
+                    <Skeleton className="aspect-[3/2] w-full" />
+                    <div className="space-y-3 p-4">
+                      <Skeleton className="h-3 w-24" />
+                      <Skeleton className="h-5 w-3/4" />
+                      <Skeleton className="h-4 w-full" />
                     </div>
-                  ))
+                  </div>
+                ))
                 : visibleSafaris.map((s, i) => (
-                    <article
-                      key={s.slug}
-                      className="safari-snap-card card-lift group flex flex-col overflow-hidden rounded-xl card-glass"
-                    >
-                      <div className="aspect-[3/2] overflow-hidden bg-muted">
-                        <img
-                          src={
-                            [elephantPortrait, ethicalImg, wildlife, landscape, elephantPortrait][
-                              i % 5
-                            ]
-                          }
-                          srcSet={
-                            i % 5 === 0
-                              ? `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w`
-                              : i % 5 === 1
-                                ? `${ethicalImg800} 800w, ${ethicalImg1200} 1200w`
-                                : i % 5 === 3
-                                  ? `${landscape800} 800w, ${landscape1200} 1200w`
-                                  : i % 5 === 4
-                                    ? `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w`
-                                    : undefined
-                          }
-                          alt={s.name}
-                          loading="lazy"
-                          fetchPriority="low"
-                          decoding="async"
-                          className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.06]"
-                        />
+                  <article
+                    key={s.slug}
+                    className="safari-snap-card card-lift group flex flex-col overflow-hidden rounded-xl card-glass"
+                  >
+                    <div className="aspect-[3/2] overflow-hidden bg-muted">
+                      <img
+                        src={
+                          [elephantPortrait, ethicalImg, wildlife, landscape, elephantPortrait][
+                          i % 5
+                          ]
+                        }
+                        srcSet={
+                          i % 5 === 0
+                            ? `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w`
+                            : i % 5 === 1
+                              ? `${ethicalImg800} 800w, ${ethicalImg1200} 1200w`
+                              : i % 5 === 3
+                                ? `${landscape800} 800w, ${landscape1200} 1200w`
+                                : i % 5 === 4
+                                  ? `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w`
+                                  : undefined
+                        }
+                        alt={s.name}
+                        loading="lazy"
+                        fetchPriority="low"
+                        decoding="async"
+                        className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.06]"
+                      />
+                    </div>
+                    <div className="flex flex-1 flex-col p-4">
+                      <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-muted-foreground">
+                        <Binoculars className="h-3 w-3" aria-hidden="true" />
+                        {s.duration}
                       </div>
-                      <div className="flex flex-1 flex-col p-4">
-                        <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-muted-foreground">
-                          <Binoculars className="h-3 w-3" aria-hidden="true" />
-                          {s.duration}
-                        </div>
-                        <h3 className="mt-1.5 font-serif text-lg text-foreground">{s.name}</h3>
-                        <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground">
-                          {s.short}
-                        </p>
-                        <Link
-                          to="/safaris"
-                          className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-primary"
-                        >
-                          Learn more
-                          <ChevronRight className="h-3 w-3" aria-hidden="true" />
-                        </Link>
-                      </div>
-                    </article>
-                  ))}
+                      <h3 className="mt-1.5 font-serif text-lg text-foreground">{s.name}</h3>
+                      <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground">
+                        {s.short}
+                      </p>
+                      <Link
+                        to="/safaris"
+                        className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-primary"
+                      >
+                        Learn more
+                        <ChevronRight className="h-3 w-3" aria-hidden="true" />
+                      </Link>
+                    </div>
+                  </article>
+                ))}
             </div>
 
             {/* Scroll dots — hidden on sm+ via CSS */}
@@ -707,74 +685,74 @@ function Home() {
             <div className="hidden gap-4 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
               {isPending
                 ? Array.from({ length: 5 }).map((_, idx) => (
-                    <article key={idx} className="overflow-hidden rounded-xl card-glass">
-                      <Skeleton className="aspect-[4/5] w-full" />
-                      <div className="space-y-3 p-4">
-                        <Skeleton className="h-3 w-24" />
-                        <Skeleton className="h-6 w-3/4" />
-                        <Skeleton className="h-4 w-full" />
-                      </div>
-                    </article>
-                  ))
+                  <article key={idx} className="overflow-hidden rounded-xl card-glass">
+                    <Skeleton className="aspect-[4/5] w-full" />
+                    <div className="space-y-3 p-4">
+                      <Skeleton className="h-3 w-24" />
+                      <Skeleton className="h-6 w-3/4" />
+                      <Skeleton className="h-4 w-full" />
+                    </div>
+                  </article>
+                ))
                 : visibleSafaris.map((s, i) => (
-                    <Reveal key={s.slug} delay={i * 70} className="h-full">
-                      <TiltCard className="h-full" intensity={7}>
-                        <article
-                          className="card-lift group flex h-full flex-col overflow-hidden rounded-xl card-glass"
-                          style={{ transformStyle: "preserve-3d" }}
-                        >
-                          <div className="aspect-[4/5] overflow-hidden bg-muted">
-                            <img
-                              src={
-                                [
-                                  elephantPortrait,
-                                  ethicalImg,
-                                  wildlife,
-                                  landscape,
-                                  elephantPortrait,
-                                ][i % 5]
-                              }
-                              srcSet={
-                                i % 5 === 0
-                                  ? `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w`
-                                  : i % 5 === 1
-                                    ? `${ethicalImg800} 800w, ${ethicalImg1200} 1200w`
-                                    : i % 5 === 3
-                                      ? `${landscape800} 800w, ${landscape1200} 1200w`
-                                      : i % 5 === 4
-                                        ? `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w`
-                                        : undefined
-                              }
-                              alt={s.name}
-                              loading="lazy"
-                              fetchPriority="low"
-                              decoding="async"
-                              className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.06]"
-                            />
+                  <Reveal key={s.slug} delay={i * 70} className="h-full">
+                    <TiltCard className="h-full" intensity={7}>
+                      <article
+                        className="card-lift group flex h-full flex-col overflow-hidden rounded-xl card-glass"
+                        style={{ transformStyle: "preserve-3d" }}
+                      >
+                        <div className="aspect-[4/5] overflow-hidden bg-muted">
+                          <img
+                            src={
+                              [
+                                elephantPortrait,
+                                ethicalImg,
+                                wildlife,
+                                landscape,
+                                elephantPortrait,
+                              ][i % 5]
+                            }
+                            srcSet={
+                              i % 5 === 0
+                                ? `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w`
+                                : i % 5 === 1
+                                  ? `${ethicalImg800} 800w, ${ethicalImg1200} 1200w`
+                                  : i % 5 === 3
+                                    ? `${landscape800} 800w, ${landscape1200} 1200w`
+                                    : i % 5 === 4
+                                      ? `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w`
+                                      : undefined
+                            }
+                            alt={s.name}
+                            loading="lazy"
+                            fetchPriority="low"
+                            decoding="async"
+                            className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.06]"
+                          />
+                        </div>
+                        <div className="flex flex-1 flex-col p-4">
+                          <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-muted-foreground">
+                            <Binoculars className="h-3 w-3" aria-hidden="true" />
+                            {s.duration}
                           </div>
-                          <div className="flex flex-1 flex-col p-4">
-                            <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-muted-foreground">
-                              <Binoculars className="h-3 w-3" aria-hidden="true" />
-                              {s.duration}
-                            </div>
-                            <h3 className="mt-1.5 font-serif text-base font-medium text-foreground">
-                              {s.name}
-                            </h3>
-                            <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground">
-                              {s.short}
-                            </p>
-                            <Link
-                              to="/safaris"
-                              className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-primary"
-                            >
-                              Learn more
-                              <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
-                            </Link>
-                          </div>
-                        </article>
-                      </TiltCard>
-                    </Reveal>
-                  ))}
+                          <h3 className="mt-1.5 font-serif text-base font-medium text-foreground">
+                            {s.name}
+                          </h3>
+                          <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground">
+                            {s.short}
+                          </p>
+                          <Link
+                            to="/safaris"
+                            className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-primary"
+                          >
+                            Learn more
+                            <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+                          </Link>
+                        </div>
+                      </article>
+                    </TiltCard>
+                  </Reveal>
+                ))}
             </div>
           </div>
         </Section>
@@ -980,61 +958,61 @@ function Home() {
           <div className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4 items-stretch">
             {isPending
               ? Array.from({ length: 4 }).map((_, idx) => (
-                  <div key={idx} className="rounded-xl card-glass p-4">
-                    <Skeleton className="h-3 w-16" />
-                    <Skeleton className="mt-2 h-6 w-20" />
-                    <Skeleton className="mt-2 h-3 w-full" />
-                  </div>
-                ))
+                <div key={idx} className="rounded-xl card-glass p-4">
+                  <Skeleton className="h-3 w-16" />
+                  <Skeleton className="mt-2 h-6 w-20" />
+                  <Skeleton className="mt-2 h-3 w-full" />
+                </div>
+              ))
               : visibleRoutes.map((r, i) => (
-                  <Reveal key={r.slug} delay={i * 70} className="h-full">
-                    <TiltCard className="h-full" intensity={6}>
-                      <Link
-                        to={`/${r.slug}`}
-                        className="group flex h-full flex-col gap-1.5 rounded-xl p-4 transition-all duration-300 card-glass"
-                        style={{ transformStyle: "preserve-3d" }}
-                        onMouseEnter={(e) => {
-                          (e.currentTarget as HTMLElement).style.borderColor =
-                            "oklch(0.56 0.17 40 / 0.4)";
-                          (e.currentTarget as HTMLElement).style.boxShadow =
-                            "0 0 0 1px oklch(0.56 0.17 40 / 0.2), 0 16px 40px oklch(0 0 0 / 0.3)";
-                        }}
-                        onMouseLeave={(e) => {
-                          (e.currentTarget as HTMLElement).style.borderColor = "oklch(1 0 0 / 0.1)";
-                          (e.currentTarget as HTMLElement).style.boxShadow =
-                            "0 8px 32px oklch(0 0 0 / 0.3), inset 0 1px 0 oklch(1 0 0 / 0.12)";
-                        }}
+                <Reveal key={r.slug} delay={i * 70} className="h-full">
+                  <TiltCard className="h-full" intensity={6}>
+                    <Link
+                      to={`/${r.slug}`}
+                      className="group flex h-full flex-col gap-1.5 rounded-xl p-4 transition-all duration-300 card-glass"
+                      style={{ transformStyle: "preserve-3d" }}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLElement).style.borderColor =
+                          "oklch(0.56 0.17 40 / 0.4)";
+                        (e.currentTarget as HTMLElement).style.boxShadow =
+                          "0 0 0 1px oklch(0.56 0.17 40 / 0.2), 0 16px 40px oklch(0 0 0 / 0.3)";
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLElement).style.borderColor = "oklch(1 0 0 / 0.1)";
+                        (e.currentTarget as HTMLElement).style.boxShadow =
+                          "0 8px 32px oklch(0 0 0 / 0.3), inset 0 1px 0 oklch(1 0 0 / 0.12)";
+                      }}
+                    >
+                      <div
+                        className="flex items-center gap-1 text-[10px] uppercase tracking-widest"
+                        style={{ color: "oklch(0.56 0.17 40 / 0.8)" }}
                       >
-                        <div
-                          className="flex items-center gap-1 text-[10px] uppercase tracking-widest"
-                          style={{ color: "oklch(0.56 0.17 40 / 0.8)" }}
-                        >
-                          <MapPin className="h-2.5 w-2.5" aria-hidden="true" />
-                          From
-                        </div>
-                        <div
-                          className="font-serif text-base leading-tight sm:text-xl"
-                          style={{ color: "oklch(0.93 0.035 76)" }}
-                        >
-                          {r.from}
-                        </div>
-                        <div
-                          className="text-xs leading-snug"
-                          style={{ color: "oklch(0.60 0.03 76)" }}
-                        >
-                          {r.drive}
-                        </div>
-                        <div
-                          className="mt-auto pt-2 flex items-center gap-1 text-xs font-medium opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-                          style={{ color: "oklch(0.72 0.09 52)" }}
-                        >
-                          View route
-                          <ChevronRight className="h-3 w-3" aria-hidden="true" />
-                        </div>
-                      </Link>
-                    </TiltCard>
-                  </Reveal>
-                ))}
+                        <MapPin className="h-2.5 w-2.5" aria-hidden="true" />
+                        From
+                      </div>
+                      <div
+                        className="font-serif text-base leading-tight sm:text-xl"
+                        style={{ color: "oklch(0.93 0.035 76)" }}
+                      >
+                        {r.from}
+                      </div>
+                      <div
+                        className="text-xs leading-snug"
+                        style={{ color: "oklch(0.60 0.03 76)" }}
+                      >
+                        {r.drive}
+                      </div>
+                      <div
+                        className="mt-auto pt-2 flex items-center gap-1 text-xs font-medium opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                        style={{ color: "oklch(0.72 0.09 52)" }}
+                      >
+                        View route
+                        <ChevronRight className="h-3 w-3" aria-hidden="true" />
+                      </div>
+                    </Link>
+                  </TiltCard>
+                </Reveal>
+              ))}
           </div>
         </Section>
       </div>

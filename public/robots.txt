@@ -24,7 +24,6 @@ Allow: /
 
 User-agent: Bingbot
 Allow: /
-Crawl-delay: 2
 
 # ─────────────────────────────
 # AI real-time citation / browsing agents — ALLOWED
