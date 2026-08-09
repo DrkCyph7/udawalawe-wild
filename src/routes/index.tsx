@@ -1126,7 +1126,7 @@ function Home() {
               <Magnetic className="w-full sm:w-auto">
                 <Link
                   to="/book"
-                  className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-[color:var(--terracotta)] px-6 py-3 text-sm font-semibold text-[color:var(--ivory)] shadow-md transition-all duration-200 hover:brightness-110 active:scale-95"
+                  className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-[oklch(0.56_0.17_40)] hover:bg-[oklch(0.52_0.17_40)] px-6 py-3 text-sm font-semibold text-[oklch(0.97_0.018_80)] shadow-md transition-all duration-200 active:scale-95"
                 >
                   <CalendarCheck className="h-4 w-4" aria-hidden="true" />
                   Plan my safari
