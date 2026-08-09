@@ -1,21 +1,25 @@
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function SafariLoader({ visible }: { visible: boolean }) {
+  const [mounted, setMounted] = useState(true);
+
+  useEffect(() => {
+    if (!visible) {
+      const timer = setTimeout(() => setMounted(false), 1000); // 1s for exit transition
+      return () => clearTimeout(timer);
+    }
+  }, [visible]);
+
+  if (!mounted) return null;
+
   // A cinematic, premium loader sequence replacing the old UI
   return (
-    <AnimatePresence>
-      {visible && (
-        <motion.div
-          key="safari-loader"
-          initial={{ opacity: 1 }}
-          exit={{
-            opacity: 0,
-            scale: 1.05,
-            filter: "blur(12px)",
-            transition: { duration: 1.0, ease: [0.76, 0, 0.24, 1] },
-          }}
-          className="safari-loader fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden select-none bg-[#0a0f0a]"
-        >
+    <div
+      className={`safari-loader fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden select-none bg-[#0a0f0a] transition-all duration-1000 ease-[cubic-bezier(0.76,0,0.24,1)] origin-center ${
+        visible ? "opacity-100 scale-100 blur-none" : "opacity-0 scale-105 blur-[12px]"
+      }`}
+    >
           {/* Subtle noise/texture overlay for a premium analog feel */}
           <div
             className="absolute inset-0 opacity-[0.035] pointer-events-none mix-blend-overlay"
@@ -105,8 +109,6 @@ export function SafariLoader({ visible }: { visible: boolean }) {
               </motion.div>
             </div>
           </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    </div>
   );
 }

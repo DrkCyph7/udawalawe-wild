@@ -336,7 +336,17 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
-
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (sessionStorage.getItem('splashShown')) {
+                  document.documentElement.classList.add('hide-splash');
+                }
+              } catch (e) {}
+            `,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(agencyJsonLd) }}
@@ -363,12 +373,16 @@ function RootComponent() {
   const [showReactLoader, setShowReactLoader] = useState(true);
 
   useEffect(() => {
-    if (showReactLoader) {
+    const hasShown = sessionStorage.getItem("splashShown");
+    if (hasShown) {
+      setShowReactLoader(false);
+    } else {
+      sessionStorage.setItem("splashShown", "true");
       // Let the cinematic loader choreography finish before unmounting (2.6s)
       const timer = setTimeout(() => setShowReactLoader(false), 2600);
       return () => clearTimeout(timer);
     }
-  }, [showReactLoader]);
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
