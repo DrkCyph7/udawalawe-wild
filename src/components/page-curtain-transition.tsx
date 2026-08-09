@@ -122,42 +122,82 @@ export function CurtainTransition({
   return (
     <AnimatePresence>
       {phase !== "idle" && (
-        <motion.div
-          key="page-curtain"
-          className="fixed inset-y-0 z-[10000] pointer-events-none flex items-center justify-center overflow-hidden"
-          style={{
-            left: "-25vw",
-            width: "150vw",
-            background:
-              "linear-gradient(135deg, oklch(0.15 0.055 150) 0%, oklch(0.2 0.06 148) 100%)",
-            transform: `skewX(-${angle}deg)`,
-            boxShadow: "0 0 80px oklch(0 0 0 / 0.4)",
-          }}
-          initial={{ x: "-100%" }}
-          animate={{ x: phase === "covering" ? "0%" : "100%" }}
-          exit={{ x: "100%" }}
-          transition={{ duration: 0.85, ease: [0.76, 0, 0.24, 1] }}
-          onAnimationComplete={() => {
-            if (phase === "covering") onCoverComplete?.();
-            if (phase === "revealing") onRevealComplete?.();
-          }}
-          role="presentation"
-          aria-hidden="true"
-        >
-          <motion.h2
-            className="font-serif italic text-5xl md:text-7xl lg:text-8xl whitespace-nowrap tracking-tight"
+        <>
+          {/* Layer 1: Terracotta Accent Wipe */}
+          <motion.div
+            key="page-curtain-layer1"
+            className="fixed inset-y-0 z-[9999] pointer-events-none overflow-hidden"
             style={{
-              transform: `skewX(${angle}deg)`,
-              color: "oklch(0.93 0.035 76)",
-              textShadow: "0 10px 30px oklch(0 0 0 / 0.5)",
+              left: "-25vw",
+              width: "150vw",
+              background: "oklch(0.56 0.17 40)", // terracotta
+              transform: `skewX(-${angle}deg)`,
             }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: phase === "covering" ? 1 : 0 }}
-            transition={{ duration: 0.35, delay: phase === "covering" ? 0.35 : 0 }}
+            initial={{ x: "-100%" }}
+            animate={{ x: phase === "covering" ? "0%" : "100%" }}
+            exit={{ x: "100%" }}
+            transition={{
+              duration: 0.8,
+              delay: phase === "covering" ? 0 : 0.15,
+              ease: [0.76, 0, 0.24, 1],
+            }}
+            onAnimationComplete={() => {
+              if (phase === "revealing") onRevealComplete?.();
+            }}
+          />
+
+          {/* Layer 2: Main Dark Green Wipe with Text */}
+          <motion.div
+            key="page-curtain-layer2"
+            className="fixed inset-y-0 z-[10000] pointer-events-none flex items-center justify-center overflow-hidden"
+            style={{
+              left: "-25vw",
+              width: "150vw",
+              background:
+                "linear-gradient(135deg, oklch(0.15 0.055 150) 0%, oklch(0.2 0.06 148) 100%)",
+              transform: `skewX(-${angle}deg)`,
+              boxShadow: "-20px 0 60px oklch(0 0 0 / 0.4)",
+            }}
+            initial={{ x: "-100%" }}
+            animate={{ x: phase === "covering" ? "0%" : "100%" }}
+            exit={{ x: "100%" }}
+            transition={{
+              duration: 0.8,
+              delay: phase === "covering" ? 0.15 : 0,
+              ease: [0.76, 0, 0.24, 1],
+            }}
+            onAnimationComplete={() => {
+              if (phase === "covering") onCoverComplete?.();
+            }}
+            role="presentation"
+            aria-hidden="true"
           >
-            {title}
-          </motion.h2>
-        </motion.div>
+            <motion.div
+              className="flex items-center justify-center"
+              style={{ transform: `skewX(${angle}deg)` }}
+            >
+              <motion.h2
+                className="font-serif italic text-4xl sm:text-5xl md:text-7xl lg:text-8xl whitespace-nowrap tracking-tight"
+                style={{
+                  color: "oklch(0.97 0.018 80)", // ivory
+                  textShadow: "0 10px 30px oklch(0 0 0 / 0.5)",
+                }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{
+                  opacity: phase === "covering" ? 1 : 0,
+                  y: phase === "covering" ? 0 : -20,
+                }}
+                transition={{
+                  duration: 0.5,
+                  delay: phase === "covering" ? 0.4 : 0,
+                  ease: "easeOut",
+                }}
+              >
+                {title}
+              </motion.h2>
+            </motion.div>
+          </motion.div>
+        </>
       )}
     </AnimatePresence>
   );
