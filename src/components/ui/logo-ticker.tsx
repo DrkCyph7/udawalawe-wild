@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+
 import { cn } from "@/lib/utils";
 
 interface LogoTickerProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -33,24 +33,20 @@ export function LogoTicker({
       )}
       {...props}
     >
-      <motion.div
+      <div
         className={cn(
           "flex w-max min-w-full shrink-0 items-center",
-          pauseOnHover && "group-hover:[animation-play-state:paused]" // Note: works better with CSS animations, for framer motion we need JS approach or rely on framer-motion variants, but simpler to just use framer-motion animate.
+          pauseOnHover && "group-hover:[animation-play-state:paused]"
         )}
-        initial={{ x: reverse ? "-50%" : "0%" }}
-        animate={{ x: reverse ? "0%" : "-50%" }}
-        transition={{
-          duration,
-          repeat: Infinity,
-          ease: "linear",
-          repeatType: "loop",
+        style={{
+          animation: `marquee ${duration}s linear infinite ${reverse ? 'reverse' : 'normal'}`,
+          willChange: "transform",
         }}
       >
         {/* We duplicate the children twice to ensure seamless looping (0% to -50%) */}
         <React.Fragment key="ticker-1">{children}</React.Fragment>
         <React.Fragment key="ticker-2">{children}</React.Fragment>
-      </motion.div>
+      </div>
     </div>
   );
 }
