@@ -126,7 +126,7 @@ const trustStats = [
     sub: "Every guide is local & licensed",
   },
   { icon: Car, stat: "0", label: "Shared Vehicles", sub: "Private jeeps, always" },
-  { icon: Wallet, stat: "0", label: "Hidden Fees", sub: "Fixed quotes, always" },
+  { icon: Wallet, stat: "0", label: "Hidden Fees", sub: "Transparent pricing guaranteed" },
   {
     icon: PawPrint,
     stat: "50+",
@@ -151,11 +151,6 @@ function Home() {
       faqs,
       routes: travelRoutes,
     }),
-    initialData: {
-      safaris,
-      faqs,
-      routes: travelRoutes,
-    },
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
   });
