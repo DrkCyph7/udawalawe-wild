@@ -49,7 +49,7 @@ import { FaqList } from "@/components/faq-list";
 import { Magnetic } from "@/components/magnetic";
 import { LogoTicker } from "@/components/ui/logo-ticker";
 import { HeroEditorialStagger, HeroLine, HeroFadeIn } from "@/components/ui/hero-editorial-stagger";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/components/ui/loader-skeleton";
 import { safaris, faqs, routes as travelRoutes } from "@/lib/content";
 import reviewsData from "@/lib/reviews.json";
 import { waLink } from "@/lib/site";
