@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 type Direction = "up" | "down" | "left" | "right" | "scale";
 
@@ -13,6 +14,12 @@ export function Reveal({
   className?: string;
   direction?: Direction;
 }) {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const offset = 36;
   const delayS = delay / 1000;
 
@@ -37,6 +44,14 @@ export function Reveal({
       },
     },
   } as const;
+
+  if (!isMounted) {
+    return (
+      <div className={className} style={{ opacity: 1, filter: "blur(0px)", transform: "none" }}>
+        {children}
+      </div>
+    );
+  }
 
   return (
     <motion.div
