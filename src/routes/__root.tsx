@@ -148,7 +148,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "keywords",
         content:
-          "Udawalawe safari, Udawalawe National Park, safari Sri Lanka, private safari Udawalawe, Elephant Transit Home, wildlife safari Sri Lanka, best safari Sri Lanka, Udawalawe jeep safari, morning safari Udawalawe, ethical safari Sri Lanka",
+          "Udawalawe safari, Udawalawe National Park, safari Sri Lanka, private safari Udawalawe, Elephant Transit Home, wildlife safari Sri Lanka, best safari Sri Lanka, Udawalawe jeep safari, morning safari Udawalawe, ethical safari Sri Lanka, Udawalawe elephant safari, Sri Lanka national parks, wildlife photography Sri Lanka, family safari Udawalawe, afternoon safari Udawalawe, Udawalawe safari price, sustainable safari Sri Lanka, leopard sighting Udawalawe, bird watching Udawalawe, Udawalawe jeep hire, safari booking Sri Lanka, Udawalawe Safari tours",
       },
       { name: "author", content: "Udawalawe Wild" },
       {

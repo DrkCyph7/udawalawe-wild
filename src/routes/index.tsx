@@ -63,6 +63,10 @@ export const Route = createFileRoute("/")({
         content:
           "Private, wildlife-first safaris with verified local partners, transparent pricing, and simple planning in Udawalawe National Park.",
       },
+      {
+        name: "keywords",
+        content: "Udawalawe safari, Udawalawe National Park safari, best private safari Udawalawe, Udawalawe safari tour, book Udawalawe safari online",
+      },
       { property: "og:title", content: "Udawalawe Wild — Private safaris in Udawalawe" },
       {
         property: "og:description",
@@ -133,7 +137,7 @@ const trustStats = [
 
 /* ═══════════════════ STAT PILLS ═════════════════════════════════════════ */
 const statPills = [
-  { label: "12+ Years Guiding", icon: Leaf },
+  { label: "7+ Years Guiding", icon: Leaf },
   { label: "50+ Species Spotted", icon: PawPrint },
   { label: "100% Private Jeeps", icon: Car },
 ];

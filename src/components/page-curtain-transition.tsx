@@ -109,7 +109,7 @@ export function usePageCurtainTransition() {
 export function CurtainTransition({
   phase,
   title = "Udawalawe Wild",
-  angle = 9,
+  angle = 25,
   onCoverComplete,
   onRevealComplete,
 }: {
@@ -128,10 +128,10 @@ export function CurtainTransition({
             key="page-curtain-layer1"
             className="fixed inset-y-0 z-[9999] pointer-events-none overflow-hidden"
             style={{
-              left: "-25vw",
-              width: "150vw",
+              left: "-50vw",
+              width: "200vw",
               background: "oklch(0.56 0.17 40)", // terracotta
-              transform: `skewX(-${angle}deg)`,
+              skewX: -angle,
             }}
             initial={{ x: "-100%" }}
             animate={{ x: phase === "covering" ? "0%" : "100%" }}
@@ -151,11 +151,11 @@ export function CurtainTransition({
             key="page-curtain-layer2"
             className="fixed inset-y-0 z-[10000] pointer-events-none flex items-center justify-center overflow-hidden"
             style={{
-              left: "-25vw",
-              width: "150vw",
+              left: "-50vw",
+              width: "200vw",
               background:
                 "linear-gradient(135deg, oklch(0.15 0.055 150) 0%, oklch(0.2 0.06 148) 100%)",
-              transform: `skewX(-${angle}deg)`,
+              skewX: -angle,
               boxShadow: "-20px 0 60px oklch(0 0 0 / 0.4)",
             }}
             initial={{ x: "-100%" }}
@@ -174,10 +174,10 @@ export function CurtainTransition({
           >
             <motion.div
               className="flex items-center justify-center"
-              style={{ transform: `skewX(${angle}deg)` }}
+              style={{ skewX: angle }}
             >
               <motion.h2
-                className="font-serif italic text-4xl sm:text-5xl md:text-7xl lg:text-8xl whitespace-nowrap tracking-tight"
+                className="font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl whitespace-nowrap tracking-tight"
                 style={{
                   color: "oklch(0.97 0.018 80)", // ivory
                   textShadow: "0 10px 30px oklch(0 0 0 / 0.5)",
