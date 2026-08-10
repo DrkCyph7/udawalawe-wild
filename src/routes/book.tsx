@@ -57,7 +57,7 @@ function BookPage() {
     <div className="section-dark min-h-[calc(100vh-80px)] pt-12 pb-24">
       <Section>
         <div className="mx-auto max-w-2xl">
-          <div className="text-xs uppercase tracking-[0.25em] text-[color:var(--terracotta)]">
+          <div className="text-xs uppercase tracking-[0.25em] text-[color:var(--ivory)]/70">
             Booking enquiry
           </div>
           <h1 className="mt-2 font-serif text-4xl text-foreground sm:text-5xl">
@@ -223,7 +223,7 @@ function BookPage() {
 
             {step === 3 && (
               <div className="py-6 text-center">
-                <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-[color:var(--terracotta)]/15 text-[color:var(--terracotta)]">
+                <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-[color:var(--ivory)]/10 text-[color:var(--ivory)]">
                   ✓
                 </div>
                 <h2 className="mt-5 font-serif text-3xl text-foreground">

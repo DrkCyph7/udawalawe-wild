@@ -56,7 +56,7 @@ function SafarisPage() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20"
             >
-              <CalendarCheck className="h-3.5 w-3.5 text-[color:var(--terracotta)]" />
+              <CalendarCheck className="h-3.5 w-3.5 text-[color:var(--ivory)]/70" />
               <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[color:var(--ivory)]/90">
                 Safari Options
               </span>
@@ -64,7 +64,7 @@ function SafarisPage() {
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] text-[color:var(--ivory)]">
               Private jeeps.
               <br />
-              <span className="text-[color:var(--terracotta)]">Verified drivers.</span>
+              <span className="text-[color:var(--ivory)]/80">Verified drivers.</span>
               <br />
               Wildlife first.
             </h1>
@@ -96,7 +96,7 @@ function SafarisPage() {
                     {/* Image gradient overlay */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[oklch(0.21_0.055_150_/_0.8)] hidden lg:block" />
                     {/* Option badge */}
-                    <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] bg-[color:var(--terracotta)] text-[color:var(--ivory)] shadow-[0_4px_16px_oklch(0.56_0.17_40_/_0.5)]">
+                    <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] bg-[color:var(--ivory)]/15 text-[color:var(--ivory)] shadow-[0_4px_16px_oklch(1_0_0_/_0.1)] backdrop-blur-md">
                       Option 0{i + 1}
                     </div>
                   </div>
@@ -114,14 +114,14 @@ function SafarisPage() {
                     </dl>
 
                     <div className="mt-6">
-                      <div className="text-[10px] font-bold uppercase tracking-[0.18em] mb-3 text-[color:var(--terracotta)]">
+                      <div className="text-[10px] font-bold uppercase tracking-[0.18em] mb-3 text-[color:var(--ivory)]/70">
                         What's included
                       </div>
                       <ul className="grid gap-2 text-sm sm:grid-cols-2">
                         {s.includes.map((inc) => (
                           <li key={inc} className="flex items-start gap-2.5">
                             <CheckCircle
-                              className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[color:var(--terracotta)]"
+                              className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[color:var(--ivory)]/40"
                               aria-hidden="true"
                             />
                             <span className="text-foreground">{inc}</span>
@@ -155,7 +155,7 @@ function SafarisPage() {
 function Item({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <dt className="text-[10px] font-bold uppercase tracking-[0.18em] text-[color:var(--terracotta)]/80">
+      <dt className="text-[10px] font-bold uppercase tracking-[0.18em] text-[color:var(--ivory)]/70">
         {label}
       </dt>
       <dd className="mt-1 text-sm leading-relaxed text-foreground">{value}</dd>

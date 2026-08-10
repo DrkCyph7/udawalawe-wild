@@ -44,7 +44,7 @@ function GuidePage() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20"
             >
-              <Compass className="h-3.5 w-3.5 text-[color:var(--terracotta)]" />
+              <Compass className="h-3.5 w-3.5 text-[color:var(--ivory)]/70" />
               <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[color:var(--ivory)]/90">
                 Visitor guide
               </span>
@@ -52,7 +52,7 @@ function GuidePage() {
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] text-[color:var(--ivory)]">
               Everything to know
               <br />
-              <span className="text-[color:var(--terracotta)]">before you go.</span>
+              <span className="text-[color:var(--ivory)]/80">before you go.</span>
             </h1>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-[color:var(--ivory)]/80">
               A short, honest guide from planners who help travellers here every week.

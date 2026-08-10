@@ -77,7 +77,7 @@ function AboutPage() {
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] text-[color:var(--ivory)]">
               Simpler. More transparent.
               <br />
-              <span className="text-[color:var(--terracotta)]">Kinder to wildlife.</span>
+              <span className="text-[color:var(--ivory)]/80">Kinder to wildlife.</span>
             </h1>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-[color:var(--ivory)]/80">
               Udawalawe Wild exists to make booking a safari simpler, more transparent, and more
@@ -144,9 +144,9 @@ function AboutPage() {
             {pillars.map((b, i) => (
               <Reveal key={b.t} delay={i * 80}>
                 <TiltCard intensity={8} className="h-full">
-                  <div className="card-3d card-shine benefit-tile h-full rounded-3xl p-7 sm:p-9 card-glass">
-                    <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[color:var(--terracotta)]/15 border border-[color:var(--terracotta)]/30">
-                      <b.icon className="h-4.5 w-4.5 text-[color:var(--terracotta)]" />
+                  <div className="card-3d card-shine h-full rounded-3xl p-7 sm:p-9 card-glass flex flex-col justify-between">
+                    <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[color:var(--ivory)]/5 border border-[color:var(--ivory)]/15">
+                      <b.icon className="h-4.5 w-4.5 text-[color:var(--ivory)]/70" />
                     </div>
                     <div className="font-serif text-xl text-foreground">{b.t}</div>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{b.d}</p>

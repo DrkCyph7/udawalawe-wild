@@ -392,7 +392,7 @@ function RootComponent() {
 
           <div className="flex min-h-screen flex-col">
             {/* Main content wrapper (sits on top and scrolls normally) */}
-            <div className="relative z-10 flex-1 bg-[oklch(0.12_0.05_150)] shadow-[0_20px_40px_rgba(0,0,0,0.8)]">
+            <div className="relative z-10 flex-1 shadow-[0_20px_40px_rgba(0,0,0,0.8)]">
               <SiteHeader />
               <main className="relative flex-1 overflow-x-hidden">
                 <Outlet />

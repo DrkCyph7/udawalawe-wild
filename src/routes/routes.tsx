@@ -45,7 +45,7 @@ function RoutesPage() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20"
             >
-              <Compass className="h-3.5 w-3.5 text-[color:var(--terracotta)]" />
+              <Compass className="h-3.5 w-3.5 text-[color:var(--ivory)]/70" />
               <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[color:var(--ivory)]/90">
                 Getting to Udawalawe
               </span>
@@ -53,7 +53,7 @@ function RoutesPage() {
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] text-[color:var(--ivory)]">
               Pick your starting point.
               <br />
-              <span className="text-[color:var(--terracotta)]">We'll handle the rest.</span>
+              <span className="text-[color:var(--ivory)]/80">We'll handle the rest.</span>
             </h1>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-[color:var(--ivory)]/80">
               We'll help you shape the day so the safari — not the driving — is the memorable part.
@@ -76,7 +76,7 @@ function RoutesPage() {
                     className="group card-3d card-shine flex h-full flex-col justify-between rounded-3xl p-7 sm:p-9 transition-all duration-300 hover:scale-[1.02] card-glass"
                   >
                     <div>
-                      <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[color:var(--terracotta)]">
+                      <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[color:var(--ivory)]/70">
                         <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
                         From
                       </div>
@@ -91,7 +91,7 @@ function RoutesPage() {
                     <div className="mt-8 flex items-center gap-1.5 text-sm font-semibold text-foreground">
                       View route notes
                       <ChevronRight
-                        className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 text-[color:var(--terracotta)]"
+                        className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 text-[color:var(--ivory)]"
                         aria-hidden="true"
                       />
                     </div>

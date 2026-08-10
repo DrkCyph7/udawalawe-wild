@@ -281,7 +281,7 @@ function Home() {
                 style={{ color: "oklch(0.85 0.02 78 / 0.6)" }}
               >
                 {s}
-                <span className="ml-5" style={{ color: "oklch(0.56 0.17 40 / 0.4)" }}>
+                <span className="ml-5 text-white/40">
                   ·
                 </span>
               </span>
@@ -508,18 +508,10 @@ function Home() {
       </section>
 
       {/* ═══════════════════ TRUST STRIP ═══════════════════════════════ */}
-      {/* Dark cinematic band — extends the hero's atmosphere into the page */}
-      <div
-        className="relative overflow-hidden min-h-[260px] lg:min-h-[160px]"
-        style={{
-          background:
-            "linear-gradient(180deg, oklch(0.16 0.05 150) 0%, oklch(0.19 0.055 150) 100%)",
-          borderBottom: "1px solid oklch(1 0 0 / 0.08)",
-        }}
-      >
+      <div className="relative overflow-hidden min-h-[260px] lg:min-h-[160px] bg-sand-100 text-forest-900 border-b border-border">
         {/* Subtle grain overlay */}
         <div
-          className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          className="absolute inset-0 opacity-10 pointer-events-none"
           style={{
             backgroundImage:
               "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
@@ -527,10 +519,7 @@ function Home() {
         />
 
         <Reveal>
-          <div
-            className="mx-auto grid max-w-6xl grid-cols-2 lg:grid-cols-4 gap-px px-0"
-            style={{ background: "oklch(1 0 0 / 0.05)" }}
-          >
+          <div className="mx-auto grid max-w-6xl grid-cols-2 lg:grid-cols-4 gap-px px-0 bg-sand-200">
             {trustStats.map(({ icon: Icon, stat, label, sub }, i) => (
               <motion.div
                 key={label}
@@ -539,40 +528,22 @@ function Home() {
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
                 whileHover={{ y: -3, transition: { duration: 0.2 } }}
-                className="group flex flex-col items-center gap-2 px-4 py-7 sm:px-6 sm:py-8 text-center cursor-default"
-                style={{ background: "oklch(0.19 0.055 150)" }}
+                className="group flex flex-col items-center gap-2 px-4 py-7 sm:px-6 sm:py-8 text-center cursor-default bg-sand-100"
               >
                 {/* Icon circle */}
-                <div
-                  className="mb-1 flex h-11 w-11 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110"
-                  style={{
-                    background: "oklch(0.56 0.17 40 / 0.15)",
-                    border: "1px solid oklch(0.56 0.17 40 / 0.3)",
-                    boxShadow: "0 0 20px oklch(0.56 0.17 40 / 0.12)",
-                  }}
-                >
-                  <Icon
-                    className="h-5 w-5"
-                    style={{ color: "oklch(0.72 0.09 52)" }}
-                    aria-hidden="true"
-                  />
+                <div className="mb-1 flex h-11 w-11 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 bg-forest-900/5 border border-forest-900/10">
+                  <Icon className="h-5 w-5 text-forest-700" aria-hidden="true" />
                 </div>
                 {/* Bold stat */}
-                <div
-                  className="font-serif text-3xl font-medium lining-nums"
-                  style={{ color: "oklch(0.56 0.17 40)" }}
-                >
+                <div className="font-serif text-3xl font-medium lining-nums text-forest-700">
                   {stat}
                 </div>
                 {/* Label */}
-                <div
-                  className="text-[11px] sm:text-xs font-bold uppercase tracking-widest"
-                  style={{ color: "oklch(0.93 0.035 76)" }}
-                >
+                <div className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-text-muted-on-light">
                   {label}
                 </div>
                 {/* Sub-label */}
-                <div className="text-[10px] leading-snug" style={{ color: "oklch(0.65 0.03 76)" }}>
+                <div className="text-[10px] leading-snug text-text-muted-on-light/80">
                   {sub}
                 </div>
               </motion.div>
@@ -582,7 +553,7 @@ function Home() {
       </div>
 
       {/* ═══════════════════ SAFARIS ════════════════════════════════════ */}
-      <div className="section-dark">
+      <div className="section-forest-700">
         <Section style={{ contentVisibility: "auto", containIntrinsicSize: "auto 800px" }}>
           <Reveal>
             <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
@@ -763,16 +734,15 @@ function Home() {
       </div>
 
       {/* ═══════════════════ BENEFITS ═══════════════════════════════════ */}
-      {/* Dark section — directly extends the trust strip's dark atmosphere */}
-      <div className="section-dark">
+      <div className="bg-sand-100 text-forest-900">
         <Section>
           <Reveal>
             <SectionHeading
               eyebrow="Why Udawalawe Wild"
               title="A better way to explore the wild."
               intro="We're small on purpose. Our job is to make your safari calmer, clearer, and kinder to the wildlife you came to see."
-              titleClass="text-[oklch(0.93_0.035_76)]"
-              introClass="text-[oklch(0.70_0.03_76)]"
+              titleClass="text-forest-900"
+              introClass="text-text-muted-on-light"
             />
           </Reveal>
 
@@ -795,13 +765,10 @@ function Home() {
                         aria-hidden="true"
                       />
                     </div>
-                    <div className="font-serif text-xl" style={{ color: "oklch(0.93 0.035 76)" }}>
+                    <div className="font-serif text-xl text-forest-900">
                       {b.t}
                     </div>
-                    <p
-                      className="mt-3 flex-1 text-sm leading-relaxed"
-                      style={{ color: "oklch(0.62 0.03 76)" }}
-                    >
+                    <p className="mt-3 flex-1 text-sm leading-relaxed text-text-muted-on-light">
                       {b.d}
                     </p>
                   </div>
@@ -813,14 +780,13 @@ function Home() {
       </div>
 
       {/* ═══════════════════ ELEPHANT TRANSIT HOME ══════════════════════ */}
-      <div className="section-dark">
+      <div className="section-forest-700">
         <Section>
           <Reveal>
             <div className="grid gap-8 rounded-3xl p-7 sm:p-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center card-glass">
               <div>
                 <div
-                  className="mb-2 text-[10px] font-bold uppercase tracking-[0.2em]"
-                  style={{ color: "oklch(0.56 0.17 40)" }}
+                  className="mb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[color:var(--text-light-on-dark)]/70"
                 >
                   Special Experience
                 </div>
@@ -882,8 +848,8 @@ function Home() {
         </Section>
       </div>
 
-      {/* ═══════════════════ ETHICAL ════════════════════════════════════ */}
-      <div className="section-dark">
+      {/* ═══════════════════ ETHICAL CODE ═══════════════════════════════ */}
+      <div className="bg-sand-100 text-forest-900">
         <Section style={{ contentVisibility: "auto", containIntrinsicSize: "auto 600px" }}>
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
             <Reveal direction="left" className="grain overflow-hidden rounded-2xl">
@@ -914,15 +880,10 @@ function Home() {
                     className="flex items-start gap-3 text-sm text-foreground/85"
                   >
                     <span
-                      className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
-                      style={{
-                        background: "oklch(0.56 0.17 40 / 0.12)",
-                        border: "1px solid oklch(0.56 0.17 40 / 0.25)",
-                      }}
+                      className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-forest-900/5 border border-forest-900/20"
                     >
                       <Icon
-                        className="h-3.5 w-3.5"
-                        style={{ color: "oklch(0.56 0.17 40)" }}
+                        className="h-3.5 w-3.5 text-forest-900"
                         aria-hidden="true"
                       />
                     </span>
@@ -944,8 +905,8 @@ function Home() {
 
       {/* ═══════════════════ ROUTES ═════════════════════════════════════ */}
       <div
+        className="section-forest-700"
         style={{
-          background: "oklch(0.16 0.05 150)",
           contentVisibility: "auto",
           containIntrinsicSize: "auto 600px",
         }}
@@ -988,8 +949,7 @@ function Home() {
                       }}
                     >
                       <div
-                        className="flex items-center gap-1 text-[10px] uppercase tracking-widest"
-                        style={{ color: "oklch(0.56 0.17 40 / 0.8)" }}
+                        className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-[color:var(--text-light-on-dark)]/70"
                       >
                         <MapPin className="h-2.5 w-2.5" aria-hidden="true" />
                         From
@@ -1007,8 +967,7 @@ function Home() {
                         {r.drive}
                       </div>
                       <div
-                        className="mt-auto pt-2 flex items-center gap-1 text-xs font-medium opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-                        style={{ color: "oklch(0.72 0.09 52)" }}
+                        className="mt-auto pt-2 flex items-center gap-1 text-xs font-medium opacity-0 transition-opacity duration-200 group-hover:opacity-100 text-[color:var(--text-light-on-dark)]"
                       >
                         View route
                         <ChevronRight className="h-3 w-3" aria-hidden="true" />
@@ -1021,10 +980,10 @@ function Home() {
         </Section>
       </div>
 
-      {/* ═══════════════════ REVIEWS — Marquee ══════════════════════════ */}
+      {/* ═══════════════════ TESTIMONIALS ═══════════════════════════════ */}
       <section
-        className="section-dark overflow-hidden border-y border-border py-16 sm:py-20"
-        style={{ contentVisibility: "auto", containIntrinsicSize: "auto 600px" }}
+        className="bg-sand-100 text-forest-900 overflow-hidden border-y border-border py-16 sm:py-20"
+        style={{ contentVisibility: "auto", containIntrinsicSize: "auto 400px" }}
       >
         <Reveal>
           <div className="mb-10 px-5 sm:px-8">
@@ -1042,7 +1001,7 @@ function Home() {
             {allReviews.map((r, i) => (
               <div
                 key={i}
-                className="card-lift w-80 shrink-0 rounded-2xl card-glass p-6"
+                className="card-lift w-80 shrink-0 rounded-2xl bg-white/60 backdrop-blur-sm border border-black/5 p-6 shadow-sm"
                 aria-hidden={i >= allReviews.length / 2 ? "true" : undefined}
               >
                 {/* Stars */}
@@ -1050,7 +1009,7 @@ function Home() {
                   {Array.from({ length: r.rating }).map((_, s) => (
                     <Star
                       key={s}
-                      className="h-3.5 w-3.5 fill-[color:var(--terracotta)] text-[color:var(--terracotta)]"
+                      className="h-3.5 w-3.5 fill-forest-900/10 text-forest-900/10"
                       aria-hidden="true"
                     />
                   ))}
@@ -1058,7 +1017,7 @@ function Home() {
 
                 {/* Quote */}
                 <Quote
-                  className="h-4 w-4 text-[color:var(--terracotta)]/40 mb-2"
+                  className="h-4 w-4 text-forest-700/20 mb-2"
                   aria-hidden="true"
                 />
                 <p className="text-sm leading-relaxed text-foreground/75 italic">"{r.body}"</p>
@@ -1087,7 +1046,7 @@ function Home() {
 
       {/* ═══════════════════ FAQ ════════════════════════════════════════ */}
       <div
-        className="section-dark"
+        className="bg-sand-100 text-forest-900"
         style={{ contentVisibility: "auto", containIntrinsicSize: "auto 600px" }}
       >
         <Section>
@@ -1116,7 +1075,7 @@ function Home() {
         <div className="mx-auto max-w-3xl px-5 py-24 text-center text-[color:var(--ivory)] sm:px-8 sm:py-32">
           <Reveal direction="scale">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[color:var(--ivory)]/25 bg-[color:var(--ivory)]/10 px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-[color:var(--ivory)]/75">
-              <Sparkles className="h-3.5 w-3.5 text-[color:var(--terracotta)]" aria-hidden="true" />
+              <Sparkles className="h-3.5 w-3.5 text-[color:var(--ivory)]/70" aria-hidden="true" />
               Start planning today
             </div>
             <h2 className="font-serif text-4xl leading-tight sm:text-5xl">

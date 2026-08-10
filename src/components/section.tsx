@@ -16,7 +16,7 @@ export function Section({
 
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <div className="mb-3 text-xs font-medium uppercase tracking-[0.2em] text-[color:var(--terracotta)]">
+    <div className="mb-3 text-xs font-medium uppercase tracking-[0.2em] text-foreground/60">
       {children}
     </div>
   );

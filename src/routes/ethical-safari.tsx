@@ -44,7 +44,7 @@ function EthicalPage() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20"
             >
-              <Leaf className="h-3.5 w-3.5 text-[color:var(--terracotta)]" />
+              <Leaf className="h-3.5 w-3.5 text-[color:var(--ivory)]/70" />
               <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[color:var(--ivory)]/90">
                 Wildlife first
               </span>
@@ -52,7 +52,7 @@ function EthicalPage() {
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] text-[color:var(--ivory)]">
               A quieter, kinder
               <br />
-              <span className="text-[color:var(--terracotta)]">way to safari.</span>
+              <span className="text-[color:var(--ivory)]/80">way to safari.</span>
             </h1>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-[color:var(--ivory)]/80">
               Our wildlife-first standard, respectful driving rules, and how we verify local safari
@@ -167,7 +167,7 @@ function EthicalPage() {
               <Reveal key={step} delay={i * 50}>
                 <TiltCard intensity={3}>
                   <li className="card-3d flex items-center gap-4 rounded-2xl p-5 card-glass">
-                    <span className="font-serif text-2xl text-[color:var(--terracotta)]">
+                    <span className="font-serif text-2xl text-[color:var(--ivory)]/40">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span className="text-sm leading-relaxed text-foreground">{step}</span>

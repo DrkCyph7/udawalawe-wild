@@ -45,13 +45,13 @@ export function SiteHeader() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed left-4 right-4 z-50 mx-auto max-w-5xl transition-all duration-500 ${
         transparent
-          ? "border-b border-transparent bg-transparent"
-          : "card-glass border-x-0 border-t-0"
+          ? "top-4 bg-transparent"
+          : "top-4 rounded-2xl border border-white/10 shadow-[0_8px_32px_oklch(0_0_0_/_0.3)] card-glass"
       }`}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3 sm:px-8">
+      <div className="flex items-center justify-between px-4 py-2.5 sm:px-6 sm:py-3">
         {/* Logo */}
         <Link
           to="/"
@@ -152,13 +152,13 @@ export function SiteHeader() {
       </div>
 
       <div
-        className={`overflow-hidden card-glass border-x-0 border-b-0 transition-all duration-350 ease-in-out md:hidden ${
-          open ? "max-h-[32rem] opacity-100" : "max-h-0 opacity-0"
+        className={`overflow-hidden transition-all duration-350 ease-in-out md:hidden ${
+          open ? "max-h-[32rem] opacity-100 border-t border-white/10" : "max-h-0 opacity-0"
         }`}
         aria-hidden={!open}
       >
         <nav
-          className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-4"
+          className="flex flex-col gap-1 px-4 py-4 sm:px-6"
           aria-label="Mobile navigation"
         >
           {nav.map((n) => (
@@ -171,7 +171,7 @@ export function SiteHeader() {
               activeOptions={n.to === "/" ? { exact: true } : undefined}
             >
               <n.icon
-                className="h-5 w-5 shrink-0 text-[oklch(0.72_0.09_52)]"
+                className="h-5 w-5 shrink-0 text-[color:var(--ivory)]/60"
                 aria-hidden="true"
               />
               {n.label}
