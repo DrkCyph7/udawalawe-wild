@@ -853,6 +853,3 @@
   animation: breathe-glow 3s ease-in-out infinite;
 }
 
-html.hide-splash .safari-loader {
-  display: none !important;
-}

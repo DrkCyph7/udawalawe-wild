@@ -6,9 +6,8 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, useState, type ReactNode } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { SafariLoader } from "@/components/safari-loader";
+import { useEffect, type ReactNode } from "react";
+import { motion } from "framer-motion";
 import { CurtainProvider } from "@/components/curtain-provider";
 import { TransitionLink as Link } from "@/components/transition-link";
 
@@ -337,17 +336,6 @@ function RootShell({ children }: { children: ReactNode }) {
       <head>
         <HeadContent />
         <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                if (sessionStorage.getItem('splashShown')) {
-                  document.documentElement.classList.add('hide-splash');
-                }
-              } catch (e) {}
-            `,
-          }}
-        />
-        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(agencyJsonLd) }}
         />
@@ -370,26 +358,11 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  const [showReactLoader, setShowReactLoader] = useState(true);
-
-  useEffect(() => {
-    const hasShown = sessionStorage.getItem("splashShown");
-    if (hasShown) {
-      setShowReactLoader(false);
-    } else {
-      sessionStorage.setItem("splashShown", "true");
-      // Let the cinematic loader choreography finish before unmounting (2.6s)
-      const timer = setTimeout(() => setShowReactLoader(false), 2600);
-      return () => clearTimeout(timer);
-    }
-  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
       <CurtainProvider>
         <div className="flex min-h-screen flex-col bg-background text-foreground overflow-x-hidden relative">
-          <SafariLoader visible={showReactLoader} />
-
           <div className="flex min-h-screen flex-col">
             {/* Main content wrapper (sits on top and scrolls normally) */}
             <div className="relative z-10 flex-1 shadow-[0_20px_40px_rgba(0,0,0,0.8)]">
