@@ -10,8 +10,7 @@ function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>)
       <motion.div
         className="absolute inset-0 z-10"
         style={{
-          background:
-            "linear-gradient(90deg, transparent, oklch(1 0 0 / 0.08), transparent)",
+          background: "linear-gradient(90deg, transparent, oklch(1 0 0 / 0.08), transparent)",
         }}
         animate={{ x: ["-100%", "200%"] }}
         transition={{

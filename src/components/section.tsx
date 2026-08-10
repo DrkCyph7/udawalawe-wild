@@ -1,16 +1,19 @@
-import type { ReactNode } from "react";
+import type { ReactNode, HTMLAttributes } from "react";
 
 export function Section({
   children,
   className = "",
   as: As = "section",
+  ...props
 }: {
   children: ReactNode;
   className?: string;
   as?: "section" | "div";
-}) {
+} & HTMLAttributes<HTMLElement>) {
   return (
-    <As className={`mx-auto max-w-6xl px-4 py-10 sm:px-8 sm:py-20 ${className}`}>{children}</As>
+    <As className={`mx-auto max-w-6xl px-4 py-10 sm:px-8 sm:py-20 ${className}`} {...props}>
+      {children}
+    </As>
   );
 }
 

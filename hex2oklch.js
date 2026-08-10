@@ -11,7 +11,7 @@ const hexes = {
   "action-500": "#c1521a",
   "text-light-on-dark": "#f2ede0",
   "text-dark-on-light": "#1a2e1c",
-  "text-muted-on-light": "#3a3630"
+  "text-muted-on-light": "#3a3630",
 };
 
 for (const [name, hex] of Object.entries(hexes)) {

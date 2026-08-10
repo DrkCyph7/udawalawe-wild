@@ -157,10 +157,7 @@ export function SiteHeader() {
         }`}
         aria-hidden={!open}
       >
-        <nav
-          className="flex flex-col gap-1 px-4 py-4 sm:px-6"
-          aria-label="Mobile navigation"
-        >
+        <nav className="flex flex-col gap-1 px-4 py-4 sm:px-6" aria-label="Mobile navigation">
           {nav.map((n) => (
             <Link
               key={n.to}

@@ -94,7 +94,7 @@
   --forest-900: oklch(0.278 0.042 146.7);
   --forest-700: oklch(0.342 0.051 149.8);
   --forest-500: oklch(0.442 0.058 146.9);
-  --sand-100: oklch(0.953 0.020 87.5);
+  --sand-100: oklch(0.953 0.02 87.5);
   --sand-200: oklch(0.918 0.031 86.5);
   --action-500: oklch(0.575 0.156 43.2);
   --text-light-on-dark: oklch(0.946 0.018 89.4);
@@ -830,6 +830,12 @@
   }
 }
 
+@keyframes shimmer-text {
+  to {
+    background-position: 200% center;
+  }
+}
+
 @utility shimmer-text {
   background: linear-gradient(
     90deg,
@@ -852,4 +858,3 @@
 @utility breathe-glow {
   animation: breathe-glow 3s ease-in-out infinite;
 }
-

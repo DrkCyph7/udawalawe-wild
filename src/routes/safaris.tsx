@@ -23,7 +23,8 @@ export const Route = createFileRoute("/safaris")({
       },
       {
         name: "keywords",
-        content: "Udawalawe safari packages, Udawalawe jeep safari cost, Udawalawe morning safari, Udawalawe afternoon safari, full day safari Udawalawe, Elephant Transit Home safari combo, best safari Udawalawe",
+        content:
+          "Udawalawe safari packages, Udawalawe jeep safari cost, Udawalawe morning safari, Udawalawe afternoon safari, full day safari Udawalawe, Elephant Transit Home safari combo, best safari Udawalawe",
       },
       { property: "og:title", content: "Safari options — Udawalawe Wild" },
       {

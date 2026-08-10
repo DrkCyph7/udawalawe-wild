@@ -16,7 +16,10 @@ export function FaqList({ items }: { items: { q: string; a: string }[] }) {
               className="group flex w-full items-center justify-between gap-6 py-5 text-left"
               aria-expanded={isOpen}
             >
-              <span className="font-serif text-[1.1rem] sm:text-lg text-foreground transition-colors group-hover:text-forest-700" itemProp="name">
+              <span
+                className="font-serif text-[1.1rem] sm:text-lg text-foreground transition-colors group-hover:text-forest-700"
+                itemProp="name"
+              >
                 {f.q}
               </span>
 

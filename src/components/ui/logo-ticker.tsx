@@ -29,14 +29,14 @@ export function LogoTicker({
         "group flex overflow-hidden",
         fadeEdges &&
           "[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]",
-        className
+        className,
       )}
       {...props}
     >
       <motion.div
         className={cn(
           "flex w-max min-w-full shrink-0 items-center",
-          pauseOnHover && "group-hover:[animation-play-state:paused]" // Note: works better with CSS animations, for framer motion we need JS approach or rely on framer-motion variants, but simpler to just use framer-motion animate.
+          pauseOnHover && "group-hover:[animation-play-state:paused]", // Note: works better with CSS animations, for framer motion we need JS approach or rely on framer-motion variants, but simpler to just use framer-motion animate.
         )}
         initial={{ x: reverse ? "-50%" : "0%" }}
         animate={{ x: reverse ? "0%" : "-50%" }}

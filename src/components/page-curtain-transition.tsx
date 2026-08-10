@@ -172,10 +172,7 @@ export function CurtainTransition({
             role="presentation"
             aria-hidden="true"
           >
-            <motion.div
-              className="flex items-center justify-center"
-              style={{ skewX: angle }}
-            >
+            <motion.div className="flex items-center justify-center" style={{ skewX: angle }}>
               <motion.h2
                 className="font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl whitespace-nowrap tracking-tight"
                 style={{

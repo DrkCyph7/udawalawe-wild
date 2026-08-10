@@ -1,16 +1,13 @@
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { HTMLMotionProps, motion } from "framer-motion";
 import React from "react";
 
-export function Skeleton({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+export function Skeleton({ className, ...props }: HTMLMotionProps<"div">) {
   return (
     <motion.div
       className={cn(
         "relative overflow-hidden rounded-xl bg-[oklch(0.2_0.05_150_/_0.15)] shadow-inner",
-        className
+        className,
       )}
       initial={{ opacity: 0.6 }}
       animate={{ opacity: 1 }}

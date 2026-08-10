@@ -26,7 +26,7 @@ export const supabase: SupabaseClient | null = isSupabaseConfigured
 
 export const adminEmailAllowList = (import.meta.env.VITE_ADMIN_EMAILS ?? "admin@udawalawe-wild.com")
   .split(",")
-  .map((email) => email.trim().toLowerCase())
+  .map((email: string) => email.trim().toLowerCase())
   .filter(Boolean);
 
 export type BookingEnquiryRow = {
