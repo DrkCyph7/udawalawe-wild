@@ -43,7 +43,7 @@ function NotFoundComponent() {
           transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
         >
           <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-[oklch(0.94_0.01_100)] backdrop-blur-md">
-            <Compass className="h-3.5 w-3.5 text-primary" />
+            <Compass className="h-3.5 w-3.5 text-accent" />
             Error 404
           </span>
           <h1 className="mt-6 font-serif text-6xl tracking-tight sm:text-8xl lg:text-9xl text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60">
@@ -63,7 +63,7 @@ function NotFoundComponent() {
         >
           <Link
             to="/"
-            className="group relative flex items-center gap-2 overflow-hidden rounded-full bg-primary px-8 py-4 text-sm font-bold tracking-wide text-primary-foreground shadow-xl transition-transform hover:scale-105"
+            className="group relative flex items-center gap-2 overflow-hidden rounded-full bg-accent px-8 py-4 text-sm font-bold tracking-wide text-[oklch(0.22_0.02_135)] shadow-xl transition-transform hover:scale-105"
           >
             <div className="absolute inset-0 bg-white/20 translate-y-full transition-transform duration-300 group-hover:translate-y-0" />
             <span className="relative z-10">Return to camp</span>

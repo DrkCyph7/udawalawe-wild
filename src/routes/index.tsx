@@ -565,7 +565,7 @@ function Home() {
               />
               <Link
                 to="/safaris"
-                className="link-underline flex shrink-0 items-center gap-1 text-sm font-medium text-primary"
+                className="link-underline flex shrink-0 items-center gap-1 text-sm font-medium text-accent"
               >
                 Compare all options
                 <ChevronRight className="h-4 w-4" aria-hidden="true" />
@@ -635,7 +635,7 @@ function Home() {
                         </p>
                         <Link
                           to="/safaris"
-                          className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-primary"
+                          className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-accent"
                         >
                           Learn more
                           <ChevronRight className="h-3 w-3" aria-hidden="true" />
@@ -719,7 +719,7 @@ function Home() {
                             </p>
                             <Link
                               to="/safaris"
-                              className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-primary"
+                              className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-accent"
                             >
                               Learn more
                               <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -885,7 +885,7 @@ function Home() {
               </ul>
               <Link
                 to="/ethical-safari"
-                className="link-underline mt-8 inline-flex items-center gap-1.5 text-sm font-medium text-primary"
+                className="link-underline mt-8 inline-flex items-center gap-1.5 text-sm font-medium text-accent"
               >
                 Read the full standard
                 <ChevronRight className="h-4 w-4" aria-hidden="true" />
@@ -956,9 +956,9 @@ function Home() {
                         >
                           {r.drive}
                         </div>
-                        <div className="mt-auto pt-2 flex items-center gap-1 text-xs font-medium opacity-0 transition-opacity duration-200 group-hover:opacity-100 text-[color:var(--text-light-on-dark)]">
+                        <div className="mt-auto pt-2 flex items-center gap-1 text-xs font-medium transition-opacity duration-200 text-accent">
                           View route
-                          <ChevronRight className="h-3 w-3" aria-hidden="true" />
+                          <ChevronRight className="h-3 w-3 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
                         </div>
                       </Link>
                     </TiltCard>
