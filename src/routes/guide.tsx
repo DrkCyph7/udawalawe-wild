@@ -42,7 +42,7 @@ function GuidePage() {
   const parallaxY = useTransform(
     scrollYProgress,
     [0, 1],
-    prefersReducedMotion ? ["0%", "0%"] : ["-8%", "8%"]
+    prefersReducedMotion ? ["0%", "0%"] : ["-8%", "8%"],
   );
 
   return (

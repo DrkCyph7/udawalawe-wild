@@ -22,7 +22,7 @@ import { Compass } from "lucide-react";
 
 function NotFoundComponent() {
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-[oklch(0.1_0.02_150)] text-white selection:bg-primary/30">
+    <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-[oklch(0.18_0.015_135)] text-white selection:bg-primary/30">
       {/* Background Image with animated scale and overlay */}
       <motion.div
         initial={{ scale: 1.1, opacity: 0 }}
@@ -42,7 +42,7 @@ function NotFoundComponent() {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
         >
-          <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-[oklch(0.97_0.018_80)] backdrop-blur-md">
+          <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-[oklch(0.94_0.01_100)] backdrop-blur-md">
             <Compass className="h-3.5 w-3.5 text-primary" />
             Error 404
           </span>
@@ -336,7 +336,10 @@ function RootShell({ children }: { children: ReactNode }) {
   };
 
   return (
-    <html lang="en" style={{ backgroundColor: "oklch(0.12 0.05 150)", color: "oklch(0.2 0.025 55)" }}>
+    <html
+      lang="en"
+      style={{ backgroundColor: "oklch(0.18 0.015 135)", color: "oklch(0.22 0.02 135)" }}
+    >
       <head>
         <HeadContent />
         <script
@@ -352,7 +355,7 @@ function RootShell({ children }: { children: ReactNode }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
         />
       </head>
-      <body style={{ margin: 0, backgroundColor: "oklch(0.12 0.05 150)" }}>
+      <body style={{ margin: 0, backgroundColor: "oklch(0.18 0.015 135)" }}>
         {children}
         <Scripts />
       </body>
@@ -368,7 +371,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <CurtainProvider>
-        <motion.div 
+        <motion.div
           className="fixed top-0 left-0 right-0 h-[3px] bg-primary z-[9999] origin-left pointer-events-none"
           style={{ scaleX: scrollYProgress }}
         />

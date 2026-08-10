@@ -130,7 +130,7 @@ export function CurtainTransition({
             style={{
               left: "-50vw",
               width: "200vw",
-              background: "oklch(0.56 0.17 40)", // terracotta
+              background: "oklch(0.70 0.12 85)", // terracotta
               skewX: -angle,
             }}
             initial={{ x: "-100%" }}
@@ -154,7 +154,7 @@ export function CurtainTransition({
               left: "-50vw",
               width: "200vw",
               background:
-                "linear-gradient(135deg, oklch(0.15 0.055 150) 0%, oklch(0.2 0.06 148) 100%)",
+                "linear-gradient(135deg, oklch(0.18 0.015 135) 0%, oklch(0.22 0.02 135) 100%)",
               skewX: -angle,
               boxShadow: "-20px 0 60px oklch(0 0 0 / 0.4)",
             }}
@@ -176,7 +176,7 @@ export function CurtainTransition({
               <motion.h2
                 className="font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl whitespace-nowrap tracking-tight"
                 style={{
-                  color: "oklch(0.97 0.018 80)", // ivory
+                  color: "oklch(0.94 0.01 100)", // ivory
                   textShadow: "0 10px 30px oklch(0 0 0 / 0.5)",
                 }}
                 initial={{ opacity: 0, y: 20 }}

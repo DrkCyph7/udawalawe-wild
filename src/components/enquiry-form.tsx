@@ -40,17 +40,17 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup, theme = "li
         className={`rounded-sm border p-6 text-sm shadow-sm ${isDark ? "border-[oklch(1_0_0_/_0.1)] bg-[oklch(0_0_0_/_0.2)]" : "border-border bg-card"}`}
       >
         <div
-          className={`font-serif text-xl ${isDark ? "text-[oklch(0.93_0.035_76)]" : "text-primary"}`}
+          className={`font-serif text-xl ${isDark ? "text-[oklch(0.98_0.005_95)]" : "text-primary"}`}
         >
           Request received.
         </div>
-        <p className={`mt-2 ${isDark ? "text-[oklch(0.7_0.03_76)]" : "text-muted-foreground"}`}>
+        <p className={`mt-2 ${isDark ? "text-[oklch(0.70_0.01_135)]" : "text-muted-foreground"}`}>
           Your enquiry is with us. We’ll send verified options and a fixed quote within one business
           day.
         </p>
         {optimisticSummary && (
           <div
-            className={`mt-4 rounded-md px-3 py-2 text-xs ${isDark ? "bg-[oklch(0_0_0_/_0.3)] text-[oklch(0.65_0.03_76)]" : "bg-muted/70 text-muted-foreground"}`}
+            className={`mt-4 rounded-md px-3 py-2 text-xs ${isDark ? "bg-[oklch(0_0_0_/_0.3)] text-[oklch(0.70_0.01_135)]" : "bg-muted/70 text-muted-foreground"}`}
           >
             {optimisticSummary}
           </div>
@@ -66,20 +66,20 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup, theme = "li
       >
         <div className="flex items-center gap-3">
           <div
-            className={`h-2.5 w-2.5 animate-pulse rounded-full ${isDark ? "bg-[oklch(0.56_0.17_40)]" : "bg-primary"}`}
+            className={`h-2.5 w-2.5 animate-pulse rounded-full ${isDark ? "bg-[oklch(0.70_0.12_85)]" : "bg-primary"}`}
           />
           <div
-            className={`font-medium ${isDark ? "text-[oklch(0.95_0.02_78)]" : "text-foreground"}`}
+            className={`font-medium ${isDark ? "text-[oklch(0.98_0.005_95)]" : "text-foreground"}`}
           >
             Preparing your enquiry
           </div>
         </div>
-        <p className={`mt-3 ${isDark ? "text-[oklch(0.7_0.03_76)]" : "text-muted-foreground"}`}>
+        <p className={`mt-3 ${isDark ? "text-[oklch(0.70_0.01_135)]" : "text-muted-foreground"}`}>
           We’re setting up your request with the latest safari details so the handoff feels smooth.
         </p>
         {optimisticSummary && (
           <div
-            className={`mt-4 rounded-md px-3 py-2 text-xs ${isDark ? "bg-[oklch(0_0_0_/_0.3)] text-[oklch(0.65_0.03_76)]" : "bg-muted/70 text-muted-foreground"}`}
+            className={`mt-4 rounded-md px-3 py-2 text-xs ${isDark ? "bg-[oklch(0_0_0_/_0.3)] text-[oklch(0.70_0.01_135)]" : "bg-muted/70 text-muted-foreground"}`}
           >
             {optimisticSummary}
           </div>
@@ -89,7 +89,7 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup, theme = "li
   }
 
   const inputCls = isDark
-    ? "block w-full rounded-sm border border-[oklch(1_0_0_/_0.15)] bg-[oklch(0_0_0_/_0.15)] px-3 py-2.5 text-sm text-[oklch(0.95_0.02_78)] outline-none focus:border-[oklch(0.56_0.17_40)] focus:ring-1 focus:ring-[oklch(0.56_0.17_40)] transition-colors"
+    ? "block w-full rounded-sm border border-[oklch(1_0_0_/_0.15)] bg-[oklch(0_0_0_/_0.15)] px-3 py-2.5 text-sm text-[oklch(0.98_0.005_95)] outline-none focus:border-[oklch(0.70_0.12_85)] focus:ring-1 focus:ring-[oklch(0.70_0.12_85)] transition-colors"
     : "block w-full rounded-sm border border-input bg-background px-3 py-2.5 text-sm text-foreground outline-none ring-primary/30 focus:border-primary focus:ring-2 transition-colors";
 
   return (
@@ -178,12 +178,12 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup, theme = "li
       <div className="sm:col-span-2">
         <button
           type="submit"
-          className={`mt-1 w-full rounded-sm px-5 py-3 text-sm font-medium transition ${isDark ? "bg-[oklch(0.56_0.17_40)] text-white hover:bg-[oklch(0.56_0.17_40_/_0.9)]" : "bg-primary text-primary-foreground hover:bg-primary/90"}`}
+          className={`mt-1 w-full rounded-sm px-5 py-3 text-sm font-medium transition ${isDark ? "bg-[oklch(0.70_0.12_85)] text-[oklch(0.22_0.02_135)] hover:bg-[oklch(0.70_0.12_85_/_0.9)]" : "bg-primary text-primary-foreground hover:bg-primary/90"}`}
         >
           Check availability
         </button>
         <p
-          className={`mt-3 text-[11px] leading-relaxed ${isDark ? "text-[oklch(0.55_0.03_76)]" : "text-muted-foreground"}`}
+          className={`mt-3 text-[11px] leading-relaxed ${isDark ? "text-[oklch(0.70_0.01_135)]" : "text-muted-foreground"}`}
         >
           By enquiring you agree to our privacy policy. Independent booking platform partnering with
           verified local operators — we do not collect payment card data at this step.
@@ -205,7 +205,7 @@ function Field({
   return (
     <label className="block text-sm">
       <span
-        className={`mb-1.5 block text-xs font-medium uppercase tracking-wider ${isDark ? "text-[oklch(0.65_0.03_76)]" : "text-muted-foreground"}`}
+        className={`mb-1.5 block text-xs font-medium uppercase tracking-wider ${isDark ? "text-[oklch(0.70_0.01_135)]" : "text-muted-foreground"}`}
       >
         {label}
       </span>

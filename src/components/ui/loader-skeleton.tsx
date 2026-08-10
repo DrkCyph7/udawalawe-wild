@@ -6,7 +6,7 @@ export function Skeleton({ className, ...props }: HTMLMotionProps<"div">) {
   return (
     <motion.div
       className={cn(
-        "relative overflow-hidden rounded-xl bg-[oklch(0.2_0.05_150_/_0.15)] shadow-inner",
+        "relative overflow-hidden rounded-xl bg-[oklch(0.22_0.02_135_/_0.15)] shadow-inner",
         className,
       )}
       initial={{ opacity: 0.6 }}

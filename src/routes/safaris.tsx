@@ -95,7 +95,7 @@ function SafarisPage() {
                       className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.05]"
                     />
                     {/* Image gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[oklch(0.21_0.055_150_/_0.8)] hidden lg:block" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[oklch(0.18_0.015_135_/_0.8)] hidden lg:block" />
                     {/* Option badge */}
                     <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] bg-[color:var(--ivory)]/15 text-[color:var(--ivory)] shadow-[0_4px_16px_oklch(1_0_0_/_0.1)] backdrop-blur-md">
                       Option 0{i + 1}
@@ -135,7 +135,7 @@ function SafarisPage() {
                       <Magnetic>
                         <Link
                           to="/book"
-                          className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-all duration-300 hover:scale-[1.04] bg-[oklch(0.56_0.17_40)] hover:bg-[oklch(0.52_0.17_40)] text-[oklch(0.97_0.018_80)] shadow-[0_4px_20px_oklch(0.56_0.17_40_/_0.4)]"
+                          className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-all duration-300 hover:scale-[1.04] bg-[oklch(0.70_0.12_85)] hover:bg-[oklch(0.80_0.08_85)] text-[oklch(0.22_0.02_135)] shadow-[0_4px_20px_oklch(0.70_0.12_85_/_0.4)]"
                         >
                           <CalendarCheck className="h-4 w-4" aria-hidden="true" />
                           Request availability

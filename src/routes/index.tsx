@@ -246,11 +246,11 @@ function Home() {
             />
           </AnimatePresence>
           {/* Cinematic dark vignette */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[oklch(0.15_0.06_150_/_0.92)] via-[oklch(0.15_0.06_150_/_0.48)] to-[oklch(0.15_0.06_150_/_0.15)]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[oklch(0.18_0.015_135_/_0.92)] via-[oklch(0.18_0.015_135_/_0.48)] to-[oklch(0.18_0.015_135_/_0.15)]" />
           {/* Left-side dark anchor so text always readable */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[oklch(0.15_0.06_150_/_0.72)] via-[oklch(0.15_0.06_150_/_0.2)] to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[oklch(0.18_0.015_135_/_0.72)] via-[oklch(0.18_0.015_135_/_0.2)] to-transparent" />
           {/* Golden-hour warm wash from right */}
-          <div className="absolute inset-0 bg-gradient-to-l from-[oklch(0.56_0.17_40_/_0.1)] to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-l from-[oklch(0.70_0.12_85_/_0.1)] to-transparent" />
         </motion.div>
 
         {/* ── Wildlife ticker — rendered BELOW the fixed header (top-16) ─ */}
@@ -259,7 +259,7 @@ function Home() {
           className="absolute left-0 right-0 h-9 overflow-hidden flex items-center"
           style={{
             top: "88px",
-            background: "oklch(0.12 0.05 150 / 0.55)",
+            background: "oklch(0.18 0.015 135 / 0.55)",
             borderTop: "1px solid oklch(1 0 0 / 0.06)",
             borderBottom: "1px solid oklch(1 0 0 / 0.08)",
             backdropFilter: "blur(12px) saturate(1.4)",
@@ -279,7 +279,7 @@ function Home() {
               <span
                 key={i}
                 className="px-5 text-[10px] font-semibold tracking-[0.22em] uppercase whitespace-nowrap"
-                style={{ color: "oklch(0.85 0.02 78 / 0.6)" }}
+                style={{ color: "oklch(0.98 0.005 95 / 0.6)" }}
               >
                 {s}
                 <span className="ml-5 text-white/40">·</span>
@@ -302,10 +302,10 @@ function Home() {
           }}
         >
           <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[oklch(0.56_0.17_40)] opacity-70" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-[oklch(0.56_0.17_40)]" />
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[oklch(0.70_0.12_85)] opacity-70" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[oklch(0.70_0.12_85)]" />
           </span>
-          <span className="text-xs font-semibold" style={{ color: "oklch(0.95 0.02 78)" }}>
+          <span className="text-xs font-semibold" style={{ color: "oklch(0.98 0.005 95)" }}>
             4.9 ★ · 500+ Travellers
           </span>
         </motion.div>
@@ -329,7 +329,7 @@ function Home() {
                 style={{
                   width: i === activeHero ? 22 : 6,
                   height: 4,
-                  background: i === activeHero ? "oklch(0.56 0.17 40)" : "oklch(1 0 0 / 0.35)",
+                  background: i === activeHero ? "oklch(0.70 0.12 85)" : "oklch(1 0 0 / 0.35)",
                 }}
               />
             </button>
@@ -352,10 +352,10 @@ function Home() {
                     boxShadow: "0 2px 16px oklch(0 0 0 / 0.2), inset 0 1px 0 oklch(1 0 0 / 0.2)",
                   }}
                 >
-                  <Sparkles className="h-3 w-3" style={{ color: "oklch(0.72 0.09 52)" }} />
+                  <Sparkles className="h-3 w-3" style={{ color: "oklch(0.80 0.08 85)" }} />
                   <span
                     className="text-[10px] font-semibold uppercase tracking-[0.2em]"
-                    style={{ color: "oklch(0.93 0.035 76 / 0.85)" }}
+                    style={{ color: "oklch(0.98 0.005 95 / 0.85)" }}
                   >
                     Udawalawe, Sri Lanka
                   </span>
@@ -365,14 +365,14 @@ function Home() {
               {/* Staggered headline */}
               <h1
                 className="font-serif leading-[1.05] text-4xl sm:text-6xl lg:text-7xl"
-                style={{ color: "oklch(0.93 0.035 76)" }}
+                style={{ color: "oklch(0.98 0.005 95)" }}
               >
                 <HeroLine>Experience</HeroLine>
                 <HeroLine>Udawalawe,</HeroLine>
                 <HeroLine>
                   <span
                     className="italic inline-block mt-1 sm:mt-0"
-                    style={{ color: "oklch(0.72 0.09 52)" }}
+                    style={{ color: "oklch(0.80 0.08 85)" }}
                   >
                     wildly.
                   </span>
@@ -383,7 +383,7 @@ function Home() {
               <HeroFadeIn>
                 <p
                   className="mt-6 max-w-lg text-base leading-relaxed sm:text-lg"
-                  style={{ color: "oklch(0.93 0.035 76 / 0.75)" }}
+                  style={{ color: "oklch(0.98 0.005 95 / 0.75)" }}
                 >
                   Private, wildlife-first safaris with verified local partners, transparent pricing,
                   and simple planning.
@@ -398,9 +398,9 @@ function Home() {
                       to="/book"
                       className="group inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-xl px-6 py-3.5 sm:py-3 text-sm font-semibold shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl active:scale-95"
                       style={{
-                        background: "oklch(0.56 0.17 40)",
-                        color: "oklch(0.97 0.018 80)",
-                        boxShadow: "0 4px 24px oklch(0.56 0.17 40 / 0.4)",
+                        background: "oklch(0.70 0.12 85)",
+                        color: "oklch(0.22 0.02 135)",
+                        boxShadow: "0 4px 24px oklch(0.70 0.12 85 / 0.4)",
                       }}
                     >
                       <CalendarCheck className="h-4 w-4" aria-hidden="true" />
@@ -415,7 +415,7 @@ function Home() {
                       className="inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-xl px-6 py-3.5 sm:py-3 text-sm font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
                       style={{
                         border: "1px solid oklch(1 0 0 / 0.22)",
-                        color: "oklch(0.95 0.02 78)",
+                        color: "oklch(0.98 0.005 95)",
                         background: "oklch(1 0 0 / 0.1)",
                         backdropFilter: "blur(20px) saturate(1.6)",
                         boxShadow:
@@ -439,7 +439,7 @@ function Home() {
                       style={{
                         background: "oklch(1 0 0 / 0.1)",
                         border: "1px solid oklch(1 0 0 / 0.18)",
-                        color: "oklch(0.95 0.02 78)",
+                        color: "oklch(0.98 0.005 95)",
                         backdropFilter: "blur(20px) saturate(1.6)",
                         boxShadow:
                           "0 2px 12px oklch(0 0 0 / 0.2), inset 0 1px 0 oklch(1 0 0 / 0.18)",
@@ -447,7 +447,7 @@ function Home() {
                     >
                       <Icon
                         className="h-3 w-3 sm:h-3.5 sm:w-3.5"
-                        style={{ color: "oklch(0.72 0.09 52)" }}
+                        style={{ color: "oklch(0.80 0.08 85)" }}
                         aria-hidden="true"
                       />
                       {label}
@@ -467,15 +467,15 @@ function Home() {
               <div
                 className="rounded-3xl p-6 sm:p-8 card-glass"
                 style={{
-                  boxShadow: "0 32px 80px oklch(0.15 0.06 150 / 0.4)",
+                  boxShadow: "0 32px 80px oklch(0.18 0.015 135 / 0.4)",
                 }}
               >
                 <div className="mb-4">
                   <Eyebrow>Check availability</Eyebrow>
-                  <div className="font-serif text-2xl text-[oklch(0.93_0.035_76)]">
+                  <div className="font-serif text-2xl text-[oklch(0.98_0.005_95)]">
                     Start with your dates.
                   </div>
-                  <p className="mt-1 text-xs text-[oklch(0.70_0.03_76)]">
+                  <p className="mt-1 text-xs text-[oklch(0.70_0.01_135)]">
                     A real person will reply with verified options within one business day.
                   </p>
                 </div>
@@ -491,7 +491,7 @@ function Home() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.8 }}
           className="absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-          style={{ color: "oklch(0.93 0.035 76 / 0.5)" }}
+          style={{ color: "oklch(0.98 0.005 95 / 0.5)" }}
         >
           <span className="text-[9px] font-semibold uppercase tracking-[0.3em]">Explore</span>
           <motion.div
@@ -502,7 +502,7 @@ function Home() {
           >
             <motion.div
               className="h-1.5 w-1 rounded-full"
-              style={{ background: "oklch(0.56 0.17 40)" }}
+              style={{ background: "oklch(0.70 0.12 85)" }}
               animate={prefersReducedMotion ? {} : { y: [0, 10, 0], opacity: [1, 0, 1] }}
               transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
             />
@@ -756,13 +756,13 @@ function Home() {
                     <div
                       className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl"
                       style={{
-                        background: "oklch(0.56 0.17 40 / 0.18)",
-                        border: "1px solid oklch(0.56 0.17 40 / 0.35)",
+                        background: "oklch(0.70 0.12 85 / 0.18)",
+                        border: "1px solid oklch(0.70 0.12 85 / 0.35)",
                       }}
                     >
                       <b.icon
                         className="h-4.5 w-4.5"
-                        style={{ color: "oklch(0.72 0.09 52)" }}
+                        style={{ color: "oklch(0.80 0.08 85)" }}
                         aria-hidden="true"
                       />
                     </div>
@@ -789,13 +789,13 @@ function Home() {
                 </div>
                 <h2
                   className="mt-1 font-serif text-2xl sm:text-3xl"
-                  style={{ color: "oklch(0.93 0.035 76)" }}
+                  style={{ color: "oklch(0.98 0.005 95)" }}
                 >
                   Visit the Elephant Transit Home
                 </h2>
                 <p
                   className="mt-3 text-sm leading-relaxed sm:text-base"
-                  style={{ color: "oklch(0.68 0.03 76)" }}
+                  style={{ color: "oklch(0.70 0.01 135)" }}
                 >
                   Located right beside Udawalawe National Park, the Elephant Transit Home (ETH)
                   rehabilitates orphaned wild elephant calves until they are strong enough to be
@@ -807,9 +807,9 @@ function Home() {
                     to="/safaris"
                     className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-xs font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
                     style={{
-                      background: "oklch(0.56 0.17 40)",
-                      color: "oklch(0.97 0.018 80)",
-                      boxShadow: "0 4px 20px oklch(0.56 0.17 40 / 0.4)",
+                      background: "oklch(0.70 0.12 85)",
+                      color: "oklch(0.94 0.01 100)",
+                      boxShadow: "0 4px 20px oklch(0.70 0.12 85 / 0.4)",
                     }}
                   >
                     Explore Combo Package
@@ -818,7 +818,7 @@ function Home() {
                   <Link
                     to="/guide"
                     className="text-xs font-medium transition-colors hover:text-white"
-                    style={{ color: "oklch(0.72 0.09 52)" }}
+                    style={{ color: "oklch(0.80 0.08 85)" }}
                   >
                     Learn about ETH in our guide →
                   </Link>
@@ -908,8 +908,8 @@ function Home() {
             <SectionHeading
               eyebrow="Getting there"
               title="Coming from the coast or the hills?"
-              titleClass="text-[oklch(0.93_0.035_76)]"
-              introClass="text-[oklch(0.65_0.03_76)]"
+              titleClass="text-[oklch(0.98_0.005_95)]"
+              introClass="text-[oklch(0.70_0.01_135)]"
             />
           </Reveal>
           <div className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4 items-stretch">
@@ -930,9 +930,9 @@ function Home() {
                         style={{ transformStyle: "preserve-3d" }}
                         onMouseEnter={(e: React.MouseEvent) => {
                           (e.currentTarget as HTMLElement).style.borderColor =
-                            "oklch(0.56 0.17 40 / 0.4)";
+                            "oklch(0.70 0.12 85 / 0.4)";
                           (e.currentTarget as HTMLElement).style.boxShadow =
-                            "0 0 0 1px oklch(0.56 0.17 40 / 0.2), 0 16px 40px oklch(0 0 0 / 0.3)";
+                            "0 0 0 1px oklch(0.70 0.12 85 / 0.2), 0 16px 40px oklch(0 0 0 / 0.3)";
                         }}
                         onMouseLeave={(e: React.MouseEvent) => {
                           (e.currentTarget as HTMLElement).style.borderColor = "oklch(1 0 0 / 0.1)";
@@ -946,13 +946,13 @@ function Home() {
                         </div>
                         <div
                           className="font-serif text-base leading-tight sm:text-xl"
-                          style={{ color: "oklch(0.93 0.035 76)" }}
+                          style={{ color: "oklch(0.98 0.005 95)" }}
                         >
                           {r.from}
                         </div>
                         <div
                           className="text-xs leading-snug"
-                          style={{ color: "oklch(0.60 0.03 76)" }}
+                          style={{ color: "oklch(0.70 0.01 135)" }}
                         >
                           {r.drive}
                         </div>
@@ -1074,7 +1074,7 @@ function Home() {
               <Magnetic className="w-full sm:w-auto">
                 <Link
                   to="/book"
-                  className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-[oklch(0.56_0.17_40)] hover:bg-[oklch(0.52_0.17_40)] px-6 py-3 text-sm font-semibold text-[oklch(0.97_0.018_80)] shadow-md transition-all duration-200 active:scale-95"
+                  className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-[oklch(0.70_0.12_85)] hover:bg-[oklch(0.80_0.08_85)] px-6 py-3 text-sm font-semibold text-[oklch(0.22_0.02_135)] shadow-md transition-all duration-200 active:scale-95"
                 >
                   <CalendarCheck className="h-4 w-4" aria-hidden="true" />
                   Plan my safari

@@ -49,7 +49,7 @@ export function SiteHeader() {
       className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] lg:w-[calc(100%-3rem)] max-w-6xl transition-all duration-500 ease-out ${
         transparent
           ? "bg-transparent py-1"
-          : "rounded-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)] bg-[oklch(0.18_0.05_150_/_0.75)] backdrop-blur-xl supports-[backdrop-filter]:bg-[oklch(0.18_0.05_150_/_0.65)] py-0.5"
+          : "rounded-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)] bg-[oklch(0.22_0.02_135_/_0.75)] backdrop-blur-xl supports-[backdrop-filter]:bg-[oklch(0.22_0.02_135_/_0.65)] py-0.5"
       }`}
     >
       <div className="flex items-center justify-between px-3 py-2 sm:px-5 sm:py-2.5">
@@ -105,9 +105,12 @@ export function SiteHeader() {
             <Magnetic>
               <Link
                 to="/book"
-                className="group flex items-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-bold shadow-sm bg-[oklch(0.56_0.17_40)] text-white transition-all hover:bg-[oklch(0.60_0.17_40)] hover:shadow-[0_4px_20px_oklch(0.56_0.17_40_/_0.5)] hover:-translate-y-0.5 border border-white/10 whitespace-nowrap"
+                className="group flex items-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-bold shadow-sm bg-[oklch(0.70_0.12_85)] text-[oklch(0.22_0.02_135)] transition-all hover:bg-[oklch(0.80_0.08_85)] hover:shadow-[0_4px_20px_oklch(0.70_0.12_85_/_0.5)] hover:-translate-y-0.5 border border-white/10 whitespace-nowrap"
               >
-                <CalendarCheck className="h-4 w-4 shrink-0 transition-transform group-hover:scale-110" aria-hidden="true" />
+                <CalendarCheck
+                  className="h-4 w-4 shrink-0 transition-transform group-hover:scale-110"
+                  aria-hidden="true"
+                />
                 Plan my safari
               </Link>
             </Magnetic>
@@ -156,7 +159,9 @@ export function SiteHeader() {
 
       <div
         className={`overflow-hidden transition-all duration-500 ease-in-out lg:hidden ${
-          open ? "max-h-[32rem] opacity-100 border-t border-white/10 bg-black/10" : "max-h-0 opacity-0"
+          open
+            ? "max-h-[32rem] opacity-100 border-t border-white/10 bg-black/10"
+            : "max-h-0 opacity-0"
         }`}
         aria-hidden={!open}
       >
@@ -171,10 +176,7 @@ export function SiteHeader() {
               activeOptions={n.to === "/" ? { exact: true } : undefined}
             >
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/5 border border-white/10">
-                <n.icon
-                  className="h-4 w-4 text-white/90"
-                  aria-hidden="true"
-                />
+                <n.icon className="h-4 w-4 text-white/90" aria-hidden="true" />
               </div>
               {n.label}
             </Link>
@@ -184,7 +186,7 @@ export function SiteHeader() {
             <Link
               to="/book"
               onClick={() => setOpen(false)}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[oklch(0.56_0.17_40)] border border-white/10 px-4 py-3.5 text-[15px] font-bold text-white shadow-lg transition-all duration-200 hover:bg-[oklch(0.60_0.17_40)] active:scale-[0.98] whitespace-nowrap"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[oklch(0.70_0.12_85)] border border-white/10 px-4 py-3.5 text-[15px] font-bold text-[oklch(0.22_0.02_135)] shadow-lg transition-all duration-200 hover:bg-[oklch(0.80_0.08_85)] active:scale-[0.98] whitespace-nowrap"
             >
               <CalendarCheck className="h-5 w-5 shrink-0" />
               Plan my safari

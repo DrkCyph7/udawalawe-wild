@@ -22,7 +22,7 @@ export function RouteTemplate({ info }: { info: RouteInfo }) {
           loading="eager"
           className="absolute inset-0 -z-10 h-full w-full object-cover opacity-30"
         />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[oklch(0.18_0.05_150_/_0.8)] to-[oklch(0.18_0.05_150)]" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[oklch(0.22_0.02_135_/_0.8)] to-[oklch(0.22_0.02_135)]" />
         <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-8 pt-20 pb-10">
           <Reveal>
             <motion.div
@@ -86,7 +86,7 @@ export function RouteTemplate({ info }: { info: RouteInfo }) {
                     <Magnetic>
                       <Link
                         to="/safaris"
-                        className="mt-5 inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-all duration-300 hover:scale-[1.04] bg-[color:var(--terracotta)] text-[color:var(--ivory)] shadow-[0_4px_20px_oklch(0.56_0.17_40_/_0.4)]"
+                        className="mt-5 inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-all duration-300 hover:scale-[1.04] bg-[color:var(--terracotta)] text-[color:var(--ivory)] shadow-[0_4px_20px_oklch(0.70_0.12_85_/_0.4)]"
                       >
                         <CalendarCheck className="h-4 w-4" aria-hidden="true" />
                         See safari options

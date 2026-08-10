@@ -255,7 +255,7 @@ function BookPage() {
                     type="button"
                     onClick={() => void handleNext()}
                     disabled={isSubmitting}
-                    className="rounded-xl bg-[oklch(0.56_0.17_40)] hover:bg-[oklch(0.52_0.17_40)] px-6 py-3 text-sm font-semibold text-[oklch(0.97_0.018_80)] shadow-[0_4px_20px_oklch(0.56_0.17_40_/_0.4)] transition-all duration-300 hover:scale-[1.03] disabled:opacity-70 disabled:hover:scale-100"
+                    className="rounded-xl bg-[oklch(0.70_0.12_85)] hover:bg-[oklch(0.80_0.08_85)] px-6 py-3 text-sm font-semibold text-[oklch(0.22_0.02_135)] shadow-[0_4px_20px_oklch(0.70_0.12_85_/_0.4)] transition-all duration-300 hover:scale-[1.03] disabled:opacity-70 disabled:hover:scale-100"
                   >
                     {isSubmitting ? "Sending…" : step === 2 ? "Send enquiry" : "Continue"}
                   </button>

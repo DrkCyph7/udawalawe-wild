@@ -90,45 +90,45 @@
 :root {
   --radius: 0.5rem;
 
-  /* ── Phase 1 Palette Update ──────────────────────────────────────── */
-  --forest-900: oklch(0.278 0.042 146.7);
-  --forest-700: oklch(0.342 0.051 149.8);
-  --forest-500: oklch(0.442 0.058 146.9);
-  --sand-100: oklch(0.953 0.02 87.5);
-  --sand-200: oklch(0.918 0.031 86.5);
-  --action-500: oklch(0.575 0.156 43.2);
-  --text-light-on-dark: oklch(0.946 0.018 89.4);
-  --text-dark-on-light: oklch(0.278 0.042 146.7);
-  --text-muted-on-light: oklch(0.335 0.012 78.2);
+  /* ── Phase 1 Palette Update (Option 2: Deep Canopy & Bone) ──────── */
+  --forest-900: oklch(0.18 0.015 135);
+  --forest-700: oklch(0.22 0.02 135);
+  --forest-500: oklch(0.3 0.025 135);
+  --sand-100: oklch(0.98 0.005 95);
+  --sand-200: oklch(0.94 0.01 100);
+  --action-500: oklch(0.7 0.12 85);
+  --text-light-on-dark: oklch(0.98 0.005 95);
+  --text-dark-on-light: oklch(0.22 0.02 135);
+  --text-muted-on-light: oklch(0.55 0.02 135);
 
   /* ── Deep Safari Brand Palette ─────────────────────────────────────── */
   /* Backgrounds / surfaces */
-  --savanna: oklch(0.93 0.035 76);
-  /* warm sun-baked savanna grass   */
-  --bone: oklch(0.97 0.018 80);
-  /* elevated card surface — bleached bone */
-  --parchment: oklch(0.89 0.04 75);
-  /* mid-tone warm surface           */
+  --savanna: oklch(0.98 0.005 95);
+  /* plaster white                  */
+  --bone: oklch(0.94 0.01 100);
+  /* elevated card surface — stone  */
+  --parchment: oklch(0.9 0.01 100);
+  /* mid-tone warm surface          */
 
   /* Text */
-  --soil: oklch(0.2 0.025 55);
-  /* rich dark earth — main text     */
-  --bark: oklch(0.52 0.05 68);
-  /* muted text — tree bark brown    */
+  --soil: oklch(0.22 0.02 135);
+  /* rich dark olive — main text    */
+  --bark: oklch(0.55 0.02 135);
+  /* muted text — grey-olive        */
 
   /* Primary brand colors */
-  --canopy: oklch(0.34 0.09 150);
-  /* deep olive-forest green         */
-  --canopy-deep: oklch(0.21 0.065 150);
-  /* night-canopy — dark sections    */
-  --dusk: oklch(0.56 0.17 40);
-  /* terracotta/sunset accent        */
-  --dusk-muted: oklch(0.72 0.09 52);
-  /* light terracotta for hover      */
+  --canopy: oklch(0.22 0.02 135);
+  /* deep black-olive               */
+  --canopy-deep: oklch(0.18 0.015 135);
+  /* night-canopy — dark sections   */
+  --dusk: oklch(0.7 0.12 85);
+  /* muted brass/gold accent        */
+  --dusk-muted: oklch(0.8 0.08 85);
+  /* lighter brass for hover        */
 
   /* Borders / dividers */
-  --khaki: oklch(0.84 0.04 73);
-  /* border / divider — dry khaki    */
+  --khaki: oklch(0.88 0.01 100);
+  /* border / divider — light stone */
 
   /* ── Semantic Tailwind Tokens ──────────────────────────────────────── */
   --background: var(--savanna);
@@ -182,15 +182,15 @@
   --charcoal: var(--soil);
 
   /* ── Dark surface tokens (for hero-level dark sections) ─────────── */
-  --deep: oklch(0.16 0.05 150);
+  --deep: oklch(0.18 0.015 135);
   /* hero-dark background */
-  --deep-surface: oklch(0.21 0.055 150);
+  --deep-surface: oklch(0.22 0.02 135);
   /* card on dark bg      */
   --deep-border: oklch(1 0 0 / 0.1);
   /* border on dark       */
-  --deep-text: oklch(0.93 0.035 76);
-  /* warm ivory on dark   */
-  --deep-muted: oklch(0.7 0.03 76);
+  --deep-text: oklch(0.98 0.005 95);
+  /* plaster white on dark*/
+  --deep-muted: oklch(0.7 0.01 135);
   /* muted on dark        */
 }
 
@@ -290,11 +290,11 @@
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     overflow-x: hidden;
-    background-color: oklch(0.12 0.05 150);
+    background-color: oklch(0.18 0.015 135);
   }
 
   body {
-    background-color: oklch(0.12 0.05 150);
+    background-color: oklch(0.18 0.015 135);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "cv11";
@@ -416,7 +416,7 @@
 
 /* ─── True liquid glass (for hero overlays, dark panels) ────────────── */
 @utility liquid-glass {
-  background: oklch(1 0 0 / 0.09);
+  background: oklch(0.22 0.02 135 / 0.4);
   border: 1px solid oklch(1 0 0 / 0.18);
   backdrop-filter: blur(24px) saturate(1.8);
   box-shadow:
@@ -426,7 +426,7 @@
 
 /* ─── Dark frosted glass card ───────────────────────────────────────── */
 @utility card-glass {
-  background: oklch(0.21 0.055 150 / 0.85);
+  background: oklch(0.22 0.02 135 / 0.7);
   border: 1px solid oklch(1 0 0 / 0.1);
   backdrop-filter: blur(20px) saturate(1.4);
   box-shadow:
