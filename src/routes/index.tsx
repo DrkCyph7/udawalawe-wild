@@ -227,7 +227,7 @@ function Home() {
       >
         {/* ── Crossfade background slideshow ──────────────────────── */}
         <motion.div className="absolute inset-0 -z-10" style={{ y: heroParallaxY }}>
-          <AnimatePresence>
+          <AnimatePresence initial={false}>
             <motion.img
               key={activeHero}
               src={heroImages[activeHero].src}
@@ -254,11 +254,11 @@ function Home() {
         </motion.div>
 
         {/* ── Wildlife ticker — rendered BELOW the fixed header (top-16) ─ */}
-        {/* Header is ~64px tall, so we offset by that */}
+        {/* Header is ~64px tall + 16px offset = 80px, so we offset ticker by 88px */}
         <div
           className="absolute left-0 right-0 h-9 overflow-hidden flex items-center"
           style={{
-            top: "64px",
+            top: "88px",
             background: "oklch(0.12 0.05 150 / 0.55)",
             borderTop: "1px solid oklch(1 0 0 / 0.06)",
             borderBottom: "1px solid oklch(1 0 0 / 0.08)",
@@ -292,7 +292,7 @@ function Home() {
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 2.2, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
           className="absolute top-[120px] right-4 sm:right-8 hidden sm:flex items-center gap-2 rounded-full px-4 py-2.5"
           style={{
             background: "oklch(1 0 0 / 0.08)",
@@ -314,7 +314,7 @@ function Home() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 2.5, duration: 0.6 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
           className="absolute bottom-16 left-4 sm:left-8 flex gap-1.5 items-center"
         >
           {heroImages.map((_, i) => (
@@ -336,11 +336,11 @@ function Home() {
           ))}
         </motion.div>
 
-        {/* ── Main content — centered; pt accounts for header (64px) + ticker (36px) ── */}
-        <div className="flex-1 flex items-center pt-[84px] sm:pt-[100px]">
+        {/* ── Main content — centered; pt accounts for header (80px) + gap + ticker (36px) ── */}
+        <div className="flex-1 flex items-center pt-[110px] sm:pt-[130px]">
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-8 py-8 grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:items-center">
             {/* Left — headline + CTAs */}
-            <HeroEditorialStagger delay={2.0}>
+            <HeroEditorialStagger delay={0.1}>
               {/* Eyebrow */}
               <HeroFadeIn>
                 <div
@@ -461,7 +461,7 @@ function Home() {
             <motion.div
               initial={{ opacity: 0, x: 30, filter: "blur(8px)" }}
               animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.9, delay: 2.4, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className="hidden sm:block"
             >
               <div
@@ -489,7 +489,7 @@ function Home() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 3.2, duration: 0.8 }}
+          transition={{ delay: 0.8, duration: 0.8 }}
           className="absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
           style={{ color: "oklch(0.93 0.035 76 / 0.5)" }}
         >

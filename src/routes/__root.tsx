@@ -3,11 +3,12 @@ import {
   Outlet,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
-import { motion } from "framer-motion";
+import { motion, useScroll, AnimatePresence } from "framer-motion";
 import { CurtainProvider } from "@/components/curtain-provider";
 import { TransitionLink as Link } from "@/components/transition-link";
 
@@ -133,6 +134,8 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
+import { PageSkeleton } from "@/components/page-skeleton";
+
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
@@ -215,6 +218,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
+  pendingComponent: PageSkeleton,
 });
 
 function RootShell({ children }: { children: ReactNode }) {
@@ -332,7 +336,7 @@ function RootShell({ children }: { children: ReactNode }) {
   };
 
   return (
-    <html lang="en">
+    <html lang="en" style={{ backgroundColor: "oklch(0.12 0.05 150)", color: "oklch(0.2 0.025 55)" }}>
       <head>
         <HeadContent />
         <script
@@ -348,7 +352,7 @@ function RootShell({ children }: { children: ReactNode }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
         />
       </head>
-      <body>
+      <body style={{ margin: 0, backgroundColor: "oklch(0.12 0.05 150)" }}>
         {children}
         <Scripts />
       </body>
@@ -358,17 +362,33 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const { scrollYProgress } = useScroll();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
     <QueryClientProvider client={queryClient}>
       <CurtainProvider>
+        <motion.div 
+          className="fixed top-0 left-0 right-0 h-[3px] bg-primary z-[9999] origin-left pointer-events-none"
+          style={{ scaleX: scrollYProgress }}
+        />
         <div className="flex min-h-screen flex-col bg-background text-foreground overflow-x-hidden relative">
           <div className="flex min-h-screen flex-col">
             {/* Main content wrapper (sits on top and scrolls normally) */}
-            <div className="relative z-10 flex-1 shadow-[0_20px_40px_rgba(0,0,0,0.8)]">
+            <div className="relative z-10 flex-1 shadow-[0_20px_40px_rgba(0,0,0,0.8)] bg-background">
               <SiteHeader />
               <main className="relative flex-1 overflow-x-hidden">
-                <Outlet />
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={pathname}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -15 }}
+                    transition={{ duration: 0.35, ease: "easeOut" }}
+                  >
+                    <Outlet />
+                  </motion.div>
+                </AnimatePresence>
               </main>
             </div>
 

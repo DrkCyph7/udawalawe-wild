@@ -7,7 +7,8 @@ import { faqs } from "@/lib/content";
 import landscape from "@/assets/landscape.jpg";
 import { Compass } from "lucide-react";
 import { TiltCard } from "@/components/tilt-card";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import { useRef } from "react";
 
 export const Route = createFileRoute("/guide")({
   head: () => ({
@@ -32,6 +33,18 @@ export const Route = createFileRoute("/guide")({
 });
 
 function GuidePage() {
+  const prefersReducedMotion = useReducedMotion();
+  const imageRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: imageRef,
+    offset: ["start end", "end start"],
+  });
+  const parallaxY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    prefersReducedMotion ? ["0%", "0%"] : ["-8%", "8%"]
+  );
+
   return (
     <>
       {/* Page hero — dark cinematic banner */}
@@ -66,16 +79,18 @@ function GuidePage() {
           <Reveal direction="scale">
             <TiltCard intensity={3}>
               <div
-                className="grain overflow-hidden rounded-[2rem] max-h-[380px] sm:max-h-[500px]"
+                ref={imageRef}
+                className="grain overflow-hidden rounded-[2rem] h-[380px] sm:h-[500px]"
                 style={{ boxShadow: "0 24px 64px oklch(0 0 0 / 0.4)" }}
               >
-                <img
+                <motion.img
+                  style={{ y: parallaxY, scale: 1.16 }}
                   src={landscape}
                   alt="Udawalawe reservoir landscape at sunset"
                   loading="lazy"
                   width={1920}
                   height={1080}
-                  className="h-full w-full object-cover max-h-[380px] sm:max-h-[500px] transition duration-700 hover:scale-[1.03]"
+                  className="h-full w-full object-cover"
                 />
               </div>
             </TiltCard>
