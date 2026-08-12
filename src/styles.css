@@ -192,6 +192,20 @@
   /* plaster white on dark*/
   --deep-muted: oklch(0.7 0.01 135);
   /* muted on dark        */
+
+  /* ── Richer Gold/Amber palette for glass accents ──────────────── */
+  --gold-bright: oklch(0.78 0.14 85);
+  /* vivid gold for active states */
+  --gold-warm: oklch(0.70 0.12 85);
+  /* primary accent (existing dusk) */
+  --gold-muted: oklch(0.62 0.09 82);
+  /* subtle gold for borders/icons */
+  --glass-surface: oklch(0.22 0.02 135 / 0.55);
+  /* main glass bg */
+  --glass-border: oklch(1 0 0 / 0.14);
+  /* glass border */
+  --glass-highlight: oklch(1 0 0 / 0.22);
+  /* top-edge highlight */
 }
 
 /* ═══════════════════ KEYFRAMES ════════════════════════════════════════ */
@@ -299,8 +313,11 @@
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "cv11";
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
+    /* Ensure native scroll is never blocked by JS event listeners */
+    touch-action: pan-y;
   }
 
   ::selection {
@@ -414,24 +431,39 @@
     0 20px 48px -12px oklch(0.22 0.035 155 / 0.14);
 }
 
-/* ─── True liquid glass (for hero overlays, dark panels) ────────────── */
+/* ─── True liquid glass (for hero overlays, dark panels) ──────────── */
 @utility liquid-glass {
-  background: oklch(0.22 0.02 135 / 0.4);
-  border: 1px solid oklch(1 0 0 / 0.18);
-  backdrop-filter: blur(24px) saturate(1.8);
+  background: var(--glass-surface, oklch(0.22 0.02 135 / 0.55));
+  border: 1px solid var(--glass-border, oklch(1 0 0 / 0.14));
+  backdrop-filter: blur(28px) saturate(1.9);
+  -webkit-backdrop-filter: blur(28px) saturate(1.9);
   box-shadow:
-    0 4px 24px oklch(0 0 0 / 0.22),
-    inset 0 1px 0 oklch(1 0 0 / 0.18);
+    0 4px 32px oklch(0 0 0 / 0.28),
+    inset 0 1px 0 var(--glass-highlight, oklch(1 0 0 / 0.22)),
+    inset 0 -1px 0 oklch(0 0 0 / 0.08);
+
+  @media (max-width: 639px) {
+    backdrop-filter: blur(16px) saturate(1.6);
+    -webkit-backdrop-filter: blur(16px) saturate(1.6);
+  }
 }
 
-/* ─── Dark frosted glass card ───────────────────────────────────────── */
+/* ─── Dark frosted glass card ──────────────────────────────────── */
 @utility card-glass {
-  background: oklch(0.22 0.02 135 / 0.7);
-  border: 1px solid oklch(1 0 0 / 0.1);
-  backdrop-filter: blur(20px) saturate(1.4);
+  background: oklch(0.20 0.018 135 / 0.72);
+  border: 1px solid oklch(1 0 0 / 0.12);
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
   box-shadow:
-    0 8px 32px oklch(0 0 0 / 0.3),
-    inset 0 1px 0 oklch(1 0 0 / 0.12);
+    0 8px 40px oklch(0 0 0 / 0.35),
+    inset 0 1px 0 oklch(1 0 0 / 0.18),
+    inset 0 -1px 0 oklch(0 0 0 / 0.1);
+
+  @media (max-width: 639px) {
+    /* Reduce blur intensity on mobile GPUs */
+    backdrop-filter: blur(12px) saturate(1.4);
+    -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  }
 }
 
 /* ─── Deep dark section wrapper (Legacy & Global) ────────────── */
@@ -545,10 +577,15 @@
 
 /* ═══════════════════ COMPONENT STYLES ════════════════════════════════ */
 
-/* Header — solid background, fully cross-browser */
+/* Header — rich glassmorphism with gold accent border */
 .header-glass {
-  background: oklch(0.975 0.012 85 / 0.97);
-  /* backdrop-filter removed: unreliable cross-browser */
+  background: oklch(0.22 0.02 135 / 0.82);
+  backdrop-filter: blur(24px) saturate(1.8);
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  border: 1px solid oklch(1 0 0 / 0.1);
+  box-shadow:
+    0 8px 32px oklch(0 0 0 / 0.35),
+    inset 0 1px 0 oklch(1 0 0 / 0.12);
 }
 
 /* Review cards — horizontal marquee on desktop */
@@ -557,10 +594,19 @@
   gap: 1.25rem;
   animation: marquee 40s linear infinite;
   width: max-content;
+  /* Promote to own compositor layer to avoid layout invalidation */
+  will-change: transform;
 }
 
 .reviews-track:hover {
   animation-play-state: paused;
+}
+
+/* Pause marquee on touch (hover never fires) */
+@media (pointer: coarse) {
+  .reviews-track {
+    animation-duration: 55s;
+  }
 }
 
 /* Safari card fixed height for mobile horizontal scroll */
@@ -586,23 +632,31 @@
   height: 100%;
   padding: 1.75rem;
   border-radius: 1rem;
-  border: 1px solid oklch(0 0 0 / 0.05);
-  background: oklch(1 0 0 / 0.6);
-  backdrop-filter: blur(16px);
+  border: 1px solid oklch(0.70 0.12 85 / 0.12);
+  background: oklch(1 0 0 / 0.72);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
   box-shadow:
-    0 1px 0 oklch(1 0 0 / 0.5) inset,
-    0 8px 32px oklch(0 0 0 / 0.05);
+    0 1px 0 oklch(1 0 0 / 0.6) inset,
+    0 8px 32px oklch(0 0 0 / 0.06),
+    0 1px 3px oklch(0 0 0 / 0.04);
   transition:
     border-color 0.28s ease,
     box-shadow 0.28s ease,
     transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+
+  @media (max-width: 639px) {
+    backdrop-filter: blur(10px) saturate(1.3);
+    -webkit-backdrop-filter: blur(10px) saturate(1.3);
+  }
 }
 
 .benefit-tile:hover {
-  border-color: oklch(0.56 0.17 40 / 0.45);
+  border-color: oklch(0.70 0.12 85 / 0.4);
   box-shadow:
-    0 0 0 1px oklch(0.56 0.17 40 / 0.2),
-    0 16px 48px -8px oklch(0 0 0 / 0.35);
+    0 0 0 1px oklch(0.70 0.12 85 / 0.18),
+    0 16px 48px -8px oklch(0 0 0 / 0.25),
+    0 1px 0 oklch(1 0 0 / 0.6) inset;
   transform: translateY(-4px);
 }
 

@@ -1,5 +1,4 @@
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 
 type Direction = "up" | "down" | "left" | "right" | "scale";
 
@@ -14,22 +13,25 @@ export function Reveal({
   className?: string;
   direction?: Direction;
 }) {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  const offset = 36;
+  const prefersReducedMotion = useReducedMotion();
+  const offset = 28;
   const delayS = delay / 1000;
+
+  // No blur on mobile — blur() is GPU-heavy and causes scroll jank.
+  // We detect mobile by checking if pointer is coarse (touch device).
+  // SSR-safe: we skip blur on the server side entirely.
+  const isTouchDevice =
+    typeof window !== "undefined" &&
+    window.matchMedia("(pointer: coarse)").matches;
 
   const variants = {
     hidden: {
       opacity: 0,
       y: direction === "up" ? offset : direction === "down" ? -offset : 0,
       x: direction === "left" ? -offset : direction === "right" ? offset : 0,
-      scale: direction === "scale" ? 0.93 : 1,
-      filter: "blur(6px)",
+      scale: direction === "scale" ? 0.95 : 1,
+      // No blur on touch/mobile devices — causes extreme scroll jank
+      ...(isTouchDevice ? {} : { filter: "blur(3px)" }),
     },
     visible: {
       opacity: 1,
@@ -38,19 +40,15 @@ export function Reveal({
       scale: 1,
       filter: "blur(0px)",
       transition: {
-        duration: 0.9,
-        delay: delayS,
+        duration: prefersReducedMotion ? 0.01 : 0.7,
+        delay: prefersReducedMotion ? 0 : delayS,
         ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
       },
     },
   } as const;
 
-  if (!isMounted) {
-    return (
-      <div className={className} style={{ opacity: 1, filter: "blur(0px)", transform: "none" }}>
-        {children}
-      </div>
-    );
+  if (prefersReducedMotion) {
+    return <div className={className}>{children}</div>;
   }
 
   return (
@@ -58,7 +56,7 @@ export function Reveal({
       variants={variants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-60px" }}
+      viewport={{ once: true, margin: "-40px" }}
       className={className}
     >
       {children}

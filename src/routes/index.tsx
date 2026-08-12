@@ -5,10 +5,6 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   motion,
   AnimatePresence,
-  useMotionValue,
-  useSpring,
-  useScroll,
-  useTransform,
   useReducedMotion,
 } from "framer-motion";
 import { TiltCard } from "@/components/tilt-card";
@@ -204,29 +200,18 @@ function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  /* Subtle scroll parallax on the hero background */
   const prefersReducedMotion = useReducedMotion();
-  const heroSectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress: heroScrollProgress } = useScroll({
-    target: heroSectionRef,
-    offset: ["start start", "end start"],
-  });
-  const heroParallaxY = useTransform(
-    heroScrollProgress,
-    [0, 1],
-    prefersReducedMotion ? ["0%", "0%"] : ["0%", "9%"],
-  );
+
 
   return (
     <>
       {/* ═══════════════════════ HERO ══════════════════════════════════ */}
       {/* header is fixed+transparent, so hero fills full 100svh from top */}
       <section
-        ref={heroSectionRef}
         className="relative isolate z-10 overflow-hidden h-[100svh] min-h-[600px] sm:min-h-[680px] flex flex-col"
       >
         {/* ── Crossfade background slideshow ──────────────────────── */}
-        <motion.div className="absolute inset-0 -z-10" style={{ y: heroParallaxY }}>
+        <motion.div className="absolute inset-0 -z-10">
           <AnimatePresence initial={false}>
             <motion.img
               key={activeHero}
@@ -238,11 +223,13 @@ function Home() {
               height={1280}
               fetchPriority={activeHero === 0 ? "high" : "low"}
               loading={activeHero === 0 ? "eager" : "lazy"}
+              decoding={activeHero === 0 ? "sync" : "async"}
               className="absolute inset-0 h-full w-full object-cover object-center"
-              initial={{ opacity: 0, scale: 1.06 }}
-              animate={{ opacity: 1, scale: 1.02 }}
-              exit={{ opacity: 0, scale: 1 }}
-              transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+              style={{ willChange: "opacity" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.2, ease: "easeInOut" }}
             />
           </AnimatePresence>
           {/* Cinematic dark vignette */}
@@ -989,7 +976,14 @@ function Home() {
             {allReviews.map((r, i) => (
               <div
                 key={i}
-                className="card-lift w-80 shrink-0 rounded-2xl bg-white/60 backdrop-blur-sm border border-black/5 p-6 shadow-sm"
+                className="card-lift w-80 shrink-0 rounded-2xl p-6"
+                style={{
+                  background: "oklch(1 0 0 / 0.78)",
+                  border: "1px solid oklch(0.70 0.12 85 / 0.14)",
+                  backdropFilter: "blur(16px) saturate(1.5)",
+                  WebkitBackdropFilter: "blur(16px) saturate(1.5)",
+                  boxShadow: "0 4px 24px oklch(0 0 0 / 0.07), inset 0 1px 0 oklch(1 0 0 / 0.8)",
+                }}
                 aria-hidden={i >= allReviews.length / 2 ? "true" : undefined}
               >
                 {/* Stars */}
@@ -997,20 +991,28 @@ function Home() {
                   {Array.from({ length: r.rating }).map((_, s) => (
                     <Star
                       key={s}
-                      className="h-3.5 w-3.5 fill-forest-900/10 text-forest-900/10"
+                      className="h-3.5 w-3.5"
+                      style={{ fill: "oklch(0.70 0.12 85)", color: "oklch(0.70 0.12 85)" }}
                       aria-hidden="true"
                     />
                   ))}
                 </div>
 
                 {/* Quote */}
-                <Quote className="h-4 w-4 text-forest-700/20 mb-2" aria-hidden="true" />
-                <p className="text-sm leading-relaxed text-foreground/75 italic">"{r.body}"</p>
+                <Quote
+                  className="h-4 w-4 mb-2"
+                  style={{ color: "oklch(0.70 0.12 85 / 0.35)" }}
+                  aria-hidden="true"
+                />
+                <p className="text-sm leading-relaxed text-foreground/80 italic">"{r.body}"</p>
 
                 {/* Author */}
-                <div className="mt-4 flex items-center justify-between gap-2 border-t border-border/60 pt-4">
+                <div
+                  className="mt-4 flex items-center justify-between gap-2 pt-4"
+                  style={{ borderTop: "1px solid oklch(0.70 0.12 85 / 0.12)" }}
+                >
                   <div>
-                    <div className="text-sm font-medium text-foreground">{r.name}</div>
+                    <div className="text-sm font-semibold text-foreground">{r.name}</div>
                     <div className="flex items-center gap-1 text-xs text-muted-foreground mt-0.5">
                       <MapPin className="h-2.5 w-2.5" aria-hidden="true" />
                       {r.location}

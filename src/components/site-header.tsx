@@ -49,7 +49,7 @@ export function SiteHeader() {
       className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] lg:w-[calc(100%-3rem)] max-w-6xl transition-all duration-500 ease-out ${
         transparent
           ? "bg-transparent py-1"
-          : "rounded-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)] bg-[oklch(0.22_0.02_135_/_0.75)] backdrop-blur-xl supports-[backdrop-filter]:bg-[oklch(0.22_0.02_135_/_0.65)] py-0.5"
+          : "rounded-2xl border border-white/[0.12] shadow-[0_8px_40px_rgba(0,0,0,0.5)] bg-[oklch(0.20_0.018_135_/_0.82)] backdrop-blur-2xl py-0.5 ring-1 ring-inset ring-white/[0.08]"
       }`}
     >
       <div className="flex items-center justify-between px-3 py-2 sm:px-5 sm:py-2.5">
@@ -160,9 +160,14 @@ export function SiteHeader() {
       <div
         className={`overflow-hidden transition-all duration-500 ease-in-out lg:hidden ${
           open
-            ? "max-h-[32rem] opacity-100 border-t border-white/10 bg-black/10"
+            ? "max-h-[32rem] opacity-100 border-t border-white/10 rounded-b-2xl"
             : "max-h-0 opacity-0"
         }`}
+        style={open ? {
+          background: "oklch(0.18 0.015 135 / 0.92)",
+          backdropFilter: "blur(24px) saturate(1.8)",
+          WebkitBackdropFilter: "blur(24px) saturate(1.8)",
+        } : undefined}
         aria-hidden={!open}
       >
         <nav className="flex flex-col gap-1.5 px-3 py-4 sm:px-5" aria-label="Mobile navigation">

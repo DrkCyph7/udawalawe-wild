@@ -8,7 +8,7 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
-import { motion, useScroll, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { CurtainProvider } from "@/components/curtain-provider";
 import { TransitionLink as Link } from "@/components/transition-link";
 
@@ -164,6 +164,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "ICBM", content: "6.4710, 80.8936" },
       { name: "language", content: "English" },
       { name: "revisit-after", content: "7 days" },
+      // Mobile / PWA
+      { name: "mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
+      { name: "apple-mobile-web-app-title", content: "Udawalawe Wild" },
+      { name: "format-detection", content: "telephone=no" },
+      // Open Graph
       { property: "og:site_name", content: "Udawalawe Wild" },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://www.udawalawe-wild.com" },
@@ -210,6 +217,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
+        // font-display=swap prevents render-blocking font flash
         href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600;700&display=swap",
       },
     ],
@@ -365,29 +373,28 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  const { scrollYProgress } = useScroll();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
     <QueryClientProvider client={queryClient}>
       <CurtainProvider>
-        <motion.div
-          className="fixed top-0 left-0 right-0 h-[3px] bg-primary z-[9999] origin-left pointer-events-none"
-          style={{ scaleX: scrollYProgress }}
-        />
+        {/* SiteHeader is rendered OUTSIDE AnimatePresence so it never
+            re-mounts or flickers during route transitions — fixes the
+            mobile "duplicate navbar" glitch reported by users. */}
+        <SiteHeader />
+
         <div className="flex min-h-screen flex-col bg-background text-foreground overflow-x-hidden relative">
           <div className="flex min-h-screen flex-col">
-            {/* Main content wrapper (sits on top and scrolls normally) */}
-            <div className="relative z-10 flex-1 shadow-[0_20px_40px_rgba(0,0,0,0.8)] bg-background">
-              <SiteHeader />
+            {/* Main content wrapper */}
+            <div className="relative z-10 flex-1 bg-background">
               <main className="relative flex-1 overflow-x-hidden">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={pathname}
-                    initial={{ opacity: 0, y: 15 }}
+                    initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -15 }}
-                    transition={{ duration: 0.35, ease: "easeOut" }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
                   >
                     <Outlet />
                   </motion.div>
