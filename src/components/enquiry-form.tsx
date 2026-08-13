@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { createBookingEnquiry, isSupabaseConfigured } from "@/lib/supabase";
+import { useState } from "react";
+import { MessagingPicker } from "@/components/messaging-picker";
 
 type Props = {
   compact?: boolean;
@@ -11,28 +11,8 @@ type Props = {
 export function EnquiryForm({ compact, defaultSafari, defaultPickup, theme = "light" }: Props) {
   const isDark = theme === "dark";
   const [submitted, setSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [optimisticSummary, setOptimisticSummary] = useState<string | null>(null);
-  const [submitError, setSubmitError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
-
-    try {
-      const cached = window.localStorage.getItem("udawalawe-wild-enquiry");
-      if (!cached) {
-        return;
-      }
-
-      const parsed = JSON.parse(cached) as Record<string, string>;
-      const pickup = parsed.pickup ? `Pickup: ${parsed.pickup}` : "Pickup details ready";
-      setOptimisticSummary(pickup);
-    } catch {
-      // Ignore invalid cached data.
-    }
-  }, []);
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [formData, setFormData] = useState<Record<string, string>>({});
 
   if (submitted) {
     return (
@@ -42,48 +22,12 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup, theme = "li
         <div
           className={`font-serif text-xl ${isDark ? "text-[oklch(0.98_0.005_95)]" : "text-primary"}`}
         >
-          Request received.
+          Message sent!
         </div>
         <p className={`mt-2 ${isDark ? "text-[oklch(0.70_0.01_135)]" : "text-muted-foreground"}`}>
-          Your enquiry is with us. We’ll send verified options and a fixed quote within one business
-          day.
+          Thanks for reaching out. We'll reply in the chat you just opened with verified options and
+          a fixed quote.
         </p>
-        {optimisticSummary && (
-          <div
-            className={`mt-4 rounded-md px-3 py-2 text-xs ${isDark ? "bg-[oklch(0_0_0_/_0.3)] text-[oklch(0.70_0.01_135)]" : "bg-muted/70 text-muted-foreground"}`}
-          >
-            {optimisticSummary}
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  if (isSubmitting) {
-    return (
-      <div
-        className={`rounded-sm border p-6 text-sm shadow-sm ${isDark ? "border-[oklch(1_0_0_/_0.1)] bg-[oklch(0_0_0_/_0.2)]" : "border-border bg-card"}`}
-      >
-        <div className="flex items-center gap-3">
-          <div
-            className={`h-2.5 w-2.5 animate-pulse rounded-full ${isDark ? "bg-[oklch(0.70_0.12_85)]" : "bg-primary"}`}
-          />
-          <div
-            className={`font-medium ${isDark ? "text-[oklch(0.98_0.005_95)]" : "text-foreground"}`}
-          >
-            Preparing your enquiry
-          </div>
-        </div>
-        <p className={`mt-3 ${isDark ? "text-[oklch(0.70_0.01_135)]" : "text-muted-foreground"}`}>
-          We’re setting up your request with the latest safari details so the handoff feels smooth.
-        </p>
-        {optimisticSummary && (
-          <div
-            className={`mt-4 rounded-md px-3 py-2 text-xs ${isDark ? "bg-[oklch(0_0_0_/_0.3)] text-[oklch(0.70_0.01_135)]" : "bg-muted/70 text-muted-foreground"}`}
-          >
-            {optimisticSummary}
-          </div>
-        )}
       </div>
     );
   }
@@ -93,40 +37,26 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup, theme = "li
     : "block w-full rounded-sm border border-input bg-background px-3 py-2.5 text-sm text-foreground outline-none ring-primary/30 focus:border-primary focus:ring-2 transition-colors";
 
   return (
-    <form
-      onSubmit={async (e) => {
-        e.preventDefault();
-        setSubmitError(null);
-
-        const formData = new FormData(e.currentTarget);
-        const values = Object.fromEntries(formData.entries()) as Record<string, string>;
-        const summaryPieces = [
-          values.date
-            ? `Date: ${new Date(values.date).toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric" })}`
-            : null,
-          values.pickup ? `Pickup: ${values.pickup}` : null,
-          values.whatsapp ? "WhatsApp details captured" : null,
-        ].filter(Boolean) as string[];
-
-        setOptimisticSummary(summaryPieces.join(" • ") || "Your itinerary details are ready.");
-        setIsSubmitting(true);
-
-        if (typeof window !== "undefined") {
-          window.localStorage.setItem("udawalawe-wild-enquiry", JSON.stringify(values));
-        }
-
-        try {
-          await createBookingEnquiry(values);
+    <>
+      <MessagingPicker
+        data={formData}
+        open={pickerOpen}
+        onClose={() => setPickerOpen(false)}
+        onSent={() => {
+          setPickerOpen(false);
           setSubmitted(true);
-        } catch {
-          setSubmitError(null);
-          setSubmitted(true);
-        } finally {
-          setIsSubmitting(false);
-        }
-      }}
-      className={`grid gap-3 ${compact ? "sm:grid-cols-2" : "sm:grid-cols-2"}`}
-    >
+        }}
+      />
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          const fd = new FormData(e.currentTarget);
+          const values = Object.fromEntries(fd.entries()) as Record<string, string>;
+          setFormData(values);
+          setPickerOpen(true);
+        }}
+        className={`grid gap-3 ${compact ? "sm:grid-cols-2" : "sm:grid-cols-2"}`}
+      >
       <Field label="Preferred safari date" isDark={isDark}>
         <input type="date" name="date" required className={inputCls} />
       </Field>
@@ -166,15 +96,6 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup, theme = "li
           </option>
         </select>
       </Field>
-      <Field label="WhatsApp number" isDark={isDark}>
-        <input
-          type="tel"
-          name="whatsapp"
-          required
-          placeholder="+94 72 189 0006"
-          className={inputCls}
-        />
-      </Field>
       <div className="sm:col-span-2">
         <button
           type="submit"
@@ -189,9 +110,11 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup, theme = "li
           verified local operators — we do not collect payment card data at this step.
         </p>
       </div>
-    </form>
+      </form>
+    </>
   );
 }
+
 
 function Field({
   label,

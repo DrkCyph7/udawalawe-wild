@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Section } from "@/components/section";
-import { createBookingEnquiry } from "@/lib/supabase";
 import { Magnetic } from "@/components/magnetic";
+import { MessagingPicker } from "@/components/messaging-picker";
 
 export const Route = createFileRoute("/book")({
   head: () => ({
@@ -27,29 +27,16 @@ const steps = ["Dates & travellers", "Safari & pickup", "Your details", "Confirm
 function BookPage() {
   const [step, setStep] = useState(0);
   const [data, setData] = useState<Record<string, string>>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [pickerOpen, setPickerOpen] = useState(false);
 
   const setField = (k: string, v: string) => setData((d) => ({ ...d, [k]: v }));
 
-  const handleNext = async () => {
+  const handleNext = () => {
     if (step === 2) {
-      setIsSubmitting(true);
-      setSubmitError(null);
-      try {
-        await createBookingEnquiry(data);
-        setStep(3);
-      } catch (error) {
-        // Stay on the form (do NOT advance to the "confirmed" step) so the guest
-        // sees the real error and can retry, instead of a false success screen.
-        const fallbackMessage = error instanceof Error ? error.message : "Unable to submit enquiry";
-        setSubmitError(fallbackMessage);
-      } finally {
-        setIsSubmitting(false);
-      }
+      // Open the platform picker instead of hitting a database.
+      setPickerOpen(true);
       return;
     }
-
     setStep((s) => s + 1);
   };
 
@@ -92,12 +79,17 @@ function BookPage() {
             ))}
           </ol>
 
+          <MessagingPicker
+            data={data}
+            open={pickerOpen}
+            onClose={() => setPickerOpen(false)}
+            onSent={() => {
+              setPickerOpen(false);
+              setStep(3);
+            }}
+          />
+
           <div className="mt-10 rounded-3xl p-5 sm:p-8 card-glass">
-            {submitError && (
-              <div className="mb-4 rounded-sm border border-amber-300/60 bg-amber-50 px-3 py-2 text-sm text-amber-800">
-                {submitError}
-              </div>
-            )}
 
             {step === 0 && (
               <div className="grid gap-4">
@@ -183,22 +175,11 @@ function BookPage() {
                     className={inputCls}
                   />
                 </Field>
-                <Field label="Email">
+                <Field label="Email (for our reply)">
                   <input
                     type="email"
-                    required
                     defaultValue={data.email}
                     onChange={(e) => setField("email", e.target.value)}
-                    className={inputCls}
-                  />
-                </Field>
-                <Field label="WhatsApp number">
-                  <input
-                    type="tel"
-                    required
-                    placeholder="+94 72 189 0006"
-                    defaultValue={data.whatsapp}
-                    onChange={(e) => setField("whatsapp", e.target.value)}
                     className={inputCls}
                   />
                 </Field>
@@ -222,16 +203,16 @@ function BookPage() {
             )}
 
             {step === 3 && (
-              <div className="py-6 text-center">
-                <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-[color:var(--ivory)]/10 text-[color:var(--ivory)]">
-                  ✓
+              <div className="py-8 text-center">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[oklch(0.70_0.12_85)]/15 text-2xl">
+                  🦁
                 </div>
                 <h2 className="mt-5 font-serif text-3xl text-foreground">
-                  Your request is with us.
+                  Message sent!
                 </h2>
                 <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
-                  We will send verified options and a fixed quote within one business day. In the
-                  meantime, feel free to message us on WhatsApp for anything urgent.
+                  We've received your enquiry and will reply with verified options and a fixed quote
+                  shortly. Check the chat you just opened for our response.
                 </p>
                 <p className="mx-auto mt-6 max-w-md text-xs text-muted-foreground">
                   Independent booking platform partnering with verified local operators. No payment
@@ -253,11 +234,10 @@ function BookPage() {
                 <Magnetic>
                   <button
                     type="button"
-                    onClick={() => void handleNext()}
-                    disabled={isSubmitting}
-                    className="rounded-xl bg-[oklch(0.70_0.12_85)] hover:bg-[oklch(0.80_0.08_85)] px-6 py-3 text-sm font-semibold text-[oklch(0.22_0.02_135)] shadow-[0_4px_20px_oklch(0.70_0.12_85_/_0.4)] transition-all duration-300 hover:scale-[1.03] disabled:opacity-70 disabled:hover:scale-100"
+                    onClick={handleNext}
+                    className="rounded-xl bg-[oklch(0.70_0.12_85)] hover:bg-[oklch(0.80_0.08_85)] px-6 py-3 text-sm font-semibold text-[oklch(0.22_0.02_135)] shadow-[0_4px_20px_oklch(0.70_0.12_85_/_0.4)] transition-all duration-300 hover:scale-[1.03]"
                   >
-                    {isSubmitting ? "Sending…" : step === 2 ? "Send enquiry" : "Continue"}
+                    {step === 2 ? "Choose how to send →" : "Continue"}
                   </button>
                 </Magnetic>
               </div>
