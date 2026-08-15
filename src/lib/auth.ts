@@ -20,6 +20,7 @@ export interface LoginLogEntry {
   login_country: string | null;
   login_country_code: string | null;
   login_city: string | null;
+  login_timezone: string | null;
   user_agent: string | null;
 }
 
@@ -154,6 +155,7 @@ async function writeLoginLog(params: WriteLogParams): Promise<void> {
       login_country: params.geo?.country_name ?? null,
       login_country_code: params.geo?.country_code ?? null,
       login_city: params.geo?.city ?? null,
+      login_timezone: params.geo?.timezone ?? null,
       user_agent: params.user_agent,
     });
   } catch {

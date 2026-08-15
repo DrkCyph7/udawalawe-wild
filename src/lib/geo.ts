@@ -14,6 +14,7 @@ export interface GeoInfo {
   country_code: string | null; // ISO 3166-1 alpha-2, e.g. "DE"
   country_name: string | null; // e.g. "Germany"
   city: string | null;
+  timezone: string | null;     // e.g. "Europe/Berlin"
 }
 
 const GEO_TIMEOUT_MS = 4000; // give up after 4 s
@@ -28,6 +29,7 @@ export async function fetchGeoInfo(): Promise<GeoInfo> {
     country_code: null,
     country_name: null,
     city: null,
+    timezone: null,
   };
 
   try {
@@ -54,6 +56,7 @@ export async function fetchGeoInfo(): Promise<GeoInfo> {
       country_code: typeof json.country_code === "string" ? json.country_code : null,
       country_name: typeof json.country_name === "string" ? json.country_name : null,
       city: typeof json.city === "string" ? json.city : null,
+      timezone: typeof json.timezone === "string" ? json.timezone : null,
     };
   } catch {
     // AbortError, NetworkError, JSON parse error — all silently ignored.

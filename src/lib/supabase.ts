@@ -42,6 +42,7 @@ export type BookingEnquiryRow = {
   guest_country_code?: string | null;  // ISO code, e.g. "DE"
   guest_ip?: string | null;
   guest_city?: string | null;
+  guest_timezone?: string | null;
   safari_date?: string | null;
   adults: number;
   children: number;
@@ -121,6 +122,7 @@ export async function createBookingEnquiry(
     guest_country_code: geo?.country_code ?? null,
     guest_ip: geo?.ip ?? null,
     guest_city: geo?.city ?? null,
+    guest_timezone: geo?.timezone ?? null,
     safari_date: values.date ?? null,
     adults: Number(values.adults ?? 2) || 2,
     children: Number(values.children ?? 0) || 0,

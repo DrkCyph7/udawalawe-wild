@@ -42,6 +42,7 @@ create table if not exists public.booking_enquiries (
   guest_country_code text,                      -- ISO 3166-1 alpha-2, e.g. "DE"
   guest_ip         text,                        -- IPv4 or IPv6  ← SENSITIVE
   guest_city       text,                        -- e.g. "Berlin" ← SENSITIVE
+  guest_timezone   text,                        -- e.g. "Europe/Berlin" ← SENSITIVE
 
   -- Trip
   safari_date      date,
@@ -66,7 +67,8 @@ alter table if exists public.booking_enquiries
 alter table if exists public.booking_enquiries
   add column if not exists guest_ip           text,
   add column if not exists guest_country_code text,
-  add column if not exists guest_city         text;
+  add column if not exists guest_city         text,
+  add column if not exists guest_timezone     text;
 
 -- ============================================================
 -- TABLE: profiles  (one row per Supabase Auth user)
@@ -116,6 +118,7 @@ create table if not exists public.admin_login_logs (
   login_country  text,
   login_country_code text,
   login_city     text,
+  login_timezone text,
 
   -- Browser fingerprint
   user_agent     text
@@ -123,7 +126,7 @@ create table if not exists public.admin_login_logs (
 
 -- ============================================================
 -- VIEW: booking_enquiries_admin_view
--- Regular admins read this view — IP and city are masked to NULL.
+-- Regular admins read this view — IP, city, and timezone are masked to NULL.
 -- ============================================================
 create or replace view public.booking_enquiries_admin_view as
   select
@@ -132,6 +135,7 @@ create or replace view public.booking_enquiries_admin_view as
     guest_country, guest_country_code,
     null::text as guest_ip,      -- masked for regular admins
     null::text as guest_city,    -- masked for regular admins
+    null::text as guest_timezone,-- masked for regular admins
     safari_date, adults, children, safari_type,
     pickup_location, dropoff_location, special_requests,
     status, assigned_partner, internal_notes,
@@ -244,7 +248,6 @@ create policy "Admins can read own login logs"
 --
 insert into public.profiles (id, role) values
   ('510082bc-7c5e-49d2-85c4-ed3d9b02c7a2', 'superadmin'),
-  ('33fc3e49-0dc0-4dcd-ac5a-fe8a98c3e5c8', 'admin'),
   ('9773d7c1-274b-4aff-a648-116735222674', 'admin')
 on conflict (id) do update set role = excluded.role;
 

@@ -313,6 +313,15 @@ function DetailPanel({
             <div className="grid grid-cols-2 gap-4">
               <Field label="Name" value={row.guest_name} />
               <Field label="Country" value={row.guest_country} />
+              {row.guest_ip && (
+                <>
+                  <Field label="IP Address" value={row.guest_ip} />
+                  <Field
+                    label="City & Timezone"
+                    value={`${row.guest_city ?? "Unknown"} • ${row.guest_timezone ?? "Unknown"}`}
+                  />
+                </>
+              )}
               <div className="col-span-2">
                 <Field label="Email" value={row.guest_email} />
               </div>
