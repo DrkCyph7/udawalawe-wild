@@ -183,8 +183,9 @@ $$;
 alter table public.booking_enquiries enable row level security;
 
 drop policy if exists "Guests can submit enquiries"  on public.booking_enquiries;
-create policy "Guests can submit enquiries"
-  on public.booking_enquiries for insert to anon
+drop policy if exists "Anyone can submit enquiries"  on public.booking_enquiries;
+create policy "Anyone can submit enquiries"
+  on public.booking_enquiries for insert
   with check (true);
 
 drop policy if exists "Admins can read enquiries" on public.booking_enquiries;
