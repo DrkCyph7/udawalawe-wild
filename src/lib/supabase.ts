@@ -131,17 +131,14 @@ export async function createBookingEnquiry(
     status: "new",
   };
 
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("booking_enquiries")
-    .insert(payload)
-    .select("id")
-    .maybeSingle();
+    .insert(payload);
 
   if (error) {
+    console.error("Supabase insert error:", error);
     throw new Error(toFriendlySupabaseError(error));
   }
-
-  return data;
 }
 
 export async function fetchBookingEnquiries() {

@@ -89,8 +89,9 @@ begin
       and data_type    = 'text'
   ) then
     alter table public.profiles
-      alter column role type public.admin_role
-      using role::public.admin_role;
+      alter column role drop default,
+      alter column role type public.admin_role using role::public.admin_role,
+      alter column role set default 'admin'::public.admin_role;
   end if;
 end $$;
 
@@ -231,18 +232,18 @@ create policy "Admins can read own login logs"
 -- ============================================================
 -- SEED: admin accounts
 -- ============================================================
--- Run AFTER creating users in Supabase Auth > Users dashboard.
--- Uses email lookup so no UUID copy-paste needed.
+-- IMPORTANT: Since cross-schema queries caused permission errors,
+-- we'll use the foolproof UUID method.
 --
--- Accounts:
---   superadmin : admin@udawalawe-wild.com
---   admin      : nuwan@udawalawe-wild.com
---              : dinuka@udawalawe-wild.com
+-- Steps:
+--   1. Go to Authentication > Users in your Supabase dashboard
+--   2. Find the UUIDs for these three users
+--   3. Replace the placeholder UUIDs below with the real ones
+--   4. Run just this INSERT block
 --
-insert into public.profiles (id, role)
-select id, 'superadmin' from auth.users where email = 'admin@udawalawe-wild.com'
-union all
-select id, 'admin'      from auth.users where email = 'nuwan@udawalawe-wild.com'
-union all
-select id, 'admin'      from auth.users where email = 'dinuka@udawalawe-wild.com'
+insert into public.profiles (id, role) values
+  ('510082bc-7c5e-49d2-85c4-ed3d9b02c7a2', 'superadmin'),
+  ('33fc3e49-0dc0-4dcd-ac5a-fe8a98c3e5c8', 'admin'),
+  ('9773d7c1-274b-4aff-a648-116735222674', 'admin')
 on conflict (id) do update set role = excluded.role;
+
