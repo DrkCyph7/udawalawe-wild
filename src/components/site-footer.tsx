@@ -99,7 +99,7 @@ const socials = [
     color: "text-[#00AF87] hover:opacity-80",
   },
   {
-    href: "https://t.me",
+    href: `https://t.me/${SITE.telegram}`,
     label: "Telegram",
     icon: TelegramIcon,
     color: "text-[#2AABEE] hover:opacity-80",

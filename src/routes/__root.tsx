@@ -375,13 +375,16 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
+  const isAdmin = pathname === "/admin";
+
   return (
     <QueryClientProvider client={queryClient}>
       <CurtainProvider>
         {/* SiteHeader is rendered OUTSIDE AnimatePresence so it never
             re-mounts or flickers during route transitions — fixes the
-            mobile "duplicate navbar" glitch reported by users. */}
-        <SiteHeader />
+            mobile "duplicate navbar" glitch reported by users.
+            Hidden entirely on /admin which has its own internal nav. */}
+        {!isAdmin && <SiteHeader />}
 
         <div className="flex min-h-screen flex-col bg-background text-foreground overflow-x-hidden relative">
           <div className="flex min-h-screen flex-col">
@@ -402,15 +405,18 @@ function RootComponent() {
               </main>
             </div>
 
-            {/* Sticky reveal footer (sits underneath main content) */}
-            <div className="sticky bottom-0 z-0">
-              <SiteFooter />
-            </div>
+            {/* Sticky reveal footer — hidden on admin */}
+            {!isAdmin && (
+              <div className="sticky bottom-0 z-0">
+                <SiteFooter />
+              </div>
+            )}
 
-            <WhatsAppButton />
+            {!isAdmin && <WhatsAppButton />}
           </div>
         </div>
       </CurtainProvider>
     </QueryClientProvider>
   );
 }
+

@@ -1,5 +1,7 @@
 -- Supabase schema for Udawalawe Wild booking enquiries.
--- Apply this in the Supabase SQL editor.
+-- Run in the Supabase SQL editor.
+-- WhatsApp field is nullable — customers can optionally provide it.
+-- If re-running on an existing DB, the ALTER below makes the column nullable.
 
 create extension if not exists pgcrypto;
 
@@ -24,9 +26,12 @@ create table if not exists public.booking_enquiries (
 
   guest_name        text not null,
   guest_email       text not null,
-  guest_whatsapp    text not null,
+  guest_whatsapp    text,             -- optional; stored as empty string or null
   guest_hotel       text,
-  guest_country     text,
+  guest_country     text,             -- ISO country name, e.g. "Germany"
+  guest_country_code text,            -- ISO 3166-1 alpha-2, e.g. "DE"
+  guest_ip          text,             -- public IP at time of booking (IPv4 or IPv6)
+  guest_city        text,             -- city from geo-IP (best-effort)
 
   safari_date       date,
   adults            int  not null default 1,
@@ -42,6 +47,15 @@ create table if not exists public.booking_enquiries (
   quoted_amount     numeric(10,2),
   quoted_currency   text
 );
+
+-- Migrations for existing databases.
+alter table if exists public.booking_enquiries
+  alter column guest_whatsapp drop not null;
+
+alter table if exists public.booking_enquiries
+  add column if not exists guest_ip           text,
+  add column if not exists guest_country_code text,
+  add column if not exists guest_city         text;
 
 create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
