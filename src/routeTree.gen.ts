@@ -28,6 +28,7 @@ import { Route as SafariFromNuwaraEliyaRouteImport } from './routes/safari-from-
 import { Route as SafariFromTangalleRouteImport } from './routes/safari-from-tangalle'
 import { Route as SafarisRouteImport } from './routes/safaris'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SuperadminRouteImport } from './routes/superadmin'
 import { Route as TermsRouteImport } from './routes/terms'
 
 const IndexRoute = IndexRouteImport.update({
@@ -125,6 +126,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SuperadminRoute = SuperadminRouteImport.update({
+  id: '/superadmin',
+  path: '/superadmin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -151,6 +157,7 @@ export interface FileRoutesByFullPath {
   '/safari-from-tangalle': typeof SafariFromTangalleRoute
   '/safaris': typeof SafarisRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/superadmin': typeof SuperadminRoute
   '/terms': typeof TermsRoute
 }
 export interface FileRoutesByTo {
@@ -173,6 +180,7 @@ export interface FileRoutesByTo {
   '/safari-from-tangalle': typeof SafariFromTangalleRoute
   '/safaris': typeof SafarisRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/superadmin': typeof SuperadminRoute
   '/terms': typeof TermsRoute
 }
 export interface FileRoutesById {
@@ -196,6 +204,7 @@ export interface FileRoutesById {
   '/safari-from-tangalle': typeof SafariFromTangalleRoute
   '/safaris': typeof SafarisRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/superadmin': typeof SuperadminRoute
   '/terms': typeof TermsRoute
 }
 export interface FileRouteTypes {
@@ -220,6 +229,7 @@ export interface FileRouteTypes {
     | '/safari-from-tangalle'
     | '/safaris'
     | '/sitemap.xml'
+    | '/superadmin'
     | '/terms'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -242,6 +252,7 @@ export interface FileRouteTypes {
     | '/safari-from-tangalle'
     | '/safaris'
     | '/sitemap.xml'
+    | '/superadmin'
     | '/terms'
   id:
     | '__root__'
@@ -264,6 +275,7 @@ export interface FileRouteTypes {
     | '/safari-from-tangalle'
     | '/safaris'
     | '/sitemap.xml'
+    | '/superadmin'
     | '/terms'
   fileRoutesById: FileRoutesById
 }
@@ -287,6 +299,7 @@ export interface RootRouteChildren {
   SafariFromTangalleRoute: typeof SafariFromTangalleRoute
   SafarisRoute: typeof SafarisRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  SuperadminRoute: typeof SuperadminRoute
   TermsRoute: typeof TermsRoute
 }
 
@@ -425,6 +438,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/superadmin': {
+      id: '/superadmin'
+      path: '/superadmin'
+      fullPath: '/superadmin'
+      preLoaderRoute: typeof SuperadminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -455,6 +475,7 @@ const rootRouteChildren: RootRouteChildren = {
   SafariFromTangalleRoute: SafariFromTangalleRoute,
   SafarisRoute: SafarisRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  SuperadminRoute: SuperadminRoute,
   TermsRoute: TermsRoute,
 }
 export const routeTree = rootRouteImport

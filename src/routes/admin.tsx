@@ -1,14 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { TransitionLink as Link } from "@/components/transition-link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { supabase, updateBookingStatus, type BookingEnquiryRow } from "@/lib/supabase";
 import {
-  supabase,
-  isAdminUser,
-  fetchBookingEnquiries,
-  updateBookingStatus,
-  type BookingEnquiryRow,
-} from "@/lib/supabase";
-import { Section } from "@/components/section";
+  signIn,
+  signOut,
+  getSession,
+  getCurrentRole,
+  fetchBookingsForRole,
+  type AdminRole,
+} from "@/lib/auth";
+import { fetchGeoInfo } from "@/lib/geo";
 import {
   AlertCircle,
   ArrowDownUp,
@@ -22,6 +24,7 @@ import {
   Globe,
   Hotel,
   Loader2,
+  LogOut,
   MapPin,
   MessageSquare,
   Phone,
@@ -421,15 +424,122 @@ function DetailPanel({
   );
 }
 
+/* ═══════════════════ LOGIN SCREEN ══════════════════════════════════════ */
+
+function LoginScreen({
+  onSuccess,
+}: {
+  onSuccess: (role: AdminRole) => void;
+}) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    if (!email.trim() || !password) {
+      setError("Please enter your email and password.");
+      return;
+    }
+    setLoading(true);
+    try {
+      const geo = await fetchGeoInfo();
+      const result = await signIn(email.trim().toLowerCase(), password, geo);
+      if (result.ok && result.role) {
+        onSuccess(result.role);
+      } else {
+        setError(result.error ?? "Sign in failed.");
+      }
+    } catch {
+      setError("An unexpected error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-[color:var(--sand)]/40 via-background to-[color:var(--forest)]/5 px-4">
+      <div className="w-full max-w-sm">
+        {/* Card */}
+        <div className="rounded-2xl border border-border bg-card p-8 shadow-2xl">
+          {/* Icon */}
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[color:var(--forest)]/10 text-[color:var(--forest)]">
+            <Shield className="h-6 w-6" />
+          </div>
+
+          <h1 className="mt-5 font-serif text-2xl text-foreground">Admin sign in</h1>
+          <p className="mt-1.5 text-sm text-muted-foreground">
+            Use your authorised admin email and password.
+          </p>
+
+          <form onSubmit={(e) => void handleSubmit(e)} className="mt-6 space-y-3">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="admin@udawalawe-wild.com"
+              autoComplete="email"
+              required
+              className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+            />
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              autoComplete="current-password"
+              required
+              className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+            />
+
+            {error && (
+              <div className="flex items-center gap-1.5 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700">
+                <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+                {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full rounded-xl bg-[color:var(--forest)] py-3 text-sm font-semibold text-[color:var(--ivory)] transition hover:opacity-90 disabled:opacity-60"
+            >
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Signing in…
+                </span>
+              ) : (
+                "Sign in"
+              )}
+            </button>
+          </form>
+
+          <Link
+            to="/"
+            className="mt-5 block text-center text-xs text-muted-foreground hover:text-foreground"
+          >
+            ← Return to site
+          </Link>
+        </div>
+
+        {/* Security note */}
+        <p className="mt-4 text-center text-[10px] text-muted-foreground/60">
+          All login attempts are logged with IP address and location.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 /* ═══════════════════ MAIN PAGE ════════════════════════════════════════ */
 
 function AdminPage() {
-  const [loading, setLoading] = useState(true);
-  const [authorized, setAuthorized] = useState(false);
-  const [checking, setChecking] = useState(true);
+  const [initLoading, setInitLoading] = useState(true);
+  const [role, setRole] = useState<AdminRole | null>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
-  const [accessCode, setAccessCode] = useState("");
-  const [accessError, setAccessError] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
   /* Filters */
@@ -448,70 +558,51 @@ function AdminPage() {
 
   const { toasts, push: toast, dismiss } = useToast();
 
-  /* Auth init */
+  /* ── Session restore on mount ── */
   useEffect(() => {
-    let active = true;
     async function init() {
-      if (!supabase) {
-        setChecking(false);
-        setLoading(false);
-        setAuthorized(false);
-        return;
-      }
-      try {
-        const { data: sessionData } = await supabase.auth.getSession();
-        const user = sessionData.session?.user ?? null;
-        const isAdmin = await isAdminUser(user);
-        if (!active) return;
-        setAuthorized(isAdmin);
-        if (isAdmin) {
-          const rows = await fetchBookingEnquiries();
-          setBookings(rows as Booking[]);
-        }
-      } catch (err) {
-        console.error(err);
-        if (active) setAuthorized(false);
-      } finally {
-        if (active) {
-          setLoading(false);
-          setChecking(false);
+      const session = await getSession();
+      if (session) {
+        const r = await getCurrentRole();
+        if (r) {
+          setRole(r);
+          try {
+            const rows = await fetchBookingsForRole(r);
+            setBookings(rows as Booking[]);
+          } catch {
+            // session valid but data load failed — still show dashboard
+          }
         }
       }
+      setInitLoading(false);
     }
     void init();
-    return () => {
-      active = false;
-    };
   }, []);
 
-  /* Sign in */
-  const handleSignIn = async () => {
-    setAccessError("");
-    const code = accessCode.trim();
-    if (!code) {
-      setAccessError("Please enter the admin code.");
-      return;
-    }
-    if (code !== "40808") {
-      setAccessError("Invalid admin code.");
-      return;
-    }
-    setAuthorized(true);
-    setChecking(false);
-    setLoading(false);
+  /* ── After login ── */
+  const handleLoginSuccess = async (r: AdminRole) => {
+    setRole(r);
     try {
-      const rows = await fetchBookingEnquiries();
+      const rows = await fetchBookingsForRole(r);
       setBookings(rows as Booking[]);
     } catch (err) {
       toast(err instanceof Error ? err.message : "Unable to load bookings.", "err");
     }
   };
 
-  /* Refresh */
+  /* ── Sign out ── */
+  const handleSignOut = async () => {
+    await signOut();
+    setRole(null);
+    setBookings([]);
+  };
+
+  /* ── Refresh ── */
   const handleRefresh = async () => {
+    if (!role) return;
     setRefreshing(true);
     try {
-      const rows = await fetchBookingEnquiries();
+      const rows = await fetchBookingsForRole(role);
       setBookings(rows as Booking[]);
       toast("Bookings refreshed.");
     } catch (err) {
@@ -521,7 +612,7 @@ function AdminPage() {
     }
   };
 
-  /* Status update */
+  /* ── Status update ── */
   const handleStatusChange = async (id: string, status: string) => {
     try {
       await updateBookingStatus(id, status);
@@ -533,7 +624,7 @@ function AdminPage() {
     }
   };
 
-  /* Derived stats */
+  /* ── Derived stats ── */
   const stats = useMemo(
     () => ({
       total: bookings.length,
@@ -546,13 +637,13 @@ function AdminPage() {
     [bookings],
   );
 
-  /* Safari type options */
+  /* ── Safari type options ── */
   const safariTypes = useMemo(() => {
     const types = [...new Set(bookings.map((r) => r.safari_type).filter(Boolean))];
     return types as string[];
   }, [bookings]);
 
-  /* Filtered + sorted rows */
+  /* ── Filtered + sorted rows ── */
   const filtered = useMemo(() => {
     let rows = [...bookings];
 
@@ -596,7 +687,7 @@ function AdminPage() {
   };
 
   /* ── Loading ── */
-  if (loading || checking) {
+  if (initLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
         <Loader2 className="h-6 w-6 animate-spin text-primary" />
@@ -605,48 +696,8 @@ function AdminPage() {
   }
 
   /* ── Login ── */
-  if (!authorized) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-[color:var(--sand)]/30 px-4">
-        <div className="w-full max-w-sm rounded-2xl border border-border bg-card p-8 shadow-xl">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
-            <Shield className="h-6 w-6" />
-          </div>
-          <h1 className="mt-5 font-serif text-2xl text-foreground">Admin access</h1>
-          <p className="mt-1.5 text-sm text-muted-foreground">
-            Enter the admin code to view booking enquiries.
-          </p>
-          <input
-            type="password"
-            value={accessCode}
-            onChange={(e) => setAccessCode(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && void handleSignIn()}
-            placeholder="Admin code"
-            className="mt-5 w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-            autoFocus
-          />
-          {accessError && (
-            <div className="mt-2 flex items-center gap-1.5 text-xs text-destructive">
-              <AlertCircle className="h-3.5 w-3.5" />
-              {accessError}
-            </div>
-          )}
-          <button
-            type="button"
-            onClick={() => void handleSignIn()}
-            className="mt-4 w-full rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/85"
-          >
-            Access dashboard
-          </button>
-          <Link
-            to="/"
-            className="mt-4 block text-center text-xs text-muted-foreground hover:text-foreground"
-          >
-            ← Return to site
-          </Link>
-        </div>
-      </div>
-    );
+  if (!role) {
+    return <LoginScreen onSuccess={(r) => void handleLoginSuccess(r)} />;
   }
 
   /* ── Dashboard ── */
@@ -705,6 +756,16 @@ function AdminPage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            {/* Role badge */}
+            <span
+              className={`rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest ${
+                role === "superadmin"
+                  ? "border-amber-300 bg-amber-50 text-amber-700"
+                  : "border-blue-200 bg-blue-50 text-blue-700"
+              }`}
+            >
+              {role}
+            </span>
             <button
               type="button"
               onClick={() => void handleRefresh()}
@@ -724,12 +785,10 @@ function AdminPage() {
             </button>
             <button
               type="button"
-              onClick={async () => {
-                await supabase?.auth.signOut();
-                window.location.reload();
-              }}
-              className="rounded-xl border border-border bg-background px-3.5 py-2 text-xs font-medium text-foreground transition hover:bg-muted"
+              onClick={() => void handleSignOut()}
+              className="flex items-center gap-1.5 rounded-xl border border-border bg-background px-3.5 py-2 text-xs font-medium text-foreground transition hover:bg-red-50 hover:border-red-200 hover:text-red-600"
             >
+              <LogOut className="h-3.5 w-3.5" />
               Sign out
             </button>
           </div>
@@ -809,7 +868,7 @@ function AdminPage() {
               <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             </div>
 
-            {/* Date from */}
+            {/* Date range */}
             <div className="flex items-center gap-2 rounded-xl border border-input bg-background px-3 py-2.5 text-sm text-muted-foreground">
               <CalendarDays className="h-4 w-4 shrink-0" />
               <input
@@ -992,6 +1051,7 @@ function AdminPage() {
         {/* Footer note */}
         <p className="mt-4 text-right text-xs text-muted-foreground">
           Click any row to open the full enquiry detail panel.
+          {role === "admin" && " Customer IPs are visible to superadmin only."}
         </p>
       </div>
     </div>
