@@ -170,7 +170,11 @@ function LoginScreen({ onSuccess }: { onSuccess: () => void }) {
             {error && (
               <div className="flex items-start gap-2 border border-red-500/50 bg-red-500/10 px-3 py-2 text-xs text-red-500 shadow-[0_0_10px_rgba(239,68,68,0.2)]">
                 <AlertCircle className="h-4 w-4 shrink-0" />
-                <span className="uppercase">{error}</span>
+                <span className="uppercase">
+                  {error === "AUTH_FAILURE" 
+                    ? "ACCESS_DENIED: INVALID CREDENTIALS" 
+                    : error}
+                </span>
               </div>
             )}
 
@@ -206,9 +210,9 @@ function LoginScreen({ onSuccess }: { onSuccess: () => void }) {
 
 function LogDetailPanel({ log, onClose }: { log: LoginLogEntry; onClose: () => void }) {
   const Field = ({ label, value }: { label: string; value: string | null | undefined }) => (
-    <div className="mb-4 border-b border-green-500/20 pb-2">
-      <div className="text-[10px] text-green-500/50 uppercase tracking-widest">&gt; {label}</div>
-      <div className="mt-1 text-sm text-green-400 break-all">{value || "NULL"}</div>
+    <div className="flex items-start border-b border-green-500/20 py-1">
+      <div className="w-1/3 text-[10px] text-green-500/50 uppercase tracking-widest shrink-0 pr-2">[{label}]</div>
+      <div className="w-2/3 text-[11px] text-green-400 break-all">{value || "NULL"}</div>
     </div>
   );
 
@@ -225,38 +229,29 @@ function LogDetailPanel({ log, onClose }: { log: LoginLogEntry; onClose: () => v
           </button>
         </div>
         
-        <div className="p-6 max-h-[80vh] overflow-y-auto">
-          <div className="grid grid-cols-2 gap-4">
+        <div className="p-2 max-h-[80vh] overflow-y-auto">
+          <div className="flex flex-col gap-0 border border-green-500/20 p-2 bg-black/50">
             <Field label="ID" value={log.id} />
             <Field label="TIMESTAMP" value={formatDate(log.created_at)} />
-            
-            <div className="col-span-2">
-              <Field label="TARGET_ACCOUNT" value={log.email} />
-            </div>
-            
+            <Field label="TARGET_ACCOUNT" value={log.email} />
             <Field label="DETECTED_ROLE" value={log.role} />
-            <div className="mb-4 border-b border-green-500/20 pb-2">
-              <div className="text-[10px] text-green-500/50 uppercase tracking-widest">&gt; STATUS</div>
-              <div className={`mt-1 text-sm font-bold ${log.success ? 'text-green-500' : 'text-red-500'}`}>
+            
+            <div className="flex items-start border-b border-green-500/20 py-1">
+              <div className="w-1/3 text-[10px] text-green-500/50 uppercase tracking-widest shrink-0 pr-2">[STATUS]</div>
+              <div className={`w-2/3 text-[11px] font-bold ${log.success ? 'text-green-500' : 'text-red-500'}`}>
                 {log.success ? 'GRANTED' : 'DENIED'}
               </div>
             </div>
 
             {log.failure_reason && (
-              <div className="col-span-2">
-                <Field label="ERR_REASON" value={log.failure_reason} />
-              </div>
+              <Field label="ERR_REASON" value={log.failure_reason} />
             )}
 
             <Field label="SOURCE_IP" value={log.login_ip} />
             <Field label="GEO_LOCATION" value={`${log.login_city || '?'}, ${log.login_country || '?'}`} />
-            
             <Field label="GEO_CODE" value={log.login_country_code} />
             <Field label="TIMEZONE" value={log.login_timezone} />
-
-            <div className="col-span-2">
-              <Field label="FINGERPRINT (USER_AGENT)" value={log.user_agent} />
-            </div>
+            <Field label="USER_AGENT" value={log.user_agent} />
           </div>
         </div>
         
@@ -383,48 +378,46 @@ function LoginLogsTable({ logs }: { logs: LoginLogEntry[] }) {
 
 function BookingDetailPanel({ booking, onClose }: { booking: Booking; onClose: () => void }) {
   const Field = ({ label, value }: { label: string; value: string | number | null | undefined }) => (
-    <div className="mb-4 border-b border-green-500/20 pb-2">
-      <div className="text-[10px] text-green-500/50 uppercase tracking-widest">&gt; {label}</div>
-      <div className="mt-1 text-sm text-green-400 break-words whitespace-pre-wrap">{value || "NULL"}</div>
+    <div className="flex items-start border-b border-green-500/20 py-1">
+      <div className="w-[140px] text-[10px] text-green-500/50 uppercase tracking-widest shrink-0 pr-2">[{label}]</div>
+      <div className="flex-1 text-[11px] text-green-400 break-words whitespace-pre-wrap">{value || "NULL"}</div>
     </div>
   );
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm font-mono">
       <div className="w-full max-w-2xl border border-green-500/50 bg-black shadow-[0_0_40px_rgba(0,255,65,0.15)] overflow-hidden flex flex-col max-h-[90vh]">
-        <div className="flex items-center justify-between border-b border-green-500/30 bg-green-500/10 px-4 py-3 shrink-0">
+        <div className="flex items-center justify-between border-b border-green-500/30 bg-green-500/10 px-4 py-2 shrink-0">
           <div className="flex items-center gap-2 text-green-500">
             <Globe className="h-4 w-4" />
             <span className="text-xs font-bold uppercase tracking-widest">DB_Record_Inspect // BOOKING</span>
           </div>
           <button onClick={onClose} className="text-green-500/60 hover:text-green-500 transition">
-            <X className="h-5 w-5" />
+            <X className="h-4 w-4" />
           </button>
         </div>
         
-        <div className="p-6 overflow-y-auto flex-1">
-          <div className="grid grid-cols-2 gap-x-8 gap-y-2">
-            <div className="col-span-2 text-[10px] text-green-500/50 uppercase tracking-widest border-b border-green-500/30 pb-1 mb-4">
-              [ ROOT.GUEST_NODE ]
+        <div className="p-2 overflow-y-auto flex-1 bg-black">
+          <div className="flex flex-col gap-0 border border-green-500/20 p-2 bg-black/50">
+            <div className="text-[10px] text-green-500/80 uppercase tracking-widest border-b border-green-500/50 pb-1 mb-1 font-bold bg-green-500/10 px-2 py-0.5">
+              [ROOT.GUEST_NODE]
             </div>
             <Field label="NAME" value={booking.guest_name} />
             <Field label="EMAIL" value={booking.guest_email} />
             <Field label="WHATSAPP" value={booking.guest_whatsapp} />
-            <Field label="HOTEL/ACCOMMODATION" value={booking.guest_hotel} />
+            <Field label="HOTEL" value={booking.guest_hotel} />
             
-            <div className="col-span-2 text-[10px] text-green-500/50 uppercase tracking-widest border-b border-green-500/30 pb-1 mb-4 mt-4">
-              [ ROOT.NETWORK_METADATA ]
+            <div className="text-[10px] text-green-500/80 uppercase tracking-widest border-b border-green-500/50 pb-1 mb-1 mt-3 font-bold bg-green-500/10 px-2 py-0.5">
+              [ROOT.NETWORK_METADATA]
             </div>
             <Field label="COUNTRY" value={booking.guest_country} />
             <Field label="COUNTRY_CODE" value={booking.guest_country_code} />
             <Field label="CITY" value={booking.guest_city} />
             <Field label="TIMEZONE" value={booking.guest_timezone} />
-            <div className="col-span-2">
-              <Field label="IP_ADDR (SENSITIVE)" value={booking.guest_ip} />
-            </div>
+            <Field label="IP_ADDR" value={booking.guest_ip} />
 
-            <div className="col-span-2 text-[10px] text-green-500/50 uppercase tracking-widest border-b border-green-500/30 pb-1 mb-4 mt-4">
-              [ ROOT.SAFARI_SPEC ]
+            <div className="text-[10px] text-green-500/80 uppercase tracking-widest border-b border-green-500/50 pb-1 mb-1 mt-3 font-bold bg-green-500/10 px-2 py-0.5">
+              [ROOT.SAFARI_SPEC]
             </div>
             <Field label="SAFARI_DATE" value={shortDate(booking.safari_date)} />
             <Field label="SAFARI_TYPE" value={booking.safari_type} />
@@ -432,19 +425,14 @@ function BookingDetailPanel({ booking, onClose }: { booking: Booking; onClose: (
             <Field label="CHILDREN" value={booking.children} />
             <Field label="PICKUP_LOC" value={booking.pickup_location} />
             <Field label="DROPOFF_LOC" value={booking.dropoff_location} />
-            
-            <div className="col-span-2">
-              <Field label="SPECIAL_REQUESTS" value={booking.special_requests} />
-            </div>
+            <Field label="SPECIAL_REQ" value={booking.special_requests} />
 
-            <div className="col-span-2 text-[10px] text-green-500/50 uppercase tracking-widest border-b border-green-500/30 pb-1 mb-4 mt-4">
-              [ ROOT.SYS_STATE ]
+            <div className="text-[10px] text-green-500/80 uppercase tracking-widest border-b border-green-500/50 pb-1 mb-1 mt-3 font-bold bg-green-500/10 px-2 py-0.5">
+              [ROOT.SYS_STATE]
             </div>
             <Field label="STATUS" value={booking.status} />
             <Field label="RECORD_CREATED" value={formatDate(booking.created_at)} />
-            <div className="col-span-2">
-              <Field label="INTERNAL_NOTES" value={booking.internal_notes} />
-            </div>
+            <Field label="INTERNAL_NOTES" value={booking.internal_notes} />
           </div>
         </div>
         

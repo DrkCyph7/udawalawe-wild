@@ -123,7 +123,9 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup, theme = "li
         } catch (err) {
           if (isSupabaseConfigured) {
             const msg =
-              err instanceof Error ? err.message : "Unable to submit enquiry. Please try again.";
+              err instanceof Error 
+                ? `Submission failed: ${err.message}. Please verify your details or try again.`
+                : "Oops! We couldn't check availability right now. Please verify your connection and try again.";
             setSubmitError(msg);
           } else {
             // Supabase not configured in this environment — still show success.

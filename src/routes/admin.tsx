@@ -459,7 +459,11 @@ function LoginScreen({
       if (result.ok && result.role) {
         onSuccess(result.role);
       } else {
-        setError(result.error ?? "Sign in failed.");
+        setError(
+          result.error === "AUTH_FAILURE" 
+            ? "Incorrect email or password. Please try again."
+            : result.error ?? "Authentication failed. Please check your credentials."
+        );
       }
     } catch {
       setError("An unexpected error occurred. Please try again.");

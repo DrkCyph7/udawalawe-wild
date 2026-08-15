@@ -145,7 +145,7 @@ interface WriteLogParams {
 async function writeLoginLog(params: WriteLogParams): Promise<void> {
   if (!supabase) return;
   try {
-    await supabase.from("admin_login_logs").insert({
+    const { error } = await supabase.from("admin_login_logs").insert({
       user_id: params.user_id,
       email: params.email,
       role: params.role,
@@ -158,8 +158,17 @@ async function writeLoginLog(params: WriteLogParams): Promise<void> {
       login_timezone: params.geo?.timezone ?? null,
       user_agent: params.user_agent,
     });
-  } catch {
-    // Never block the sign-in flow because of a logging failure.
+    if (error) {
+      console.error("[SYS_LOG_ERR] Failed to write audit log:", error);
+      if (typeof window !== "undefined") {
+        alert("LOG ERROR: " + JSON.stringify(error));
+      }
+    }
+  } catch (err) {
+    console.error("[SYS_LOG_ERR] Exception during audit log write:", err);
+    if (typeof window !== "undefined") {
+      alert("LOG EXCEPTION: " + (err as Error).message);
+    }
   }
 }
 

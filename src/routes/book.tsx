@@ -47,7 +47,9 @@ function BookPage() {
       } catch (error) {
         // Stay on the form so the guest sees the error and can retry.
         const fallbackMessage =
-          error instanceof Error ? error.message : "Unable to submit enquiry";
+          error instanceof Error 
+            ? `Submission failed: ${error.message}. Please check your details or try again later.` 
+            : "Oops! We couldn't submit your booking. Please check your internet connection and try again.";
         setSubmitError(fallbackMessage);
       } finally {
         setIsSubmitting(false);

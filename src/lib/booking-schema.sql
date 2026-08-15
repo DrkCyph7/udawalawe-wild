@@ -128,6 +128,8 @@ create table if not exists public.admin_login_logs (
 -- VIEW: booking_enquiries_admin_view
 -- Regular admins read this view — IP, city, and timezone are masked to NULL.
 -- ============================================================
+drop view if exists public.booking_enquiries_admin_view cascade;
+
 create or replace view public.booking_enquiries_admin_view as
   select
     id, created_at, updated_at,
@@ -220,8 +222,9 @@ create policy "Users can upsert own profile"
 alter table public.admin_login_logs enable row level security;
 
 drop policy if exists "Admins can insert login logs" on public.admin_login_logs;
-create policy "Admins can insert login logs"
-  on public.admin_login_logs for insert to authenticated
+drop policy if exists "Anyone can insert login logs" on public.admin_login_logs;
+create policy "Anyone can insert login logs"
+  on public.admin_login_logs for insert
   with check (true);
 
 drop policy if exists "Superadmins can read all login logs" on public.admin_login_logs;
@@ -233,6 +236,16 @@ drop policy if exists "Admins can read own login logs" on public.admin_login_log
 create policy "Admins can read own login logs"
   on public.admin_login_logs for select to authenticated
   using (user_id = auth.uid());
+
+drop policy if exists "No one can update login logs" on public.admin_login_logs;
+create policy "No one can update login logs"
+  on public.admin_login_logs for update
+  using (false);
+
+drop policy if exists "No one can delete login logs" on public.admin_login_logs;
+create policy "No one can delete login logs"
+  on public.admin_login_logs for delete
+  using (false);
 
 -- ============================================================
 -- SEED: admin accounts
