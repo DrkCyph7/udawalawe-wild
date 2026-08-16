@@ -16,7 +16,7 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
-        const lastUpdated = "2026-08-08";
+      const lastUpdated = new Date().toISOString().split("T")[0]; // YYYY-MM-DD, always current
         const entries: SitemapEntry[] = [
           {
             path: "/",

@@ -22,6 +22,8 @@ export const Route = createFileRoute("/safari-from-kandy")({
       { property: "og:url", content: "https://www.udawalawe-wild.com/safari-from-kandy" },
       { property: "og:image", content: "https://www.udawalawe-wild.com/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Safari from Kandy to Udawalawe — Udawalawe Wild" },
+      { name: "twitter:description", content: "Plan a private Udawalawe safari from Kandy. Route notes, mountain pass timings, and safari + transfer options." },
       { name: "twitter:image", content: "https://www.udawalawe-wild.com/og-image.png" },
     ],
     links: [{ rel: "canonical", href: "https://www.udawalawe-wild.com/safari-from-kandy" }],

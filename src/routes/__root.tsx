@@ -223,7 +223,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       {
         rel: "stylesheet",
-        // font-display=swap prevents render-blocking font flash
         href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600;700&display=swap",
       },
     ],
@@ -262,12 +261,13 @@ function RootShell({ children }: { children: ReactNode }) {
       longitude: 80.8936,
     },
     description:
-      "Book the best private safari in Udawalawe National Park, Sri Lanka. Verified local guides, ethical wildlife-first approach, transparent pricing. Morning & afternoon jeep safaris, Elephant Transit Home combo. 4.9\u2605 rated by 500+ travellers.",
+      "Book the best private safari in Udawalawe National Park, Sri Lanka. Verified local guides, ethical wildlife-first approach, transparent pricing. Morning & afternoon jeep safaris, Elephant Transit Home combo. 5★ rated by 167 Google reviewers.",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "5.0",
-      reviewCount: "6",
+      reviewCount: "167",
       bestRating: "5",
+      worstRating: "1",
     },
     review: [
       {
@@ -405,11 +405,6 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
-  const [isMounted, setIsMounted] = useState(false);
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
   const isAdmin = pathname === "/admin" || pathname === "/superadmin";
 
   return (
@@ -422,34 +417,32 @@ function RootComponent() {
         {!isAdmin && <SiteHeader />}
 
         <div className="flex min-h-screen flex-col bg-background text-foreground overflow-x-hidden relative">
-          <div className="flex min-h-screen flex-col">
-            {/* Main content wrapper */}
-            <div className="relative z-10 flex-1 bg-background">
-              <main className="relative flex-1 overflow-x-hidden">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={pathname}
-                    initial={isMounted ? { opacity: 0, y: 12 } : false}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                  >
-                    <Outlet />
-                  </motion.div>
-                </AnimatePresence>
-              </main>
-            </div>
-
-            {/* Sticky reveal footer — hidden on admin */}
-            {!isAdmin && (
-              <div className="sticky bottom-0 z-0">
-                <SiteFooter />
-              </div>
-            )}
-
-            {!isAdmin && <WhatsAppButton />}
-            {!isAdmin && <CookieConsent />}
+          {/* Main content wrapper */}
+          <div className="relative z-10 flex-1 bg-background">
+            <main className="relative flex-1 overflow-x-hidden">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={pathname}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                >
+                  <Outlet />
+                </motion.div>
+              </AnimatePresence>
+            </main>
           </div>
+
+          {/* Sticky reveal footer — hidden on admin */}
+          {!isAdmin && (
+            <div className="sticky bottom-0 z-0">
+              <SiteFooter />
+            </div>
+          )}
+
+          {!isAdmin && <WhatsAppButton />}
+          {!isAdmin && <CookieConsent />}
         </div>
       </CurtainProvider>
     </QueryClientProvider>

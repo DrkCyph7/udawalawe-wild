@@ -22,6 +22,8 @@ export const Route = createFileRoute("/safari-from-hiriketiya")({
       { property: "og:url", content: "https://www.udawalawe-wild.com/safari-from-hiriketiya" },
       { property: "og:image", content: "https://www.udawalawe-wild.com/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Safari from Hiriketiya to Udawalawe — Udawalawe Wild" },
+      { name: "twitter:description", content: "Plan a private Udawalawe safari from Hiriketiya. Short coastal route, timing, and enquiry form." },
       { name: "twitter:image", content: "https://www.udawalawe-wild.com/og-image.png" },
     ],
     links: [{ rel: "canonical", href: "https://www.udawalawe-wild.com/safari-from-hiriketiya" }],

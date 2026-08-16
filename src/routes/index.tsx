@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { TransitionLink as Link } from "@/components/transition-link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
@@ -47,7 +46,6 @@ import { Magnetic } from "@/components/magnetic";
 import { LogoTicker } from "@/components/ui/logo-ticker";
 import { HeroEditorialStagger, HeroLine, HeroFadeIn } from "@/components/ui/hero-editorial-stagger";
 import { StaggeredHero } from "@/components/ui/staggered-hero";
-import { Skeleton } from "@/components/ui/loader-skeleton";
 import { safaris, faqs, routes as travelRoutes } from "@/lib/content";
 import reviewsData from "@/lib/reviews.json";
 import { waLink } from "@/lib/site";
@@ -141,22 +139,24 @@ const statPills = [
   { label: "100% Private Jeeps", icon: Car },
 ];
 
+/* Helper: map safari card index to its image + srcSet */
+function getSafariImage(i: number): { src: string; srcSet?: string } {
+  const idx = i % 5;
+  const map = [
+    { src: elephantPortrait, srcSet: `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w` },
+    { src: ethicalImg, srcSet: `${ethicalImg800} 800w, ${ethicalImg1200} 1200w` },
+    { src: wildlife },
+    { src: landscape, srcSet: `${landscape800} 800w, ${landscape1200} 1200w` },
+    { src: elephantPortrait, srcSet: `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w` },
+  ] as const;
+  return map[idx] as { src: string; srcSet?: string };
+}
+
 /* ═══════════════════ HOME PAGE ═════════════════════════════════════════ */
 function Home() {
-  const { data, isPending } = useQuery({
-    queryKey: ["home-page-content"],
-    queryFn: async () => ({
-      safaris,
-      faqs,
-      routes: travelRoutes,
-    }),
-    staleTime: 5 * 60 * 1000,
-    gcTime: 30 * 60 * 1000,
-  });
-
-  const visibleSafaris = data?.safaris ?? safaris;
-  const visibleFaqs = data?.faqs ?? faqs;
-  const visibleRoutes = data?.routes ?? travelRoutes;
+  const visibleSafaris = safaris;
+  const visibleFaqs = faqs;
+  const visibleRoutes = travelRoutes;
 
   /* Duplicate reviews for infinite marquee */
   const allReviews = [...reviewsData.reviews, ...reviewsData.reviews];
@@ -353,7 +353,7 @@ function Home() {
             <span className="relative inline-flex h-2 w-2 rounded-full bg-[oklch(0.70_0.12_85)]" />
           </span>
           <span className="text-xs font-semibold" style={{ color: "oklch(0.98 0.005 95)" }}>
-            4.9 ★ · 500+ Travellers
+            5.0 ★ · 167 Google Reviews
           </span>
         </motion.div>
 
@@ -574,105 +574,64 @@ function Home() {
               ref={safariScrollRef}
               className="flex gap-4 overflow-x-auto scroll-snap-x pb-2 sm:hidden"
             >
-              {isPending
-                ? Array.from({ length: 5 }).map((_, idx) => (
-                    <div
-                      key={idx}
-                      className="safari-snap-card overflow-hidden rounded-xl card-glass"
-                    >
-                      <Skeleton className="aspect-[3/2] w-full" />
-                      <div className="space-y-3 p-4">
-                        <Skeleton className="h-3 w-24" />
-                        <Skeleton className="h-5 w-3/4" />
-                        <Skeleton className="h-4 w-full" />
-                      </div>
+              {visibleSafaris.map((s, i) => (
+                  <article
+                    key={s.slug}
+                    className="safari-snap-card card-lift group flex flex-col overflow-hidden rounded-xl card-glass"
+                  >
+                    <div className="aspect-[3/2] overflow-hidden bg-muted">
+                      <img
+                        src={getSafariImage(i).src}
+                        srcSet={getSafariImage(i).srcSet}
+                        alt={`${s.name} in Udawalawe National Park`}
+                        width={600}
+                        height={400}
+                        loading="lazy"
+                        fetchPriority="low"
+                        decoding="async"
+                        className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.06]"
+                      />
                     </div>
-                  ))
-                : visibleSafaris.map((s, i) => (
-                    <article
-                      key={s.slug}
-                      className="safari-snap-card card-lift group flex flex-col overflow-hidden rounded-xl card-glass"
-                    >
-                      <div className="aspect-[3/2] overflow-hidden bg-muted">
-                        <img
-                          src={
-                            [elephantPortrait, ethicalImg, wildlife, landscape, elephantPortrait][
-                              i % 5
-                            ]
-                          }
-                          srcSet={
-                            i % 5 === 0
-                              ? `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w`
-                              : i % 5 === 1
-                                ? `${ethicalImg800} 800w, ${ethicalImg1200} 1200w`
-                                : i % 5 === 3
-                                  ? `${landscape800} 800w, ${landscape1200} 1200w`
-                                  : i % 5 === 4
-                                    ? `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w`
-                                    : undefined
-                          }
-                          alt={`${s.name} in Udawalawe National Park`}
-                          width={600}
-                          height={400}
-                          loading="lazy"
-                          fetchPriority="low"
-                          decoding="async"
-                          className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.06]"
-                        />
+                    <div className="flex flex-1 flex-col p-4">
+                      <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-muted-foreground">
+                        <Binoculars className="h-3 w-3" aria-hidden="true" />
+                        {s.duration}
                       </div>
-                      <div className="flex flex-1 flex-col p-4">
-                        <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-muted-foreground">
-                          <Binoculars className="h-3 w-3" aria-hidden="true" />
-                          {s.duration}
-                        </div>
-                        <h3 className="mt-1.5 font-serif text-lg text-foreground">{s.name}</h3>
-                        <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground">
-                          {s.short}
-                        </p>
-                        <Link
-                          to="/safaris"
-                          className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-accent"
-                        >
-                          Learn more
-                          <ChevronRight className="h-3 w-3" aria-hidden="true" />
-                        </Link>
-                      </div>
-                    </article>
-                  ))}
+                      <h3 className="mt-1.5 font-serif text-lg text-foreground">{s.name}</h3>
+                      <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground">
+                        {s.short}
+                      </p>
+                      <Link
+                        to="/safaris"
+                        className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-accent"
+                      >
+                        Learn more
+                        <ChevronRight className="h-3 w-3" aria-hidden="true" />
+                      </Link>
+                    </div>
+                  </article>
+                ))}
             </div>
 
             {/* Scroll dots — hidden on sm+ via CSS */}
-            {!isPending && (
-              <div className="snap-dots">
-                {visibleSafaris.map((_, i) => (
-                  <div
-                    key={i}
-                    className={`snap-dot text-[color:var(--forest)] ${i === activeDot ? "active" : ""}`}
-                  />
-                ))}
-              </div>
-            )}
+            <div className="snap-dots">
+              {visibleSafaris.map((_, i) => (
+                <div
+                  key={i}
+                  className={`snap-dot text-[color:var(--forest)] ${i === activeDot ? "active" : ""}`}
+                />
+              ))}
+            </div>
 
             {/* Desktop grid */}
             <div className="hidden gap-4 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-              {isPending
-                ? Array.from({ length: 5 }).map((_, idx) => (
-                    <article key={idx} className="overflow-hidden rounded-xl card-glass">
-                      <Skeleton className="aspect-[4/5] w-full" />
-                      <div className="space-y-3 p-4">
-                        <Skeleton className="h-3 w-24" />
-                        <Skeleton className="h-6 w-3/4" />
-                        <Skeleton className="h-4 w-full" />
-                      </div>
-                    </article>
-                  ))
-                : visibleSafaris.map((s, i) => (
-                    <Reveal key={s.slug} delay={i * 70} className="h-full">
-                      <TiltCard className="h-full" intensity={7}>
-                        <article
-                          className="card-lift group flex h-full flex-col overflow-hidden rounded-xl card-glass"
-                          style={{ transformStyle: "preserve-3d" }}
-                        >
+              {visibleSafaris.map((s, i) => (
+                  <Reveal key={s.slug} delay={i * 70} className="h-full">
+                    <TiltCard className="h-full" intensity={7}>
+                      <article
+                        className="card-lift group flex h-full flex-col overflow-hidden rounded-xl card-glass"
+                        style={{ transformStyle: "preserve-3d" }}
+                      >
                           <div className="aspect-[4/5] overflow-hidden bg-muted">
                             <img
                               src={
@@ -913,15 +872,7 @@ function Home() {
             />
           </Reveal>
           <div className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4 items-stretch">
-            {isPending
-              ? Array.from({ length: 4 }).map((_, idx) => (
-                  <div key={idx} className="rounded-xl card-glass p-4">
-                    <Skeleton className="h-3 w-16" />
-                    <Skeleton className="mt-2 h-6 w-20" />
-                    <Skeleton className="mt-2 h-3 w-full" />
-                  </div>
-                ))
-              : visibleRoutes.map((r, i) => (
+            {visibleRoutes.map((r, i) => (
                   <Reveal key={r.slug} delay={i * 70} className="h-full">
                     <TiltCard className="h-full" intensity={6}>
                       <Link
@@ -1030,7 +981,7 @@ function Home() {
                     {r.photoUrl ? (
                       <img src={r.photoUrl} alt={r.name} className="w-10 h-10 rounded-full" />
                     ) : (
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center bg-sand-200 text-forest-800 font-bold text-sm" aria-hidden="true">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center bg-sand-200 text-forest-900 font-bold text-sm" aria-hidden="true">
                         {r.name.charAt(0)}
                       </div>
                     )}

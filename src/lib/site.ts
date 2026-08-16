@@ -1,7 +1,7 @@
 export const SITE = {
   name: "Udawalawe Wild",
-  domain: "udawalawe-wild.com",
-  url: "https://udawalawe-wild.com",
+  domain: "www.udawalawe-wild.com",
+  url: "https://www.udawalawe-wild.com",
   tagline: "Private, wildlife-first safaris in Sri Lanka.",
   whatsapp: "+94721890006",
   whatsappDisplay: "+94 72 189 0006",

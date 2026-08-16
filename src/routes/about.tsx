@@ -11,21 +11,28 @@ import { Magnetic } from "@/components/magnetic";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About Udawalawe Wild — an independent safari booking platform" },
+      { title: "About Udawalawe Wild — Ethical Private Safari Booking, Sri Lanka" },
       {
         name: "description",
         content:
-          "Udawalawe Wild is an independent online booking platform partnering with verified local safari operators in Udawalawe, Sri Lanka.",
+          "Udawalawe Wild is an independent online booking platform partnering with verified local safari operators in Udawalawe, Sri Lanka. Wildlife-first. Transparent pricing. Honest guides.",
       },
-      { property: "og:title", content: "About Udawalawe Wild" },
+      { property: "og:title", content: "About Udawalawe Wild — Ethical Private Safari Booking" },
       {
         property: "og:description",
-        content: "An independent, wildlife-first safari booking platform.",
+        content:
+          "We partner exclusively with verified local operators in Udawalawe. No hidden fees, no pressure — just honest, wildlife-first safaris in Sri Lanka's best elephant park.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://www.udawalawe-wild.com/about" },
       { property: "og:image", content: "https://www.udawalawe-wild.com/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "About Udawalawe Wild — Ethical Private Safari Booking" },
+      {
+        name: "twitter:description",
+        content:
+          "Independent booking platform partnering with verified local safari operators in Udawalawe, Sri Lanka. Wildlife-first, transparent pricing.",
+      },
       { name: "twitter:image", content: "https://www.udawalawe-wild.com/og-image.png" },
     ],
     links: [{ rel: "canonical", href: "https://www.udawalawe-wild.com/about" }],
