@@ -214,7 +214,7 @@ export default function StatsCount({
       <div className={cn('w-full max-w-6xl mx-auto')}>
         <div
           className={cn(
-            'flex flex-row items-stretch justify-between gap-2 sm:gap-4 lg:gap-8 w-full min-h-30 sm:min-h-35',
+            'grid grid-cols-2 gap-y-8 gap-x-2 sm:flex sm:flex-row sm:items-stretch sm:justify-between sm:gap-4 lg:gap-8 w-full min-h-30 sm:min-h-35',
           )}
         >
           {stats.map((stat, index) => (
@@ -234,7 +234,8 @@ export default function StatsCount({
               {index < stats.length - 1 && showDividers && (
                 <motion.div
                   className={cn(
-                    'absolute -right-1 sm:-right-2 lg:-right-4 top-1/2 transform -translate-y-1/2 h-12 sm:h-16 lg:h-20 w-px bg-gray-200 dark:bg-gray-700',
+                    'absolute -right-1 sm:-right-2 lg:-right-4 top-1/2 transform -translate-y-1/2 h-12 sm:h-16 lg:h-20 w-px bg-gray-300/50 dark:bg-gray-700',
+                    index % 2 === 1 ? 'hidden sm:block' : 'block'
                   )}
                   initial={{ opacity: 0, scaleY: 0 }}
                   animate={

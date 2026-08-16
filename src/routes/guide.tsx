@@ -45,9 +45,28 @@ function GuidePage() {
     prefersReducedMotion ? ["0%", "0%"] : ["-8%", "8%"],
   );
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Udawalawe Wild",
+        item: "https://www.udawalawe-wild.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Visitor Guide",
+        item: "https://www.udawalawe-wild.com/guide",
+      },
+    ],
+  };
+
   return (
     <>
-      {/* Page hero — dark cinematic banner */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <div className="page-hero">
         <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-8">
           <Reveal>

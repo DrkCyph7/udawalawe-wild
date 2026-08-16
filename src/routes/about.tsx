@@ -34,6 +34,25 @@ export const Route = createFileRoute("/about")({
 });
 
 function AboutPage() {
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Udawalawe Wild",
+        item: "https://www.udawalawe-wild.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "About Us",
+        item: "https://www.udawalawe-wild.com/about",
+      },
+    ],
+  };
+
   const pillars = [
     {
       icon: Ban,
@@ -59,6 +78,7 @@ function AboutPage() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       {/* Page hero */}
       <div className="page-hero">
         <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-8">

@@ -7,7 +7,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CurtainProvider } from "@/components/curtain-provider";
 import { TransitionLink as Link } from "@/components/transition-link";
@@ -216,6 +216,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
+        rel: "preload",
+        as: "style",
+        href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600;700&display=swap",
+      },
+      {
         rel: "stylesheet",
         // font-display=swap prevents render-blocking font flash
         href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600;700&display=swap",
@@ -259,10 +264,54 @@ function RootShell({ children }: { children: ReactNode }) {
       "Book the best private safari in Udawalawe National Park, Sri Lanka. Verified local guides, ethical wildlife-first approach, transparent pricing. Morning & afternoon jeep safaris, Elephant Transit Home combo. 4.9\u2605 rated by 500+ travellers.",
     aggregateRating: {
       "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "500",
+      ratingValue: "5.0",
+      reviewCount: "6",
       bestRating: "5",
     },
+    review: [
+      {
+        "@type": "Review",
+        author: { "@type": "Person", name: "Sarah & Tom K." },
+        reviewRating: { "@type": "Rating", ratingValue: "5" },
+        datePublished: "2025-03-01",
+        reviewBody: "Absolutely incredible morning. We saw a herd of 40+ elephants near the reservoir at sunrise. Our driver knew exactly where to be and when — no chasing, just calm and respectful positioning. Couldn't recommend more highly."
+      },
+      {
+        "@type": "Review",
+        author: { "@type": "Person", name: "Lena H." },
+        reviewRating: { "@type": "Rating", ratingValue: "5" },
+        datePublished: "2025-01-15",
+        reviewBody: "The booking process via WhatsApp was seamless. Got a fixed quote within hours, no hidden extras at the gate. The jeep was clean, the driver was brilliant, and the park was stunning. Will be back."
+      },
+      {
+        "@type": "Review",
+        author: { "@type": "Person", name: "Priya & Rajan M." },
+        reviewRating: { "@type": "Rating", ratingValue: "5" },
+        datePublished: "2025-02-10",
+        reviewBody: "We combined our safari with a transfer to Ella — the logistics were handled perfectly. Saw leopard tracks, a crocodile sunning by the tank, and three elephant families. Genuinely life-changing morning."
+      },
+      {
+        "@type": "Review",
+        author: { "@type": "Person", name: "Jonas B." },
+        reviewRating: { "@type": "Rating", ratingValue: "5" },
+        datePublished: "2024-12-05",
+        reviewBody: "Came to Sri Lanka for whale watching but added this safari on a whim. Best decision of the trip. The afternoon light was golden, the park was quiet, and we had the jeep entirely to ourselves."
+      },
+      {
+        "@type": "Review",
+        author: { "@type": "Person", name: "Camille D." },
+        reviewRating: { "@type": "Rating", ratingValue: "5" },
+        datePublished: "2024-11-20",
+        reviewBody: "What stands out is the honesty. No promises of sightings, no pressure, just a knowledgeable local guide and a genuine love for the wildlife. Spotted a rare painted stork colony — incredible."
+      },
+      {
+        "@type": "Review",
+        author: { "@type": "Person", name: "Mike & Alice R." },
+        reviewRating: { "@type": "Rating", ratingValue: "5" },
+        datePublished: "2025-04-12",
+        reviewBody: "Three days in Udawalawe and every morning was different. Udawalawe Wild handled everything remotely and the operators they work with are clearly the real deal. The elephants were extraordinary."
+      }
+    ],
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Udawalawe Safari Packages",
@@ -271,25 +320,32 @@ function RootShell({ children }: { children: ReactNode }) {
           "@type": "Offer",
           itemOffered: {
             "@type": "TouristTrip",
-            name: "Morning Safari Udawalawe",
-            description: "Private 3-4 hour morning jeep safari in Udawalawe National Park",
+            name: "Morning Private Safari",
+            description: "Approx. 5 hours (pre-dawn start). The classic dawn safari — golden light, cool air, and quieter tracks."
           },
         },
         {
           "@type": "Offer",
           itemOffered: {
             "@type": "TouristTrip",
-            name: "Afternoon Safari Udawalawe",
-            description: "Private 3-4 hour afternoon jeep safari in Udawalawe National Park",
+            name: "Afternoon Private Safari",
+            description: "Approx. 4 hours (mid-afternoon start). A softer, later start with elephants gathering near the reservoir."
           },
         },
         {
           "@type": "Offer",
           itemOffered: {
             "@type": "TouristTrip",
-            name: "Full Day Safari Udawalawe",
-            description:
-              "Full day private jeep safari covering all zones of Udawalawe National Park",
+            name: "Full-Day Wildlife Safari",
+            description: "Full day with midday rest break. Two unhurried sessions in one day — the deepest way to know the park."
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "TouristTrip",
+            name: "Safari + Transfer",
+            description: "Combine your safari with a smooth onward transfer to anywhere in Sri Lanka."
           },
         },
         {
@@ -297,7 +353,7 @@ function RootShell({ children }: { children: ReactNode }) {
           itemOffered: {
             "@type": "TouristTrip",
             name: "Safari + Elephant Transit Home Combo",
-            description: "Safari plus visit to ETH elephant rehabilitation centre",
+            description: "Safari in the park, then a rare glimpse of orphaned elephants being rehabilitated for release at the Elephant Transit Home."
           },
         },
       ],
@@ -318,30 +374,7 @@ function RootShell({ children }: { children: ReactNode }) {
     },
   };
 
-  const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Udawalawe Wild",
-        item: "https://www.udawalawe-wild.com",
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Safari Options",
-        item: "https://www.udawalawe-wild.com/safaris",
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: "Visitor Guide",
-        item: "https://www.udawalawe-wild.com/guide",
-      },
-    ],
-  };
+
 
   return (
     <html
@@ -358,10 +391,6 @@ function RootShell({ children }: { children: ReactNode }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-        />
       </head>
       <body style={{ margin: 0, backgroundColor: "oklch(0.18 0.015 135)" }}>
         {children}
@@ -374,6 +403,11 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const isAdmin = pathname === "/admin" || pathname === "/superadmin";
 
@@ -391,10 +425,10 @@ function RootComponent() {
             {/* Main content wrapper */}
             <div className="relative z-10 flex-1 bg-background">
               <main className="relative flex-1 overflow-x-hidden">
-                <AnimatePresence mode="wait" initial={false}>
+                <AnimatePresence mode="wait">
                   <motion.div
                     key={pathname}
-                    initial={{ opacity: 0, y: 12 }}
+                    initial={isMounted ? { opacity: 0, y: 12 } : false}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.3, ease: "easeOut" }}

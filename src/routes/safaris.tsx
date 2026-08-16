@@ -24,7 +24,7 @@ export const Route = createFileRoute("/safaris")({
       {
         name: "keywords",
         content:
-          "Udawalawe safari packages, Udawalawe jeep safari cost, Udawalawe morning safari, Udawalawe afternoon safari, full day safari Udawalawe, Elephant Transit Home safari combo, best safari Udawalawe",
+          "Udawalawe safari packages, Udawalawe jeep safari cost, Udawalawe morning safari, Udawalawe afternoon safari, full day safari Udawalawe, Elephant Transit Home safari combo, best safari Udawalawe, Udawalawe National Park safari, private jeep safari Udawalawe",
       },
       { property: "og:title", content: "Safari options — Udawalawe Wild" },
       {
@@ -45,8 +45,31 @@ export const Route = createFileRoute("/safaris")({
 const imgs = [elephantPortrait, safariJeep, wildlife, landscape, elephantPortrait];
 
 function SafarisPage() {
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Udawalawe Wild",
+        item: "https://www.udawalawe-wild.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Safari Options",
+        item: "https://www.udawalawe-wild.com/safaris",
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       {/* Page hero — dark cinematic banner */}
       <div className="page-hero">
         <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-8">
@@ -90,7 +113,9 @@ function SafarisPage() {
                   <div className="relative overflow-hidden min-h-[240px] lg:min-h-[340px]">
                     <img
                       src={imgs[i % 5]}
-                      alt={s.name}
+                      alt={`${s.name} in Udawalawe National Park`}
+                      width={800}
+                      height={600}
                       loading="lazy"
                       className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.05]"
                     />

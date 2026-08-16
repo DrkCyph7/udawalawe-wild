@@ -64,7 +64,7 @@ export const Route = createFileRoute("/")({
       {
         name: "keywords",
         content:
-          "Udawalawe safari, Udawalawe National Park safari, best private safari Udawalawe, Udawalawe safari tour, book Udawalawe safari online",
+          "Udawalawe safari, Udawalawe National Park safari, best private safari Udawalawe, Udawalawe safari tour, book Udawalawe safari online, Udawalawe morning safari, Udawalawe afternoon safari, full day safari Udawalawe, Elephant Transit Home safari combo, Sri Lanka wildlife safari",
       },
       { property: "og:title", content: "Udawalawe Wild — Private safaris in Udawalawe" },
       {
@@ -205,8 +205,25 @@ function Home() {
   const prefersReducedMotion = useReducedMotion();
 
 
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: visibleFaqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: f.a,
+      },
+    })),
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       {/* ═══════════════════════ HERO ══════════════════════════════════ */}
       {/* header is fixed+transparent, so hero fills full 100svh from top */}
       <section
@@ -553,7 +570,9 @@ function Home() {
                                     ? `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w`
                                     : undefined
                           }
-                          alt={s.name}
+                          alt={`${s.name} in Udawalawe National Park`}
+                          width={600}
+                          height={400}
                           loading="lazy"
                           fetchPriority="low"
                           decoding="async"
@@ -635,7 +654,9 @@ function Home() {
                                         ? `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w`
                                         : undefined
                               }
-                              alt={s.name}
+                              alt={`${s.name} in Udawalawe National Park`}
+                              width={600}
+                              height={400}
                               loading="lazy"
                               fetchPriority="low"
                               decoding="async"
@@ -770,7 +791,9 @@ function Home() {
                 >
                   <img
                     src={elephantPortrait}
-                    alt="Orphaned elephant calf at Udawalawe"
+                    alt="Orphaned elephant calf at Udawalawe Elephant Transit Home"
+                    width={800}
+                    height={600}
                     loading="lazy"
                     className="h-full w-full object-cover transition duration-700 hover:scale-105"
                   />
