@@ -17,6 +17,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { WhatsAppButton } from "@/components/whatsapp-button";
+import { CookieConsent } from "@/components/cookie-consent";
 import notFoundBg from "@/assets/wildlife.jpg";
 import { Compass } from "lucide-react";
 
@@ -447,6 +448,7 @@ function RootComponent() {
             )}
 
             {!isAdmin && <WhatsAppButton />}
+            {!isAdmin && <CookieConsent />}
           </div>
         </div>
       </CurtainProvider>
