@@ -159,7 +159,7 @@ function Home() {
   const visibleRoutes = data?.routes ?? travelRoutes;
 
   /* Duplicate reviews for infinite marquee */
-  const allReviews = [...reviewsData, ...reviewsData];
+  const allReviews = [...reviewsData.reviews, ...reviewsData.reviews];
 
   /* Mobile safari scroll dot tracker */
   const safariScrollRef = useRef<HTMLDivElement>(null);
@@ -976,26 +976,33 @@ function Home() {
                   style={{ color: "oklch(0.70 0.12 85 / 0.35)" }}
                   aria-hidden="true"
                 />
-                <p className="text-sm leading-relaxed text-foreground/80 italic">"{r.body}"</p>
+                <div className="relative">
+                  <p className="text-sm leading-relaxed text-foreground/80 italic line-clamp-4">"{r.text}"</p>
+                </div>
 
                 {/* Author */}
                 <div
-                  className="mt-4 flex items-center justify-between gap-2 pt-4"
+                  className="mt-4 flex items-center justify-between gap-3 pt-4"
                   style={{ borderTop: "1px solid oklch(0.70 0.12 85 / 0.12)" }}
                 >
-                  <div>
-                    <div className="text-sm font-semibold text-foreground">{r.name}</div>
-                    <div className="flex items-center gap-1 text-xs text-muted-foreground mt-0.5">
-                      <MapPin className="h-2.5 w-2.5" aria-hidden="true" />
-                      {r.location}
+                  <div className="flex items-center gap-3">
+                    {r.photoUrl ? (
+                      <img src={r.photoUrl} alt={r.name} className="w-10 h-10 rounded-full" />
+                    ) : (
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center bg-sand-200 text-forest-800 font-bold text-sm" aria-hidden="true">
+                        {r.name.charAt(0)}
+                      </div>
+                    )}
+                    <div>
+                      <div className="text-sm font-semibold text-foreground">{r.name}</div>
+                      <div className="text-[10px] text-muted-foreground mt-0.5">{r.date}</div>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
-                      {r.safari}
+                  <a href="https://maps.app.goo.gl/FMj8GgqVGXFyc9zQ7" target="_blank" rel="noopener noreferrer" className="shrink-0 text-right group hover:opacity-80 transition-opacity">
+                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground group-hover:text-accent">
+                      Google Review
                     </div>
-                    <div className="text-[10px] text-muted-foreground/70">{r.date}</div>
-                  </div>
+                  </a>
                 </div>
               </div>
             ))}
