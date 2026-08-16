@@ -362,7 +362,7 @@ function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.6 }}
-          className="absolute bottom-16 left-4 sm:left-8 flex gap-1.5 items-center"
+          className="absolute bottom-20 sm:bottom-16 left-4 sm:left-8 flex gap-1.5 items-center"
         >
           {desktopHeroImages.map((_, i) => (
             <button
@@ -384,10 +384,10 @@ function Home() {
         </motion.div>
 
         {/* ── Main content — centered; pt accounts for header (80px) + gap + ticker (36px) ── */}
-        <div className="flex-1 flex items-center pt-[110px] sm:pt-[130px]">
-          <div className="mx-auto w-full max-w-6xl px-4 sm:px-8 py-8 grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:items-center">
+        <div className="flex-1 flex items-center pt-[110px] sm:pt-[130px] pb-24 sm:pb-8">
+          <div className="mx-auto w-full max-w-6xl px-4 sm:px-8 py-4 sm:py-8 grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:items-center">
             {/* Left — headline + CTAs */}
-            <div className="z-10 mt-8 sm:mt-0">
+            <div className="z-10">
               <HeroFadeIn>
                 <div
                   className="mb-5 inline-flex items-center gap-2 rounded-full px-4 py-2"
@@ -449,12 +449,12 @@ function Home() {
                   </Magnetic>
                 </div>
 
-                {/* Floating stat pills */}
-                <div className="mt-8 flex flex-wrap gap-2 sm:gap-2.5">
+                {/* Stat pills — scrollable on mobile, wrap on desktop */}
+                <div className="mt-6 sm:mt-8 flex gap-2 sm:gap-2.5 overflow-x-auto sm:flex-wrap pb-1 sm:pb-0 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
                   {statPills.map(({ label, icon: Icon }) => (
                     <div
                       key={label}
-                      className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full px-3 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-xs font-semibold"
+                      className="inline-flex shrink-0 items-center gap-1.5 sm:gap-2 rounded-full px-3 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-xs font-semibold"
                       style={{
                         background: "oklch(1 0 0 / 0.1)",
                         border: "1px solid oklch(1 0 0 / 0.18)",
@@ -509,7 +509,7 @@ function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.8 }}
-          className="absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+          className="absolute bottom-7 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2"
           style={{ color: "oklch(0.98 0.005 95 / 0.5)" }}
         >
           <span className="text-[9px] font-semibold uppercase tracking-[0.3em]">Explore</span>
