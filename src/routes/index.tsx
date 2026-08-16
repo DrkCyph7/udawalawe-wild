@@ -40,11 +40,13 @@ import ethicalImg800 from "@/assets/ethical-safari-img-800w.webp";
 import ethicalImg1200 from "@/assets/ethical-safari-img-1200w.webp";
 import ethicalImg1600 from "@/assets/ethical-safari-img-1600w.webp";
 import { EnquiryForm } from "@/components/enquiry-form";
+import StatsCount from "@/components/ui/statscount";
 import { Section, SectionHeading, Eyebrow } from "@/components/section";
 import { FaqList } from "@/components/faq-list";
 import { Magnetic } from "@/components/magnetic";
 import { LogoTicker } from "@/components/ui/logo-ticker";
 import { HeroEditorialStagger, HeroLine, HeroFadeIn } from "@/components/ui/hero-editorial-stagger";
+import { StaggeredHero } from "@/components/ui/staggered-hero";
 import { Skeleton } from "@/components/ui/loader-skeleton";
 import { safaris, faqs, routes as travelRoutes } from "@/lib/content";
 import reviewsData from "@/lib/reviews.json";
@@ -115,21 +117,11 @@ const benefits = [
 ];
 
 /* ═══════════════════ TRUST STRIP ════════════════════════════════════════ */
-const trustStats = [
-  {
-    icon: Handshake,
-    stat: "100%",
-    label: "Verified Local Partners",
-    sub: "Every guide is local & licensed",
-  },
-  { icon: Car, stat: "0", label: "Shared Vehicles", sub: "Private jeeps, always" },
-  { icon: Wallet, stat: "0", label: "Hidden Fees", sub: "Transparent pricing guaranteed" },
-  {
-    icon: PawPrint,
-    stat: "50+",
-    label: "Species in the Park",
-    sub: "Ethical wildlife-first approach",
-  },
+const trustStatsForComponent = [
+  { value: 100, suffix: "%", label: "Verified Local Partners" },
+  { value: 0, label: "Shared Vehicles" },
+  { value: 0, label: "Hidden Fees" },
+  { value: 50, suffix: "+", label: "Species in the Park" },
 ];
 
 /* ═══════════════════ STAT PILLS ═════════════════════════════════════════ */
@@ -327,8 +319,7 @@ function Home() {
         <div className="flex-1 flex items-center pt-[110px] sm:pt-[130px]">
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-8 py-8 grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:items-center">
             {/* Left — headline + CTAs */}
-            <HeroEditorialStagger delay={0.1}>
-              {/* Eyebrow */}
+            <div className="z-10 mt-8 sm:mt-0">
               <HeroFadeIn>
                 <div
                   className="mb-5 inline-flex items-center gap-2 rounded-full px-4 py-2"
@@ -349,36 +340,11 @@ function Home() {
                 </div>
               </HeroFadeIn>
 
-              {/* Staggered headline */}
-              <h1
-                className="font-serif leading-[1.05] text-4xl sm:text-6xl lg:text-7xl"
+              <StaggeredHero 
+                title="Experience Udawalawe, wildly." 
+                subtitle="Private, wildlife-first safaris with verified local partners, transparent pricing, and simple planning."
                 style={{ color: "oklch(0.98 0.005 95)" }}
               >
-                <HeroLine>Experience</HeroLine>
-                <HeroLine>Udawalawe,</HeroLine>
-                <HeroLine>
-                  <span
-                    className="italic inline-block mt-1 sm:mt-0"
-                    style={{ color: "oklch(0.80 0.08 85)" }}
-                  >
-                    wildly.
-                  </span>
-                </HeroLine>
-              </h1>
-
-              {/* Subtext */}
-              <HeroFadeIn>
-                <p
-                  className="mt-6 max-w-lg text-base leading-relaxed sm:text-lg"
-                  style={{ color: "oklch(0.98 0.005 95 / 0.75)" }}
-                >
-                  Private, wildlife-first safaris with verified local partners, transparent pricing,
-                  and simple planning.
-                </p>
-              </HeroFadeIn>
-
-              {/* CTAs */}
-              <HeroFadeIn>
                 <div className="mt-8 flex flex-col sm:flex-row flex-wrap gap-3">
                   <Magnetic className="w-full sm:w-auto" intensity={0.15}>
                     <Link
@@ -414,10 +380,8 @@ function Home() {
                     </a>
                   </Magnetic>
                 </div>
-              </HeroFadeIn>
 
-              {/* Floating stat pills */}
-              <HeroFadeIn>
+                {/* Floating stat pills */}
                 <div className="mt-8 flex flex-wrap gap-2 sm:gap-2.5">
                   {statPills.map(({ label, icon: Icon }) => (
                     <div
@@ -441,8 +405,8 @@ function Home() {
                     </div>
                   ))}
                 </div>
-              </HeroFadeIn>
-            </HeroEditorialStagger>
+              </StaggeredHero>
+            </div>
 
             {/* Right — enquiry glass card */}
             <motion.div
@@ -498,7 +462,7 @@ function Home() {
       </section>
 
       {/* ═══════════════════ TRUST STRIP ═══════════════════════════════ */}
-      <div className="relative overflow-hidden min-h-[260px] lg:min-h-[160px] bg-sand-100 text-forest-900 border-b border-border">
+      <div className="relative overflow-hidden bg-sand-100 text-forest-900 border-b border-border">
         {/* Subtle grain overlay */}
         <div
           className="absolute inset-0 opacity-10 pointer-events-none"
@@ -508,36 +472,11 @@ function Home() {
           }}
         />
 
-        <Reveal>
-          <div className="mx-auto grid max-w-6xl grid-cols-2 lg:grid-cols-4 gap-px px-0 bg-sand-200">
-            {trustStats.map(({ icon: Icon, stat, label, sub }, i) => (
-              <motion.div
-                key={label}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={{ y: -3, transition: { duration: 0.2 } }}
-                className="group flex flex-col items-center gap-2 px-4 py-7 sm:px-6 sm:py-8 text-center cursor-default bg-sand-100"
-              >
-                {/* Icon circle */}
-                <div className="mb-1 flex h-11 w-11 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 bg-forest-900/5 border border-forest-900/10">
-                  <Icon className="h-5 w-5 text-forest-700" aria-hidden="true" />
-                </div>
-                {/* Bold stat */}
-                <div className="font-serif text-3xl font-medium lining-nums text-forest-700">
-                  {stat}
-                </div>
-                {/* Label */}
-                <div className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-text-muted-on-light">
-                  {label}
-                </div>
-                {/* Sub-label */}
-                <div className="text-[10px] leading-snug text-text-muted-on-light/80">{sub}</div>
-              </motion.div>
-            ))}
-          </div>
-        </Reveal>
+        <StatsCount 
+          stats={trustStatsForComponent} 
+          title="TRUSTED BY ADVENTURERS WORLDWIDE"
+          className="bg-sand-200 text-forest-900" 
+        />
       </div>
 
       {/* ═══════════════════ SAFARIS ════════════════════════════════════ */}
