@@ -55,22 +55,22 @@ import { waLink } from "@/lib/site";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Udawalawe Wild — Private safaris in Udawalawe, Sri Lanka" },
+      { title: "Udawalawe Wild — #1 Private Safari in Udawalawe, Sri Lanka" },
       {
         name: "description",
         content:
-          "Private, wildlife-first safaris with verified local partners, transparent pricing, and simple planning in Udawalawe National Park.",
+          "Book the best private safari in Udawalawe National Park, Sri Lanka. Verified local guides, ethical wildlife approach, transparent pricing. 4.9★ rated by 500+ travellers.",
       },
       {
         name: "keywords",
         content:
           "Udawalawe safari, Udawalawe National Park safari, best private safari Udawalawe, Udawalawe safari tour, book Udawalawe safari online, Udawalawe morning safari, Udawalawe afternoon safari, full day safari Udawalawe, Elephant Transit Home safari combo, Sri Lanka wildlife safari",
       },
-      { property: "og:title", content: "Udawalawe Wild — Private safaris in Udawalawe" },
+      { property: "og:title", content: "Udawalawe Wild — #1 Private Safari in Udawalawe, Sri Lanka" },
       {
         property: "og:description",
         content:
-          "Verified local partners. Private jeeps. Transparent quotes. Wildlife-first experiences.",
+          "Book the best private safari in Udawalawe National Park, Sri Lanka. Verified local guides, ethical wildlife approach, transparent pricing. 4.9★ rated by 500+ travellers.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://www.udawalawe-wild.com" },
