@@ -177,7 +177,7 @@ function Home() {
   }, [visibleSafaris.length]);
 
   /* Hero background slideshow */
-  const heroImages = [
+  const desktopHeroImages = [
     {
       src: landscape,
       srcSet: `${landscape800} 800w, ${landscape1200} 1200w, ${landscape1600} 1600w`,
@@ -194,10 +194,28 @@ function Home() {
       alt: "Wildlife in the natural habitat of Udawalawe",
     },
   ];
+
+  const mobileHeroImages = [
+    {
+      src: elephantPortrait,
+      srcSet: `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w, ${elephantPortrait1600} 1600w`,
+      alt: "Close-up portrait of a Sri Lankan elephant",
+    },
+    {
+      src: landscape,
+      srcSet: `${landscape800} 800w, ${landscape1200} 1200w, ${landscape1600} 1600w`,
+      alt: "Sweeping savanna landscape of Udawalawe National Park",
+    },
+    {
+      src: ethicalImg,
+      srcSet: `${ethicalImg800} 800w, ${ethicalImg1200} 1200w, ${ethicalImg1600} 1600w`,
+      alt: "Wildlife in the natural habitat of Udawalawe",
+    },
+  ];
   const [activeHero, setActiveHero] = useState(0);
 
   useEffect(() => {
-    const id = setInterval(() => setActiveHero((i) => (i + 1) % heroImages.length), 6000);
+    const id = setInterval(() => setActiveHero((i) => (i + 1) % desktopHeroImages.length), 6000);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -231,19 +249,42 @@ function Home() {
       >
         {/* ── Crossfade background slideshow ──────────────────────── */}
         <motion.div className="absolute inset-0 -z-10">
+          {/* Desktop Slideshow */}
           <AnimatePresence initial={false}>
             <motion.img
-              key={activeHero}
-              src={heroImages[activeHero].src}
-              srcSet={heroImages[activeHero].srcSet}
+              key={`desktop-${activeHero}`}
+              src={desktopHeroImages[activeHero].src}
+              srcSet={desktopHeroImages[activeHero].srcSet}
               sizes="100vw"
-              alt={heroImages[activeHero].alt}
+              alt={desktopHeroImages[activeHero].alt}
               width={1920}
               height={1280}
               fetchPriority={activeHero === 0 ? "high" : "low"}
               loading={activeHero === 0 ? "eager" : "lazy"}
               decoding={activeHero === 0 ? "sync" : "async"}
-              className="absolute inset-0 h-full w-full object-cover object-center"
+              className="hidden sm:block absolute inset-0 h-full w-full object-cover object-center"
+              style={{ willChange: "opacity" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.2, ease: "easeInOut" }}
+            />
+          </AnimatePresence>
+
+          {/* Mobile Slideshow */}
+          <AnimatePresence initial={false}>
+            <motion.img
+              key={`mobile-${activeHero}`}
+              src={mobileHeroImages[activeHero].src}
+              srcSet={mobileHeroImages[activeHero].srcSet}
+              sizes="100vw"
+              alt={mobileHeroImages[activeHero].alt}
+              width={1920}
+              height={1280}
+              fetchPriority={activeHero === 0 ? "high" : "low"}
+              loading={activeHero === 0 ? "eager" : "lazy"}
+              decoding={activeHero === 0 ? "sync" : "async"}
+              className="sm:hidden absolute inset-0 h-full w-full object-cover object-center"
               style={{ willChange: "opacity" }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -255,8 +296,8 @@ function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-[oklch(0.18_0.015_135_/_0.92)] via-[oklch(0.18_0.015_135_/_0.48)] to-[oklch(0.18_0.015_135_/_0.15)]" />
           {/* Left-side dark anchor so text always readable */}
           <div className="absolute inset-0 bg-gradient-to-r from-[oklch(0.18_0.015_135_/_0.72)] via-[oklch(0.18_0.015_135_/_0.2)] to-transparent" />
-          {/* Golden-hour warm wash from right */}
-          <div className="absolute inset-0 bg-gradient-to-l from-[oklch(0.70_0.12_85_/_0.1)] to-transparent" />
+          {/* Golden-hour warm wash from right (hidden on mobile to prevent yellow tint) */}
+          <div className="hidden sm:block absolute inset-0 bg-gradient-to-l from-[oklch(0.70_0.12_85_/_0.1)] to-transparent" />
         </motion.div>
 
         {/* ── Wildlife ticker — rendered BELOW the fixed header (top-16) ─ */}
@@ -323,7 +364,7 @@ function Home() {
           transition={{ delay: 0.4, duration: 0.6 }}
           className="absolute bottom-16 left-4 sm:left-8 flex gap-1.5 items-center"
         >
-          {heroImages.map((_, i) => (
+          {desktopHeroImages.map((_, i) => (
             <button
               key={i}
               onClick={() => setActiveHero(i)}
