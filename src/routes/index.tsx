@@ -78,7 +78,17 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:image", content: "https://www.udawalawe-wild.com/og-image.png" },
     ],
-    links: [{ rel: "canonical", href: "https://www.udawalawe-wild.com" }],
+    links: [
+      { rel: "canonical", href: "https://www.udawalawe-wild.com" },
+      {
+        rel: "preload",
+        as: "image",
+        href: landscape,
+        imagesrcset: `${landscape800} 800w, ${landscape1200} 1200w, ${landscape1600} 1600w`,
+        imagesizes: "100vw",
+        fetchpriority: "high",
+      },
+    ],
   }),
   component: Home,
 });

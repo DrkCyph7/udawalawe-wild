@@ -391,7 +391,7 @@ function RootComponent() {
             {/* Main content wrapper */}
             <div className="relative z-10 flex-1 bg-background">
               <main className="relative flex-1 overflow-x-hidden">
-                <AnimatePresence mode="wait">
+                <AnimatePresence mode="wait" initial={false}>
                   <motion.div
                     key={pathname}
                     initial={{ opacity: 0, y: 12 }}

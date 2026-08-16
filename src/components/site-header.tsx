@@ -46,11 +46,14 @@ export function SiteHeader() {
 
   return (
     <header
-      className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] lg:w-[calc(100%-3rem)] max-w-6xl transition-all duration-500 ease-out ${
+      className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] lg:w-[calc(100%-3rem)] max-w-6xl rounded-2xl border ring-1 ring-inset duration-500 ease-out ${
         transparent
-          ? "bg-transparent py-1"
-          : "rounded-2xl border border-white/[0.12] shadow-[0_8px_40px_rgba(0,0,0,0.5)] bg-[oklch(0.20_0.018_135_/_0.82)] backdrop-blur-2xl py-0.5 ring-1 ring-inset ring-white/[0.08]"
+          ? "border-transparent ring-transparent bg-transparent py-1 shadow-none backdrop-blur-none"
+          : "border-white/[0.12] ring-white/[0.08] shadow-[0_8px_40px_rgba(0,0,0,0.5)] bg-[oklch(0.20_0.018_135_/_0.82)] backdrop-blur-2xl py-0.5"
       }`}
+      style={{
+        transitionProperty: "background-color, border-color, box-shadow, padding, backdrop-filter"
+      }}
     >
       <div className="flex items-center justify-between px-3 py-2 sm:px-5 sm:py-2.5">
         {/* Logo */}
