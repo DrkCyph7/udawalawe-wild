@@ -575,6 +575,15 @@
   }
 }
 
+/* ─── Hide scrollbar (but keep scrollable) ─────────────────────────── */
+@utility scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* ═══════════════════ COMPONENT STYLES ════════════════════════════════ */
 
 /* Header — rich glassmorphism with gold accent border */
