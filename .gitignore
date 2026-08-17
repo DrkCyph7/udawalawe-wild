@@ -16,6 +16,13 @@ dist-ssr
 .nitro
 *.local
 
+# Next.js
+.next
+out
+build
+next-env.d.ts
+
+
 # Wrangler / Cloudflare
 .wrangler/
 .dev.vars
