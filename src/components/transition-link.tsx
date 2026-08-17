@@ -1,6 +1,10 @@
-import { Link as RouterLink, useNavigate } from "@tanstack/react-router";
+"use client";
+
+import NextLink from "next/link";
+import { useRouter } from "next/navigation";
 import { useCurtain } from "./curtain-provider";
 import { forwardRef } from "react";
+import React from "react";
 
 const ROUTE_TITLES: Record<string, string> = {
   "/": "Udawalawe Wild",
@@ -32,20 +36,26 @@ function formatTitleFromPath(path?: string) {
     .join(" ");
 }
 
-// @ts-expect-error Types for RouterLink props might be complex
 export const TransitionLink = forwardRef(
-  (props: React.ComponentProps<typeof RouterLink>, ref: React.Ref<HTMLAnchorElement>) => {
+  (
+    props: Omit<React.ComponentProps<typeof NextLink>, "href"> & {
+      to: string;
+      transitionTitle?: string;
+    },
+    ref: React.Ref<HTMLAnchorElement>,
+  ) => {
     const { run } = useCurtain();
-    const navigate = useNavigate();
+    const router = useRouter();
+    const { transitionTitle, to, ...restProps } = props;
 
     return (
-      <RouterLink
-        {...props}
+      <NextLink
+        {...restProps}
+        href={to}
         ref={ref}
         onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
           if (props.onClick) props.onClick(e);
 
-          // Only intercept normal left clicks, allow cmd+click to open in new tab normally
           if (
             !e.defaultPrevented &&
             e.button === 0 &&
@@ -59,17 +69,13 @@ export const TransitionLink = forwardRef(
 
             run(
               async () => {
-                // Perform the actual navigation when the curtain covers the screen
-                await navigate({
-                  to: props.to,
-                  search: props.search,
-                  params: props.params,
-                  hash: props.hash,
-                  replace: props.replace,
-                });
+                if (props.replace) {
+                  router.replace(to);
+                } else {
+                  router.push(to);
+                }
               },
-              props.transitionTitle ||
-                formatTitleFromPath(typeof props.to === "string" ? props.to : props.to?.pathname),
+              transitionTitle || formatTitleFromPath(to),
             );
           }
         }}

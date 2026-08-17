@@ -1,4 +1,6 @@
-import { useRouterState } from "@tanstack/react-router";
+"use client";
+
+import { usePathname } from "next/navigation";
 import { TransitionLink as Link } from "@/components/transition-link";
 import {
   Menu,
@@ -19,7 +21,7 @@ import { motion } from "framer-motion";
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const pathname = usePathname();
   const isHome = pathname === "/";
 
   useEffect(() => {
@@ -79,20 +81,21 @@ export function SiteHeader() {
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Main navigation">
-          {nav.map((n) => (
-            <Link
-              key={n.to}
-              to={n.to}
-              className="relative flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium transition-all duration-300 text-white/70 hover:bg-white/10 hover:text-white whitespace-nowrap"
-              activeProps={{
-                className: "text-white bg-white/15 shadow-sm",
-              }}
-              activeOptions={n.to === "/" ? { exact: true } : undefined}
-            >
-              <n.icon className="h-3.5 w-3.5 opacity-80 shrink-0" aria-hidden="true" />
-              {n.label}
-            </Link>
-          ))}
+          {nav.map((n) => {
+            const isActive = n.to === "/" ? pathname === "/" : pathname?.startsWith(n.to);
+            return (
+              <Link
+                key={n.to}
+                to={n.to}
+                className={`relative flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium transition-all duration-300 whitespace-nowrap ${
+                  isActive ? "text-white bg-white/15 shadow-sm" : "text-white/70 hover:bg-white/10 hover:text-white"
+                }`}
+              >
+                <n.icon className="h-3.5 w-3.5 opacity-80 shrink-0" aria-hidden="true" />
+                {n.label}
+              </Link>
+            );
+          })}
 
           <div className="ml-2 flex shrink-0 items-center gap-2">
             <Magnetic>
@@ -174,21 +177,24 @@ export function SiteHeader() {
         aria-hidden={!open}
       >
         <nav className="flex flex-col gap-1.5 px-3 py-4 sm:px-5" aria-label="Mobile navigation">
-          {nav.map((n) => (
-            <Link
-              key={n.to}
-              to={n.to}
-              onClick={() => setOpen(false)}
-              className="flex items-center gap-3.5 rounded-xl px-4 py-3 text-[15px] font-medium text-white/75 transition-all duration-200 hover:bg-white/10 hover:text-white active:scale-[0.98]"
-              activeProps={{ className: "text-white bg-white/15 shadow-sm" }}
-              activeOptions={n.to === "/" ? { exact: true } : undefined}
-            >
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/5 border border-white/10">
-                <n.icon className="h-4 w-4 text-white/90" aria-hidden="true" />
-              </div>
-              {n.label}
-            </Link>
-          ))}
+          {nav.map((n) => {
+            const isActive = n.to === "/" ? pathname === "/" : pathname?.startsWith(n.to);
+            return (
+              <Link
+                key={n.to}
+                to={n.to}
+                onClick={() => setOpen(false)}
+                className={`flex items-center gap-3.5 rounded-xl px-4 py-3 text-[15px] font-medium transition-all duration-200 active:scale-[0.98] ${
+                  isActive ? "text-white bg-white/15 shadow-sm" : "text-white/75 hover:bg-white/10 hover:text-white"
+                }`}
+              >
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/5 border border-white/10">
+                  <n.icon className="h-4 w-4 text-white/90" aria-hidden="true" />
+                </div>
+                {n.label}
+              </Link>
+            );
+          })}
 
           <div className="mt-3 px-1 pb-1">
             <Link

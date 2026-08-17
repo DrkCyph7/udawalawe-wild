@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, useContext, ReactNode, useState } from "react";
 import { usePageCurtainTransition, CurtainTransition } from "./page-curtain-transition";
 

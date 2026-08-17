@@ -11,8 +11,8 @@ function normalizeSupabaseUrl(rawUrl: string) {
   return withoutTrailingSlash.replace(/\/(?:rest|auth)\/v1$/i, "");
 }
 
-const supabaseUrl = normalizeSupabaseUrl(import.meta.env.VITE_SUPABASE_URL ?? "");
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim() ?? "";
+const supabaseUrl = normalizeSupabaseUrl(process.env.NEXT_PUBLIC_SUPABASE_URL ?? "");
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ?? "";
 
 export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
 
@@ -25,7 +25,7 @@ export const supabase: SupabaseClient | null = isSupabaseConfigured
     })
   : null;
 
-export const adminEmailAllowList = (import.meta.env.VITE_ADMIN_EMAILS ?? "admin@udawalawe-wild.com")
+export const adminEmailAllowList = (process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? "admin@udawalawe-wild.com")
   .split(",")
   .map((email: string) => email.trim().toLowerCase())
   .filter(Boolean);
