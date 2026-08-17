@@ -1,0 +1,23 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/about/page": "app/about/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/book/page": "app/book/page.js",
+  "/cancellation-policy/page": "app/cancellation-policy/page.js",
+  "/ethical-safari/page": "app/ethical-safari/page.js",
+  "/guide/page": "app/guide/page.js",
+  "/page": "app/page.js",
+  "/privacy/page": "app/privacy/page.js",
+  "/safari-from-colombo/page": "app/safari-from-colombo/page.js",
+  "/safari-from-ella/page": "app/safari-from-ella/page.js",
+  "/safari-from-galle/page": "app/safari-from-galle/page.js",
+  "/safari-from-hiriketiya/page": "app/safari-from-hiriketiya/page.js",
+  "/safari-from-kandy/page": "app/safari-from-kandy/page.js",
+  "/safari-from-mirissa/page": "app/safari-from-mirissa/page.js",
+  "/safari-from-nuwara-eliya/page": "app/safari-from-nuwara-eliya/page.js",
+  "/safari-from-tangalle/page": "app/safari-from-tangalle/page.js",
+  "/safaris/page": "app/safaris/page.js",
+  "/superadmin/page": "app/superadmin/page.js",
+  "/terms/page": "app/terms/page.js"
+}

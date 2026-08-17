@@ -92,7 +92,7 @@ function toFriendlySupabaseError(error: unknown) {
       message.includes("api key") ||
       message.includes("not configured")
     ) {
-      return "Supabase credentials are missing or invalid. Check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.";
+      return "Supabase credentials are missing or invalid. Check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.";
     }
 
     return rawMessage;
@@ -107,7 +107,7 @@ export async function createBookingEnquiry(
 ) {
   if (!supabase) {
     throw new Error(
-      "Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.",
+      "Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.",
     );
   }
 
@@ -146,7 +146,7 @@ export async function createBookingEnquiry(
 export async function fetchBookingEnquiries() {
   if (!supabase) {
     throw new Error(
-      "Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.",
+      "Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.",
     );
   }
 
@@ -165,7 +165,7 @@ export async function fetchBookingEnquiries() {
 export async function updateBookingStatus(id: string, status: string) {
   if (!supabase) {
     throw new Error(
-      "Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.",
+      "Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.",
     );
   }
 
