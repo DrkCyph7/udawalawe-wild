@@ -1,388 +1,1071 @@
-import { useQuery } from "@tanstack/react-query";
-import { createFileRoute, Link } from "@tanstack/react-router";
-import heroImg from "@/assets/hero-elephant.jpg";
+import { createFileRoute } from "@tanstack/react-router";
+import { TransitionLink as Link } from "@/components/transition-link";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useReducedMotion,
+} from "framer-motion";
+import { TiltCard } from "@/components/tilt-card";
+import { Reveal } from "@/components/reveal";
+import {
+  Binoculars,
+  CalendarCheck,
+  Car,
+  ChevronRight,
+  Footprints,
+  Handshake,
+  Leaf,
+  MapPin,
+  MessageCircle,
+  PawPrint,
+  Quote,
+  Sparkles,
+  Star,
+  TreePine,
+  Wallet,
+} from "lucide-react";
 import elephantPortrait from "@/assets/elephant-portrait.jpg";
-import safariJeep from "@/assets/safari-jeep.jpg";
+import elephantPortrait800 from "@/assets/elephant-portrait-800w.webp";
+import elephantPortrait1200 from "@/assets/elephant-portrait-1200w.webp";
+import elephantPortrait1600 from "@/assets/elephant-portrait-1600w.webp";
 import landscape from "@/assets/landscape.jpg";
+import landscape800 from "@/assets/landscape-800w.webp";
+import landscape1200 from "@/assets/landscape-1200w.webp";
+import landscape1600 from "@/assets/landscape-1600w.webp";
 import wildlife from "@/assets/wildlife.jpg";
+import ethicalImg from "@/assets/ethical-safari-img.jpg";
+import ethicalImg800 from "@/assets/ethical-safari-img-800w.webp";
+import ethicalImg1200 from "@/assets/ethical-safari-img-1200w.webp";
+import ethicalImg1600 from "@/assets/ethical-safari-img-1600w.webp";
 import { EnquiryForm } from "@/components/enquiry-form";
+import StatsCount from "@/components/ui/statscount";
 import { Section, SectionHeading, Eyebrow } from "@/components/section";
 import { FaqList } from "@/components/faq-list";
-import { Skeleton } from "@/components/ui/skeleton";
-import { safaris, faqs, placeholderReviews, routes as travelRoutes } from "@/lib/content";
+import { Magnetic } from "@/components/magnetic";
+import { LogoTicker } from "@/components/ui/logo-ticker";
+import { HeroEditorialStagger, HeroLine, HeroFadeIn } from "@/components/ui/hero-editorial-stagger";
+import { StaggeredHero } from "@/components/ui/staggered-hero";
+import { safaris, faqs, routes as travelRoutes } from "@/lib/content";
+import reviewsData from "@/lib/reviews.json";
 import { waLink } from "@/lib/site";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Udawalawe Wild — Private safaris in Udawalawe, Sri Lanka" },
+      { title: "Udawalawe Wild — #1 Private Safari in Udawalawe, Sri Lanka" },
       {
         name: "description",
         content:
-          "Private, wildlife-first safaris with verified local partners, transparent pricing, and simple planning in Udawalawe National Park.",
+          "Book the best private safari in Udawalawe National Park, Sri Lanka. Verified local guides, ethical wildlife approach, transparent pricing. 4.9★ rated by 500+ travellers.",
       },
-      { property: "og:title", content: "Udawalawe Wild — Private safaris in Udawalawe" },
+      {
+        name: "keywords",
+        content:
+          "Udawalawe safari, Udawalawe National Park safari, best private safari Udawalawe, Udawalawe safari tour, book Udawalawe safari online, Udawalawe morning safari, Udawalawe afternoon safari, full day safari Udawalawe, Elephant Transit Home safari combo, Sri Lanka wildlife safari",
+      },
+      { property: "og:title", content: "Udawalawe Wild — #1 Private Safari in Udawalawe, Sri Lanka" },
       {
         property: "og:description",
         content:
-          "Verified local partners. Private jeeps. Transparent quotes. Wildlife-first experiences.",
+          "Book the best private safari in Udawalawe National Park, Sri Lanka. Verified local guides, ethical wildlife approach, transparent pricing. 4.9★ rated by 500+ travellers.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://www.udawalawe-wild.com" },
+      { property: "og:image", content: "https://www.udawalawe-wild.com/og-image.png" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://www.udawalawe-wild.com/og-image.png" },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [
+      { rel: "canonical", href: "https://www.udawalawe-wild.com" },
+      {
+        rel: "preload",
+        as: "image",
+        href: landscape,
+        imagesrcset: `${landscape800} 800w, ${landscape1200} 1200w, ${landscape1600} 1600w`,
+        imagesizes: "100vw",
+        fetchpriority: "high",
+      },
+    ],
   }),
   component: Home,
 });
 
-function Home() {
-  const { data, isPending } = useQuery({
-    queryKey: ["home-page-content"],
-    queryFn: async () => ({
-      safaris,
-      faqs,
-      placeholderReviews,
-      routes: travelRoutes,
-    }),
-    staleTime: 5 * 60 * 1000,
-    gcTime: 30 * 60 * 1000,
-  });
+/* ═══════════════════ ETHICS RULES ═════════════════════════════════════ */
+const ethicsRules = [
+  { icon: Binoculars, r: "Keep a respectful distance at all times" },
+  { icon: Car, r: "No chasing or crowding animals with the jeep" },
+  { icon: Footprints, r: "No feeding wildlife under any circumstance" },
+  { icon: Star, r: "No false promises of sightings" },
+  { icon: TreePine, r: "Calm, considered driving throughout the park" },
+];
 
-  const visibleSafaris = data?.safaris ?? safaris;
-  const visibleFaqs = data?.faqs ?? faqs;
-  const visibleReviews = data?.placeholderReviews ?? placeholderReviews;
-  const visibleRoutes = data?.routes ?? travelRoutes;
+/* ═══════════════════ BENEFITS ═════════════════════════════════════════ */
+const benefits = [
+  {
+    t: "Clear pricing",
+    d: "Fixed quotes before you confirm. No surprise fees at the gate.",
+    icon: Wallet,
+  },
+  {
+    t: "Carefully selected partners",
+    d: "Every operator is licensed, insured, and vetted for conduct.",
+    icon: Handshake,
+  },
+  {
+    t: "Responsive planning",
+    d: "Real replies on WhatsApp — usually within a few hours.",
+    icon: MessageCircle,
+  },
+  {
+    t: "Private experience",
+    d: "Your jeep, your pace. No sharing with strangers.",
+    icon: Car,
+  },
+];
+
+/* ═══════════════════ TRUST STRIP ════════════════════════════════════════ */
+const trustStatsForComponent = [
+  { value: 100, suffix: "%", label: "Verified Local Partners" },
+  { value: 0, label: "Shared Vehicles" },
+  { value: 0, label: "Hidden Fees" },
+  { value: 50, suffix: "+", label: "Species in the Park" },
+];
+
+/* ═══════════════════ STAT PILLS ═════════════════════════════════════════ */
+const statPills = [
+  { label: "7+ Years Guiding", icon: Leaf },
+  { label: "50+ Species Spotted", icon: PawPrint },
+  { label: "100% Private Jeeps", icon: Car },
+];
+
+/* Helper: map safari card index to its image + srcSet */
+function getSafariImage(i: number): { src: string; srcSet?: string } {
+  const idx = i % 5;
+  const map = [
+    { src: elephantPortrait, srcSet: `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w` },
+    { src: ethicalImg, srcSet: `${ethicalImg800} 800w, ${ethicalImg1200} 1200w` },
+    { src: wildlife },
+    { src: landscape, srcSet: `${landscape800} 800w, ${landscape1200} 1200w` },
+    { src: elephantPortrait, srcSet: `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w` },
+  ] as const;
+  return map[idx] as { src: string; srcSet?: string };
+}
+
+/* ═══════════════════ HOME PAGE ═════════════════════════════════════════ */
+function Home() {
+  const visibleSafaris = safaris;
+  const visibleFaqs = faqs;
+  const visibleRoutes = travelRoutes;
+
+  /* Duplicate reviews for infinite marquee */
+  const allReviews = [...reviewsData.reviews, ...reviewsData.reviews];
+
+  /* Mobile safari scroll dot tracker */
+  const safariScrollRef = useRef<HTMLDivElement>(null);
+  const [activeDot, setActiveDot] = useState(0);
+
+  useEffect(() => {
+    const el = safariScrollRef.current;
+    if (!el) return;
+    const handler = () => {
+      const idx = Math.round(el.scrollLeft / (el.offsetWidth * 0.72 + 16));
+      setActiveDot(Math.max(0, Math.min(idx, visibleSafaris.length - 1)));
+    };
+    el.addEventListener("scroll", handler, { passive: true });
+    return () => el.removeEventListener("scroll", handler);
+  }, [visibleSafaris.length]);
+
+  /* Hero background slideshow */
+  const desktopHeroImages = [
+    {
+      src: landscape,
+      srcSet: `${landscape800} 800w, ${landscape1200} 1200w, ${landscape1600} 1600w`,
+      alt: "Sweeping savanna landscape of Udawalawe National Park",
+    },
+    {
+      src: elephantPortrait,
+      srcSet: `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w, ${elephantPortrait1600} 1600w`,
+      alt: "Close-up portrait of a Sri Lankan elephant",
+    },
+    {
+      src: ethicalImg,
+      srcSet: `${ethicalImg800} 800w, ${ethicalImg1200} 1200w, ${ethicalImg1600} 1600w`,
+      alt: "Wildlife in the natural habitat of Udawalawe",
+    },
+  ];
+
+  const mobileHeroImages = [
+    {
+      src: elephantPortrait,
+      srcSet: `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w, ${elephantPortrait1600} 1600w`,
+      alt: "Close-up portrait of a Sri Lankan elephant",
+    },
+    {
+      src: landscape,
+      srcSet: `${landscape800} 800w, ${landscape1200} 1200w, ${landscape1600} 1600w`,
+      alt: "Sweeping savanna landscape of Udawalawe National Park",
+    },
+    {
+      src: ethicalImg,
+      srcSet: `${ethicalImg800} 800w, ${ethicalImg1200} 1200w, ${ethicalImg1600} 1600w`,
+      alt: "Wildlife in the natural habitat of Udawalawe",
+    },
+  ];
+  const [activeHero, setActiveHero] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setActiveHero((i) => (i + 1) % desktopHeroImages.length), 6000);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const prefersReducedMotion = useReducedMotion();
+
+
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: visibleFaqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: f.a,
+      },
+    })),
+  };
 
   return (
     <>
-      {/* HERO */}
-      <section className="relative isolate overflow-hidden">
-        <div className="absolute inset-0 -z-10">
-          <img
-            src={heroImg}
-            alt="Wild elephant in the grasslands of Udawalawe at dawn"
-            width={1920}
-            height={1280}
-            className="h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-[oklch(0.22_0.035_155_/_0.55)] via-[oklch(0.22_0.035_155_/_0.35)] to-[oklch(0.22_0.035_155_/_0.85)]" />
-        </div>
-        <div className="mx-auto grid max-w-6xl gap-10 px-5 pb-16 pt-20 sm:px-8 sm:pb-24 sm:pt-28 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:pt-32">
-          <div className="text-[color:var(--ivory)]">
-            <div className="text-xs font-medium uppercase tracking-[0.25em] text-[color:var(--ivory)]/80">
-              Udawalawe · Sri Lanka
-            </div>
-            <h1 className="mt-4 font-serif text-4xl leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl">
-              Experience Udawalawe,
-              <br />
-              <em className="italic text-[color:var(--sand)]">wildly.</em>
-            </h1>
-            <p className="mt-5 max-w-lg text-base leading-relaxed text-[color:var(--ivory)]/85 sm:text-lg">
-              Private, wildlife-first safaris with verified local partners, transparent pricing, and
-              simple planning.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                to="/book"
-                className="rounded-sm bg-[color:var(--terracotta)] px-6 py-3 text-sm font-medium text-[color:var(--ivory)] shadow-lg transition hover:brightness-110"
-              >
-                Plan my safari
-              </Link>
-              <a
-                href={waLink("Hi Udawalawe Wild, I'd like to plan a safari.")}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-sm border border-[color:var(--ivory)]/40 px-6 py-3 text-sm font-medium text-[color:var(--ivory)] transition hover:bg-[color:var(--ivory)]/10"
-              >
-                Chat on WhatsApp
-              </a>
-            </div>
-          </div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      {/* ═══════════════════════ HERO ══════════════════════════════════ */}
+      {/* header is fixed+transparent, so hero fills full 100svh from top */}
+      <section
+        className="relative isolate z-10 overflow-hidden h-[100svh] min-h-[600px] sm:min-h-[680px] flex flex-col"
+      >
+        {/* ── Crossfade background slideshow ──────────────────────── */}
+        <motion.div className="absolute inset-0 -z-10">
+          {/* Desktop Slideshow */}
+          <AnimatePresence initial={false}>
+            <motion.img
+              key={`desktop-${activeHero}`}
+              src={desktopHeroImages[activeHero].src}
+              srcSet={desktopHeroImages[activeHero].srcSet}
+              sizes="100vw"
+              alt={desktopHeroImages[activeHero].alt}
+              width={1920}
+              height={1280}
+              fetchPriority={activeHero === 0 ? "high" : "low"}
+              loading={activeHero === 0 ? "eager" : "lazy"}
+              decoding={activeHero === 0 ? "sync" : "async"}
+              className="hidden sm:block absolute inset-0 h-full w-full object-cover object-center"
+              style={{ willChange: "opacity" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.2, ease: "easeInOut" }}
+            />
+          </AnimatePresence>
 
-          <div className="rounded-sm border border-[color:var(--ivory)]/15 bg-[color:var(--ivory)]/95 p-5 shadow-2xl backdrop-blur sm:p-7">
-            <div className="mb-4">
-              <Eyebrow>Check availability</Eyebrow>
-              <div className="font-serif text-2xl text-foreground">Start with your dates.</div>
-              <p className="mt-1 text-xs text-muted-foreground">
-                A real person will reply with verified options within one business day.
-              </p>
+          {/* Mobile Slideshow */}
+          <AnimatePresence initial={false}>
+            <motion.img
+              key={`mobile-${activeHero}`}
+              src={mobileHeroImages[activeHero].src}
+              srcSet={mobileHeroImages[activeHero].srcSet}
+              sizes="100vw"
+              alt={mobileHeroImages[activeHero].alt}
+              width={1920}
+              height={1280}
+              fetchPriority={activeHero === 0 ? "high" : "low"}
+              loading={activeHero === 0 ? "eager" : "lazy"}
+              decoding={activeHero === 0 ? "sync" : "async"}
+              className="sm:hidden absolute inset-0 h-full w-full object-cover object-center"
+              style={{ willChange: "opacity" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.2, ease: "easeInOut" }}
+            />
+          </AnimatePresence>
+          {/* Cinematic dark vignette */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[oklch(0.18_0.015_135_/_0.92)] via-[oklch(0.18_0.015_135_/_0.48)] to-[oklch(0.18_0.015_135_/_0.15)]" />
+          {/* Left-side dark anchor so text always readable */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[oklch(0.18_0.015_135_/_0.72)] via-[oklch(0.18_0.015_135_/_0.2)] to-transparent" />
+          {/* Golden-hour warm wash from right (hidden on mobile to prevent yellow tint) */}
+          <div className="hidden sm:block absolute inset-0 bg-gradient-to-l from-[oklch(0.70_0.12_85_/_0.1)] to-transparent" />
+        </motion.div>
+
+        {/* ── Wildlife ticker — rendered BELOW the fixed header (top-16) ─ */}
+        {/* Header is ~64px tall + 16px offset = 80px, so we offset ticker by 88px */}
+        <div
+          className="absolute left-0 right-0 h-9 overflow-hidden flex items-center"
+          style={{
+            top: "88px",
+            background: "oklch(0.18 0.015 135 / 0.55)",
+            borderTop: "1px solid oklch(1 0 0 / 0.06)",
+            borderBottom: "1px solid oklch(1 0 0 / 0.08)",
+            backdropFilter: "blur(12px) saturate(1.4)",
+          }}
+        >
+          <LogoTicker duration={32} pauseOnHover className="h-full w-full items-center">
+            {[
+              "🐘 Elephant",
+              "🦅 Eagle",
+              "🦊 Jackal",
+              "🐊 Crocodile",
+              "🦚 Peacock",
+              "🦬 Buffalo",
+              "🐆 Leopard",
+              "🐦 Kingfisher",
+            ].map((s, i) => (
+              <span
+                key={i}
+                className="px-5 text-[10px] font-semibold tracking-[0.22em] uppercase whitespace-nowrap"
+                style={{ color: "oklch(0.98 0.005 95 / 0.6)" }}
+              >
+                {s}
+                <span className="ml-5 text-white/40">·</span>
+              </span>
+            ))}
+          </LogoTicker>
+        </div>
+
+        {/* ── Live rating badge — liquid glass pill ───────────────── */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute top-[120px] right-4 sm:right-8 hidden sm:flex items-center gap-2 rounded-full px-4 py-2.5"
+          style={{
+            background: "oklch(1 0 0 / 0.08)",
+            border: "1px solid oklch(1 0 0 / 0.18)",
+            backdropFilter: "blur(20px) saturate(1.8)",
+            boxShadow: "0 4px 24px oklch(0 0 0 / 0.25), inset 0 1px 0 oklch(1 0 0 / 0.15)",
+          }}
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[oklch(0.70_0.12_85)] opacity-70" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[oklch(0.70_0.12_85)]" />
+          </span>
+          <span className="text-xs font-semibold" style={{ color: "oklch(0.98 0.005 95)" }}>
+            5.0 ★ · 167 Google Reviews
+          </span>
+        </motion.div>
+
+        {/* ── Slide indicator dots — bottom left ──────────────────── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+          className="absolute bottom-20 sm:bottom-16 left-4 sm:left-8 flex gap-1.5 items-center"
+        >
+          {desktopHeroImages.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setActiveHero(i)}
+              className="group relative flex h-11 w-11 cursor-pointer items-center justify-center rounded-full outline-none"
+              aria-label={`Go to slide ${i + 1}`}
+            >
+              <span
+                className="transition-all duration-500 rounded-full"
+                style={{
+                  width: i === activeHero ? 22 : 6,
+                  height: 4,
+                  background: i === activeHero ? "oklch(0.70 0.12 85)" : "oklch(1 0 0 / 0.35)",
+                }}
+              />
+            </button>
+          ))}
+        </motion.div>
+
+        {/* ── Main content — centered; pt accounts for header (80px) + gap + ticker (36px) ── */}
+        <div className="flex-1 flex items-center pt-[110px] sm:pt-[130px] pb-24 sm:pb-8">
+          <div className="mx-auto w-full max-w-6xl px-4 sm:px-8 py-4 sm:py-8 grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:items-center">
+            {/* Left — headline + CTAs */}
+            <div className="z-10">
+              <HeroFadeIn>
+                <div
+                  className="mb-5 inline-flex items-center gap-2 rounded-full px-4 py-2"
+                  style={{
+                    background: "oklch(1 0 0 / 0.1)",
+                    border: "1px solid oklch(1 0 0 / 0.2)",
+                    backdropFilter: "blur(20px) saturate(1.6)",
+                    boxShadow: "0 2px 16px oklch(0 0 0 / 0.2), inset 0 1px 0 oklch(1 0 0 / 0.2)",
+                  }}
+                >
+                  <Sparkles className="h-3 w-3" style={{ color: "oklch(0.80 0.08 85)" }} />
+                  <span
+                    className="text-[10px] font-semibold uppercase tracking-[0.2em]"
+                    style={{ color: "oklch(0.98 0.005 95 / 0.85)" }}
+                  >
+                    Udawalawe, Sri Lanka
+                  </span>
+                </div>
+              </HeroFadeIn>
+
+              <StaggeredHero 
+                title="Experience Udawalawe, wildly." 
+                subtitle="Private, wildlife-first safaris with verified local partners, transparent pricing, and simple planning."
+                style={{ color: "oklch(0.98 0.005 95)" }}
+              >
+                <div className="mt-8 flex flex-col sm:flex-row flex-wrap gap-3">
+                  <Magnetic className="w-full sm:w-auto" intensity={0.15}>
+                    <Link
+                      to="/book"
+                      className="group inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-xl px-6 py-3.5 sm:py-3 text-sm font-semibold shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl active:scale-95"
+                      style={{
+                        background: "oklch(0.70 0.12 85)",
+                        color: "oklch(0.22 0.02 135)",
+                        boxShadow: "0 4px 24px oklch(0.70 0.12 85 / 0.4)",
+                      }}
+                    >
+                      <CalendarCheck className="h-4 w-4" aria-hidden="true" />
+                      Plan my safari
+                    </Link>
+                  </Magnetic>
+                  <Magnetic className="w-full sm:w-auto" intensity={0.15}>
+                    <a
+                      href={waLink("Hi Udawalawe Wild, I'd like to plan a safari.")}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-xl px-6 py-3.5 sm:py-3 text-sm font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
+                      style={{
+                        border: "1px solid oklch(1 0 0 / 0.22)",
+                        color: "oklch(0.98 0.005 95)",
+                        background: "oklch(1 0 0 / 0.1)",
+                        backdropFilter: "blur(20px) saturate(1.6)",
+                        boxShadow:
+                          "0 4px 20px oklch(0 0 0 / 0.2), inset 0 1px 0 oklch(1 0 0 / 0.2)",
+                      }}
+                    >
+                      <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                      Chat on WhatsApp
+                    </a>
+                  </Magnetic>
+                </div>
+
+                {/* Stat pills — scrollable on mobile, wrap on desktop */}
+                <div className="mt-6 sm:mt-8 flex gap-2 sm:gap-2.5 overflow-x-auto sm:flex-wrap pb-1 sm:pb-0 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
+                  {statPills.map(({ label, icon: Icon }) => (
+                    <div
+                      key={label}
+                      className="inline-flex shrink-0 items-center gap-1.5 sm:gap-2 rounded-full px-3 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-xs font-semibold"
+                      style={{
+                        background: "oklch(1 0 0 / 0.1)",
+                        border: "1px solid oklch(1 0 0 / 0.18)",
+                        color: "oklch(0.98 0.005 95)",
+                        backdropFilter: "blur(20px) saturate(1.6)",
+                        boxShadow:
+                          "0 2px 12px oklch(0 0 0 / 0.2), inset 0 1px 0 oklch(1 0 0 / 0.18)",
+                      }}
+                    >
+                      <Icon
+                        className="h-3 w-3 sm:h-3.5 sm:w-3.5"
+                        style={{ color: "oklch(0.80 0.08 85)" }}
+                        aria-hidden="true"
+                      />
+                      {label}
+                    </div>
+                  ))}
+                </div>
+              </StaggeredHero>
             </div>
-            <EnquiryForm />
+
+            {/* Right — enquiry glass card */}
+            <motion.div
+              initial={{ opacity: 0, x: 30, filter: "blur(8px)" }}
+              animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="hidden sm:block"
+            >
+              <div
+                className="rounded-3xl p-6 sm:p-8 card-glass"
+                style={{
+                  boxShadow: "0 32px 80px oklch(0.18 0.015 135 / 0.4)",
+                }}
+              >
+                <div className="mb-4">
+                  <Eyebrow>Check availability</Eyebrow>
+                  <div className="font-serif text-2xl text-[oklch(0.98_0.005_95)]">
+                    Start with your dates.
+                  </div>
+                  <p className="mt-1 text-xs text-[oklch(0.70_0.01_135)]">
+                    A real person will reply with verified options within one business day.
+                  </p>
+                </div>
+                <EnquiryForm theme="dark" />
+              </div>
+            </motion.div>
           </div>
         </div>
+
+        {/* ── Scroll cue ──────────────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8, duration: 0.8 }}
+          className="absolute bottom-7 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2"
+          style={{ color: "oklch(0.98 0.005 95 / 0.5)" }}
+        >
+          <span className="text-[9px] font-semibold uppercase tracking-[0.3em]">Explore</span>
+          <motion.div
+            animate={prefersReducedMotion ? {} : { y: [0, 6, 0] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            className="h-8 w-5 rounded-full flex items-start justify-center pt-1.5"
+            style={{ border: "1.5px solid oklch(1 0 0 / 0.25)" }}
+          >
+            <motion.div
+              className="h-1.5 w-1 rounded-full"
+              style={{ background: "oklch(0.70 0.12 85)" }}
+              animate={prefersReducedMotion ? {} : { y: [0, 10, 0], opacity: [1, 0, 1] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </motion.div>
+        </motion.div>
       </section>
 
-      {/* TRUST STRIP */}
-      <div className="border-y border-border bg-[color:var(--sand)]/40">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-4 px-5 py-6 text-center text-xs uppercase tracking-widest text-foreground/70 sm:grid-cols-4 sm:px-8 sm:text-sm">
-          <div>Verified local partners</div>
-          <div>Private jeeps</div>
-          <div>Transparent quotes</div>
-          <div>Ethical safari code</div>
-        </div>
+      {/* ═══════════════════ TRUST STRIP ═══════════════════════════════ */}
+      <div className="relative overflow-hidden bg-sand-100 text-forest-900 border-b border-border">
+        {/* Subtle grain overlay */}
+        <div
+          className="absolute inset-0 opacity-10 pointer-events-none"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
+          }}
+        />
+
+        <StatsCount 
+          stats={trustStatsForComponent} 
+          title="TRUSTED BY ADVENTURERS WORLDWIDE"
+          className="bg-sand-200 text-forest-900" 
+        />
       </div>
 
-      {/* SAFARIS */}
-      <Section>
-        <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-          <SectionHeading
-            eyebrow="Safari options"
-            title="Four ways to explore the park."
-            intro="Each option is a private jeep run by a verified local operator. Wildlife first, always."
-          />
-          <Link
-            to="/safaris"
-            className="text-sm font-medium text-primary underline underline-offset-4"
-          >
-            Compare all options →
-          </Link>
-        </div>
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {isPending
-            ? Array.from({ length: 4 }).map((_, index) => (
-                <article
-                  key={index}
-                  className="overflow-hidden rounded-sm border border-border bg-card"
-                >
-                  <Skeleton className="aspect-[4/5] w-full" />
-                  <div className="space-y-3 p-5">
-                    <Skeleton className="h-3 w-24" />
-                    <Skeleton className="h-6 w-3/4" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-5/6" />
-                  </div>
-                </article>
-              ))
-            : visibleSafaris.map((s, i) => (
-                <article
-                  key={s.slug}
-                  className="group flex flex-col overflow-hidden rounded-sm border border-border bg-card"
-                >
-                  <div className="aspect-[4/5] overflow-hidden bg-muted">
-                    <img
-                      src={[elephantPortrait, safariJeep, wildlife, landscape][i]}
-                      alt={s.name}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
-                    />
-                  </div>
-                  <div className="flex flex-1 flex-col p-5">
-                    <div className="text-[11px] uppercase tracking-widest text-muted-foreground">
-                      {s.duration}
-                    </div>
-                    <h3 className="mt-2 font-serif text-xl text-foreground">{s.name}</h3>
-                    <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
-                      {s.short}
-                    </p>
-                    <Link
-                      to="/safaris"
-                      className="mt-4 text-sm font-medium text-primary underline underline-offset-4"
-                    >
-                      Learn more →
-                    </Link>
-                  </div>
-                </article>
-              ))}
-        </div>
-      </Section>
+      {/* ═══════════════════ SAFARIS ════════════════════════════════════ */}
+      <div className="section-forest-700">
+        <Section style={{ contentVisibility: "auto", containIntrinsicSize: "auto 800px" }}>
+          <Reveal>
+            <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+              <SectionHeading
+                eyebrow="Safari options"
+                title="Five ways to explore the park."
+                intro="Each option is a private jeep run by a verified local operator. Wildlife first, always."
+              />
+              <Link
+                to="/safaris"
+                className="link-underline flex shrink-0 items-center gap-1 text-sm font-medium text-accent"
+              >
+                Compare all options
+                <ChevronRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
+          </Reveal>
 
-      {/* BENEFITS */}
-      <div className="bg-[color:var(--sand)]/30">
+          {/* Mobile: horizontal snap scroll | Desktop: 5-col grid */}
+          <div className="mt-10">
+            {/* Mobile scroll container */}
+            <div
+              ref={safariScrollRef}
+              className="flex gap-4 overflow-x-auto scroll-snap-x pb-2 sm:hidden"
+            >
+              {visibleSafaris.map((s, i) => (
+                  <article
+                    key={s.slug}
+                    className="safari-snap-card card-lift group flex flex-col overflow-hidden rounded-xl card-glass"
+                  >
+                    <div className="aspect-[3/2] overflow-hidden bg-muted">
+                      <img
+                        src={getSafariImage(i).src}
+                        srcSet={getSafariImage(i).srcSet}
+                        alt={`${s.name} in Udawalawe National Park`}
+                        width={600}
+                        height={400}
+                        loading="lazy"
+                        fetchPriority="low"
+                        decoding="async"
+                        className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.06]"
+                      />
+                    </div>
+                    <div className="flex flex-1 flex-col p-4">
+                      <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-muted-foreground">
+                        <Binoculars className="h-3 w-3" aria-hidden="true" />
+                        {s.duration}
+                      </div>
+                      <h3 className="mt-1.5 font-serif text-lg text-foreground">{s.name}</h3>
+                      <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground">
+                        {s.short}
+                      </p>
+                      <Link
+                        to="/safaris"
+                        className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-accent"
+                      >
+                        Learn more
+                        <ChevronRight className="h-3 w-3" aria-hidden="true" />
+                      </Link>
+                    </div>
+                  </article>
+                ))}
+            </div>
+
+            {/* Scroll dots — hidden on sm+ via CSS */}
+            <div className="snap-dots">
+              {visibleSafaris.map((_, i) => (
+                <div
+                  key={i}
+                  className={`snap-dot text-[color:var(--forest)] ${i === activeDot ? "active" : ""}`}
+                />
+              ))}
+            </div>
+
+            {/* Desktop grid */}
+            <div className="hidden gap-4 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+              {visibleSafaris.map((s, i) => (
+                  <Reveal key={s.slug} delay={i * 70} className="h-full">
+                    <TiltCard className="h-full" intensity={7}>
+                      <article
+                        className="card-lift group flex h-full flex-col overflow-hidden rounded-xl card-glass"
+                        style={{ transformStyle: "preserve-3d" }}
+                      >
+                          <div className="aspect-[4/5] overflow-hidden bg-muted">
+                            <img
+                              src={
+                                [
+                                  elephantPortrait,
+                                  ethicalImg,
+                                  wildlife,
+                                  landscape,
+                                  elephantPortrait,
+                                ][i % 5]
+                              }
+                              srcSet={
+                                i % 5 === 0
+                                  ? `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w`
+                                  : i % 5 === 1
+                                    ? `${ethicalImg800} 800w, ${ethicalImg1200} 1200w`
+                                    : i % 5 === 3
+                                      ? `${landscape800} 800w, ${landscape1200} 1200w`
+                                      : i % 5 === 4
+                                        ? `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w`
+                                        : undefined
+                              }
+                              alt={`${s.name} in Udawalawe National Park`}
+                              width={600}
+                              height={400}
+                              loading="lazy"
+                              fetchPriority="low"
+                              decoding="async"
+                              className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.06]"
+                            />
+                          </div>
+                          <div className="flex flex-1 flex-col p-4">
+                            <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-muted-foreground">
+                              <Binoculars className="h-3 w-3" aria-hidden="true" />
+                              {s.duration}
+                            </div>
+                            <h3 className="mt-1.5 font-serif text-base font-medium text-foreground">
+                              {s.name}
+                            </h3>
+                            <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground">
+                              {s.short}
+                            </p>
+                            <Link
+                              to="/safaris"
+                              className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-accent"
+                            >
+                              Learn more
+                              <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+                            </Link>
+                          </div>
+                        </article>
+                      </TiltCard>
+                    </Reveal>
+                  ))}
+            </div>
+          </div>
+        </Section>
+      </div>
+
+      {/* ═══════════════════ BENEFITS ═══════════════════════════════════ */}
+      <div className="bg-sand-100 text-forest-900">
         <Section>
-          <SectionHeading
-            eyebrow="Why Udawalawe Wild"
-            title="A better way to explore the wild."
-            intro="We're small on purpose. Our job is to make your safari calmer, clearer, and kinder to the wildlife you came to see."
-          />
-          <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              {
-                t: "Clear pricing",
-                d: "Fixed quotes before you confirm. No surprise fees at the gate.",
-              },
-              {
-                t: "Carefully selected partners",
-                d: "Every operator is licensed, insured, and vetted for conduct.",
-              },
-              {
-                t: "Responsive planning",
-                d: "Real replies on WhatsApp — usually within a few hours.",
-              },
-              { t: "Private experience", d: "Your jeep, your pace. No sharing with strangers." },
-            ].map((b) => (
-              <div key={b.t} className="border-t border-foreground/20 pt-5">
-                <div className="font-serif text-lg text-foreground">{b.t}</div>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{b.d}</p>
-              </div>
+          <Reveal>
+            <SectionHeading
+              eyebrow="Why Udawalawe Wild"
+              title="A better way to explore the wild."
+              intro="We're small on purpose. Our job is to make your safari calmer, clearer, and kinder to the wildlife you came to see."
+              titleClass="text-forest-900"
+              introClass="text-text-muted-on-light"
+            />
+          </Reveal>
+
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {benefits.map((b, i) => (
+              <Reveal key={b.t} delay={i * 90}>
+                <TiltCard intensity={6} className="h-full">
+                  <div className="benefit-tile h-full" style={{ transformStyle: "preserve-3d" }}>
+                    {/* Icon */}
+                    <div
+                      className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl"
+                      style={{
+                        background: "oklch(0.70 0.12 85 / 0.18)",
+                        border: "1px solid oklch(0.70 0.12 85 / 0.35)",
+                      }}
+                    >
+                      <b.icon
+                        className="h-4.5 w-4.5"
+                        style={{ color: "oklch(0.80 0.08 85)" }}
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <div className="font-serif text-xl text-forest-900">{b.t}</div>
+                    <p className="mt-3 flex-1 text-sm leading-relaxed text-text-muted-on-light">
+                      {b.d}
+                    </p>
+                  </div>
+                </TiltCard>
+              </Reveal>
             ))}
           </div>
         </Section>
       </div>
 
-      {/* ETHICAL */}
-      <Section>
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-          <div className="grain overflow-hidden rounded-sm">
-            <img
-              src={wildlife}
-              alt="Peacock and buffalo in a green Sri Lankan grassland"
-              loading="lazy"
-              width={1400}
-              height={1000}
-              className="h-full w-full object-cover"
-            />
-          </div>
-          <div>
-            <SectionHeading
-              eyebrow="Ethical safari code"
-              title="Wildlife comes first."
-              intro="Great sightings happen when animals feel unbothered. Our partners agree to a simple, non-negotiable code."
-            />
-            <ul className="mt-6 space-y-3 text-sm text-foreground/85">
-              {[
-                "Keep a respectful distance at all times",
-                "No chasing or crowding animals with the jeep",
-                "No feeding wildlife under any circumstance",
-                "No false promises of sightings",
-                "Calm, considered driving throughout the park",
-              ].map((r) => (
-                <li key={r} className="flex gap-3">
-                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--terracotta)]" />
-                  {r}
-                </li>
-              ))}
-            </ul>
-            <Link
-              to="/ethical-safari"
-              className="mt-8 inline-block text-sm font-medium text-primary underline underline-offset-4"
-            >
-              Read the full standard →
-            </Link>
-          </div>
-        </div>
-      </Section>
-
-      {/* ROUTES */}
-      <div className="bg-[color:var(--forest-deep)] text-[color:var(--ivory)]">
+      {/* ═══════════════════ ELEPHANT TRANSIT HOME ══════════════════════ */}
+      <div className="section-forest-700">
         <Section>
-          <SectionHeading eyebrow="Getting there" title="Coming from the coast or the hills?" />
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {isPending
-              ? Array.from({ length: 4 }).map((_, index) => (
-                  <div key={index} className="border border-[color:var(--ivory)]/15 p-5">
-                    <Skeleton className="h-3 w-16" />
-                    <Skeleton className="mt-3 h-7 w-24" />
-                    <Skeleton className="mt-3 h-3 w-full" />
-                    <Skeleton className="mt-2 h-3 w-4/5" />
-                  </div>
-                ))
-              : visibleRoutes.map((r) => (
+          <Reveal>
+            <div className="grid gap-8 rounded-3xl p-7 sm:p-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center card-glass">
+              <div>
+                <div className="mb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[color:var(--text-light-on-dark)]/70">
+                  Special Experience
+                </div>
+                <h2
+                  className="mt-1 font-serif text-2xl sm:text-3xl"
+                  style={{ color: "oklch(0.98 0.005 95)" }}
+                >
+                  Visit the Elephant Transit Home
+                </h2>
+                <p
+                  className="mt-3 text-sm leading-relaxed sm:text-base"
+                  style={{ color: "oklch(0.70 0.01 135)" }}
+                >
+                  Located right beside Udawalawe National Park, the Elephant Transit Home (ETH)
+                  rehabilitates orphaned wild elephant calves until they are strong enough to be
+                  released back into the wild. Combine your safari with a public feeding view for a
+                  rare, ethical glimpse into elephant conservation.
+                </p>
+                <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-4">
                   <Link
-                    key={r.slug}
-                    to={`/${r.slug}`}
-                    className="group border border-[color:var(--ivory)]/15 p-5 transition hover:bg-[color:var(--ivory)]/5"
+                    to="/safaris"
+                    className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-xs font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
+                    style={{
+                      background: "oklch(0.70 0.12 85)",
+                      color: "oklch(0.94 0.01 100)",
+                      boxShadow: "0 4px 20px oklch(0.70 0.12 85 / 0.4)",
+                    }}
                   >
-                    <div className="text-[11px] uppercase tracking-widest text-[color:var(--ivory)]/60">
-                      From
-                    </div>
-                    <div className="mt-1 font-serif text-2xl">{r.from}</div>
-                    <div className="mt-2 text-xs text-[color:var(--ivory)]/70">{r.drive}</div>
-                    <div className="mt-4 text-xs text-[color:var(--terracotta)]/90 opacity-0 transition group-hover:opacity-100">
-                      View route →
-                    </div>
+                    Explore Combo Package
+                    <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
                   </Link>
-                ))}
-          </div>
-        </Section>
-      </div>
-
-      {/* REVIEWS PLACEHOLDER */}
-      <Section>
-        <SectionHeading
-          eyebrow="Guest reviews coming soon"
-          title="Only real voices, when they arrive."
-          intro="We don't publish fake testimonials. Real guest reviews will appear here as we collect them from confirmed travellers."
-        />
-        <div className="mt-10 grid gap-6 sm:grid-cols-3">
-          {isPending
-            ? Array.from({ length: 3 }).map((_, index) => (
-                <div key={index} className="border border-dashed border-border p-6">
-                  <Skeleton className="h-3 w-20" />
-                  <Skeleton className="mt-4 h-4 w-full" />
-                  <Skeleton className="mt-2 h-4 w-5/6" />
-                  <Skeleton className="mt-5 h-3 w-24" />
-                </div>
-              ))
-            : visibleReviews.map((r, i) => (
-                <div key={i} className="border border-dashed border-border p-6 text-sm">
-                  <div className="text-[11px] uppercase tracking-widest text-muted-foreground">
-                    Placeholder
-                  </div>
-                  <p className="mt-3 italic leading-relaxed text-foreground/70">"{r.body}"</p>
-                  <div className="mt-4 text-xs text-muted-foreground">— {r.location}</div>
-                </div>
-              ))}
-        </div>
-      </Section>
-
-      {/* FAQ */}
-      <div className="bg-[color:var(--sand)]/30">
-        <Section>
-          <SectionHeading eyebrow="Good to know" title="Frequently asked questions." />
-          <div className="mt-8">
-            {isPending ? (
-              <div className="space-y-3 rounded-sm border border-border bg-card p-4">
-                {Array.from({ length: 4 }).map((_, index) => (
-                  <div
-                    key={index}
-                    className="space-y-2 border-b border-border/70 pb-3 last:border-b-0 last:pb-0"
+                  <Link
+                    to="/guide"
+                    className="text-xs font-medium transition-colors hover:text-white"
+                    style={{ color: "oklch(0.80 0.08 85)" }}
                   >
-                    <Skeleton className="h-5 w-3/4" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-5/6" />
-                  </div>
-                ))}
+                    Learn about ETH in our guide →
+                  </Link>
+                </div>
               </div>
-            ) : (
-              <FaqList items={visibleFaqs} />
-            )}
+              <TiltCard intensity={5} className="overflow-hidden rounded-2xl aspect-[4/3]">
+                <div
+                  style={{
+                    boxShadow: "0 16px 48px oklch(0 0 0 / 0.35)",
+                    transformStyle: "preserve-3d",
+                  }}
+                  className="h-full w-full"
+                >
+                  <img
+                    src={elephantPortrait}
+                    alt="Orphaned elephant calf at Udawalawe Elephant Transit Home"
+                    width={800}
+                    height={600}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition duration-700 hover:scale-105"
+                  />
+                </div>
+              </TiltCard>
+            </div>
+          </Reveal>
+        </Section>
+      </div>
+
+      {/* ═══════════════════ ETHICAL CODE ═══════════════════════════════ */}
+      <div className="bg-sand-100 text-forest-900">
+        <Section style={{ contentVisibility: "auto", containIntrinsicSize: "auto 600px" }}>
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+            <Reveal direction="left" className="grain overflow-hidden rounded-2xl">
+              <img
+                src={wildlife}
+                alt="Peacock and buffalo in a green Sri Lankan grassland"
+                loading="lazy"
+                width={1400}
+                height={1000}
+                className="h-full max-h-[280px] sm:max-h-[380px] lg:max-h-[480px] w-full object-cover"
+              />
+            </Reveal>
+
+            <Reveal delay={120} direction="right">
+              <SectionHeading
+                eyebrow="Ethical safari code"
+                title="Wildlife comes first."
+                intro="Great sightings happen when animals feel unbothered. Our partners agree to a simple, non-negotiable code."
+              />
+              <ul className="mt-6 space-y-3">
+                {ethicsRules.map(({ icon: Icon, r }, i) => (
+                  <motion.li
+                    key={r}
+                    initial={{ opacity: 0, x: -16 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                    className="flex items-start gap-3 text-sm text-foreground/85"
+                  >
+                    <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-forest-900/5 border border-forest-900/20">
+                      <Icon className="h-3.5 w-3.5 text-forest-900" aria-hidden="true" />
+                    </span>
+                    {r}
+                  </motion.li>
+                ))}
+              </ul>
+              <Link
+                to="/ethical-safari"
+                className="link-underline mt-8 inline-flex items-center gap-1.5 text-sm font-medium text-accent"
+              >
+                Read the full standard
+                <ChevronRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </Reveal>
           </div>
         </Section>
       </div>
 
-      {/* FINAL CTA */}
+      {/* ═══════════════════ ROUTES ═════════════════════════════════════ */}
+      <div
+        className="section-forest-700"
+        style={{
+          contentVisibility: "auto",
+          containIntrinsicSize: "auto 600px",
+        }}
+      >
+        <Section>
+          <Reveal>
+            <SectionHeading
+              eyebrow="Getting there"
+              title="Coming from the coast or the hills?"
+              titleClass="text-[oklch(0.98_0.005_95)]"
+              introClass="text-[oklch(0.70_0.01_135)]"
+            />
+          </Reveal>
+          <div className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4 items-stretch">
+            {visibleRoutes.map((r, i) => (
+                  <Reveal key={r.slug} delay={i * 70} className="h-full">
+                    <TiltCard className="h-full" intensity={6}>
+                      <Link
+                        to={`/${r.slug}`}
+                        className="group flex h-full flex-col gap-1.5 rounded-xl p-4 transition-all duration-300 card-glass"
+                        style={{ transformStyle: "preserve-3d" }}
+                        onMouseEnter={(e: React.MouseEvent) => {
+                          (e.currentTarget as HTMLElement).style.borderColor =
+                            "oklch(0.70 0.12 85 / 0.4)";
+                          (e.currentTarget as HTMLElement).style.boxShadow =
+                            "0 0 0 1px oklch(0.70 0.12 85 / 0.2), 0 16px 40px oklch(0 0 0 / 0.3)";
+                        }}
+                        onMouseLeave={(e: React.MouseEvent) => {
+                          (e.currentTarget as HTMLElement).style.borderColor = "oklch(1 0 0 / 0.1)";
+                          (e.currentTarget as HTMLElement).style.boxShadow =
+                            "0 8px 32px oklch(0 0 0 / 0.3), inset 0 1px 0 oklch(1 0 0 / 0.12)";
+                        }}
+                      >
+                        <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-[color:var(--text-light-on-dark)]/70">
+                          <MapPin className="h-2.5 w-2.5" aria-hidden="true" />
+                          From
+                        </div>
+                        <div
+                          className="font-serif text-base leading-tight sm:text-xl"
+                          style={{ color: "oklch(0.98 0.005 95)" }}
+                        >
+                          {r.from}
+                        </div>
+                        <div
+                          className="text-xs leading-snug"
+                          style={{ color: "oklch(0.70 0.01 135)" }}
+                        >
+                          {r.drive}
+                        </div>
+                        <div className="mt-auto pt-2 flex items-center gap-1 text-xs font-medium transition-opacity duration-200 text-accent">
+                          View route
+                          <ChevronRight className="h-3 w-3 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
+                        </div>
+                      </Link>
+                    </TiltCard>
+                  </Reveal>
+                ))}
+          </div>
+        </Section>
+      </div>
+
+      {/* ═══════════════════ TESTIMONIALS ═══════════════════════════════ */}
+      <section
+        className="bg-sand-100 text-forest-900 overflow-hidden border-y border-border py-16 sm:py-20"
+        style={{ contentVisibility: "auto", containIntrinsicSize: "auto 400px" }}
+      >
+        <Reveal>
+          <div className="mb-10 px-5 sm:px-8">
+            <SectionHeading
+              eyebrow="What guests say"
+              title="Real voices, real safaris."
+              intro="Every review comes from a confirmed traveller. We don't publish fakes."
+            />
+          </div>
+        </Reveal>
+
+        {/* Infinite marquee track */}
+        <div className="select-none" aria-label="Guest reviews carousel">
+          <div className="reviews-track">
+            {allReviews.map((r, i) => (
+              <div
+                key={i}
+                className="card-lift w-80 shrink-0 rounded-2xl p-6"
+                style={{
+                  background: "oklch(1 0 0 / 0.78)",
+                  border: "1px solid oklch(0.70 0.12 85 / 0.14)",
+                  backdropFilter: "blur(16px) saturate(1.5)",
+                  WebkitBackdropFilter: "blur(16px) saturate(1.5)",
+                  boxShadow: "0 4px 24px oklch(0 0 0 / 0.07), inset 0 1px 0 oklch(1 0 0 / 0.8)",
+                }}
+                aria-hidden={i >= allReviews.length / 2 ? "true" : undefined}
+              >
+                {/* Stars */}
+                <div className="flex gap-0.5 mb-3">
+                  {Array.from({ length: r.rating }).map((_, s) => (
+                    <Star
+                      key={s}
+                      className="h-3.5 w-3.5"
+                      style={{ fill: "oklch(0.70 0.12 85)", color: "oklch(0.70 0.12 85)" }}
+                      aria-hidden="true"
+                    />
+                  ))}
+                </div>
+
+                {/* Quote */}
+                <Quote
+                  className="h-4 w-4 mb-2"
+                  style={{ color: "oklch(0.70 0.12 85 / 0.35)" }}
+                  aria-hidden="true"
+                />
+                <div className="relative">
+                  <p className="text-sm leading-relaxed text-foreground/80 italic line-clamp-4">"{r.text}"</p>
+                </div>
+
+                {/* Author */}
+                <div
+                  className="mt-4 flex items-center justify-between gap-3 pt-4"
+                  style={{ borderTop: "1px solid oklch(0.70 0.12 85 / 0.12)" }}
+                >
+                  <div className="flex items-center gap-3">
+                    {r.photoUrl ? (
+                      <img src={r.photoUrl} alt={r.name} className="w-10 h-10 rounded-full" />
+                    ) : (
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center bg-sand-200 text-forest-900 font-bold text-sm" aria-hidden="true">
+                        {r.name.charAt(0)}
+                      </div>
+                    )}
+                    <div>
+                      <div className="text-sm font-semibold text-foreground">{r.name}</div>
+                      <div className="text-[10px] text-muted-foreground mt-0.5">{r.date}</div>
+                    </div>
+                  </div>
+                  <a href="https://maps.app.goo.gl/FMj8GgqVGXFyc9zQ7" target="_blank" rel="noopener noreferrer" className="shrink-0 text-right group hover:opacity-80 transition-opacity">
+                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground group-hover:text-accent">
+                      Google Review
+                    </div>
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════ FAQ ════════════════════════════════════════ */}
+      <div
+        className="bg-sand-100 text-forest-900"
+        style={{ contentVisibility: "auto", containIntrinsicSize: "auto 600px" }}
+      >
+        <Section>
+          <Reveal>
+            <SectionHeading eyebrow="Good to know" title="Frequently asked questions." />
+          </Reveal>
+          <div className="mt-8">
+            <FaqList items={visibleFaqs} />
+          </div>
+        </Section>
+      </div>
+
+      {/* ═══════════════════ FINAL CTA ══════════════════════════════════ */}
       <section className="relative isolate overflow-hidden">
         <img
           src={landscape}
-          alt=""
-          aria-hidden
+          srcSet={`${landscape800} 800w, ${landscape1200} 1200w, ${landscape1600} 1600w`}
+          alt="Grassland landscape in Udawalawe National Park"
           loading="lazy"
+          fetchPriority="low"
+          decoding="async"
           className="absolute inset-0 -z-10 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 -z-10 bg-[oklch(0.22_0.035_155_/_0.78)]" />
+        <div className="absolute inset-0 -z-10 bg-[oklch(0.22_0.035_155_/_0.82)]" />
+
         <div className="mx-auto max-w-3xl px-5 py-24 text-center text-[color:var(--ivory)] sm:px-8 sm:py-32">
-          <h2 className="font-serif text-4xl leading-tight sm:text-5xl">
-            Ready to plan your safari?
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-base text-[color:var(--ivory)]/85">
-            Send us your dates. We'll come back with verified options and a fixed quote within one
-            business day.
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Link
-              to="/book"
-              className="rounded-sm bg-[color:var(--terracotta)] px-6 py-3 text-sm font-medium text-[color:var(--ivory)]"
-            >
-              Plan my safari
-            </Link>
-            <a
-              href={waLink()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-sm border border-[color:var(--ivory)]/50 px-6 py-3 text-sm font-medium text-[color:var(--ivory)]"
-            >
-              Chat on WhatsApp
-            </a>
-          </div>
+          <Reveal direction="scale">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[color:var(--ivory)]/25 bg-[color:var(--ivory)]/10 px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-[color:var(--ivory)]/75">
+              <Sparkles className="h-3.5 w-3.5 text-[color:var(--ivory)]/70" aria-hidden="true" />
+              Start planning today
+            </div>
+            <h2 className="font-serif text-4xl leading-tight sm:text-5xl">
+              Ready to plan your safari?
+            </h2>
+            <p className="mx-auto mt-4 max-w-xl text-base text-[color:var(--ivory)]/80">
+              Send us your dates. We'll come back with verified options and a fixed quote within one
+              business day.
+            </p>
+            <div className="mt-8 flex flex-col sm:flex-row flex-wrap justify-center gap-3">
+              <Magnetic className="w-full sm:w-auto">
+                <Link
+                  to="/book"
+                  className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-[oklch(0.70_0.12_85)] hover:bg-[oklch(0.80_0.08_85)] px-6 py-3 text-sm font-semibold text-[oklch(0.22_0.02_135)] shadow-md transition-all duration-200 active:scale-95"
+                >
+                  <CalendarCheck className="h-4 w-4" aria-hidden="true" />
+                  Plan my safari
+                </Link>
+              </Magnetic>
+              <Magnetic className="w-full sm:w-auto">
+                <a
+                  href={waLink()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg border border-[color:var(--ivory)]/50 px-6 py-3 text-sm font-medium text-[color:var(--ivory)] transition-all duration-200 hover:bg-[color:var(--ivory)]/15 hover:border-[color:var(--ivory)]/80 active:scale-95"
+                >
+                  <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                  Chat on WhatsApp
+                </a>
+              </Magnetic>
+            </div>
+          </Reveal>
         </div>
       </section>
     </>

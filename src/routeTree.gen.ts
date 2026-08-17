@@ -18,12 +18,17 @@ import { Route as EthicalSafariRouteImport } from './routes/ethical-safari'
 import { Route as GuideRouteImport } from './routes/guide'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RoutesRouteImport } from './routes/routes'
+import { Route as SafariFromColomboRouteImport } from './routes/safari-from-colombo'
 import { Route as SafariFromEllaRouteImport } from './routes/safari-from-ella'
 import { Route as SafariFromGalleRouteImport } from './routes/safari-from-galle'
 import { Route as SafariFromHiriketiyaRouteImport } from './routes/safari-from-hiriketiya'
+import { Route as SafariFromKandyRouteImport } from './routes/safari-from-kandy'
 import { Route as SafariFromMirissaRouteImport } from './routes/safari-from-mirissa'
+import { Route as SafariFromNuwaraEliyaRouteImport } from './routes/safari-from-nuwara-eliya'
+import { Route as SafariFromTangalleRouteImport } from './routes/safari-from-tangalle'
 import { Route as SafarisRouteImport } from './routes/safaris'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SuperadminRouteImport } from './routes/superadmin'
 import { Route as TermsRouteImport } from './routes/terms'
 
 const IndexRoute = IndexRouteImport.update({
@@ -71,6 +76,11 @@ const RoutesRoute = RoutesRouteImport.update({
   path: '/routes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SafariFromColomboRoute = SafariFromColomboRouteImport.update({
+  id: '/safari-from-colombo',
+  path: '/safari-from-colombo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SafariFromEllaRoute = SafariFromEllaRouteImport.update({
   id: '/safari-from-ella',
   path: '/safari-from-ella',
@@ -86,9 +96,24 @@ const SafariFromHiriketiyaRoute = SafariFromHiriketiyaRouteImport.update({
   path: '/safari-from-hiriketiya',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SafariFromKandyRoute = SafariFromKandyRouteImport.update({
+  id: '/safari-from-kandy',
+  path: '/safari-from-kandy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SafariFromMirissaRoute = SafariFromMirissaRouteImport.update({
   id: '/safari-from-mirissa',
   path: '/safari-from-mirissa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SafariFromNuwaraEliyaRoute = SafariFromNuwaraEliyaRouteImport.update({
+  id: '/safari-from-nuwara-eliya',
+  path: '/safari-from-nuwara-eliya',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SafariFromTangalleRoute = SafariFromTangalleRouteImport.update({
+  id: '/safari-from-tangalle',
+  path: '/safari-from-tangalle',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SafarisRoute = SafarisRouteImport.update({
@@ -99,6 +124,11 @@ const SafarisRoute = SafarisRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuperadminRoute = SuperadminRouteImport.update({
+  id: '/superadmin',
+  path: '/superadmin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TermsRoute = TermsRouteImport.update({
@@ -117,12 +147,17 @@ export interface FileRoutesByFullPath {
   '/guide': typeof GuideRoute
   '/privacy': typeof PrivacyRoute
   '/routes': typeof RoutesRoute
+  '/safari-from-colombo': typeof SafariFromColomboRoute
   '/safari-from-ella': typeof SafariFromEllaRoute
   '/safari-from-galle': typeof SafariFromGalleRoute
   '/safari-from-hiriketiya': typeof SafariFromHiriketiyaRoute
+  '/safari-from-kandy': typeof SafariFromKandyRoute
   '/safari-from-mirissa': typeof SafariFromMirissaRoute
+  '/safari-from-nuwara-eliya': typeof SafariFromNuwaraEliyaRoute
+  '/safari-from-tangalle': typeof SafariFromTangalleRoute
   '/safaris': typeof SafarisRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/superadmin': typeof SuperadminRoute
   '/terms': typeof TermsRoute
 }
 export interface FileRoutesByTo {
@@ -135,12 +170,17 @@ export interface FileRoutesByTo {
   '/guide': typeof GuideRoute
   '/privacy': typeof PrivacyRoute
   '/routes': typeof RoutesRoute
+  '/safari-from-colombo': typeof SafariFromColomboRoute
   '/safari-from-ella': typeof SafariFromEllaRoute
   '/safari-from-galle': typeof SafariFromGalleRoute
   '/safari-from-hiriketiya': typeof SafariFromHiriketiyaRoute
+  '/safari-from-kandy': typeof SafariFromKandyRoute
   '/safari-from-mirissa': typeof SafariFromMirissaRoute
+  '/safari-from-nuwara-eliya': typeof SafariFromNuwaraEliyaRoute
+  '/safari-from-tangalle': typeof SafariFromTangalleRoute
   '/safaris': typeof SafarisRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/superadmin': typeof SuperadminRoute
   '/terms': typeof TermsRoute
 }
 export interface FileRoutesById {
@@ -154,12 +194,17 @@ export interface FileRoutesById {
   '/guide': typeof GuideRoute
   '/privacy': typeof PrivacyRoute
   '/routes': typeof RoutesRoute
+  '/safari-from-colombo': typeof SafariFromColomboRoute
   '/safari-from-ella': typeof SafariFromEllaRoute
   '/safari-from-galle': typeof SafariFromGalleRoute
   '/safari-from-hiriketiya': typeof SafariFromHiriketiyaRoute
+  '/safari-from-kandy': typeof SafariFromKandyRoute
   '/safari-from-mirissa': typeof SafariFromMirissaRoute
+  '/safari-from-nuwara-eliya': typeof SafariFromNuwaraEliyaRoute
+  '/safari-from-tangalle': typeof SafariFromTangalleRoute
   '/safaris': typeof SafarisRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/superadmin': typeof SuperadminRoute
   '/terms': typeof TermsRoute
 }
 export interface FileRouteTypes {
@@ -174,12 +219,17 @@ export interface FileRouteTypes {
     | '/guide'
     | '/privacy'
     | '/routes'
+    | '/safari-from-colombo'
     | '/safari-from-ella'
     | '/safari-from-galle'
     | '/safari-from-hiriketiya'
+    | '/safari-from-kandy'
     | '/safari-from-mirissa'
+    | '/safari-from-nuwara-eliya'
+    | '/safari-from-tangalle'
     | '/safaris'
     | '/sitemap.xml'
+    | '/superadmin'
     | '/terms'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -192,12 +242,17 @@ export interface FileRouteTypes {
     | '/guide'
     | '/privacy'
     | '/routes'
+    | '/safari-from-colombo'
     | '/safari-from-ella'
     | '/safari-from-galle'
     | '/safari-from-hiriketiya'
+    | '/safari-from-kandy'
     | '/safari-from-mirissa'
+    | '/safari-from-nuwara-eliya'
+    | '/safari-from-tangalle'
     | '/safaris'
     | '/sitemap.xml'
+    | '/superadmin'
     | '/terms'
   id:
     | '__root__'
@@ -210,12 +265,17 @@ export interface FileRouteTypes {
     | '/guide'
     | '/privacy'
     | '/routes'
+    | '/safari-from-colombo'
     | '/safari-from-ella'
     | '/safari-from-galle'
     | '/safari-from-hiriketiya'
+    | '/safari-from-kandy'
     | '/safari-from-mirissa'
+    | '/safari-from-nuwara-eliya'
+    | '/safari-from-tangalle'
     | '/safaris'
     | '/sitemap.xml'
+    | '/superadmin'
     | '/terms'
   fileRoutesById: FileRoutesById
 }
@@ -229,12 +289,17 @@ export interface RootRouteChildren {
   GuideRoute: typeof GuideRoute
   PrivacyRoute: typeof PrivacyRoute
   RoutesRoute: typeof RoutesRoute
+  SafariFromColomboRoute: typeof SafariFromColomboRoute
   SafariFromEllaRoute: typeof SafariFromEllaRoute
   SafariFromGalleRoute: typeof SafariFromGalleRoute
   SafariFromHiriketiyaRoute: typeof SafariFromHiriketiyaRoute
+  SafariFromKandyRoute: typeof SafariFromKandyRoute
   SafariFromMirissaRoute: typeof SafariFromMirissaRoute
+  SafariFromNuwaraEliyaRoute: typeof SafariFromNuwaraEliyaRoute
+  SafariFromTangalleRoute: typeof SafariFromTangalleRoute
   SafarisRoute: typeof SafarisRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  SuperadminRoute: typeof SuperadminRoute
   TermsRoute: typeof TermsRoute
 }
 
@@ -303,6 +368,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoutesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/safari-from-colombo': {
+      id: '/safari-from-colombo'
+      path: '/safari-from-colombo'
+      fullPath: '/safari-from-colombo'
+      preLoaderRoute: typeof SafariFromColomboRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/safari-from-ella': {
       id: '/safari-from-ella'
       path: '/safari-from-ella'
@@ -324,11 +396,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SafariFromHiriketiyaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/safari-from-kandy': {
+      id: '/safari-from-kandy'
+      path: '/safari-from-kandy'
+      fullPath: '/safari-from-kandy'
+      preLoaderRoute: typeof SafariFromKandyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/safari-from-mirissa': {
       id: '/safari-from-mirissa'
       path: '/safari-from-mirissa'
       fullPath: '/safari-from-mirissa'
       preLoaderRoute: typeof SafariFromMirissaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/safari-from-nuwara-eliya': {
+      id: '/safari-from-nuwara-eliya'
+      path: '/safari-from-nuwara-eliya'
+      fullPath: '/safari-from-nuwara-eliya'
+      preLoaderRoute: typeof SafariFromNuwaraEliyaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/safari-from-tangalle': {
+      id: '/safari-from-tangalle'
+      path: '/safari-from-tangalle'
+      fullPath: '/safari-from-tangalle'
+      preLoaderRoute: typeof SafariFromTangalleRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/safaris': {
@@ -343,6 +436,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/superadmin': {
+      id: '/superadmin'
+      path: '/superadmin'
+      fullPath: '/superadmin'
+      preLoaderRoute: typeof SuperadminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/terms': {
@@ -365,12 +465,17 @@ const rootRouteChildren: RootRouteChildren = {
   GuideRoute: GuideRoute,
   PrivacyRoute: PrivacyRoute,
   RoutesRoute: RoutesRoute,
+  SafariFromColomboRoute: SafariFromColomboRoute,
   SafariFromEllaRoute: SafariFromEllaRoute,
   SafariFromGalleRoute: SafariFromGalleRoute,
   SafariFromHiriketiyaRoute: SafariFromHiriketiyaRoute,
+  SafariFromKandyRoute: SafariFromKandyRoute,
   SafariFromMirissaRoute: SafariFromMirissaRoute,
+  SafariFromNuwaraEliyaRoute: SafariFromNuwaraEliyaRoute,
+  SafariFromTangalleRoute: SafariFromTangalleRoute,
   SafarisRoute: SafarisRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  SuperadminRoute: SuperadminRoute,
   TermsRoute: TermsRoute,
 }
 export const routeTree = rootRouteImport
