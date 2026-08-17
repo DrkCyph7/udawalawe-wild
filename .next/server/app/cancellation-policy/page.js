@@ -1,5 +1,5 @@
 var R=require("../../chunks/ssr/[turbopack]_runtime.js")("server/app/cancellation-policy/page.js")
-R.c("server/chunks/ssr/_1j968g8._.js")
+R.c("server/chunks/ssr/_1q25_cl._.js")
 R.c("server/chunks/ssr/[root-of-the-server]__0z5ob0b._.js")
 R.c("server/chunks/ssr/[root-of-the-server]__0yu2jwx._.js")
 R.c("server/chunks/ssr/[root-of-the-server]__07-cb6x._.js")
