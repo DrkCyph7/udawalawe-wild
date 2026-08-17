@@ -85,7 +85,7 @@ export default function EthicalPage() {
                   style={{ boxShadow: "0 24px 64px oklch(0 0 0 / 0.4)" }}
                 >
                   <img
-                    src={elephant}
+                    src={elephant.src}
                     alt="Elephant in Sri Lankan grassland"
                     loading="lazy"
                     className="h-full w-full object-cover transition duration-700 hover:scale-[1.04]"

@@ -114,7 +114,7 @@ export default function AboutPage() {
                   style={{ boxShadow: "0 24px 64px oklch(0 0 0 / 0.4)" }}
                 >
                   <img
-                    src={portrait}
+                    src={portrait.src}
                     alt="Wild elephant roaming free in Udawalawe National Park, Sri Lanka"
                     loading="lazy"
                     className="h-full w-full object-cover transition duration-700 hover:scale-[1.04]"
