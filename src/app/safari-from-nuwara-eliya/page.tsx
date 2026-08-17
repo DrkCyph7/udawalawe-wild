@@ -3,3 +3,5 @@ import { routes } from "@/lib/content";
 
 const info = routes.find((r) => r.slug === "safari-from-nuwara-eliya")!;
 
+
+export default () => <RouteTemplate info={info} />;
