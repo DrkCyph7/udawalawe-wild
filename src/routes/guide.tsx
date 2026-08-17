@@ -4,7 +4,7 @@ import { Section, SectionHeading } from "@/components/section";
 import { Reveal } from "@/components/reveal";
 import { FaqList } from "@/components/faq-list";
 import { faqs } from "@/lib/content";
-import landscape from "@/assets/landscape.jpg";
+import landscape from "@/assets/landscape.src.jpg";
 import { Compass } from "lucide-react";
 import { TiltCard } from "@/components/tilt-card";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/guide")({
       {
         name: "description",
         content:
-          "Practical guide to Udawalawe National Park: morning vs afternoon safari, wildlife, what to wear, how to get there, and park etiquette.",
+          "Practical guide to Udawalawe National Park: morning vs afternoon safari, wildlife.src, what to wear, how to get there, and park etiquette.",
       },
       { property: "og:title", content: "Udawalawe visitor guide" },
       { property: "og:description", content: "Everything to know before your Udawalawe safari." },
@@ -104,8 +104,8 @@ function GuidePage() {
               >
                 <motion.img
                   style={{ y: parallaxY, scale: 1.16 }}
-                  src={landscape}
-                  alt="Udawalawe reservoir landscape at sunset"
+                  src={landscape.src}
+                  alt="Udawalawe reservoir landscape.src at sunset"
                   loading="lazy"
                   width={1920}
                   height={1080}
@@ -123,15 +123,15 @@ function GuidePage() {
             {[
               {
                 title: "Morning vs. afternoon safari",
-                body: "Morning safaris begin before dawn. The air is cool, the light is soft, and wildlife tends to be most active. Afternoon safaris start mid-afternoon and often finish at sunset — great for elephants gathering near water and for photography. Both are rewarding; if you can only choose one, mornings are usually quieter on the tracks.",
+                body: "Morning safaris begin before dawn. The air is cool, the light is soft, and wildlife.src tends to be most active. Afternoon safaris start mid-afternoon and often finish at sunset — great for elephants gathering near water and for photography. Both are rewarding; if you can only choose one, mornings are usually quieter on the tracks.",
               },
               {
-                title: "What wildlife you may see",
+                title: "What wildlife.src you may see",
                 body: "Udawalawe is best known for wild Asian elephants, which are typically visible in small family groups. You may also see water buffalo, spotted deer, jackals, crocodiles, monitor lizards, and a wide range of birdlife including peafowl, eagles, and painted storks. We can't promise any specific sighting.",
               },
               {
                 title: "What to wear and bring",
-                body: "Muted colours, long sleeves for early mornings, a hat, sunscreen, and refillable water. A light rain layer during monsoon months. Binoculars and a zoom lens if you have them — a phone camera is fine for memories but not for wildlife detail.",
+                body: "Muted colours, long sleeves for early mornings, a hat, sunscreen, and refillable water. A light rain layer during monsoon months. Binoculars and a zoom lens if you have them — a phone camera is fine for memories but not for wildlife.src detail.",
               },
               {
                 title: "How to reach Udawalawe",

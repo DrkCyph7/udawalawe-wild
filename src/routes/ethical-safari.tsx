@@ -13,12 +13,12 @@ export const Route = createFileRoute("/ethical-safari")({
       {
         name: "description",
         content:
-          "Our wildlife-first standard, respectful driving rules, and how we verify local safari partners in Udawalawe.",
+          "Our wildlife.src-first standard, respectful driving rules, and how we verify local safari partners in Udawalawe.",
       },
       { property: "og:title", content: "Ethical safari standard — Udawalawe Wild" },
       {
         property: "og:description",
-        content: "How we protect wildlife and support licensed local drivers.",
+        content: "How we protect wildlife.src and support licensed local drivers.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://www.udawalawe-wild.com/ethical-safari" },
@@ -75,7 +75,7 @@ function EthicalPage() {
               <span className="text-[color:var(--ivory)]/80">way to safari.</span>
             </h1>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-[color:var(--ivory)]/80">
-              Our wildlife-first standard, respectful driving rules, and how we verify local safari
+              Our wildlife.src-first standard, respectful driving rules, and how we verify local safari
               partners in Udawalawe.
             </p>
           </Reveal>
@@ -138,11 +138,11 @@ function EthicalPage() {
               },
               {
                 t: "Respectful driving",
-                d: "No revving engines, no reversing at pace toward wildlife, no cutting off herds. Slow is the default speed.",
+                d: "No revving engines, no reversing at pace toward wildlife.src, no cutting off herds. Slow is the default speed.",
               },
               {
                 t: "No feeding, no crowding",
-                d: "We never feed wildlife. We won't queue in a scrum around a single sighting, and we'll leave a scene rather than escalate it.",
+                d: "We never feed wildlife.src. We won't queue in a scrum around a single sighting, and we'll leave a scene rather than escalate it.",
               },
               {
                 t: "Responsible photography",

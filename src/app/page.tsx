@@ -30,11 +30,11 @@ import elephantPortrait from "@/assets/elephant-portrait.jpg";
 import elephantPortrait800 from "@/assets/elephant-portrait-800w.webp";
 import elephantPortrait1200 from "@/assets/elephant-portrait-1200w.webp";
 import elephantPortrait1600 from "@/assets/elephant-portrait-1600w.webp";
-import landscape from "@/assets/landscape.jpg";
-import landscape800 from "@/assets/landscape-800w.webp";
-import landscape1200 from "@/assets/landscape-1200w.webp";
-import landscape1600 from "@/assets/landscape-1600w.webp";
-import wildlife from "@/assets/wildlife.jpg";
+import landscape from "@/assets/landscape.src.jpg";
+import landscape800 from "@/assets/landscape.src-800w.webp";
+import landscape1200 from "@/assets/landscape.src-1200w.webp";
+import landscape1600 from "@/assets/landscape.src-1600w.webp";
+import wildlife from "@/assets/wildlife.src.jpg";
 import ethicalImg from "@/assets/ethical-safari-img.jpg";
 import ethicalImg800 from "@/assets/ethical-safari-img-800w.webp";
 import ethicalImg1200 from "@/assets/ethical-safari-img-1200w.webp";
@@ -55,8 +55,8 @@ import { waLink } from "@/lib/site";
 /* ═══════════════════ ETHICS RULES ═════════════════════════════════════ */
 const ethicsRules = [
   { icon: Binoculars, r: "Keep a respectful distance at all times" },
-  { icon: Car, r: "No chasing or crowding animals with the jeep" },
-  { icon: Footprints, r: "No feeding wildlife under any circumstance" },
+  { icon: Car, r: "No chasing or crowding animals with the jeep.src" },
+  { icon: Footprints, r: "No feeding wildlife.src under any circumstance" },
   { icon: Star, r: "No false promises of sightings" },
   { icon: TreePine, r: "Calm, considered driving throughout the park" },
 ];
@@ -80,7 +80,7 @@ const benefits = [
   },
   {
     t: "Private experience",
-    d: "Your jeep, your pace. No sharing with strangers.",
+    d: "Your jeep.src, your pace. No sharing with strangers.",
     icon: Car,
   },
 ];
@@ -104,11 +104,11 @@ const statPills = [
 function getSafariImage(i: number): { src: string; srcSet?: string } {
   const idx = i % 5;
   const map = [
-    { src: elephantPortrait, srcSet: `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w` },
-    { src: ethicalImg, srcSet: `${ethicalImg800} 800w, ${ethicalImg1200} 1200w` },
-    { src: wildlife },
-    { src: landscape, srcSet: `${landscape800} 800w, ${landscape1200} 1200w` },
-    { src: elephantPortrait, srcSet: `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w` },
+    { src: elephantPortrait.src, srcSet: `${elephantPortrait800.src} 800w, ${elephantPortrait1200.src} 1200w` },
+    { src: ethicalImg.src, srcSet: `${ethicalImg800.src} 800w, ${ethicalImg1200.src} 1200w` },
+    { src: wildlife.src },
+    { src: landscape.src, srcSet: `${landscape800.src} 800w, ${landscape1200.src} 1200w` },
+    { src: elephantPortrait.src, srcSet: `${elephantPortrait800.src} 800w, ${elephantPortrait1200.src} 1200w` },
   ] as const;
   return map[idx] as { src: string; srcSet?: string };
 }
@@ -140,36 +140,36 @@ export default function Home() {
   /* Hero background slideshow */
   const desktopHeroImages = [
     {
-      src: landscape,
-      srcSet: `${landscape800} 800w, ${landscape1200} 1200w, ${landscape1600} 1600w`,
-      alt: "Sweeping savanna landscape of Udawalawe National Park",
+      src: landscape.src,
+      srcSet: `${landscape800.src} 800w, ${landscape1200.src} 1200w, ${landscape1600.src} 1600w`,
+      alt: "Sweeping savanna landscape.src of Udawalawe National Park",
     },
     {
-      src: elephantPortrait,
-      srcSet: `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w, ${elephantPortrait1600} 1600w`,
+      src: elephantPortrait.src,
+      srcSet: `${elephantPortrait800.src} 800w, ${elephantPortrait1200.src} 1200w, ${elephantPortrait1600.src} 1600w`,
       alt: "Close-up portrait of a Sri Lankan elephant",
     },
     {
-      src: ethicalImg,
-      srcSet: `${ethicalImg800} 800w, ${ethicalImg1200} 1200w, ${ethicalImg1600} 1600w`,
+      src: ethicalImg.src,
+      srcSet: `${ethicalImg800.src} 800w, ${ethicalImg1200.src} 1200w, ${ethicalImg1600.src} 1600w`,
       alt: "Wildlife in the natural habitat of Udawalawe",
     },
   ];
 
   const mobileHeroImages = [
     {
-      src: elephantPortrait,
-      srcSet: `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w, ${elephantPortrait1600} 1600w`,
+      src: elephantPortrait.src,
+      srcSet: `${elephantPortrait800.src} 800w, ${elephantPortrait1200.src} 1200w, ${elephantPortrait1600.src} 1600w`,
       alt: "Close-up portrait of a Sri Lankan elephant",
     },
     {
-      src: landscape,
-      srcSet: `${landscape800} 800w, ${landscape1200} 1200w, ${landscape1600} 1600w`,
-      alt: "Sweeping savanna landscape of Udawalawe National Park",
+      src: landscape.src,
+      srcSet: `${landscape800.src} 800w, ${landscape1200.src} 1200w, ${landscape1600.src} 1600w`,
+      alt: "Sweeping savanna landscape.src of Udawalawe National Park",
     },
     {
-      src: ethicalImg,
-      srcSet: `${ethicalImg800} 800w, ${ethicalImg1200} 1200w, ${ethicalImg1600} 1600w`,
+      src: ethicalImg.src,
+      srcSet: `${ethicalImg800.src} 800w, ${ethicalImg1200.src} 1200w, ${ethicalImg1600.src} 1600w`,
       alt: "Wildlife in the natural habitat of Udawalawe",
     },
   ];
@@ -371,7 +371,7 @@ export default function Home() {
 
               <StaggeredHero 
                 title="Experience Udawalawe, wildly." 
-                subtitle="Private, wildlife-first safaris with verified local partners, transparent pricing, and simple planning."
+                subtitle="Private, wildlife.src-first safaris with verified local partners, transparent pricing, and simple planning."
                 style={{ color: "oklch(0.98 0.005 95)" }}
               >
                 <div className="mt-8 flex flex-col sm:flex-row flex-wrap gap-3">
@@ -516,7 +516,7 @@ export default function Home() {
               <SectionHeading
                 eyebrow="Safari options"
                 title="Five ways to explore the park."
-                intro="Each option is a private jeep run by a verified local operator. Wildlife first, always."
+                intro="Each option is a private jeep.src run by a verified local operator. Wildlife first, always."
               />
               <Link
                 to="/safaris"
@@ -597,22 +597,22 @@ export default function Home() {
                             <img
                               src={
                                 [
-                                  elephantPortrait,
-                                  ethicalImg,
-                                  wildlife,
-                                  landscape,
-                                  elephantPortrait,
+                                  elephantPortrait.src,
+                                  ethicalImg.src,
+                                  wildlife.src,
+                                  landscape.src,
+                                  elephantPortrait.src,
                                 ][i % 5]
                               }
                               srcSet={
                                 i % 5 === 0
-                                  ? `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w`
+                                  ? `${elephantPortrait800.src} 800w, ${elephantPortrait1200.src} 1200w`
                                   : i % 5 === 1
-                                    ? `${ethicalImg800} 800w, ${ethicalImg1200} 1200w`
+                                    ? `${ethicalImg800.src} 800w, ${ethicalImg1200.src} 1200w`
                                     : i % 5 === 3
-                                      ? `${landscape800} 800w, ${landscape1200} 1200w`
+                                      ? `${landscape800.src} 800w, ${landscape1200.src} 1200w`
                                       : i % 5 === 4
-                                        ? `${elephantPortrait800} 800w, ${elephantPortrait1200} 1200w`
+                                        ? `${elephantPortrait800.src} 800w, ${elephantPortrait1200.src} 1200w`
                                         : undefined
                               }
                               alt={`${s.name} in Udawalawe National Park`}
@@ -659,7 +659,7 @@ export default function Home() {
             <SectionHeading
               eyebrow="Why Udawalawe Wild"
               title="A better way to explore the wild."
-              intro="We're small on purpose. Our job is to make your safari calmer, clearer, and kinder to the wildlife you came to see."
+              intro="We're small on purpose. Our job is to make your safari calmer, clearer, and kinder to the wildlife.src you came to see."
               titleClass="text-forest-900"
               introClass="text-text-muted-on-light"
             />
@@ -751,7 +751,7 @@ export default function Home() {
                   className="h-full w-full"
                 >
                   <img
-                    src={elephantPortrait}
+                    src={elephantPortrait.src}
                     alt="Orphaned elephant calf at Udawalawe Elephant Transit Home"
                     width={800}
                     height={600}
@@ -771,7 +771,7 @@ export default function Home() {
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
             <Reveal direction="left" className="grain overflow-hidden rounded-2xl">
               <img
-                src={wildlife}
+                src={wildlife.src}
                 alt="Peacock and buffalo in a green Sri Lankan grassland"
                 loading="lazy"
                 width={1400}
@@ -981,9 +981,9 @@ export default function Home() {
       {/* ═══════════════════ FINAL CTA ══════════════════════════════════ */}
       <section className="relative isolate overflow-hidden">
         <img
-          src={landscape}
-          srcSet={`${landscape800} 800w, ${landscape1200} 1200w, ${landscape1600} 1600w`}
-          alt="Grassland landscape in Udawalawe National Park"
+          src={landscape.src}
+          srcSet={`${landscape800.src} 800w, ${landscape1200.src} 1200w, ${landscape1600.src} 1600w`}
+          alt="Grassland landscape.src in Udawalawe National Park"
           loading="lazy"
           fetchPriority="low"
           decoding="async"

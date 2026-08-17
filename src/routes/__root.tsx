@@ -18,7 +18,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import { CookieConsent } from "@/components/cookie-consent";
-import notFoundBg from "@/assets/wildlife.jpg";
+import notFoundBg from "@/assets/wildlife.src.jpg";
 import { Compass } from "lucide-react";
 
 function NotFoundComponent() {
@@ -146,12 +146,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Book the best private safari in Udawalawe National Park, Sri Lanka. Verified local guides, ethical wildlife-first approach, transparent pricing. Morning & afternoon safaris, Elephant Transit Home combo. 4.9★ rated.",
+          "Book the best private safari in Udawalawe National Park, Sri Lanka. Verified local guides, ethical wildlife.src-first approach, transparent pricing. Morning & afternoon safaris, Elephant Transit Home combo. 4.9★ rated.",
       },
       {
         name: "keywords",
         content:
-          "Udawalawe safari, Udawalawe National Park, safari Sri Lanka, private safari Udawalawe, Elephant Transit Home, wildlife safari Sri Lanka, best safari Sri Lanka, Udawalawe jeep safari, morning safari Udawalawe, ethical safari Sri Lanka, Udawalawe elephant safari, Sri Lanka national parks, wildlife photography Sri Lanka, family safari Udawalawe, afternoon safari Udawalawe, Udawalawe safari price, sustainable safari Sri Lanka, leopard sighting Udawalawe, bird watching Udawalawe, Udawalawe jeep hire, safari booking Sri Lanka, Udawalawe Safari tours",
+          "Udawalawe safari, Udawalawe National Park, safari Sri Lanka, private safari Udawalawe, Elephant Transit Home, wildlife.src safari Sri Lanka, best safari Sri Lanka, Udawalawe jeep.src safari, morning safari Udawalawe, ethical safari Sri Lanka, Udawalawe elephant safari, Sri Lanka national parks, wildlife.src photography Sri Lanka, family safari Udawalawe, afternoon safari Udawalawe, Udawalawe safari price, sustainable safari Sri Lanka, leopard sighting Udawalawe, bird watching Udawalawe, Udawalawe jeep.src hire, safari booking Sri Lanka, Udawalawe Safari tours",
       },
       { name: "author", content: "Udawalawe Wild" },
       {
@@ -182,7 +182,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         property: "og:description",
         content:
-          "Book the best private safari in Udawalawe National Park, Sri Lanka. Verified local guides, ethical wildlife approach, transparent pricing. 4.9★ rated by 500+ travellers.",
+          "Book the best private safari in Udawalawe National Park, Sri Lanka. Verified local guides, ethical wildlife.src approach, transparent pricing. 4.9★ rated by 500+ travellers.",
       },
       { property: "og:image", content: "https://www.udawalawe-wild.com/og-image.png" },
       { property: "og:image:width", content: "1200" },
@@ -200,7 +200,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "twitter:description",
         content:
-          "Private, wildlife-first safaris in Udawalawe National Park with verified local guides. Transparent pricing, ethical approach. Book online.",
+          "Private, wildlife.src-first safaris in Udawalawe National Park with verified local guides. Transparent pricing, ethical approach. Book online.",
       },
       { name: "twitter:image", content: "https://www.udawalawe-wild.com/og-image.png" },
       { name: "twitter:site", content: "@udawalawewild" },
@@ -261,7 +261,7 @@ function RootShell({ children }: { children: ReactNode }) {
       longitude: 80.8936,
     },
     description:
-      "Book the best private safari in Udawalawe National Park, Sri Lanka. Verified local guides, ethical wildlife-first approach, transparent pricing. Morning & afternoon jeep safaris, Elephant Transit Home combo. 5★ rated by 167 Google reviewers.",
+      "Book the best private safari in Udawalawe National Park, Sri Lanka. Verified local guides, ethical wildlife.src-first approach, transparent pricing. Morning & afternoon jeep.src safaris, Elephant Transit Home combo. 5★ rated by 167 Google reviewers.",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "5.0",
@@ -282,7 +282,7 @@ function RootShell({ children }: { children: ReactNode }) {
         author: { "@type": "Person", name: "Lena H." },
         reviewRating: { "@type": "Rating", ratingValue: "5" },
         datePublished: "2025-01-15",
-        reviewBody: "The booking process via WhatsApp was seamless. Got a fixed quote within hours, no hidden extras at the gate. The jeep was clean, the driver was brilliant, and the park was stunning. Will be back."
+        reviewBody: "The booking process via WhatsApp was seamless. Got a fixed quote within hours, no hidden extras at the gate. The jeep.src was clean, the driver was brilliant, and the park was stunning. Will be back."
       },
       {
         "@type": "Review",
@@ -296,14 +296,14 @@ function RootShell({ children }: { children: ReactNode }) {
         author: { "@type": "Person", name: "Jonas B." },
         reviewRating: { "@type": "Rating", ratingValue: "5" },
         datePublished: "2024-12-05",
-        reviewBody: "Came to Sri Lanka for whale watching but added this safari on a whim. Best decision of the trip. The afternoon light was golden, the park was quiet, and we had the jeep entirely to ourselves."
+        reviewBody: "Came to Sri Lanka for whale watching but added this safari on a whim. Best decision of the trip. The afternoon light was golden, the park was quiet, and we had the jeep.src entirely to ourselves."
       },
       {
         "@type": "Review",
         author: { "@type": "Person", name: "Camille D." },
         reviewRating: { "@type": "Rating", ratingValue: "5" },
         datePublished: "2024-11-20",
-        reviewBody: "What stands out is the honesty. No promises of sightings, no pressure, just a knowledgeable local guide and a genuine love for the wildlife. Spotted a rare painted stork colony — incredible."
+        reviewBody: "What stands out is the honesty. No promises of sightings, no pressure, just a knowledgeable local guide and a genuine love for the wildlife.src. Spotted a rare painted stork colony — incredible."
       },
       {
         "@type": "Review",

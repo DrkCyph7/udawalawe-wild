@@ -2,7 +2,7 @@ export const SITE = {
   name: "Udawalawe Wild",
   domain: "www.udawalawe-wild.com",
   url: "https://www.udawalawe-wild.com",
-  tagline: "Private, wildlife-first safaris in Sri Lanka.",
+  tagline: "Private, wildlife.src-first safaris in Sri Lanka.",
   whatsapp: "+94743807446",
   whatsappDisplay: "+94 74 380 7446",
   phone: "+94743807446",
@@ -38,7 +38,7 @@ export const tgLink = (msg?: string) => {
 const SAFARI_LABELS: Record<string, string> = {
   "morning-private-safari": "Morning Private Safari",
   "afternoon-private-safari": "Afternoon Private Safari",
-  "full-day-wildlife-safari": "Full-Day Wildlife Safari",
+  "full-day-wildlife.src-safari": "Full-Day Wildlife Safari",
   "safari-transfer": "Safari + Transfer",
   "safari-elephant-transit-transfer": "Safari + Elephant Transit + Transfer",
 };

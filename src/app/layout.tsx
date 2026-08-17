@@ -12,8 +12,8 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: "Udawalawe Wild — #1 Private Safari in Udawalawe, Sri Lanka",
-  description: "Book the best private safari in Udawalawe National Park, Sri Lanka. Verified local guides, ethical wildlife-first approach, transparent pricing. Morning & afternoon safaris, Elephant Transit Home combo. 4.9★ rated.",
-  keywords: "Udawalawe safari, Udawalawe National Park, safari Sri Lanka, private safari Udawalawe, Elephant Transit Home, wildlife safari Sri Lanka, best safari Sri Lanka, Udawalawe jeep safari, morning safari Udawalawe, ethical safari Sri Lanka, Udawalawe elephant safari, Sri Lanka national parks, wildlife photography Sri Lanka, family safari Udawalawe, afternoon safari Udawalawe, Udawalawe safari price, sustainable safari Sri Lanka, leopard sighting Udawalawe, bird watching Udawalawe, Udawalawe jeep hire, safari booking Sri Lanka, Udawalawe Safari tours",
+  description: "Book the best private safari in Udawalawe National Park, Sri Lanka. Verified local guides, ethical wildlife.src-first approach, transparent pricing. Morning & afternoon safaris, Elephant Transit Home combo. 4.9★ rated.",
+  keywords: "Udawalawe safari, Udawalawe National Park, safari Sri Lanka, private safari Udawalawe, Elephant Transit Home, wildlife.src safari Sri Lanka, best safari Sri Lanka, Udawalawe jeep.src safari, morning safari Udawalawe, ethical safari Sri Lanka, Udawalawe elephant safari, Sri Lanka national parks, wildlife.src photography Sri Lanka, family safari Udawalawe, afternoon safari Udawalawe, Udawalawe safari price, sustainable safari Sri Lanka, leopard sighting Udawalawe, bird watching Udawalawe, Udawalawe jeep.src hire, safari booking Sri Lanka, Udawalawe Safari tours",
   authors: [{ name: "Udawalawe Wild" }],
   robots: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
   openGraph: {
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     siteName: "Udawalawe Wild",
     url: "https://www.udawalawe-wild.com",
     title: "Udawalawe Wild — #1 Private Safari in Udawalawe, Sri Lanka",
-    description: "Book the best private safari in Udawalawe National Park, Sri Lanka. Verified local guides, ethical wildlife approach, transparent pricing. 4.9★ rated by 500+ travellers.",
+    description: "Book the best private safari in Udawalawe National Park, Sri Lanka. Verified local guides, ethical wildlife.src approach, transparent pricing. 4.9★ rated by 500+ travellers.",
     images: [
       {
         url: "https://www.udawalawe-wild.com/og-image.png",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Udawalawe Wild — #1 Private Safari in Udawalawe, Sri Lanka",
-    description: "Private, wildlife-first safaris in Udawalawe National Park with verified local guides. Transparent pricing, ethical approach. Book online.",
+    description: "Private, wildlife.src-first safaris in Udawalawe National Park with verified local guides. Transparent pricing, ethical approach. Book online.",
     images: ["https://www.udawalawe-wild.com/og-image.png"],
     site: "@udawalawewild",
   },

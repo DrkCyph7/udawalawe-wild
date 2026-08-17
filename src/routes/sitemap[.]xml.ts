@@ -27,7 +27,7 @@ export const Route = createFileRoute("/sitemap.xml")({
               {
                 loc: `${BASE_URL}/og-image.png`,
                 title: "Wild elephants in Udawalawe National Park",
-                caption: "Private jeep safari with elephants at golden hour",
+                caption: "Private jeep.src safari with elephants at golden hour",
               },
             ],
           },

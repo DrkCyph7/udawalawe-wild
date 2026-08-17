@@ -5,7 +5,7 @@ import { EnquiryForm } from "@/components/enquiry-form";
 import { FaqList } from "@/components/faq-list";
 import { faqs } from "@/lib/content";
 import type { RouteInfo } from "@/lib/content";
-import landscape from "@/assets/landscape.jpg";
+import landscape from "@/assets/landscape.src.jpg";
 import { CalendarCheck, Compass } from "lucide-react";
 import { TiltCard } from "@/components/tilt-card";
 import { motion } from "framer-motion";
@@ -17,8 +17,8 @@ export function RouteTemplate({ info }: { info: RouteInfo }) {
       {/* Hero */}
       <div className="page-hero relative isolate overflow-hidden">
         <img
-          src={landscape}
-          alt={`Grassland landscape in Udawalawe National Park`}
+          src={landscape.src}
+          alt={`Grassland landscape.src in Udawalawe National Park`}
           loading="eager"
           className="absolute inset-0 -z-10 h-full w-full object-cover opacity-30"
         />

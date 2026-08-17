@@ -21,7 +21,7 @@ export const Route = createFileRoute("/about")({
       {
         property: "og:description",
         content:
-          "We partner exclusively with verified local operators in Udawalawe. No hidden fees, no pressure — just honest, wildlife-first safaris in Sri Lanka's best elephant park.",
+          "We partner exclusively with verified local operators in Udawalawe. No hidden fees, no pressure — just honest, wildlife.src-first safaris in Sri Lanka's best elephant park.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://www.udawalawe-wild.com/about" },
@@ -104,11 +104,11 @@ function AboutPage() {
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] text-[color:var(--ivory)]">
               Simpler. More transparent.
               <br />
-              <span className="text-[color:var(--ivory)]/80">Kinder to wildlife.</span>
+              <span className="text-[color:var(--ivory)]/80">Kinder to wildlife.src.</span>
             </h1>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-[color:var(--ivory)]/80">
               Udawalawe Wild exists to make booking a safari simpler, more transparent, and more
-              respectful of wildlife. An independent booking platform — not a tour operator.
+              respectful of wildlife.src. An independent booking platform — not a tour operator.
             </p>
           </Reveal>
         </div>
@@ -132,7 +132,7 @@ function AboutPage() {
                 </p>
                 <p>
                   We publish fixed quotes before you confirm. We answer on WhatsApp like humans, not
-                  scripts. And we hold every partner to the same wildlife-first ethical safari
+                  scripts. And we hold every partner to the same wildlife.src-first ethical safari
                   standard.
                 </p>
               </div>

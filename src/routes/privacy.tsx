@@ -50,7 +50,7 @@ export const Route = createFileRoute("/privacy")({
           <p>Your information is used strictly to:</p>
           <ul className="list-disc space-y-1 pl-5 text-muted-foreground">
             <li>Process and respond to your safari availability enquiries</li>
-            <li>Coordinate with verified local safari jeep operators to fulfill your request</li>
+            <li>Coordinate with verified local safari jeep.src operators to fulfill your request</li>
             <li>Communicate quotes, trip details, and updates via WhatsApp or email</li>
             <li>Improve our website performance and user experience</li>
           </ul>

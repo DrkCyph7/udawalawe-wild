@@ -4,9 +4,9 @@ import { Section, SectionHeading } from "@/components/section";
 import { Reveal } from "@/components/reveal";
 import { safaris } from "@/lib/content";
 import elephantPortrait from "@/assets/elephant-portrait.jpg";
-import safariJeep from "@/assets/safari-jeep.jpg";
-import wildlife from "@/assets/wildlife.jpg";
-import landscape from "@/assets/landscape.jpg";
+import safariJeep from "@/assets/safari-jeep.src.jpg";
+import wildlife from "@/assets/wildlife.src.jpg";
+import landscape from "@/assets/landscape.src.jpg";
 import { CalendarCheck, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { TiltCard } from "@/components/tilt-card";
@@ -24,7 +24,7 @@ export const Route = createFileRoute("/safaris")({
       {
         name: "keywords",
         content:
-          "Udawalawe safari packages, Udawalawe jeep safari cost, Udawalawe morning safari, Udawalawe afternoon safari, full day safari Udawalawe, Elephant Transit Home safari combo, best safari Udawalawe, Udawalawe National Park safari, private jeep safari Udawalawe",
+          "Udawalawe safari packages, Udawalawe jeep.src safari cost, Udawalawe morning safari, Udawalawe afternoon safari, full day safari Udawalawe, Elephant Transit Home safari combo, best safari Udawalawe, Udawalawe National Park safari, private jeep.src safari Udawalawe",
       },
       { property: "og:title", content: "Safari options — Udawalawe Wild" },
       {
@@ -42,7 +42,7 @@ export const Route = createFileRoute("/safaris")({
   component: SafarisPage,
 });
 
-const imgs = [elephantPortrait, safariJeep, wildlife, landscape, elephantPortrait];
+const imgs = [elephantPortrait.src, safariJeep, wildlife.src, landscape.src, elephantPortrait.src];
 
 function SafarisPage() {
   const breadcrumbJsonLd = {
@@ -94,7 +94,7 @@ function SafarisPage() {
             </h1>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-[color:var(--ivory)]/80">
               Choose a shape for your day. We'll send a fixed, transparent quote before you confirm
-              anything. Every jeep is private — no shared vehicles, ever.
+              anything. Every jeep.src is private — no shared vehicles, ever.
             </p>
           </Reveal>
         </div>
