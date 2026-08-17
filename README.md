@@ -1,29 +1,65 @@
-# Welcome to your Lovable project
+# Udawalawe Wild
 
-This project was built with [Lovable](https://lovable.dev).
+Private, wildlife-first safaris in Udawalawe National Park, Sri Lanka.
+Verified local partners, transparent pricing, and simple planning in Udawalawe National Park.
 
-## Build with Lovable
+## Tech Stack
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+- [TanStack Start](https://tanstack.com/start/latest)
+- [React](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+## Getting Started
 
-## Development
+### Prerequisites
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+You need Node.js and npm installed.
+
+### Installation & Running
+
+1. Clone the repository:
+   ```sh
+   git clone <repository-url>
+   cd <repository-name>
+   ```
+
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+
+3. Run the development server:
+   ```sh
+   npm run dev
+   ```
+
+4. Open your browser and navigate to the local URL provided by Vite (usually `http://localhost:5173`).
+
+## Building for Production
+
+To build the project for production, run:
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+npm run build
 ```
 
-## Built with
+You can then preview the production build using:
 
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
+```sh
+npm run preview
+```
+
+## Linting & Formatting
+
+To run ESLint:
+
+```sh
+npm run lint
+```
+
+To format code with Prettier:
+
+```sh
+npm run format
+```
