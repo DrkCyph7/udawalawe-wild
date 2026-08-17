@@ -59,7 +59,7 @@ export const Route = createFileRoute("/cancellation-policy")({
 
           <h3 className="font-serif text-lg text-foreground">How to Request a Change</h3>
           <p>
-            To change or cancel your booking, simply message us on WhatsApp (+94 72 189 0006) or
+            To change or cancel your booking, simply message us on WhatsApp (+94 74 380 7446) or
             email hello@udawalawe-wild.com with your booking name and date. We respond within hours.
           </p>
         </div>

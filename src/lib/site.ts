@@ -3,13 +3,13 @@ export const SITE = {
   domain: "www.udawalawe-wild.com",
   url: "https://www.udawalawe-wild.com",
   tagline: "Private, wildlife-first safaris in Sri Lanka.",
-  whatsapp: "+94721890006",
-  whatsappDisplay: "+94 72 189 0006",
-  phone: "+94721890006",
-  phoneDisplay: "+94 72 189 0006",
+  whatsapp: "+94743807446",
+  whatsappDisplay: "+94 74 380 7446",
+  phone: "+94743807446",
+  phoneDisplay: "+94 74 380 7446",
   email: "hello@udawalawe-wild.com",
-  telegram: "udawalawewild",
-  telegramDisplay: "@udawalawewild",
+  telegram: "+94743807446",
+  telegramDisplay: "+94 74 380 7446",
   facebook: "https://facebook.com/udawalawe-wild",
   tripadvisor: "https://tripadvisor.com",
   location: "Udawalawe, Sabaragamuwa Province, Sri Lanka",
@@ -23,14 +23,15 @@ export const waLink = (msg?: string) =>
     msg ? `?text=${encodeURIComponent(msg)}` : ""
   }`;
 
-/** Telegram deep-link — opens the @udawalawewild chat.
+/** Telegram deep-link — opens the chat.
  *  Also tries the tg:// app scheme which pre-fills text on most mobile clients. */
 export const tgLink = (msg?: string) => {
+  const target = SITE.telegram.startsWith("+") ? SITE.telegram : `@${SITE.telegram}`;
   if (msg) {
     // tg:// scheme pre-fills message in the native Telegram app (iOS & Android).
-    return `tg://msg?to=@${SITE.telegram}&text=${encodeURIComponent(msg)}`;
+    return `tg://msg?to=${target}&text=${encodeURIComponent(msg)}`;
   }
-  return `https://t.me/${SITE.telegram}`;
+  return `https://t.me/${SITE.telegram.replace("+", "")}`;
 };
 
 // ─── Safari label map ────────────────────────────────────────────────────────

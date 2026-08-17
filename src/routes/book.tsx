@@ -205,7 +205,7 @@ function BookPage() {
                 <Field label="WhatsApp number (optional)">
                   <input
                     type="tel"
-                    placeholder="+94 72 189 0006"
+                    placeholder="+94 74 380 7446"
                     defaultValue={data.whatsapp}
                     onChange={(e) => setField("whatsapp", e.target.value)}
                     className={inputCls}

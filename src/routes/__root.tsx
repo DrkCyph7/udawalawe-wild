@@ -242,7 +242,7 @@ function RootShell({ children }: { children: ReactNode }) {
     url: "https://www.udawalawe-wild.com",
     logo: "https://www.udawalawe-wild.com/logo.png",
     image: ["https://www.udawalawe-wild.com/og-image.png"],
-    telephone: "+94721890006",
+    telephone: "+94743807446",
     email: "hello@udawalawe-wild.com",
     priceRange: "$$",
     currenciesAccepted: "USD, LKR, EUR, GBP",

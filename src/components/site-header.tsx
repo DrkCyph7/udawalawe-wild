@@ -97,7 +97,7 @@ export function SiteHeader() {
           <div className="ml-2 flex shrink-0 items-center gap-2">
             <Magnetic>
               <a
-                href="tel:+94721890006"
+                href="tel:+94743807446"
                 className="flex items-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-semibold bg-white/5 border border-white/10 text-white transition-all hover:bg-white/15 hover:border-white/20 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] whitespace-nowrap"
               >
                 <Phone className="h-4 w-4 shrink-0" aria-hidden="true" />
@@ -124,7 +124,7 @@ export function SiteHeader() {
         <div className="flex items-center gap-2.5 lg:hidden">
           <Magnetic>
             <a
-              href="tel:+94721890006"
+              href="tel:+94743807446"
               className="inline-flex items-center justify-center rounded-full p-2.5 transition-all duration-300 shadow-sm"
               style={{
                 background: "oklch(1 0 0 / 0.1)",

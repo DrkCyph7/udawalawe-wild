@@ -75,14 +75,14 @@ export const Route = createFileRoute("/privacy")({
             We retain enquiry data for as long as necessary to complete your booking coordination
             and fulfill accounting or legal obligations. You have the right to request a copy of
             your personal data or request deletion of your records at any time by emailing us at
-            hello@udawalawe-wild.com or messaging us on WhatsApp (+94 72 189 0006).
+            hello@udawalawe-wild.com or messaging us on WhatsApp (+94 74 380 7446).
           </p>
 
           <h3 className="font-serif text-lg text-foreground">7. Contact Us</h3>
           <p>
             For any privacy inquiries or data requests, please contact us at:
             <br />
-            Email: hello@udawalawe-wild.com | Phone / WhatsApp: +94 72 189 0006
+            Email: hello@udawalawe-wild.com | Phone / WhatsApp: +94 74 380 7446
           </p>
         </div>
       </Section>
