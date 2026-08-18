@@ -94,141 +94,10 @@ function BookPage() {
             </div>
           )}
 
-          {step === 0 && (
-            <div className="grid gap-4">
-              <Field label="Preferred safari date">
-                <input
-                  type="date"
-                  required
-                  onChange={(e) => setField("date", e.target.value)}
-                  defaultValue={data.date}
-                  className={inputCls}
-                />
-              </Field>
-              <div className="grid grid-cols-2 gap-4">
-                <Field label="Adults">
-                  <input
-                    type="number"
-                    min={1}
-                    defaultValue={data.adults ?? "2"}
-                    onChange={(e) => setField("adults", e.target.value)}
-                    className={inputCls}
-                  />
-                </Field>
-                <Field label="Children">
-                  <input
-                    type="number"
-                    min={0}
-                    defaultValue={data.children ?? "0"}
-                    onChange={(e) => setField("children", e.target.value)}
-                    className={inputCls}
-                  />
-                </Field>
-              </div>
-            </div>
-          )}
-
-          {step === 1 && (
-            <div className="grid gap-4">
-              <Field label="Safari preference">
-                <select
-                  defaultValue={data.type ?? ""}
-                  onChange={(e) => setField("type", e.target.value)}
-                  className={inputCls}
-                >
-                  <option value="">Not sure yet — recommend for me</option>
-                  <option value="morning-private-safari">Morning Private Safari</option>
-                  <option value="afternoon-private-safari">Afternoon Private Safari</option>
-                  <option value="full-day-wildlife-safari">Full-Day Wildlife Safari</option>
-                  <option value="safari-ella-transfer">Safari + Ella Transfer</option>
-                </select>
-              </Field>
-              <Field label="Pickup location">
-                <input
-                  type="text"
-                  placeholder="Hotel, town, or airport"
-                  defaultValue={data.pickup}
-                  onChange={(e) => setField("pickup", e.target.value)}
-                  className={inputCls}
-                />
-              </Field>
-              <Field label="Drop-off location">
-                <input
-                  type="text"
-                  placeholder="Same as pickup, or next hotel"
-                  defaultValue={data.dropoff}
-                  onChange={(e) => setField("dropoff", e.target.value)}
-                  className={inputCls}
-                />
-              </Field>
-            </div>
-          )}
-
-          {step === 2 && (
-            <div className="grid gap-4">
-              <Field label="Full name">
-                <input
-                  type="text"
-                  required
-                  defaultValue={data.name}
-                  onChange={(e) => setField("name", e.target.value)}
-                  className={inputCls}
-                />
-              </Field>
-              <Field label="Email">
-                <input
-                  type="email"
-                  required
-                  defaultValue={data.email}
-                  onChange={(e) => setField("email", e.target.value)}
-                  className={inputCls}
-                />
-              </Field>
-              <Field label="WhatsApp number">
-                <input
-                  type="tel"
-                  required
-                  placeholder="+94 72 189 0006"
-                  defaultValue={data.whatsapp}
-                  onChange={(e) => setField("whatsapp", e.target.value)}
-                  className={inputCls}
-                />
-              </Field>
-              <Field label="Hotel name (if known)">
-                <input
-                  type="text"
-                  defaultValue={data.hotel}
-                  onChange={(e) => setField("hotel", e.target.value)}
-                  className={inputCls}
-                />
-              </Field>
-              <Field label="Special requests">
-                <textarea
-                  rows={4}
-                  defaultValue={data.notes}
-                  onChange={(e) => setField("notes", e.target.value)}
-                  className={inputCls}
-                />
-              </Field>
-            </div>
-          )}
-
-          {step === 3 && (
-            <div className="py-6 text-center">
-              <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-[color:var(--terracotta)]/15 text-[color:var(--terracotta)]">
-                ✓
-              </div>
-              <h2 className="mt-5 font-serif text-3xl text-foreground">Your request is with us.</h2>
-              <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
-                We will send verified options and a fixed quote within one business day. In the
-                meantime, feel free to message us on WhatsApp for anything urgent.
-              </p>
-              <p className="mx-auto mt-6 max-w-md text-xs text-muted-foreground">
-                Independent booking platform partnering with verified local operators. No payment
-                card data is collected at this step.
-              </p>
-            </div>
-          )}
+          {step === 0 && <StepDates data={data} setField={setField} />}
+          {step === 1 && <StepSafari data={data} setField={setField} />}
+          {step === 2 && <StepDetails data={data} setField={setField} />}
+          {step === 3 && <StepConfirmed />}
 
           {step < 3 && (
             <div className="mt-8 flex items-center justify-between">
@@ -258,6 +127,155 @@ function BookPage() {
 
 const inputCls =
   "block w-full rounded-sm border border-input bg-background px-3 py-2.5 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/30";
+
+type StepProps = {
+  data: Record<string, string>;
+  setField: (k: string, v: string) => void;
+};
+
+function StepDates({ data, setField }: StepProps) {
+  return (
+    <div className="grid gap-4">
+      <Field label="Preferred safari date">
+        <input
+          type="date"
+          required
+          onChange={(e) => setField("date", e.target.value)}
+          defaultValue={data.date}
+          className={inputCls}
+        />
+      </Field>
+      <div className="grid grid-cols-2 gap-4">
+        <Field label="Adults">
+          <input
+            type="number"
+            min={1}
+            defaultValue={data.adults ?? "2"}
+            onChange={(e) => setField("adults", e.target.value)}
+            className={inputCls}
+          />
+        </Field>
+        <Field label="Children">
+          <input
+            type="number"
+            min={0}
+            defaultValue={data.children ?? "0"}
+            onChange={(e) => setField("children", e.target.value)}
+            className={inputCls}
+          />
+        </Field>
+      </div>
+    </div>
+  );
+}
+
+function StepSafari({ data, setField }: StepProps) {
+  return (
+    <div className="grid gap-4">
+      <Field label="Safari preference">
+        <select
+          defaultValue={data.type ?? ""}
+          onChange={(e) => setField("type", e.target.value)}
+          className={inputCls}
+        >
+          <option value="">Not sure yet — recommend for me</option>
+          <option value="morning-private-safari">Morning Private Safari</option>
+          <option value="afternoon-private-safari">Afternoon Private Safari</option>
+          <option value="full-day-wildlife-safari">Full-Day Wildlife Safari</option>
+          <option value="safari-ella-transfer">Safari + Ella Transfer</option>
+        </select>
+      </Field>
+      <Field label="Pickup location">
+        <input
+          type="text"
+          placeholder="Hotel, town, or airport"
+          defaultValue={data.pickup}
+          onChange={(e) => setField("pickup", e.target.value)}
+          className={inputCls}
+        />
+      </Field>
+      <Field label="Drop-off location">
+        <input
+          type="text"
+          placeholder="Same as pickup, or next hotel"
+          defaultValue={data.dropoff}
+          onChange={(e) => setField("dropoff", e.target.value)}
+          className={inputCls}
+        />
+      </Field>
+    </div>
+  );
+}
+
+function StepDetails({ data, setField }: StepProps) {
+  return (
+    <div className="grid gap-4">
+      <Field label="Full name">
+        <input
+          type="text"
+          required
+          defaultValue={data.name}
+          onChange={(e) => setField("name", e.target.value)}
+          className={inputCls}
+        />
+      </Field>
+      <Field label="Email">
+        <input
+          type="email"
+          required
+          defaultValue={data.email}
+          onChange={(e) => setField("email", e.target.value)}
+          className={inputCls}
+        />
+      </Field>
+      <Field label="WhatsApp number">
+        <input
+          type="tel"
+          required
+          placeholder="+94 72 189 0006"
+          defaultValue={data.whatsapp}
+          onChange={(e) => setField("whatsapp", e.target.value)}
+          className={inputCls}
+        />
+      </Field>
+      <Field label="Hotel name (if known)">
+        <input
+          type="text"
+          defaultValue={data.hotel}
+          onChange={(e) => setField("hotel", e.target.value)}
+          className={inputCls}
+        />
+      </Field>
+      <Field label="Special requests">
+        <textarea
+          rows={4}
+          defaultValue={data.notes}
+          onChange={(e) => setField("notes", e.target.value)}
+          className={inputCls}
+        />
+      </Field>
+    </div>
+  );
+}
+
+function StepConfirmed() {
+  return (
+    <div className="py-6 text-center">
+      <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-[color:var(--terracotta)]/15 text-[color:var(--terracotta)]">
+        ✓
+      </div>
+      <h2 className="mt-5 font-serif text-3xl text-foreground">Your request is with us.</h2>
+      <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
+        We will send verified options and a fixed quote within one business day. In the meantime,
+        feel free to message us on WhatsApp for anything urgent.
+      </p>
+      <p className="mx-auto mt-6 max-w-md text-xs text-muted-foreground">
+        Independent booking platform partnering with verified local operators. No payment card data
+        is collected at this step.
+      </p>
+    </div>
+  );
+}
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
