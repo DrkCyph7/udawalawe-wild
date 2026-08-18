@@ -35,11 +35,10 @@ export function StaggeredHero({
   };
 
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 30, filter: "blur(4px)" },
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
-      filter: "blur(0px)",
       transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
     },
   };
@@ -55,11 +54,11 @@ export function StaggeredHero({
 
   return (
     <div className={cn("flex flex-col", className)} {...props}>
-      <motion.div
+      <motion.h1
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="font-serif leading-[1.05] text-4xl sm:text-6xl lg:text-7xl flex flex-wrap"
+        className="font-serif leading-[1.05] text-4xl sm:text-6xl lg:text-7xl flex flex-wrap m-0"
       >
         {titleWords.map((word, idx) => (
           <motion.span
@@ -70,7 +69,7 @@ export function StaggeredHero({
             {word}
           </motion.span>
         ))}
-      </motion.div>
+      </motion.h1>
       
       {subtitle && (
         <motion.p

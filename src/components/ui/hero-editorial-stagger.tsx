@@ -52,11 +52,10 @@ export function HeroLine({
     <div className="overflow-hidden pb-1">
       <motion.div
         variants={{
-          hidden: { y: "110%", opacity: 0, filter: "blur(8px)", rotateZ: 3 },
+          hidden: { y: "110%", opacity: 0, rotateZ: 3 },
           visible: {
             y: "0%",
             opacity: 1,
-            filter: "blur(0px)",
             rotateZ: 0,
             transition: { duration: 1.0, ease: [0.22, 1, 0.36, 1] },
           },
@@ -84,11 +83,10 @@ export function HeroFadeIn({
   return (
     <motion.div
       variants={{
-        hidden: { opacity: 0, y: 30, filter: "blur(4px)" },
+        hidden: { opacity: 0, y: 30 },
         visible: {
           opacity: 1,
           y: 0,
-          filter: "blur(0px)",
           transition: { duration: 1.0, ease: [0.22, 1, 0.36, 1] },
         },
       }}

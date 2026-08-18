@@ -133,30 +133,36 @@ export default function Home() {
   const desktopHeroImages = [
     {
       src: landscape,
-      alt: "Sweeping savanna landscape of Udawalawe National Park",
+      alt: "Sweeping savanna landscape of Udawalawe National Park, perfect for a private jeep safari",
+      title: "Udawalawe Safari Jeep Booking - Best Private Safari Tours",
     },
     {
       src: elephantPortrait,
-      alt: "Close-up portrait of a Sri Lankan elephant",
+      alt: "Close-up portrait of a Sri Lankan elephant during a morning safari in Udawalawe",
+      title: "Best time for elephant sightings in Udawalawe",
     },
     {
       src: ethicalImg,
-      alt: "Wildlife in the natural habitat of Udawalawe",
+      alt: "Ethical wildlife safari in Udawalawe natural habitat, Sri Lanka",
+      title: "Full Day Udawalawe National Park Safari",
     },
   ];
 
   const mobileHeroImages = [
     {
       src: elephantPortrait,
-      alt: "Close-up portrait of a Sri Lankan elephant",
+      alt: "Close-up portrait of a Sri Lankan elephant during a morning safari in Udawalawe",
+      title: "Best time for elephant sightings in Udawalawe",
     },
     {
       src: landscape,
-      alt: "Sweeping savanna landscape of Udawalawe National Park",
+      alt: "Sweeping savanna landscape of Udawalawe National Park, perfect for a private jeep safari",
+      title: "Udawalawe Safari Jeep Booking - Best Private Safari Tours",
     },
     {
       src: ethicalImg,
-      alt: "Wildlife in the natural habitat of Udawalawe",
+      alt: "Ethical wildlife safari in Udawalawe natural habitat, Sri Lanka",
+      title: "Full Day Udawalawe National Park Safari",
     },
   ];
   const [activeHero, setActiveHero] = useState(0);
@@ -210,6 +216,7 @@ export default function Home() {
               <Image
                 src={desktopHeroImages[activeHero].src}
                 alt={desktopHeroImages[activeHero].alt}
+                title={desktopHeroImages[activeHero].title}
                 fill
                 sizes="100vw"
                 priority={activeHero === 0}
@@ -232,6 +239,7 @@ export default function Home() {
               <Image
                 src={mobileHeroImages[activeHero].src}
                 alt={mobileHeroImages[activeHero].alt}
+                title={mobileHeroImages[activeHero].title}
                 fill
                 sizes="100vw"
                 priority={activeHero === 0}
@@ -356,8 +364,8 @@ export default function Home() {
               </HeroFadeIn>
 
               <StaggeredHero 
-                title="Experience Udawalawe, wildly." 
-                subtitle="Private, wildlife.src-first safaris with verified local partners, transparent pricing, and simple planning."
+                title="Udawalawe Safari Jeep Booking | Best Private Safari Tours"
+                subtitle="Experience Udawalawe wildly. Private, wildlife-first safaris with verified local partners, transparent pricing, and simple planning."
                 style={{ color: "oklch(0.98 0.005 95)" }}
               >
                 <div className="mt-8 flex flex-col sm:flex-row flex-wrap gap-3">
@@ -529,7 +537,8 @@ export default function Home() {
                     <div className="relative aspect-[3/2] overflow-hidden bg-muted">
                       <Image
                         src={getSafariImage(i)}
-                        alt={`${s.name} in Udawalawe National Park`}
+                        alt={`${s.name} - Udawalawe Safari Jeep Booking and Best Private Safari Tours`}
+                        title={`${s.name} - Udawalawe Safari Jeep Booking`}
                         fill
                         sizes="(max-width: 640px) 100vw, 50vw"
                         className="object-cover transition duration-700 group-hover:scale-[1.06]"
@@ -720,7 +729,8 @@ export default function Home() {
                 >
                   <Image
                     src={elephantPortrait}
-                    alt="Orphaned elephant calf at Udawalawe Elephant Transit Home"
+                    alt="Orphaned elephant calf at Udawalawe Elephant Transit Home feeding times and safari combo"
+                    title="Udawalawe Elephant Transit Home feeding times and safari combo"
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
                     className="object-cover transition duration-700 hover:scale-105"
@@ -739,7 +749,8 @@ export default function Home() {
             <Reveal direction="left" className="grain overflow-hidden rounded-2xl relative h-[280px] sm:h-[380px] lg:h-[480px] w-full">
               <Image
                 src={wildlife}
-                alt="Peacock and buffalo in a green Sri Lankan grassland"
+                alt="Peacock and buffalo in Udawalawe National Park - Ethical Wildlife Safari Sri Lanka"
+                title="Ethical Wildlife Safari in Udawalawe National Park"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
@@ -948,7 +959,8 @@ export default function Home() {
       <section className="relative isolate overflow-hidden">
         <Image
           src={landscape}
-          alt="Grassland landscape in Udawalawe National Park"
+          alt="Grassland landscape in Udawalawe National Park - Udawalawe Safari Jeep Booking"
+          title="Udawalawe Safari Jeep Booking"
           fill
           sizes="100vw"
           className="absolute inset-0 -z-10 object-cover"

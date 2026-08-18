@@ -71,35 +71,85 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "TouristAttraction",
-              name: "Udawalawe Wild",
-              description:
-                "The #1 rated private jeep safari experience in Udawalawe National Park, Sri Lanka.",
-              url: "https://www.udawalawe-wild.com",
-              telephone: "+94701234567",
-              address: {
-                "@type": "PostalAddress",
-                addressLocality: "Udawalawe",
-                addressRegion: "Sabaragamuwa Province",
-                addressCountry: "LK",
-              },
-              geo: {
-                "@type": "GeoCoordinates",
-                latitude: 6.435,
-                longitude: 80.887,
-              },
-              aggregateRating: {
-                "@type": "AggregateRating",
-                ratingValue: "4.9",
-                reviewCount: "524",
-              },
-              offers: {
-                "@type": "AggregateOffer",
-                priceCurrency: "USD",
-                lowPrice: "35",
-                highPrice: "150",
-                offerCount: "4",
-              },
+              "@graph": [
+                {
+                  "@type": "TouristAttraction",
+                  "name": "Udawalawe Wild",
+                  "description": "The #1 rated private jeep safari experience in Udawalawe National Park, Sri Lanka.",
+                  "url": "https://www.udawalawe-wild.com",
+                  "telephone": "+94701234567",
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Udawalawe",
+                    "addressRegion": "Sabaragamuwa Province",
+                    "addressCountry": "LK"
+                  },
+                  "geo": {
+                    "@type": "GeoCoordinates",
+                    "latitude": 6.435,
+                    "longitude": 80.887
+                  },
+                  "aggregateRating": {
+                    "@type": "AggregateRating",
+                    "ratingValue": "4.9",
+                    "reviewCount": "524"
+                  },
+                  "offers": {
+                    "@type": "AggregateOffer",
+                    "priceCurrency": "USD",
+                    "lowPrice": "35",
+                    "highPrice": "150",
+                    "offerCount": "4"
+                  }
+                },
+                {
+                  "@type": "TravelAgency",
+                  "@id": "https://www.udawalawe-wild.com/#travel-agency",
+                  "name": "Udawalawe Wild",
+                  "url": "https://www.udawalawe-wild.com",
+                  "telephone": "+94701234567",
+                  "email": "hello@udawalawe-wild.com",
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Udawalawe",
+                    "addressRegion": "Sabaragamuwa Province",
+                    "addressCountry": "LK"
+                  },
+                  "geo": {
+                    "@type": "GeoCoordinates",
+                    "latitude": 6.435,
+                    "longitude": 80.887
+                  },
+                  "openingHoursSpecification": {
+                    "@type": "OpeningHoursSpecification",
+                    "dayOfWeek": [
+                      "Monday",
+                      "Tuesday",
+                      "Wednesday",
+                      "Thursday",
+                      "Friday",
+                      "Saturday",
+                      "Sunday"
+                    ],
+                    "opens": "05:00",
+                    "closes": "20:00"
+                  }
+                },
+                {
+                  "@type": "TouristTrip",
+                  "name": "Udawalawe National Park Private Safari",
+                  "description": "Private 4x4 open-top jeep safari in Udawalawe National Park with expert local tracker.",
+                  "provider": {
+                    "@id": "https://www.udawalawe-wild.com/#travel-agency"
+                  },
+                  "offers": {
+                    "@type": "Offer",
+                    "priceCurrency": "USD",
+                    "availability": "https://schema.org/InStock",
+                    "price": "35.00"
+                  }
+                }
+              ]
             }),
           }}
         />
