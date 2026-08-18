@@ -31,14 +31,39 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/ethical-safari", changefreq: "monthly", priority: "0.7", lastmod: lastUpdated },
           { path: "/guide", changefreq: "monthly", priority: "0.8", lastmod: lastUpdated },
           { path: "/routes", changefreq: "monthly", priority: "0.7", lastmod: lastUpdated },
-          { path: "/safari-from-ella", changefreq: "monthly", priority: "0.7", lastmod: lastUpdated },
-          { path: "/safari-from-mirissa", changefreq: "monthly", priority: "0.7", lastmod: lastUpdated },
-          { path: "/safari-from-galle", changefreq: "monthly", priority: "0.7", lastmod: lastUpdated },
-          { path: "/safari-from-hiriketiya", changefreq: "monthly", priority: "0.7", lastmod: lastUpdated },
+          {
+            path: "/safari-from-ella",
+            changefreq: "monthly",
+            priority: "0.7",
+            lastmod: lastUpdated,
+          },
+          {
+            path: "/safari-from-mirissa",
+            changefreq: "monthly",
+            priority: "0.7",
+            lastmod: lastUpdated,
+          },
+          {
+            path: "/safari-from-galle",
+            changefreq: "monthly",
+            priority: "0.7",
+            lastmod: lastUpdated,
+          },
+          {
+            path: "/safari-from-hiriketiya",
+            changefreq: "monthly",
+            priority: "0.7",
+            lastmod: lastUpdated,
+          },
           { path: "/about", changefreq: "yearly", priority: "0.5", lastmod: lastUpdated },
           { path: "/privacy", changefreq: "yearly", priority: "0.2", lastmod: lastUpdated },
           { path: "/terms", changefreq: "yearly", priority: "0.2", lastmod: lastUpdated },
-          { path: "/cancellation-policy", changefreq: "yearly", priority: "0.3", lastmod: lastUpdated },
+          {
+            path: "/cancellation-policy",
+            changefreq: "yearly",
+            priority: "0.3",
+            lastmod: lastUpdated,
+          },
         ];
 
         const urls = entries.map((e) =>

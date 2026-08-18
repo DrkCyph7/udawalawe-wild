@@ -35,7 +35,10 @@ function loadEnvLocal() {
 }
 
 function normalizeUrl(url) {
-  return url.trim().replace(/\/+$/, "").replace(/\/(?:rest|auth)\/v1$/i, "");
+  return url
+    .trim()
+    .replace(/\/+$/, "")
+    .replace(/\/(?:rest|auth)\/v1$/i, "");
 }
 
 async function main() {
@@ -85,8 +88,12 @@ async function main() {
 
   if (!insertRes.ok) {
     console.log("\n❌ Insert failed. Common causes:");
-    console.log('   - "relation ... does not exist" → booking-schema.sql was never run against this project');
-    console.log('   - "permission denied" / RLS error → the anon insert policy is missing or wrong');
+    console.log(
+      '   - "relation ... does not exist" → booking-schema.sql was never run against this project',
+    );
+    console.log(
+      '   - "permission denied" / RLS error → the anon insert policy is missing or wrong',
+    );
     console.log("   - 401/invalid API key → wrong anon key or URL in .env.local");
     process.exit(1);
   }
@@ -120,7 +127,9 @@ async function main() {
   console.log(`✅ Read back ${rows.length} row(s). Most recent:`, rows[0]);
   console.log("\n=== Result: your Supabase connection, insert, and read are all working. ===");
   console.log("If the admin panel in the browser still shows 0, the bug is in the browser app");
-  console.log("(wrong env vars in the deployed build, or a bug in fetchBookingEnquiries), not the DB.");
+  console.log(
+    "(wrong env vars in the deployed build, or a bug in fetchBookingEnquiries), not the DB.",
+  );
 }
 
 main().catch((err) => {

@@ -5,10 +5,7 @@ import { Section } from "@/components/section";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
-    meta: [
-      { title: "Admin — Udawalawe Wild" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Admin — Udawalawe Wild" }, { name: "robots", content: "noindex" }],
   }),
   component: AdminPage,
 });
@@ -17,6 +14,7 @@ function AdminPage() {
   const [loading, setLoading] = useState(true);
   const [authorized, setAuthorized] = useState(false);
   const [checking, setChecking] = useState(true);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [bookings, setBookings] = useState<any[]>([]);
   const [message, setMessage] = useState<string | null>(null);
   const [accessCode, setAccessCode] = useState("");
@@ -118,14 +116,22 @@ function AdminPage() {
   }, [bookings]);
 
   if (loading || checking) {
-    return <Section><div className="mx-auto max-w-5xl text-sm text-muted-foreground">Loading admin workspace…</div></Section>;
+    return (
+      <Section>
+        <div className="mx-auto max-w-5xl text-sm text-muted-foreground">
+          Loading admin workspace…
+        </div>
+      </Section>
+    );
   }
 
   if (!authorized) {
     return (
       <Section>
         <div className="mx-auto max-w-xl rounded-sm border border-border bg-card p-8 text-center">
-          <div className="text-xs uppercase tracking-[0.3em] text-[color:var(--terracotta)]">Protected area</div>
+          <div className="text-xs uppercase tracking-[0.3em] text-[color:var(--terracotta)]">
+            Protected area
+          </div>
           <h1 className="mt-3 font-serif text-3xl text-foreground">Admin access required</h1>
           <p className="mt-3 text-sm text-muted-foreground">
             Enter the admin code to view bookings and update status.
@@ -146,7 +152,9 @@ function AdminPage() {
           </button>
           {message && <p className="mt-4 text-sm text-muted-foreground">{message}</p>}
           <p className="mt-6 text-xs text-muted-foreground">
-            <Link to="/" className="text-primary underline-offset-4 hover:underline">Return home</Link>
+            <Link to="/" className="text-primary underline-offset-4 hover:underline">
+              Return home
+            </Link>
           </p>
         </div>
       </Section>
@@ -158,7 +166,9 @@ function AdminPage() {
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <div className="text-xs uppercase tracking-[0.3em] text-[color:var(--terracotta)]">Admin dashboard</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-[color:var(--terracotta)]">
+              Admin dashboard
+            </div>
             <h1 className="mt-2 font-serif text-3xl text-foreground">Bookings and enquiries</h1>
           </div>
           <button
@@ -173,7 +183,11 @@ function AdminPage() {
           </button>
         </div>
 
-        {message && <div className="mt-4 rounded-sm border border-border bg-background/80 p-3 text-sm text-muted-foreground">{message}</div>}
+        {message && (
+          <div className="mt-4 rounded-sm border border-border bg-background/80 p-3 text-sm text-muted-foreground">
+            {message}
+          </div>
+        )}
 
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           <div className="rounded-sm border border-border bg-card p-4">
@@ -185,7 +199,9 @@ function AdminPage() {
             <div className="mt-2 text-2xl font-semibold text-foreground">{stats.newCount}</div>
           </div>
           <div className="rounded-sm border border-border bg-card p-4">
-            <div className="text-xs uppercase tracking-[0.25em] text-muted-foreground">Confirmed</div>
+            <div className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
+              Confirmed
+            </div>
             <div className="mt-2 text-2xl font-semibold text-foreground">{stats.confirmed}</div>
           </div>
         </div>
@@ -212,7 +228,9 @@ function AdminPage() {
                     <td className="px-4 py-3">
                       <div className="text-xs text-muted-foreground">{row.safari_date ?? "—"}</div>
                       <div className="text-xs text-muted-foreground">{row.safari_type ?? "—"}</div>
-                      <div className="text-xs text-muted-foreground">{row.pickup_location ?? "—"}</div>
+                      <div className="text-xs text-muted-foreground">
+                        {row.pickup_location ?? "—"}
+                      </div>
                     </td>
                     <td className="px-4 py-3">
                       <select
@@ -228,7 +246,9 @@ function AdminPage() {
                         <option value="archived">Archived</option>
                       </select>
                     </td>
-                    <td className="px-4 py-3 text-xs text-muted-foreground">{row.updated_at ?? row.created_at ?? "—"}</td>
+                    <td className="px-4 py-3 text-xs text-muted-foreground">
+                      {row.updated_at ?? row.created_at ?? "—"}
+                    </td>
                   </tr>
                 ))}
               </tbody>
