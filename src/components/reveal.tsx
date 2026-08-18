@@ -31,15 +31,13 @@ export function Reveal({
       y: direction === "up" ? offset : direction === "down" ? -offset : 0,
       x: direction === "left" ? -offset : direction === "right" ? offset : 0,
       scale: direction === "scale" ? 0.95 : 1,
-      // No blur on touch/mobile devices — causes extreme scroll jank
-      ...(isTouchDevice ? {} : { filter: "blur(3px)" }),
+      // Removed filter: blur entirely for extreme performance improvement on mobile scrolling.
     },
     visible: {
       opacity: 1,
       y: 0,
       x: 0,
       scale: 1,
-      filter: "blur(0px)",
       transition: {
         duration: prefersReducedMotion ? 0.01 : 0.7,
         delay: prefersReducedMotion ? 0 : delayS,

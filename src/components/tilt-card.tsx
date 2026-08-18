@@ -38,14 +38,21 @@ export function TiltCard({
     rotateY.set(0);
   };
 
+  // On touch/mobile devices or reduced motion — bypass the 3d rotation entirely.
+  // TiltCard effect is mouse-only and mounts springs for zero benefit on touch, saving CPU/battery.
+  // Note: we can't completely replace the DOM element due to hydration mismatch, so we just pass static 0s to the style tag.
+  const isTouchDevice =
+    typeof window !== "undefined" &&
+    window.matchMedia("(pointer: coarse)").matches;
+
   return (
     <motion.div
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
-        rotateX: prefersReducedMotion ? 0 : springX,
-        rotateY: prefersReducedMotion ? 0 : springY,
+        rotateX: isTouchDevice || prefersReducedMotion ? 0 : springX,
+        rotateY: isTouchDevice || prefersReducedMotion ? 0 : springY,
         transformPerspective: 1000,
       }}
       className={className}
