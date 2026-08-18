@@ -437,7 +437,7 @@ export default function Home() {
                 }}
               >
                 <div className="mb-4">
-                  <Eyebrow>Check availability</Eyebrow>
+                  <Eyebrow className="text-[oklch(0.70_0.01_135)]">Check availability</Eyebrow>
                   <div className="font-serif text-2xl text-[oklch(0.98_0.005_95)]">
                     Start with your dates.
                   </div>
