@@ -19,16 +19,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route === '' ? 1 : 0.8,
   }));
 
+  const guideRoutes = [
+    '/guide/udawalawe-safari-cost',
+    '/guide/best-time',
+    '/guide/morning-vs-afternoon',
+    '/guide/animals',
+    '/guide/what-to-bring',
+    '/guide/udawalawe-vs-yala'
+  ].map((route) => ({
+    url: `${baseUrl}${route}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: route === '' ? 1 : 0.8,
+  }));
+
   // Dynamic safari location routes
   const locationRoutes = [
-    '/safari-from-ella',
-    '/safari-from-mirissa',
-    '/safari-from-galle',
-    '/safari-from-colombo',
-    '/safari-from-kandy',
-    '/safari-from-tangalle',
-    '/safari-from-hiriketiya',
-    '/safari-from-nuwara-eliya',
+    '/routes/ella-to-udawalawe',
+    '/routes/mirissa-to-udawalawe',
+    '/routes/galle-to-udawalawe',
+    '/routes/colombo-to-udawalawe',
+    '/routes/kandy-to-udawalawe',
+    '/routes/tangalle-to-udawalawe',
+    '/routes/hiriketiya-to-udawalawe',
+    '/routes/nuwara-eliya-to-udawalawe',
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
@@ -48,5 +62,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.3,
   }));
 
-  return [...staticRoutes, ...locationRoutes, ...legalRoutes];
+  return [...staticRoutes, ...guideRoutes, ...locationRoutes, ...legalRoutes];
 }

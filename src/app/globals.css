@@ -19,6 +19,9 @@
  */
 
 @theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), ui-serif, Georgia, serif;
+
   --color-forest-900: var(--forest-900);
   --color-forest-700: var(--forest-700);
   --color-forest-500: var(--forest-500);

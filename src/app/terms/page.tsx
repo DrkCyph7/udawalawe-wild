@@ -11,14 +11,14 @@ export default () => (
           <h3 className="font-serif text-lg text-foreground">1. Platform Service Overview</h3>
           <p>
             Udawalawe Wild is an independent online booking platform operated to connect travellers
-            with verified, licensed local safari jeep.src operators in and around Udawalawe National
+            with verified, licensed local safari jeep operators in and around Udawalawe National
             Park, Sri Lanka. Udawalawe Wild is not the Department of Wildlife Conservation (DWC) or
             the official national park authority.
           </p>
 
           <h3 className="font-serif text-lg text-foreground">2. Booking Intermediary Role</h3>
           <p>
-            We act solely as a booking intermediary. Safari logistics, jeep.src operation, and park
+            We act solely as a booking intermediary. Safari logistics, jeep operation, and park
             driving are delivered by independent, verified local partner operators. By submitting an
             enquiry through our platform, you authorize us to share your trip requirements with
             recommended local partners.
@@ -26,7 +26,7 @@ export default () => (
 
           <h3 className="font-serif text-lg text-foreground">3. Wildlife Sightings Disclaimer</h3>
           <p>
-            Udawalawe National Park is a natural wildlife.src sanctuary. Animals move freely within
+            Udawalawe National Park is a natural wildlife sanctuary. Animals move freely within
             their natural habitat. Neither Udawalawe Wild nor any partner operator can guarantee
             specific animal sightings (including elephants, leopards, or specific bird species).
           </p>
@@ -41,14 +41,14 @@ export default () => (
 
           <h3 className="font-serif text-lg text-foreground">5. Pricing & Availability</h3>
           <p>
-            Quotes provided following your enquiry are fixed once confirmed. Prices include jeep.src
+            Quotes provided following your enquiry are fixed once confirmed. Prices include jeep
             service, driver fees, and agreed transfers. Park entrance ticket fees are coordinated
             transparently and detailed in your quote.
           </p>
 
           <h3 className="font-serif text-lg text-foreground">6. Limitation of Liability</h3>
           <p>
-            Udawalawe Wild is not liable for weather delays, park closures by wildlife.src authorities,
+            Udawalawe Wild is not liable for weather delays, park closures by wildlife authorities,
             traffic conditions, or unexpected vehicle breakdowns handled by partner operators,
             though we will always assist in resolving issues promptly.
           </p>

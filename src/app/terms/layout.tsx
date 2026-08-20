@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Use — Udawalawe Wild",
-  description: "Terms and conditions for booking a safari through Udawalawe Wild.",
+  title: "Terms of Service",
+  description: "Terms of Service - Udawalawe Wild private safari tours.",
   openGraph: {
-    title: "Terms of Use",
-    description: "Terms of use for the Udawalawe Wild booking platform.",
+    title: "Terms of Service",
+    description: "Terms of Service - Udawalawe Wild private safari tours.",
     url: "https://www.udawalawe-wild.com/terms",
   },
   alternates: {
@@ -13,6 +13,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default function TermsLayout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return children;
 }

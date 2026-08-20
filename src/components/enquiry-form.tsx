@@ -39,10 +39,10 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup, theme = "li
         <div
           className={`font-serif text-xl ${isDark ? "text-[oklch(0.98_0.005_95)]" : "text-primary"}`}
         >
-          Enquiry received!
+          Request received ✓
         </div>
         <p className={`mt-2 ${isDark ? "text-[oklch(0.70_0.01_135)]" : "text-muted-foreground"}`}>
-          We'll reply with verified options and a fixed quote within one business day.
+          We'll contact you on WhatsApp with availability and pricing. We typically reply within a few hours.
         </p>
 
         {/* Optional WhatsApp nudge */}
@@ -176,7 +176,7 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup, theme = "li
           <option value="">Not sure yet</option>
           <option value="morning-private-safari">Morning Private Safari</option>
           <option value="afternoon-private-safari">Afternoon Private Safari</option>
-          <option value="full-day-wildlife.src-safari">Full-Day Wildlife Safari</option>
+          <option value="full-day-wildlife-safari">Full-Day Wildlife Safari</option>
           <option value="safari-transfer">Safari + Transfer</option>
           <option value="safari-elephant-transit-transfer">
             Safari + Elephant Transit + Transfer

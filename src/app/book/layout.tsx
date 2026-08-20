@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Book Your Udawalawe Safari — Udawalawe Wild",
-  description: "Book an ethical, private safari in Udawalawe National Park. Get verified local options, fixed quotes, and transparent pricing in one business day.",
+  title: "Book Your Safari",
+  description: "Book Your Safari - Udawalawe Wild private safari tours.",
   openGraph: {
-    title: "Book Your Udawalawe Safari",
-    description: "Plan your ethical safari in Udawalawe National Park with verified local drivers.",
+    title: "Book Your Safari",
+    description: "Book Your Safari - Udawalawe Wild private safari tours.",
     url: "https://www.udawalawe-wild.com/book",
   },
   alternates: {
@@ -13,6 +13,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BookLayout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return children;
 }
