@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Udawalawe Visitor Guide & FAQ",
-  description: "Everything you need to know before visiting Udawalawe National Park. Best times, what to wear, and wildlife expectations.",
+  title: "Udawalawe Safari Guide | Planning Your Sri Lanka Safari",
+  description: "Udawalawe Safari Guide | Planning Your Sri Lanka Safari - Udawalawe Wild private safari tours.",
   openGraph: {
-    title: "Udawalawe Visitor Guide",
-    description: "Expert advice for visiting Udawalawe National Park.",
+    title: "Udawalawe Safari Guide | Planning Your Sri Lanka Safari",
+    description: "Udawalawe Safari Guide | Planning Your Sri Lanka Safari - Udawalawe Wild private safari tours.",
     url: "https://www.udawalawe-wild.com/guide",
   },
   alternates: {
@@ -13,6 +13,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default function GuideLayout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return children;
 }

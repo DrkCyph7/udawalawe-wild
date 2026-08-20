@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Udawalawe Wild",
-  description: "Learn how we collect, use, and protect your personal information on the Udawalawe Wild platform.",
+  title: "Privacy Policy",
+  description: "Privacy Policy - Udawalawe Wild private safari tours.",
   openGraph: {
     title: "Privacy Policy",
-    description: "Privacy policy for Udawalawe Wild.",
+    description: "Privacy Policy - Udawalawe Wild private safari tours.",
     url: "https://www.udawalawe-wild.com/privacy",
   },
   alternates: {
@@ -13,6 +13,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PrivacyLayout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return children;
 }

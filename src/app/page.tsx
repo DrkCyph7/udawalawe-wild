@@ -133,7 +133,7 @@ export default function Home() {
   const desktopHeroImages = [
     {
       src: landscape,
-      alt: "Sweeping savanna landscape of Udawalawe National Park, perfect for a private jeep safari",
+      alt: "Sweeping savanna landscape of Udawalawe National Park",
       title: "Udawalawe Safari Jeep Booking - Best Private Safari Tours",
     },
     {
@@ -143,7 +143,7 @@ export default function Home() {
     },
     {
       src: ethicalImg,
-      alt: "Ethical wildlife safari in Udawalawe natural habitat, Sri Lanka",
+      alt: "Wildlife viewing in its natural habitat at Udawalawe National Park",
       title: "Full Day Udawalawe National Park Safari",
     },
   ];
@@ -156,12 +156,12 @@ export default function Home() {
     },
     {
       src: landscape,
-      alt: "Sweeping savanna landscape of Udawalawe National Park, perfect for a private jeep safari",
+      alt: "Sweeping savanna landscape of Udawalawe National Park",
       title: "Udawalawe Safari Jeep Booking - Best Private Safari Tours",
     },
     {
       src: ethicalImg,
-      alt: "Ethical wildlife safari in Udawalawe natural habitat, Sri Lanka",
+      alt: "Wildlife viewing in its natural habitat at Udawalawe National Park",
       title: "Full Day Udawalawe National Park Safari",
     },
   ];
@@ -202,16 +202,16 @@ export default function Home() {
       >
         {/* ── Crossfade background slideshow ──────────────────────── */}
         <motion.div className="absolute inset-0 -z-10">
-          {/* Desktop Slideshow */}
+          {/* Slideshow */}
           <AnimatePresence initial={false}>
             <motion.div
-              key={`desktop-${activeHero}`}
+              key={`slide-${activeHero}`}
               style={{ willChange: "opacity" }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 1.2, ease: "easeInOut" }}
-              className="hidden sm:block absolute inset-0 h-full w-full"
+              className="absolute inset-0 h-full w-full"
             >
               <Image
                 src={desktopHeroImages[activeHero].src}
@@ -220,22 +220,8 @@ export default function Home() {
                 fill
                 sizes="100vw"
                 priority={activeHero === 0}
-                className="object-cover object-center"
+                className="hidden sm:block object-cover object-center"
               />
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Mobile Slideshow */}
-          <AnimatePresence initial={false}>
-            <motion.div
-              key={`mobile-${activeHero}`}
-              style={{ willChange: "opacity" }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.2, ease: "easeInOut" }}
-              className="sm:hidden absolute inset-0 h-full w-full"
-            >
               <Image
                 src={mobileHeroImages[activeHero].src}
                 alt={mobileHeroImages[activeHero].alt}
@@ -243,7 +229,7 @@ export default function Home() {
                 fill
                 sizes="100vw"
                 priority={activeHero === 0}
-                className="object-cover object-center"
+                className="sm:hidden object-cover object-center"
               />
             </motion.div>
           </AnimatePresence>
@@ -364,7 +350,7 @@ export default function Home() {
               </HeroFadeIn>
 
               <StaggeredHero 
-                title="Udawalawe Safari Jeep Booking | Best Private Safari Tours"
+                title="Private Udawalawe Safari Tours"
                 subtitle="Experience Udawalawe wildly. Private, wildlife-first safaris with verified local partners, transparent pricing, and simple planning."
                 style={{ color: "oklch(0.98 0.005 95)" }}
               >
@@ -510,7 +496,7 @@ export default function Home() {
               <SectionHeading
                 eyebrow="Safari options"
                 title="Five ways to explore the park."
-                intro="Each option is a private jeep.src run by a verified local operator. Wildlife first, always."
+                intro="Each option is a private jeep run by a verified local operator. Wildlife first, always."
               />
               <Link
                 to="/safaris"
@@ -524,106 +510,59 @@ export default function Home() {
 
           {/* Mobile: horizontal snap scroll | Desktop: 5-col grid */}
           <div className="mt-10">
-            {/* Mobile scroll container */}
+            {/* Combined Responsive Grid */}
             <div
               ref={safariScrollRef}
-              className="flex gap-4 overflow-x-auto scroll-snap-x pb-2 sm:hidden"
+              className="flex gap-4 overflow-x-auto scroll-snap-x pb-2 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 sm:overflow-x-visible sm:snap-none"
             >
               {visibleSafaris.map((s, i) => (
-                  <article
-                    key={s.slug}
-                    className="safari-snap-card card-lift group flex flex-col overflow-hidden rounded-xl card-glass"
-                  >
-                    <div className="relative aspect-[3/2] overflow-hidden bg-muted">
-                      <Image
-                        src={getSafariImage(i)}
-                        alt={`${s.name} - Udawalawe Safari Jeep Booking and Best Private Safari Tours`}
-                        title={`${s.name} - Udawalawe Safari Jeep Booking`}
-                        fill
-                        sizes="(max-width: 640px) 100vw, 50vw"
-                        className="object-cover transition duration-700 group-hover:scale-[1.06]"
-                      />
-                    </div>
-                    <div className="flex flex-1 flex-col p-4">
-                      <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-muted-foreground">
-                        <Binoculars className="h-3 w-3" aria-hidden="true" />
-                        {s.duration}
+                <Reveal key={s.slug} delay={i * 70} className="h-full shrink-0 safari-snap-card sm:w-auto">
+                  <TiltCard className="h-full" intensity={7}>
+                    <article
+                      className="card-lift group flex h-full flex-col overflow-hidden rounded-xl card-glass"
+                      style={{ transformStyle: "preserve-3d" }}
+                    >
+                      <div className="relative aspect-[3/2] sm:aspect-[4/5] overflow-hidden bg-muted">
+                        <Image
+                          src={getSafariImage(i)}
+                          alt={`${s.name} - Udawalawe Safari Jeep Booking and Best Private Safari Tours`}
+                          title={`${s.name} - Udawalawe Safari Jeep Booking`}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                          className="object-cover transition duration-700 group-hover:scale-[1.06]"
+                        />
                       </div>
-                      <h3 className="mt-1.5 font-serif text-lg text-foreground">{s.name}</h3>
-                      <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground">
-                        {s.short}
-                      </p>
-                      <Link
-                        to="/safaris"
-                        className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-accent"
-                      >
-                        Learn more
-                        <ChevronRight className="h-3 w-3" aria-hidden="true" />
-                      </Link>
-                    </div>
-                  </article>
-                ))}
-            </div>
-
-            {/* Scroll dots — hidden on sm+ via CSS */}
-            <div className="snap-dots">
-              {visibleSafaris.map((_, i) => (
-                <div
-                  key={i}
-                  className={`snap-dot text-[color:var(--forest)] ${i === activeDot ? "active" : ""}`}
-                />
+                      <div className="flex flex-1 flex-col p-4">
+                        <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-muted-foreground">
+                          <Binoculars className="h-3 w-3" aria-hidden="true" />
+                          {s.duration}
+                        </div>
+                        <h3 className="mt-1.5 font-serif text-lg text-foreground">{s.name}</h3>
+                        <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground">
+                          {s.short}
+                        </p>
+                        <Link
+                          to="/safaris"
+                          className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-accent"
+                        >
+                          Learn more
+                          <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+                        </Link>
+                      </div>
+                    </article>
+                  </TiltCard>
+                </Reveal>
               ))}
             </div>
 
-            {/* Desktop grid */}
-            <div className="hidden gap-4 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-              {visibleSafaris.map((s, i) => (
-                  <Reveal key={s.slug} delay={i * 70} className="h-full">
-                    <TiltCard className="h-full" intensity={7}>
-                      <article
-                        className="card-lift group flex h-full flex-col overflow-hidden rounded-xl card-glass"
-                        style={{ transformStyle: "preserve-3d" }}
-                      >
-                          <div className="relative aspect-[4/5] overflow-hidden bg-muted">
-                            <Image
-                              src={
-                                [
-                                  elephantPortrait,
-                                  ethicalImg,
-                                  wildlife,
-                                  landscape,
-                                  elephantPortrait,
-                                ][i % 5]
-                              }
-                              alt={`${s.name} in Udawalawe National Park`}
-                              fill
-                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                              className="object-cover transition duration-700 group-hover:scale-[1.06]"
-                            />
-                          </div>
-                          <div className="flex flex-1 flex-col p-4">
-                            <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-muted-foreground">
-                              <Binoculars className="h-3 w-3" aria-hidden="true" />
-                              {s.duration}
-                            </div>
-                            <h3 className="mt-1.5 font-serif text-base font-medium text-foreground">
-                              {s.name}
-                            </h3>
-                            <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground">
-                              {s.short}
-                            </p>
-                            <Link
-                              to="/safaris"
-                              className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-accent"
-                            >
-                              Learn more
-                              <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
-                            </Link>
-                          </div>
-                        </article>
-                      </TiltCard>
-                    </Reveal>
-                  ))}
+            {/* Scroll dots — hidden on sm+ via CSS */}
+            <div className="snap-dots sm:hidden flex justify-center gap-2 mt-4">
+              {visibleSafaris.map((_, i) => (
+                <div
+                  key={i}
+                  className={`snap-dot h-2 w-2 rounded-full bg-[color:var(--forest)] transition-opacity ${i === activeDot ? "opacity-100" : "opacity-40"}`}
+                />
+              ))}
             </div>
           </div>
         </Section>
@@ -636,7 +575,7 @@ export default function Home() {
             <SectionHeading
               eyebrow="Why Udawalawe Wild"
               title="A better way to explore the wild."
-              intro="We're small on purpose. Our job is to make your safari calmer, clearer, and kinder to the wildlife.src you came to see."
+              intro="We're small on purpose. Our job is to make your safari calmer, clearer, and kinder to the wildlife you came to see."
               titleClass="text-forest-900"
               introClass="text-text-muted-on-light"
             />
@@ -729,7 +668,7 @@ export default function Home() {
                 >
                   <Image
                     src={elephantPortrait}
-                    alt="Orphaned elephant calf at Udawalawe Elephant Transit Home feeding times and safari combo"
+                    alt="Orphaned elephant calf being rehabilitated at the Udawalawe Elephant Transit Home"
                     title="Udawalawe Elephant Transit Home feeding times and safari combo"
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
@@ -749,7 +688,7 @@ export default function Home() {
             <Reveal direction="left" className="grain overflow-hidden rounded-2xl relative h-[280px] sm:h-[380px] lg:h-[480px] w-full">
               <Image
                 src={wildlife}
-                alt="Peacock and buffalo in Udawalawe National Park - Ethical Wildlife Safari Sri Lanka"
+                alt="Peacock and water buffalo peacefully resting in Udawalawe National Park"
                 title="Ethical Wildlife Safari in Udawalawe National Park"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -959,7 +898,7 @@ export default function Home() {
       <section className="relative isolate overflow-hidden">
         <Image
           src={landscape}
-          alt="Grassland landscape in Udawalawe National Park - Udawalawe Safari Jeep Booking"
+          alt="Golden hour sweeping savanna landscape in Udawalawe National Park"
           title="Udawalawe Safari Jeep Booking"
           fill
           sizes="100vw"

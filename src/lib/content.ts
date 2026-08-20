@@ -15,9 +15,9 @@ export const safaris: SafariPackage[] = [
     slug: "morning-private-safari",
     name: "Morning Private Safari",
     duration: "Approx. 5 hours (pre-dawn start)",
-    ideal: "Best light, active wildlife.src, calm crowds.",
+    ideal: "Best light, active wildlife, calm crowds.",
     includes: [
-      "Private jeep.src with licensed local driver",
+      "Private jeep with licensed local driver",
       "Park entry coordination",
       "Bottled water",
       "Wildlife-first driving code",
@@ -33,7 +33,7 @@ export const safaris: SafariPackage[] = [
     duration: "Approx. 4 hours (mid-afternoon start)",
     ideal: "Sunset light, herd movement near water.",
     includes: [
-      "Private jeep.src with licensed local driver",
+      "Private jeep with licensed local driver",
       "Park entry coordination",
       "Bottled water",
       "Wildlife-first driving code",
@@ -44,12 +44,12 @@ export const safaris: SafariPackage[] = [
     short: "A softer, later start with elephants gathering near the reservoir.",
   },
   {
-    slug: "full-day-wildlife.src-safari",
+    slug: "full-day-wildlife-safari",
     name: "Full-Day Wildlife Safari",
     duration: "Full day with midday rest break",
-    ideal: "Serious wildlife.src watchers and photographers.",
+    ideal: "Serious wildlife watchers and photographers.",
     includes: [
-      "Private jeep.src across two park sessions",
+      "Private jeep across two park sessions",
       "Park entry coordination",
       "Bottled water and simple refreshments",
       "Wildlife-first driving code",
@@ -106,7 +106,7 @@ export type RouteInfo = {
 
 export const routes: RouteInfo[] = [
   {
-    slug: "safari-from-ella",
+    slug: "routes/ella-to-udawalawe",
     from: "Ella",
     drive: "Approx. 2.5 – 3 hrs by road",
     summary: "A scenic descent from the hill country. Popular as a day trip or on the way south.",
@@ -117,7 +117,7 @@ export const routes: RouteInfo[] = [
     ],
   },
   {
-    slug: "safari-from-mirissa",
+    slug: "routes/mirissa-to-udawalawe",
     from: "Mirissa",
     drive: "Approx. 2 – 2.5 hrs by road",
     summary: "The easiest safari from the south coast — feasible as a long day trip.",
@@ -128,7 +128,7 @@ export const routes: RouteInfo[] = [
     ],
   },
   {
-    slug: "safari-from-galle",
+    slug: "routes/galle-to-udawalawe",
     from: "Galle",
     drive: "Approx. 2.5 – 3 hrs by road",
     summary: "A comfortable inland drive from the fort. Great with a hill-country onward transfer.",
@@ -139,7 +139,7 @@ export const routes: RouteInfo[] = [
     ],
   },
   {
-    slug: "safari-from-hiriketiya",
+    slug: "routes/hiriketiya-to-udawalawe",
     from: "Hiriketiya",
     drive: "Approx. 2 hrs by road",
     summary: "Quiet coves to open grasslands — one of the shortest coastal routes.",
@@ -150,7 +150,7 @@ export const routes: RouteInfo[] = [
     ],
   },
   {
-    slug: "safari-from-colombo",
+    slug: "routes/colombo-to-udawalawe",
     from: "Colombo / Airport",
     drive: "Approx. 4 – 4.5 hrs via Southern Expressway",
     summary:
@@ -162,7 +162,7 @@ export const routes: RouteInfo[] = [
     ],
   },
   {
-    slug: "safari-from-kandy",
+    slug: "routes/kandy-to-udawalawe",
     from: "Kandy",
     drive: "Approx. 3.5 – 4 hrs by road",
     summary:
@@ -174,7 +174,7 @@ export const routes: RouteInfo[] = [
     ],
   },
   {
-    slug: "safari-from-tangalle",
+    slug: "routes/tangalle-to-udawalawe",
     from: "Tangalle",
     drive: "Approx. 1.5 – 2 hrs by road",
     summary:
@@ -186,7 +186,7 @@ export const routes: RouteInfo[] = [
     ],
   },
   {
-    slug: "safari-from-nuwara-eliya",
+    slug: "routes/nuwara-eliya-to-udawalawe",
     from: "Nuwara Eliya",
     drive: "Approx. 3 – 3.5 hrs by road",
     summary:
@@ -205,8 +205,8 @@ export const faqs: { q: string; a: string }[] = [
     a: "No. Udawalawe Wild is an independent online booking platform. We help travelers plan safaris with verified local operators. We are not affiliated with the national park authority.",
   },
   {
-    q: "Can you guarantee we will see elephants or other wildlife.src?",
-    a: "No responsible operator can guarantee sightings. Udawalawe is known for its elephant populations and diverse birdlife, but wildlife.src moves freely. We plan timings and routes that give you the best reasonable chance.",
+    q: "Can you guarantee we will see elephants or other wildlife?",
+    a: "No responsible operator can guarantee sightings. Udawalawe is known for its elephant populations and diverse birdlife, but wildlife moves freely. We plan timings and routes that give you the best reasonable chance.",
   },
   {
     q: "Do you own the safari jeeps?",
@@ -222,11 +222,11 @@ export const faqs: { q: string; a: string }[] = [
   },
   {
     q: "What is the best time for a safari?",
-    a: "Both morning and late afternoon sessions offer good wildlife.src activity and softer light. Midday is usually hotter and quieter.",
+    a: "Both morning and late afternoon sessions offer good wildlife activity and softer light. Midday is usually hotter and quieter.",
   },
   {
     q: "What is the Elephant Transit Home?",
-    a: "The Elephant Transit Home (ETH) is a government-run wildlife.src facility adjacent to Udawalawe National Park. It rehabilitates orphaned elephant calves found in the wild, with the aim of releasing them back into the park. Visitors can observe feeding sessions from a distance. We include an ETH visit in our Safari + Elephant Transit + Transfer package.",
+    a: "The Elephant Transit Home (ETH) is a government-run wildlife facility adjacent to Udawalawe National Park. It rehabilitates orphaned elephant calves found in the wild, with the aim of releasing them back into the park. Visitors can observe feeding sessions from a distance. We include an ETH visit in our Safari + Elephant Transit + Transfer package.",
   },
 ];
 

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Our Ethical Safari Standard — Udawalawe Wild",
-  description: "Learn about our commitment to wildlife-first safaris, fair wages for guides, and sustainable tourism in Udawalawe.",
+  title: "Ethical Safari",
+  description: "Ethical Safari - Udawalawe Wild private safari tours.",
   openGraph: {
-    title: "Ethical Safari Standard",
-    description: "Wildlife comes first at Udawalawe Wild.",
+    title: "Ethical Safari",
+    description: "Ethical Safari - Udawalawe Wild private safari tours.",
     url: "https://www.udawalawe-wild.com/ethical-safari",
   },
   alternates: {
@@ -13,6 +13,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default function EthicalSafariLayout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return children;
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Safaris in Udawalawe — Half-day & Full-day Options",
+  title: "Udawalawe Safari Packages | Private Jeep Safari",
   description: "Compare morning, afternoon, and full-day safari options in Udawalawe National Park.",
   openGraph: {
     title: "Safaris in Udawalawe National Park",

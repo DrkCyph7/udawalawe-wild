@@ -137,7 +137,7 @@ export default function BookPage() {
                     <option value="">Not sure yet — recommend for me</option>
                     <option value="morning-private-safari">Morning Private Safari</option>
                     <option value="afternoon-private-safari">Afternoon Private Safari</option>
-                    <option value="full-day-wildlife.src-safari">Full-Day Wildlife Safari</option>
+                    <option value="full-day-wildlife-safari">Full-Day Wildlife Safari</option>
                     <option value="safari-transfer">Safari + Transfer</option>
                     <option value="safari-elephant-transit-transfer">
                       Safari + Elephant Transit + Transfer

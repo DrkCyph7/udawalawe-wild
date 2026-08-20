@@ -107,15 +107,15 @@ export default function GuidePage() {
             {[
               {
                 title: "Morning vs. afternoon safari",
-                body: "Morning safaris begin before dawn. The air is cool, the light is soft, and wildlife.src tends to be most active. Afternoon safaris start mid-afternoon and often finish at sunset — great for elephants gathering near water and for photography. Both are rewarding; if you can only choose one, mornings are usually quieter on the tracks.",
+                body: "Morning safaris begin before dawn. The air is cool, the light is soft, and wildlife tends to be most active. Afternoon safaris start mid-afternoon and often finish at sunset — great for elephants gathering near water and for photography. Both are rewarding; if you can only choose one, mornings are usually quieter on the tracks.",
               },
               {
-                title: "What wildlife.src you may see",
+                title: "What wildlife you may see",
                 body: "Udawalawe is best known for wild Asian elephants, which are typically visible in small family groups. You may also see water buffalo, spotted deer, jackals, crocodiles, monitor lizards, and a wide range of birdlife including peafowl, eagles, and painted storks. We can't promise any specific sighting.",
               },
               {
                 title: "What to wear and bring",
-                body: "Muted colours, long sleeves for early mornings, a hat, sunscreen, and refillable water. A light rain layer during monsoon months. Binoculars and a zoom lens if you have them — a phone camera is fine for memories but not for wildlife.src detail.",
+                body: "Muted colours, long sleeves for early mornings, a hat, sunscreen, and refillable water. A light rain layer during monsoon months. Binoculars and a zoom lens if you have them — a phone camera is fine for memories but not for wildlife detail.",
               },
               {
                 title: "How to reach Udawalawe",
@@ -189,6 +189,26 @@ export default function GuidePage() {
                       Our ethical safari standard
                     </Link>
                   </li>
+
+                  <li>
+                    <Link className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground" to="/guide/udawalawe-safari-cost">Udawalawe Safari Cost</Link>
+                  </li>
+                  <li>
+                    <Link className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground" to="/guide/best-time">Best Time to Visit</Link>
+                  </li>
+                  <li>
+                    <Link className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground" to="/guide/morning-vs-afternoon">Morning vs Afternoon</Link>
+                  </li>
+                  <li>
+                    <Link className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground" to="/guide/animals">Animals of Udawalawe</Link>
+                  </li>
+                  <li>
+                    <Link className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground" to="/guide/what-to-bring">What to Bring</Link>
+                  </li>
+                  <li>
+                    <Link className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground" to="/guide/udawalawe-vs-yala">Udawalawe vs Yala</Link>
+                  </li>
+
                 </ul>
               </div>
             </TiltCard>

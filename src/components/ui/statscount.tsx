@@ -63,7 +63,7 @@ function AnimatedCounter({
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { margin: '-50px' });
 
-  const motionValue = useMotionValue(0);
+  const motionValue = useMotionValue(value);
   const springValue = useSpring(motionValue, {
     damping: 20,
     stiffness: 50,
@@ -74,7 +74,7 @@ function AnimatedCounter({
     Number(latest.toFixed(value % 1 === 0 ? 0 : 1)),
   );
 
-  const [displayValue, setDisplayValue] = useState(0);
+  const [displayValue, setDisplayValue] = useState(value);
 
   useEffect(() => {
     const unsubscribe = rounded.on('change', (latest) => {
