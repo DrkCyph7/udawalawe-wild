@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { Star, Quote, X } from "lucide-react";
@@ -19,29 +19,61 @@ export function ReviewCarousel({ allReviews }: { allReviews: Review[] }) {
   const [selectedReview, setSelectedReview] = useState<Review | null>(null);
 
   const [mounted, setMounted] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
   
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    let animationId: number;
+    const container = scrollRef.current;
+
+    const scroll = () => {
+      if (container && !isPaused && !selectedReview) {
+        container.scrollLeft += 0.6;
+        
+        // Loop back to start when reaching the duplicate set
+        if (container.scrollLeft >= container.scrollWidth / 2) {
+          container.scrollLeft = 0;
+        }
+      }
+      animationId = requestAnimationFrame(scroll);
+    };
+
+    animationId = requestAnimationFrame(scroll);
+    return () => cancelAnimationFrame(animationId);
+  }, [isPaused, selectedReview]);
 
   const openReview = useCallback((r: Review) => setSelectedReview(r), []);
   const closeReview = useCallback(() => setSelectedReview(null), []);
 
   return (
     <>
-      {/* ── Infinite marquee track ─────────────────────────────────────── */}
+      {/* ── Auto-scrolling + manually scrollable track ───────────────── */}
       <div className="select-none" aria-label="Guest reviews carousel">
         <div
-          className="reviews-track"
-          style={{ animationPlayState: selectedReview ? "paused" : undefined }}
+          ref={scrollRef}
+          className="flex gap-5 overflow-x-auto"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => setIsPaused(false)}
+          onWheel={() => setIsPaused(true)} // pause briefly on manual wheel scroll
         >
+          {/* Hide Webkit scrollbar via inline style injection or global css, but scrollbarWidth="none" works for most */}
+          <style dangerouslySetInnerHTML={{ __html: `
+            div::-webkit-scrollbar { display: none; }
+          `}} />
           {allReviews.map((r, i) => (
             <button
               key={i}
               onClick={() => openReview(r)}
               aria-label={`Read full review by ${r.name}`}
               aria-haspopup="dialog"
-              className="card-lift w-80 shrink-0 rounded-2xl p-6 cursor-pointer text-left outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="card-lift w-[300px] sm:w-[320px] shrink-0 rounded-2xl p-6 cursor-pointer text-left outline-none focus-visible:ring-2 focus-visible:ring-accent"
               style={{
                 background: "oklch(1 0 0 / 0.78)",
                 border: "1px solid oklch(0.70 0.12 85 / 0.14)",
