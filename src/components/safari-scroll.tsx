@@ -77,7 +77,7 @@ export function SafariScroll({ safaris }: { safaris: SafariPackage[] }) {
                   {s.duration}
                 </div>
                 <h3 className="mt-1.5 font-serif text-lg text-foreground">{s.name}</h3>
-                <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground">
+                <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground line-clamp-3">
                   {s.short}
                 </p>
                 <Link

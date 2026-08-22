@@ -78,13 +78,13 @@ const trustStatsForComponent = [
   { value: 100, suffix: "%", label: "Verified Local Partners" },
   { value: 0, label: "Shared Vehicles" },
   { value: 0, label: "Hidden Fees" },
-  { value: 50, suffix: "+", label: "Species in the Park" },
+  { value: 250, suffix: "+", label: "Species in the Park" },
 ];
 
 /* ------------------- STAT PILLS ----------------------------------------- */
 const statPills = [
-  { label: "7+ Years Guiding", icon: Leaf },
-  { label: "50+ Species Spotted", icon: PawPrint },
+  { label: "7+ Years Local Expertise", icon: Leaf },
+  { label: "250+ Species Spotted", icon: PawPrint },
   { label: "100% Private Jeeps", icon: Car },
 ];
 
@@ -241,7 +241,7 @@ export default function Home() {
               <span className="relative inline-flex h-2 w-2 rounded-full bg-[oklch(0.70_0.12_85)]" />
             </span>
             <span className="text-xs font-semibold text-white" style={{ color: "oklch(0.98 0.005 95)" }}>
-              5.0 ★ · 167 Google Reviews
+              {reviewsData.listingRating} ★ · {reviewsData.listingReviewCount} Google Reviews
             </span>
           </div>
         </HeroFadeIn>

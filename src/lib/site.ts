@@ -10,9 +10,9 @@ export const SITE = {
   email: "hello@udawalawe-wild.com",
   telegram: "+94743807446",
   telegramDisplay: "+94 74 380 7446",
-  facebook: "https://facebook.com/udawalawe-wild",
-  tripadvisor: "https://tripadvisor.com",
-  location: "Udawalawe, Sabaragamuwa Province, Sri Lanka",
+  facebook: "https://facebook.com/udawalawe-wild", // TODO: replace with actual page URL
+  tripadvisor: "https://tripadvisor.com", // TODO: replace with actual listing URL
+  location: "Udawalawe, Uva Province, Sri Lanka",
   disclaimer:
     "Independent booking platform partnering with verified local operators. Not affiliated with Udawalawe National Park.",
 };

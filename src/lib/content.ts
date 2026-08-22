@@ -202,31 +202,31 @@ export const routes: RouteInfo[] = [
 export const faqs: { q: string; a: string }[] = [
   {
     q: "Are you the official Udawalawe National Park website?",
-    a: "No. Udawalawe Wild is an independent online booking platform. We help travelers plan safaris with verified local operators. We are not affiliated with the national park authority.",
+    a: "No — we're completely independent. Udawalawe Wild is an online booking platform that connects travellers with verified local safari operators. We're not affiliated with the Department of Wildlife Conservation or the national park authority in any way.",
   },
   {
     q: "Can you guarantee we will see elephants or other wildlife?",
-    a: "No responsible operator can guarantee sightings. Udawalawe is known for its elephant populations and diverse birdlife, but wildlife moves freely. We plan timings and routes that give you the best reasonable chance.",
+    a: "Honestly, no — and any operator who promises that isn't being straight with you. That said, Udawalawe has one of the densest wild elephant populations in Asia, so your chances are genuinely excellent. We plan timings and routes to give you the best realistic shot.",
   },
   {
     q: "Do you own the safari jeeps?",
-    a: "No. We partner with carefully verified, licensed local operators. This keeps money in the local economy and gives you experienced drivers who know the park.",
+    a: "We don't. Every safari is run by a licensed, independently verified local operator — someone who knows the park inside out. This keeps income in the local community and puts experience behind the wheel where it belongs.",
   },
   {
     q: "When will I know the price?",
-    a: "After you send an enquiry, we share a fixed, transparent quote before you confirm anything. No hidden fees.",
+    a: "You'll get a clear, fixed quote before you commit to anything — no surprises. Just send an enquiry with your dates and group size, and we'll come back with transparent pricing.",
   },
   {
     q: "How do I pay?",
-    a: "For now we accept enquiries and availability requests only. Payment details will be shared directly by your assigned operator once you confirm.",
+    a: "Once you've confirmed your booking, your assigned local operator will share payment details directly. We handle the coordination — they handle the money, keeping things simple and transparent.",
   },
   {
     q: "What is the best time for a safari?",
-    a: "Both morning and late afternoon sessions offer good wildlife activity and softer light. Midday is usually hotter and quieter.",
+    a: "Early morning and late afternoon are when the animals are most active and the light is at its best. Morning safaris start around 6 AM and feel quieter; afternoon safaris catch the golden hour and elephants bathing. Midday tends to be hot and still.",
   },
   {
     q: "What is the Elephant Transit Home?",
-    a: "The Elephant Transit Home (ETH) is a government-run wildlife facility adjacent to Udawalawe National Park. It rehabilitates orphaned elephant calves found in the wild, with the aim of releasing them back into the park. Visitors can observe feeding sessions from a distance. We include an ETH visit in our Safari + Elephant Transit + Transfer package.",
+    a: "The ETH is a government-run rehabilitation facility right next to the national park. It takes in orphaned elephant calves found in the wild and raises them with the aim of releasing them back into the park. Visitors can watch feeding sessions from a safe distance — it's a genuinely moving experience. We include an ETH visit in our Safari + Elephant Transit + Transfer package.",
   },
 ];
 
