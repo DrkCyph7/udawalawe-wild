@@ -4,8 +4,7 @@ import { useRef, ReactNode } from "react";
 
 // Detect touch/mobile at module level (SSR safe)
 const isTouchDevice =
-  typeof window !== "undefined" &&
-  window.matchMedia("(pointer: coarse)").matches;
+  typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches;
 
 export function Magnetic({
   children,
@@ -26,7 +25,11 @@ export function Magnetic({
     return <div className={`inline-flex ${className}`}>{children}</div>;
   }
 
-  return <MagneticInner intensity={intensity} jelly={jelly} className={className}>{children}</MagneticInner>;
+  return (
+    <MagneticInner intensity={intensity} jelly={jelly} className={className}>
+      {children}
+    </MagneticInner>
+  );
 }
 
 function MagneticInner({

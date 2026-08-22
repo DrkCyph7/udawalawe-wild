@@ -25,7 +25,9 @@ export const supabase: SupabaseClient | null = isSupabaseConfigured
     })
   : null;
 
-export const adminEmailAllowList = (process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? "admin@udawalawe-wild.com")
+export const adminEmailAllowList = (
+  process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? "admin@udawalawe-wild.com"
+)
   .split(",")
   .map((email: string) => email.trim().toLowerCase())
   .filter(Boolean);
@@ -36,10 +38,10 @@ export type BookingEnquiryRow = {
   updated_at?: string;
   guest_name: string;
   guest_email: string;
-  guest_whatsapp: string;    // optional in UI — stored as empty string when blank
+  guest_whatsapp: string; // optional in UI — stored as empty string when blank
   guest_hotel?: string | null;
-  guest_country?: string | null;       // country name, e.g. "Germany"
-  guest_country_code?: string | null;  // ISO code, e.g. "DE"
+  guest_country?: string | null; // country name, e.g. "Germany"
+  guest_country_code?: string | null; // ISO code, e.g. "DE"
   guest_ip?: string | null;
   guest_city?: string | null;
   guest_timezone?: string | null;
@@ -101,10 +103,7 @@ function toFriendlySupabaseError(error: unknown) {
   return "We couldn't reach the database. Check your connection and try again.";
 }
 
-export async function createBookingEnquiry(
-  values: Record<string, string>,
-  geo?: GeoInfo | null,
-) {
+export async function createBookingEnquiry(values: Record<string, string>, geo?: GeoInfo | null) {
   if (!supabase) {
     throw new Error(
       "Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.",
@@ -133,9 +132,7 @@ export async function createBookingEnquiry(
     status: "new",
   };
 
-  const { error } = await supabase
-    .from("booking_enquiries")
-    .insert(payload);
+  const { error } = await supabase.from("booking_enquiries").insert(payload);
 
   if (error) {
     console.error("Supabase insert error:", error);

@@ -42,14 +42,17 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup, theme = "li
           Request received ✓
         </div>
         <p className={`mt-2 ${isDark ? "text-[oklch(0.70_0.01_135)]" : "text-muted-foreground"}`}>
-          We'll contact you on WhatsApp with availability and pricing. We typically reply within a few hours.
+          We'll contact you on WhatsApp with availability and pricing. We typically reply within a
+          few hours.
         </p>
 
         {/* Optional WhatsApp nudge */}
         <div
           className={`mt-4 rounded-xl border p-4 ${isDark ? "border-white/10 bg-white/5" : "border-border bg-muted/30"}`}
         >
-          <p className={`text-xs font-medium ${isDark ? "text-[oklch(0.85_0.005_95)]" : "text-foreground"}`}>
+          <p
+            className={`text-xs font-medium ${isDark ? "text-[oklch(0.85_0.005_95)]" : "text-foreground"}`}
+          >
             Need a faster reply?
           </p>
           <a
@@ -124,7 +127,7 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup, theme = "li
         } catch (err) {
           if (isSupabaseConfigured) {
             const msg =
-              err instanceof Error 
+              err instanceof Error
                 ? `Submission failed: ${err.message}. Please verify your details or try again.`
                 : "Oops! We couldn't check availability right now. Please verify your connection and try again.";
             setSubmitError(msg);

@@ -72,7 +72,7 @@ export async function signIn(
   if (ip) {
     // Check if there are 5+ failed login attempts from this IP in the last hour
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
-    
+
     // We only count attempts where success = false and created_at > oneHourAgo
     const { count } = await supabase
       .from("admin_login_logs")
@@ -95,7 +95,8 @@ export async function signIn(
       return {
         ok: false,
         role: null,
-        error: "Your IP has been temporarily blocked due to excessive failed attempts. Please try again later.",
+        error:
+          "Your IP has been temporarily blocked due to excessive failed attempts. Please try again later.",
       };
     }
   }
@@ -228,8 +229,7 @@ export async function fetchLoginLogs(): Promise<LoginLogEntry[]> {
  */
 export async function fetchBookingsForRole(role: AdminRole) {
   if (!supabase) throw new Error("Supabase not configured.");
-  const table =
-    role === "superadmin" ? "booking_enquiries" : "booking_enquiries_admin_view";
+  const table = role === "superadmin" ? "booking_enquiries" : "booking_enquiries_admin_view";
   const { data, error } = await supabase
     .from(table)
     .select("*")

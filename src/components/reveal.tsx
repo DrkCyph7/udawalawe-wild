@@ -22,8 +22,7 @@ export function Reveal({
   // We detect mobile by checking if pointer is coarse (touch device).
   // SSR-safe: we skip blur on the server side entirely.
   const isTouchDevice =
-    typeof window !== "undefined" &&
-    window.matchMedia("(pointer: coarse)").matches;
+    typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches;
 
   const variants = {
     hidden: {

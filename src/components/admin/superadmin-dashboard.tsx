@@ -33,7 +33,6 @@ import {
   X,
 } from "lucide-react";
 
-
 /* ─── Types ──────────────────────────────────────────────── */
 
 type Booking = BookingEnquiryRow & { id: string };
@@ -74,11 +73,7 @@ function exportCsv<T extends Record<string, unknown>>(rows: T[], filename: strin
   const headers = Object.keys(rows[0]);
   const lines = [
     headers.join(","),
-    ...rows.map((r) =>
-      headers
-        .map((h) => `"${String(r[h] ?? "").replace(/"/g, '""')}"`)
-        .join(","),
-    ),
+    ...rows.map((r) => headers.map((h) => `"${String(r[h] ?? "").replace(/"/g, '""')}"`).join(",")),
   ];
   const blob = new Blob([lines.join("\n")], { type: "text/csv" });
   const url = URL.createObjectURL(blob);
@@ -94,7 +89,9 @@ function exportCsv<T extends Record<string, unknown>>(rows: T[], filename: strin
 function LogDetailPanel({ log, onClose }: { log: LoginLogEntry; onClose: () => void }) {
   const Field = ({ label, value }: { label: string; value: string | null | undefined }) => (
     <div className="flex items-start border-b border-green-500/20 py-1">
-      <div className="w-1/3 text-[10px] text-green-500/50 uppercase tracking-widest shrink-0 pr-2">[{label}]</div>
+      <div className="w-1/3 text-[10px] text-green-500/50 uppercase tracking-widest shrink-0 pr-2">
+        [{label}]
+      </div>
       <div className="w-2/3 text-[11px] text-green-400 break-all">{value || "NULL"}</div>
     </div>
   );
@@ -111,36 +108,43 @@ function LogDetailPanel({ log, onClose }: { log: LoginLogEntry; onClose: () => v
             <X className="h-5 w-5" />
           </button>
         </div>
-        
+
         <div className="p-2 max-h-[80vh] overflow-y-auto">
           <div className="flex flex-col gap-0 border border-green-500/20 p-2 bg-black/50">
             <Field label="ID" value={log.id} />
             <Field label="TIMESTAMP" value={formatDate(log.created_at)} />
             <Field label="TARGET_ACCOUNT" value={log.email} />
             <Field label="DETECTED_ROLE" value={log.role} />
-            
+
             <div className="flex items-start border-b border-green-500/20 py-1">
-              <div className="w-1/3 text-[10px] text-green-500/50 uppercase tracking-widest shrink-0 pr-2">[STATUS]</div>
-              <div className={`w-2/3 text-[11px] font-bold ${log.success ? 'text-green-500' : 'text-red-500'}`}>
-                {log.success ? 'GRANTED' : 'DENIED'}
+              <div className="w-1/3 text-[10px] text-green-500/50 uppercase tracking-widest shrink-0 pr-2">
+                [STATUS]
+              </div>
+              <div
+                className={`w-2/3 text-[11px] font-bold ${log.success ? "text-green-500" : "text-red-500"}`}
+              >
+                {log.success ? "GRANTED" : "DENIED"}
               </div>
             </div>
 
-            {log.failure_reason && (
-              <Field label="ERR_REASON" value={log.failure_reason} />
-            )}
+            {log.failure_reason && <Field label="ERR_REASON" value={log.failure_reason} />}
 
             <Field label="SOURCE_IP" value={log.login_ip} />
-            <Field label="GEO_LOCATION" value={`${log.login_city || '?'}, ${log.login_country || '?'}`} />
+            <Field
+              label="GEO_LOCATION"
+              value={`${log.login_city || "?"}, ${log.login_country || "?"}`}
+            />
             <Field label="GEO_CODE" value={log.login_country_code} />
             <Field label="TIMEZONE" value={log.login_timezone} />
             <Field label="USER_AGENT" value={log.user_agent} />
           </div>
         </div>
-        
+
         <div className="border-t border-green-500/30 bg-green-500/5 px-4 py-3 flex justify-between items-center text-[10px] text-green-500/50">
           <span>END OF RECORD.</span>
-          <button onClick={onClose} className="hover:text-green-500">[ CLOSE ]</button>
+          <button onClick={onClose} className="hover:text-green-500">
+            [ CLOSE ]
+          </button>
         </div>
       </div>
     </div>
@@ -170,7 +174,9 @@ function LoginLogsTable({ logs }: { logs: LoginLogEntry[] }) {
     <div className="space-y-4">
       {/* Search */}
       <div className="relative">
-        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-green-500/50 text-sm">&gt;</span>
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-green-500/50 text-sm">
+          &gt;
+        </span>
         <input
           type="search"
           placeholder="grep -i 'query'..."
@@ -185,16 +191,14 @@ function LoginLogsTable({ logs }: { logs: LoginLogEntry[] }) {
           <table className="min-w-full text-sm">
             <thead className="border-b border-green-500/30 text-left bg-green-500/10">
               <tr>
-                {["Time", "Account", "Status", "IP Address", "Location", "Browser"].map(
-                  (h) => (
-                    <th
-                      key={h}
-                      className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-green-500/70"
-                    >
-                      {h}
-                    </th>
-                  ),
-                )}
+                {["Time", "Account", "Status", "IP Address", "Location", "Browser"].map((h) => (
+                  <th
+                    key={h}
+                    className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-green-500/70"
+                  >
+                    {h}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody className="divide-y divide-green-500/10">
@@ -206,8 +210,8 @@ function LoginLogsTable({ logs }: { logs: LoginLogEntry[] }) {
                 </tr>
               ) : (
                 filtered.map((log) => (
-                  <tr 
-                    key={log.id} 
+                  <tr
+                    key={log.id}
                     onClick={() => setSelectedLog(log)}
                     className="align-top hover:bg-green-500/10 transition-colors cursor-pointer group"
                   >
@@ -216,7 +220,9 @@ function LoginLogsTable({ logs }: { logs: LoginLogEntry[] }) {
                     </td>
                     <td className="px-4 py-3 text-sm text-green-400 max-w-[180px] truncate">
                       {log.email}
-                      <div className="text-[10px] text-green-500/50 mt-1">{log.role || 'UNKNOWN'}</div>
+                      <div className="text-[10px] text-green-500/50 mt-1">
+                        {log.role || "UNKNOWN"}
+                      </div>
                     </td>
                     <td className="px-4 py-3">
                       {log.success ? (
@@ -229,7 +235,9 @@ function LoginLogsTable({ logs }: { logs: LoginLogEntry[] }) {
                       <span className="text-xs text-green-400">{log.login_ip ?? "NULL"}</span>
                     </td>
                     <td className="px-4 py-3 text-xs text-green-500/70">
-                      <div>{log.login_city ?? "?"}, {log.login_country_code ?? "?"}</div>
+                      <div>
+                        {log.login_city ?? "?"}, {log.login_country_code ?? "?"}
+                      </div>
                     </td>
                     <td className="px-4 py-3 max-w-[200px]">
                       <span
@@ -250,9 +258,7 @@ function LoginLogsTable({ logs }: { logs: LoginLogEntry[] }) {
         {filtered.length} / {logs.length} RECORDS MATCHED
       </div>
 
-      {selectedLog && (
-        <LogDetailPanel log={selectedLog} onClose={() => setSelectedLog(null)} />
-      )}
+      {selectedLog && <LogDetailPanel log={selectedLog} onClose={() => setSelectedLog(null)} />}
     </div>
   );
 }
@@ -260,10 +266,20 @@ function LoginLogsTable({ logs }: { logs: LoginLogEntry[] }) {
 /* ─── Booking Detail Panel ───────────────────────────────── */
 
 function BookingDetailPanel({ booking, onClose }: { booking: Booking; onClose: () => void }) {
-  const Field = ({ label, value }: { label: string; value: string | number | null | undefined }) => (
+  const Field = ({
+    label,
+    value,
+  }: {
+    label: string;
+    value: string | number | null | undefined;
+  }) => (
     <div className="flex items-start border-b border-green-500/20 py-1">
-      <div className="w-[140px] text-[10px] text-green-500/50 uppercase tracking-widest shrink-0 pr-2">[{label}]</div>
-      <div className="flex-1 text-[11px] text-green-400 break-words whitespace-pre-wrap">{value || "NULL"}</div>
+      <div className="w-[140px] text-[10px] text-green-500/50 uppercase tracking-widest shrink-0 pr-2">
+        [{label}]
+      </div>
+      <div className="flex-1 text-[11px] text-green-400 break-words whitespace-pre-wrap">
+        {value || "NULL"}
+      </div>
     </div>
   );
 
@@ -273,13 +289,15 @@ function BookingDetailPanel({ booking, onClose }: { booking: Booking; onClose: (
         <div className="flex items-center justify-between border-b border-green-500/30 bg-green-500/10 px-4 py-2 shrink-0">
           <div className="flex items-center gap-2 text-green-500">
             <Globe className="h-4 w-4" />
-            <span className="text-xs font-bold uppercase tracking-widest">DB_Record_Inspect // BOOKING</span>
+            <span className="text-xs font-bold uppercase tracking-widest">
+              DB_Record_Inspect // BOOKING
+            </span>
           </div>
           <button onClick={onClose} className="text-green-500/60 hover:text-green-500 transition">
             <X className="h-4 w-4" />
           </button>
         </div>
-        
+
         <div className="p-2 overflow-y-auto flex-1 bg-black">
           <div className="flex flex-col gap-0 border border-green-500/20 p-2 bg-black/50">
             <div className="text-[10px] text-green-500/80 uppercase tracking-widest border-b border-green-500/50 pb-1 mb-1 font-bold bg-green-500/10 px-2 py-0.5">
@@ -289,7 +307,7 @@ function BookingDetailPanel({ booking, onClose }: { booking: Booking; onClose: (
             <Field label="EMAIL" value={booking.guest_email} />
             <Field label="WHATSAPP" value={booking.guest_whatsapp} />
             <Field label="HOTEL" value={booking.guest_hotel} />
-            
+
             <div className="text-[10px] text-green-500/80 uppercase tracking-widest border-b border-green-500/50 pb-1 mb-1 mt-3 font-bold bg-green-500/10 px-2 py-0.5">
               [ROOT.NETWORK_METADATA]
             </div>
@@ -318,10 +336,12 @@ function BookingDetailPanel({ booking, onClose }: { booking: Booking; onClose: (
             <Field label="INTERNAL_NOTES" value={booking.internal_notes} />
           </div>
         </div>
-        
+
         <div className="border-t border-green-500/30 bg-green-500/5 px-4 py-3 flex justify-between items-center text-[10px] text-green-500/50 shrink-0">
           <span>END OF RECORD.</span>
-          <button onClick={onClose} className="hover:text-green-500">[ CLOSE ]</button>
+          <button onClick={onClose} className="hover:text-green-500">
+            [ CLOSE ]
+          </button>
         </div>
       </div>
     </div>
@@ -350,7 +370,9 @@ function BookingsTable({ bookings }: { bookings: Booking[] }) {
   return (
     <div className="space-y-4">
       <div className="relative">
-        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-green-500/50 text-sm">&gt;</span>
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-green-500/50 text-sm">
+          &gt;
+        </span>
         <input
           type="search"
           placeholder="grep -i 'guest_info'..."
@@ -365,14 +387,7 @@ function BookingsTable({ bookings }: { bookings: Booking[] }) {
           <table className="min-w-full text-sm">
             <thead className="border-b border-green-500/30 text-left bg-green-500/10">
               <tr>
-                {[
-                  "ID/Name",
-                  "Contact",
-                  "Origin",
-                  "IP.ADDR",
-                  "Safari",
-                  "Status",
-                ].map((h) => (
+                {["ID/Name", "Contact", "Origin", "IP.ADDR", "Safari", "Status"].map((h) => (
                   <th
                     key={h}
                     className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-green-500/70"
@@ -391,21 +406,25 @@ function BookingsTable({ bookings }: { bookings: Booking[] }) {
                 </tr>
               ) : (
                 filtered.map((b) => (
-                  <tr 
-                    key={b.id} 
+                  <tr
+                    key={b.id}
                     onClick={() => setSelectedBooking(b)}
                     className="align-middle hover:bg-green-500/10 transition-colors cursor-pointer group"
                   >
                     <td className="px-4 py-3 text-white/90 group-hover:text-green-300">
                       <div className="text-sm font-bold text-green-400">{b.guest_name}</div>
-                      <div className="text-[10px] text-green-500/40">{b.id.split('-')[0]}</div>
+                      <div className="text-[10px] text-green-500/40">{b.id.split("-")[0]}</div>
                     </td>
                     <td className="px-4 py-3 text-xs text-green-500/80 max-w-[160px] truncate">
                       {b.guest_email}
                     </td>
                     <td className="px-4 py-3 text-xs text-green-500/70">
-                      <div>{b.guest_city || "?"}, {b.guest_country_code || "?"}</div>
-                      <div className="text-[10px] text-green-500/40">{b.guest_timezone || "NULL"}</div>
+                      <div>
+                        {b.guest_city || "?"}, {b.guest_country_code || "?"}
+                      </div>
+                      <div className="text-[10px] text-green-500/40">
+                        {b.guest_timezone || "NULL"}
+                      </div>
                     </td>
                     <td className="px-4 py-3">
                       <span className="text-xs text-green-400">{b.guest_ip ?? "NULL"}</span>
@@ -413,7 +432,8 @@ function BookingsTable({ bookings }: { bookings: Booking[] }) {
                     <td className="px-4 py-3 text-xs text-green-500/80">
                       <div>{shortDate(b.safari_date)}</div>
                       <div className="text-[10px] text-green-500/50 mt-1">
-                        {b.adults}A {b.children > 0 ? `${b.children}C` : ""} // {b.safari_type || "ANY"}
+                        {b.adults}A {b.children > 0 ? `${b.children}C` : ""} //{" "}
+                        {b.safari_type || "ANY"}
                       </div>
                     </td>
                     <td className="px-4 py-3">
@@ -441,11 +461,7 @@ function BookingsTable({ bookings }: { bookings: Booking[] }) {
 
 /* ─── Main page ──────────────────────────────────────────── */
 
-export default function SuperAdminDashboard({
-  onSignOut,
-}: {
-  onSignOut: () => void;
-}) {
+export default function SuperAdminDashboard({ onSignOut }: { onSignOut: () => void }) {
   const [activeTab, setActiveTab] = useState<"bookings" | "logs">("logs");
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [logs, setLogs] = useState<LoginLogEntry[]>([]);
@@ -458,16 +474,12 @@ export default function SuperAdminDashboard({
       await loadData();
     }
     void init();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadData = async () => {
     setDataLoading(true);
     try {
-      const [b, l] = await Promise.all([
-        fetchBookingsForRole("superadmin"),
-        fetchLoginLogs(),
-      ]);
+      const [b, l] = await Promise.all([fetchBookingsForRole("superadmin"), fetchLoginLogs()]);
       setBookings(b as Booking[]);
       setLogs(l);
     } finally {
@@ -488,7 +500,6 @@ export default function SuperAdminDashboard({
     setRefreshing(false);
   };
 
-
   return (
     <div className="min-h-screen bg-black text-green-500 font-mono">
       {/* Header */}
@@ -500,7 +511,9 @@ export default function SuperAdminDashboard({
             </div>
             <div>
               <div className="text-[10px] text-green-500/60">&gt; SYSTEM.ROOT</div>
-              <h1 className="text-lg font-bold tracking-widest text-green-500 uppercase">SYS_ADMIN</h1>
+              <h1 className="text-lg font-bold tracking-widest text-green-500 uppercase">
+                SYS_ADMIN
+              </h1>
             </div>
           </div>
 
@@ -572,71 +585,77 @@ export default function SuperAdminDashboard({
         {dataLoading ? (
           <div className="flex flex-col items-center justify-center py-32 space-y-4">
             <Loader2 className="h-8 w-8 animate-spin text-green-500" />
-            <span className="text-sm font-bold tracking-widest text-green-500 animate-pulse">FETCHING_RECORDS...</span>
+            <span className="text-sm font-bold tracking-widest text-green-500 animate-pulse">
+              FETCHING_RECORDS...
+            </span>
           </div>
         ) : activeTab === "logs" ? (
           <>
             {/* Compute Banned IPs (5+ failures in last hour) */}
             {(() => {
               const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
-              const recentFailures = logs.filter(l => !l.success && new Date(l.created_at) > oneHourAgo);
+              const recentFailures = logs.filter(
+                (l) => !l.success && new Date(l.created_at) > oneHourAgo,
+              );
               const failuresByIp: Record<string, number> = {};
-              recentFailures.forEach(l => {
+              recentFailures.forEach((l) => {
                 if (l.login_ip) {
                   failuresByIp[l.login_ip] = (failuresByIp[l.login_ip] || 0) + 1;
                 }
               });
-              const bannedIps = Object.entries(failuresByIp).filter(([ip, count]) => count >= 5).map(([ip]) => ip);
+              const bannedIps = Object.entries(failuresByIp)
+                .filter(([ip, count]) => count >= 5)
+                .map(([ip]) => ip);
 
               return (
                 <>
                   {/* Summary cards */}
                   <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-5">
-              {[
-                { label: "TOTAL_ATTEMPTS", value: logs.length, color: "text-green-400" },
-                {
-                  label: "GRANTED",
-                  value: logs.filter((l) => l.success).length,
-                  color: "text-green-500",
-                },
-                {
-                  label: "DENIED",
-                  value: logs.filter((l) => !l.success).length,
-                  color: "text-red-500",
-                },
-                {
-                  label: "UNIQUE_IPS",
-                  value: new Set(logs.map((l) => l.login_ip).filter(Boolean)).size,
-                  color: "text-green-300",
-                },
-                {
-                  label: "BANNED_IPS",
-                  value: bannedIps.length,
-                  color: bannedIps.length > 0 ? "text-red-500 animate-pulse" : "text-green-500",
-                },
-              ].map((s) => (
-                <div
-                  key={s.label}
-                  className="border border-green-500/30 bg-black/40 p-4 shadow-[0_0_15px_rgba(0,255,65,0.05)]"
-                >
-                  <div className="text-[10px] font-bold uppercase tracking-widest text-green-500/50 mb-2">
-                    &gt; {s.label}
+                    {[
+                      { label: "TOTAL_ATTEMPTS", value: logs.length, color: "text-green-400" },
+                      {
+                        label: "GRANTED",
+                        value: logs.filter((l) => l.success).length,
+                        color: "text-green-500",
+                      },
+                      {
+                        label: "DENIED",
+                        value: logs.filter((l) => !l.success).length,
+                        color: "text-red-500",
+                      },
+                      {
+                        label: "UNIQUE_IPS",
+                        value: new Set(logs.map((l) => l.login_ip).filter(Boolean)).size,
+                        color: "text-green-300",
+                      },
+                      {
+                        label: "BANNED_IPS",
+                        value: bannedIps.length,
+                        color:
+                          bannedIps.length > 0 ? "text-red-500 animate-pulse" : "text-green-500",
+                      },
+                    ].map((s) => (
+                      <div
+                        key={s.label}
+                        className="border border-green-500/30 bg-black/40 p-4 shadow-[0_0_15px_rgba(0,255,65,0.05)]"
+                      >
+                        <div className="text-[10px] font-bold uppercase tracking-widest text-green-500/50 mb-2">
+                          &gt; {s.label}
+                        </div>
+                        <div className={`text-2xl font-bold ${s.color}`}>{s.value}</div>
+                      </div>
+                    ))}
                   </div>
-                  <div className={`text-2xl font-bold ${s.color}`}>{s.value}</div>
-                </div>
-              ))}
-            </div>
 
-            {bannedIps.length > 0 && (
-              <div className="mb-6 border border-red-500/50 bg-red-500/10 p-4">
-                <div className="text-xs font-bold text-red-500 mb-2">&gt; SECURITY_ALERT: ACTIVE_BANS</div>
-                <div className="text-sm text-red-400 font-mono">
-                  {bannedIps.join(", ")}
-                </div>
-              </div>
-            )}
-
-            </>
+                  {bannedIps.length > 0 && (
+                    <div className="mb-6 border border-red-500/50 bg-red-500/10 p-4">
+                      <div className="text-xs font-bold text-red-500 mb-2">
+                        &gt; SECURITY_ALERT: ACTIVE_BANS
+                      </div>
+                      <div className="text-sm text-red-400 font-mono">{bannedIps.join(", ")}</div>
+                    </div>
+                  )}
+                </>
               );
             })()}
             <LoginLogsTable logs={logs} />

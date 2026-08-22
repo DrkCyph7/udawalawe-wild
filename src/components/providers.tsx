@@ -16,14 +16,12 @@ export function Providers({ children }: { children: ReactNode }) {
             refetchOnWindowFocus: false,
           },
         },
-      })
+      }),
   );
 
   return (
     <QueryClientProvider client={queryClient}>
-      <CurtainProvider>
-        {children}
-      </CurtainProvider>
+      <CurtainProvider>{children}</CurtainProvider>
     </QueryClientProvider>
   );
 }

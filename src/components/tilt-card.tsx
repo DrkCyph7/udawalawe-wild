@@ -42,8 +42,7 @@ export function TiltCard({
   // TiltCard effect is mouse-only and mounts springs for zero benefit on touch, saving CPU/battery.
   // Note: we can't completely replace the DOM element due to hydration mismatch, so we just pass static 0s to the style tag.
   const isTouchDevice =
-    typeof window !== "undefined" &&
-    window.matchMedia("(pointer: coarse)").matches;
+    typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches;
 
   return (
     <motion.div

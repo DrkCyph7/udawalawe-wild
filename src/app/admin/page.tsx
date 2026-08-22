@@ -39,9 +39,9 @@ function LoginScreen({ onSuccess }: { onSuccess: (role: AdminRole) => void }) {
         onSuccess(result.role);
       } else {
         setError(
-          result.error === "AUTH_FAILURE" 
+          result.error === "AUTH_FAILURE"
             ? "Incorrect email or password. Please try again."
-            : result.error ?? "Authentication failed. Please check your credentials."
+            : (result.error ?? "Authentication failed. Please check your credentials."),
         );
       }
     } catch {
@@ -146,9 +146,9 @@ export default function AdminPage() {
 
   if (initLoading) {
     return (
-       <div className="flex min-h-screen items-center justify-center bg-background">
-          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-       </div>
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+      </div>
     );
   }
 

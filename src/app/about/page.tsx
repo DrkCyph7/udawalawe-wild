@@ -10,7 +10,6 @@ import { TiltCard } from "@/components/tilt-card";
 import { Magnetic } from "@/components/magnetic";
 import Image from "next/image";
 
-
 export default function AboutPage() {
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -56,7 +55,10 @@ export default function AboutPage() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       {/* Page hero */}
       <div className="page-hero">
         <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-8">

@@ -9,7 +9,6 @@ import { motion } from "framer-motion";
 import { Magnetic } from "@/components/magnetic";
 import Image from "next/image";
 
-
 export default function EthicalPage() {
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -32,7 +31,10 @@ export default function EthicalPage() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       {/* Page hero — dark cinematic banner */}
       <div className="page-hero">
         <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-8">

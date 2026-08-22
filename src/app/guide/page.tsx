@@ -12,7 +12,6 @@ import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion
 import { useRef } from "react";
 import Image from "next/image";
 
-
 export default function GuidePage() {
   const prefersReducedMotion = useReducedMotion();
   const imageRef = useRef<HTMLDivElement>(null);
@@ -47,7 +46,10 @@ export default function GuidePage() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <div className="page-hero">
         <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-8">
           <Reveal>
@@ -191,24 +193,53 @@ export default function GuidePage() {
                   </li>
 
                   <li>
-                    <Link className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground" to="/guide/udawalawe-safari-cost">Udawalawe Safari Cost</Link>
+                    <Link
+                      className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground"
+                      to="/guide/udawalawe-safari-cost"
+                    >
+                      Udawalawe Safari Cost
+                    </Link>
                   </li>
                   <li>
-                    <Link className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground" to="/guide/best-time">Best Time to Visit</Link>
+                    <Link
+                      className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground"
+                      to="/guide/best-time"
+                    >
+                      Best Time to Visit
+                    </Link>
                   </li>
                   <li>
-                    <Link className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground" to="/guide/morning-vs-afternoon">Morning vs Afternoon</Link>
+                    <Link
+                      className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground"
+                      to="/guide/morning-vs-afternoon"
+                    >
+                      Morning vs Afternoon
+                    </Link>
                   </li>
                   <li>
-                    <Link className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground" to="/guide/animals">Animals of Udawalawe</Link>
+                    <Link
+                      className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground"
+                      to="/guide/animals"
+                    >
+                      Animals of Udawalawe
+                    </Link>
                   </li>
                   <li>
-                    <Link className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground" to="/guide/what-to-bring">What to Bring</Link>
+                    <Link
+                      className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground"
+                      to="/guide/what-to-bring"
+                    >
+                      What to Bring
+                    </Link>
                   </li>
                   <li>
-                    <Link className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground" to="/guide/udawalawe-vs-yala">Udawalawe vs Yala</Link>
+                    <Link
+                      className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground"
+                      to="/guide/udawalawe-vs-yala"
+                    >
+                      Udawalawe vs Yala
+                    </Link>
                   </li>
-
                 </ul>
               </div>
             </TiltCard>

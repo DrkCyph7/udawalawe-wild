@@ -7,7 +7,6 @@ import { Magnetic } from "@/components/magnetic";
 import { buildSafariMessage, waLink } from "@/lib/site";
 import { fetchGeoInfo } from "@/lib/geo";
 
-
 const steps = ["Dates & travellers", "Safari & pickup", "Your details", "Confirmed"];
 
 export default function BookPage() {
@@ -31,8 +30,8 @@ export default function BookPage() {
       } catch (error) {
         // Stay on the form so the guest sees the error and can retry.
         const fallbackMessage =
-          error instanceof Error 
-            ? `Submission failed: ${error.message}. Please check your details or try again later.` 
+          error instanceof Error
+            ? `Submission failed: ${error.message}. Please check your details or try again later.`
             : "Oops! We couldn't submit your booking. Please check your internet connection and try again.";
         setSubmitError(fallbackMessage);
       } finally {
@@ -42,7 +41,6 @@ export default function BookPage() {
     }
     setStep((s) => s + 1);
   };
-
 
   return (
     <div className="section-dark min-h-[calc(100vh-80px)] pt-12 pb-24">
@@ -230,9 +228,7 @@ export default function BookPage() {
                   </svg>
                 </div>
 
-                <h2 className="mt-5 font-serif text-3xl text-foreground">
-                  Enquiry received!
-                </h2>
+                <h2 className="mt-5 font-serif text-3xl text-foreground">Enquiry received!</h2>
                 <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
                   We've logged your safari request and will reply with verified options and a fixed
                   quote within one business day.
@@ -240,9 +236,7 @@ export default function BookPage() {
 
                 {/* Optional WhatsApp nudge */}
                 <div className="mx-auto mt-8 max-w-sm rounded-2xl border border-white/10 bg-white/5 p-5">
-                  <p className="text-sm font-medium text-foreground">
-                    Need a faster reply?
-                  </p>
+                  <p className="text-sm font-medium text-foreground">Need a faster reply?</p>
                   <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
                     Drop us a WhatsApp message right now and we'll get back to you instantly.
                   </p>

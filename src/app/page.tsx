@@ -1,12 +1,6 @@
-"use client";
-
 import { TransitionLink as Link } from "@/components/transition-link";
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import {
-  motion,
-  AnimatePresence,
-  useReducedMotion,
-} from "framer-motion";
+import { type ReactNode } from "react";
+import { motion } from "framer-motion";
 import { TiltCard } from "@/components/tilt-card";
 import { Reveal } from "@/components/reveal";
 import {
@@ -39,10 +33,11 @@ import { Magnetic } from "@/components/magnetic";
 import { LogoTicker } from "@/components/ui/logo-ticker";
 import { HeroEditorialStagger, HeroLine, HeroFadeIn } from "@/components/ui/hero-editorial-stagger";
 import { StaggeredHero } from "@/components/ui/staggered-hero";
+import { HeroSlideshow } from "@/components/hero-slideshow";
+import { SafariScroll } from "@/components/safari-scroll";
 import { safaris, faqs, routes as travelRoutes } from "@/lib/content";
 import reviewsData from "@/lib/reviews.json";
 import { waLink } from "@/lib/site";
-
 
 /* ------------------- ETHICS RULES ------------------------------------- */
 const ethicsRules = [
@@ -95,13 +90,7 @@ const statPills = [
 /* Helper: map safari card index to its image + srcSet */
 function getSafariImage(i: number) {
   const idx = i % 5;
-  const map = [
-    elephantPortrait,
-    ethicalImg,
-    wildlife,
-    landscape,
-    elephantPortrait,
-  ] as const;
+  const map = [elephantPortrait, ethicalImg, wildlife, landscape, elephantPortrait] as const;
   return map[idx];
 }
 
@@ -114,67 +103,34 @@ export default function Home() {
   /* Duplicate reviews for infinite marquee */
   const allReviews = [...reviewsData.reviews, ...reviewsData.reviews];
 
-  /* Mobile safari scroll dot tracker */
-  const safariScrollRef = useRef<HTMLDivElement>(null);
-  const [activeDot, setActiveDot] = useState(0);
-
-  useEffect(() => {
-    const el = safariScrollRef.current;
-    if (!el) return;
-    const handler = () => {
-      const idx = Math.round(el.scrollLeft / (el.offsetWidth * 0.72 + 16));
-      setActiveDot(Math.max(0, Math.min(idx, visibleSafaris.length - 1)));
-    };
-    el.addEventListener("scroll", handler, { passive: true });
-    return () => el.removeEventListener("scroll", handler);
-  }, [visibleSafaris.length]);
-
-  /* Hero background slideshow */
-  const desktopHeroImages = [
-    {
-      src: landscape,
-      alt: "Sweeping savanna landscape of Udawalawe National Park",
-      title: "Udawalawe Safari Jeep Booking - Best Private Safari Tours",
+  const serviceJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Udawalawe National Park Safari Tours",
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Udawalawe Wild",
     },
-    {
-      src: elephantPortrait,
-      alt: "Close-up portrait of a Sri Lankan elephant during a morning safari in Udawalawe",
-      title: "Best time for elephant sightings in Udawalawe",
+    description:
+      "Private jeep safari tours in Udawalawe National Park with verified local operators.",
+    areaServed: {
+      "@type": "Place",
+      name: "Udawalawe National Park",
     },
-    {
-      src: ethicalImg,
-      alt: "Wildlife viewing in its natural habitat at Udawalawe National Park",
-      title: "Full Day Udawalawe National Park Safari",
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Safari Packages",
+      itemListElement: visibleSafaris.map((s, idx) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: s.name,
+          description: s.short,
+        },
+        position: idx + 1,
+      })),
     },
-  ];
-
-  const mobileHeroImages = [
-    {
-      src: elephantPortrait,
-      alt: "Close-up portrait of a Sri Lankan elephant during a morning safari in Udawalawe",
-      title: "Best time for elephant sightings in Udawalawe",
-    },
-    {
-      src: landscape,
-      alt: "Sweeping savanna landscape of Udawalawe National Park",
-      title: "Udawalawe Safari Jeep Booking - Best Private Safari Tours",
-    },
-    {
-      src: ethicalImg,
-      alt: "Wildlife viewing in its natural habitat at Udawalawe National Park",
-      title: "Full Day Udawalawe National Park Safari",
-    },
-  ];
-  const [activeHero, setActiveHero] = useState(0);
-
-  useEffect(() => {
-    const id = setInterval(() => setActiveHero((i) => (i + 1) % desktopHeroImages.length), 6000);
-    return () => clearInterval(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const prefersReducedMotion = useReducedMotion();
-
+  };
 
   const faqJsonLd = {
     "@context": "https://schema.org",
@@ -195,51 +151,43 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
       {/* ----------------------- HERO ---------------------------------- */}
       {/* header is fixed+transparent, so hero fills full 100svh from top */}
-      <section
-        className="relative isolate z-10 overflow-hidden h-[100svh] min-h-[600px] sm:min-h-[680px] flex flex-col"
-      >
-        {/* ── Crossfade background slideshow ──────────────────────── */}
-        <motion.div className="absolute inset-0 -z-10">
-          {/* Slideshow */}
-          <AnimatePresence initial={false}>
-            <motion.div
-              key={`slide-${activeHero}`}
-              style={{ willChange: "opacity" }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.2, ease: "easeInOut" }}
-              className="absolute inset-0 h-full w-full"
-            >
-              <Image
-                src={desktopHeroImages[activeHero].src}
-                alt={desktopHeroImages[activeHero].alt}
-                title={desktopHeroImages[activeHero].title}
-                fill
-                sizes="100vw"
-                priority={activeHero === 0}
-                className="hidden sm:block object-cover object-center"
-              />
-              <Image
-                src={mobileHeroImages[activeHero].src}
-                alt={mobileHeroImages[activeHero].alt}
-                title={mobileHeroImages[activeHero].title}
-                fill
-                sizes="100vw"
-                priority={activeHero === 0}
-                className="sm:hidden object-cover object-center"
-              />
-            </motion.div>
-          </AnimatePresence>
+      <section className="relative isolate z-10 overflow-hidden h-[100svh] min-h-[600px] sm:min-h-[680px] flex flex-col">
+        {/* ── Background Slideshow & Static LCP ──────────────────────── */}
+        <div className="absolute inset-0 -z-10">
+          <Image
+            src={landscape}
+            alt="Sweeping savanna landscape of Udawalawe National Park"
+            title="Udawalawe Safari Jeep Booking - Best Private Safari Tours"
+            fill
+            sizes="100vw"
+            priority
+            fetchPriority="high"
+            className="hidden sm:block object-cover object-center"
+          />
+          <Image
+            src={elephantPortrait}
+            alt="Close-up portrait of a Sri Lankan elephant during a morning safari in Udawalawe"
+            title="Best time for elephant sightings in Udawalawe"
+            fill
+            sizes="100vw"
+            priority
+            fetchPriority="high"
+            className="block sm:hidden object-cover object-center"
+          />
+          <HeroSlideshow />
           {/* Cinematic dark vignette */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[oklch(0.18_0.015_135_/_0.92)] via-[oklch(0.18_0.015_135_/_0.48)] to-[oklch(0.18_0.015_135_/_0.15)]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[oklch(0.18_0.015_135_/_0.92)] via-[oklch(0.18_0.015_135_/_0.48)] to-[oklch(0.18_0.015_135_/_0.15)] z-10" />
           {/* Left-side dark anchor so text always readable */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[oklch(0.18_0.015_135_/_0.72)] via-[oklch(0.18_0.015_135_/_0.2)] to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[oklch(0.18_0.015_135_/_0.72)] via-[oklch(0.18_0.015_135_/_0.2)] to-transparent z-10" />
           {/* Golden-hour warm wash from right (hidden on mobile to prevent yellow tint) */}
-          <div className="hidden sm:block absolute inset-0 bg-gradient-to-l from-[oklch(0.70_0.12_85_/_0.1)] to-transparent" />
-        </motion.div>
+          <div className="hidden sm:block absolute inset-0 bg-gradient-to-l from-[oklch(0.70_0.12_85_/_0.1)] to-transparent z-10" />
+        </div>
 
         {/* ── Wildlife ticker — rendered BELOW the fixed header (top-16) ─ */}
         {/* Header is ~64px tall + 16px offset = 80px, so we offset ticker by 88px */}
@@ -277,52 +225,25 @@ export default function Home() {
         </div>
 
         {/* ── Live rating badge — liquid glass pill ───────────────── */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute top-[120px] right-4 sm:right-8 hidden sm:flex items-center gap-2 rounded-full px-4 py-2.5"
-          style={{
-            background: "oklch(1 0 0 / 0.08)",
-            border: "1px solid oklch(1 0 0 / 0.18)",
-            backdropFilter: "blur(20px) saturate(1.8)",
-            boxShadow: "0 4px 24px oklch(0 0 0 / 0.25), inset 0 1px 0 oklch(1 0 0 / 0.15)",
-          }}
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[oklch(0.70_0.12_85)] opacity-70" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-[oklch(0.70_0.12_85)]" />
-          </span>
-          <span className="text-xs font-semibold" style={{ color: "oklch(0.98 0.005 95)" }}>
-            5.0 ★ · 167 Google Reviews
-          </span>
-        </motion.div>
-
-        {/* ── Slide indicator dots — bottom left ──────────────────── */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.6 }}
-          className="absolute bottom-20 sm:bottom-16 left-4 sm:left-8 flex gap-1.5 items-center"
-        >
-          {desktopHeroImages.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setActiveHero(i)}
-              className="group relative flex h-11 w-11 cursor-pointer items-center justify-center rounded-full outline-none"
-              aria-label={`Go to slide ${i + 1}`}
-            >
-              <span
-                className="transition-all duration-500 rounded-full"
-                style={{
-                  width: i === activeHero ? 22 : 6,
-                  height: 4,
-                  background: i === activeHero ? "oklch(0.70 0.12 85)" : "oklch(1 0 0 / 0.35)",
-                }}
-              />
-            </button>
-          ))}
-        </motion.div>
+        <HeroFadeIn className="absolute top-[120px] right-4 sm:right-8 hidden sm:flex items-center gap-2 rounded-full px-4 py-2.5 z-20">
+          <div
+            className="flex items-center gap-2 rounded-full px-4 py-2.5"
+            style={{
+              background: "oklch(1 0 0 / 0.08)",
+              border: "1px solid oklch(1 0 0 / 0.18)",
+              backdropFilter: "blur(20px) saturate(1.8)",
+              boxShadow: "0 4px 24px oklch(0 0 0 / 0.25), inset 0 1px 0 oklch(1 0 0 / 0.15)",
+            }}
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[oklch(0.70_0.12_85)] opacity-70" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[oklch(0.70_0.12_85)]" />
+            </span>
+            <span className="text-xs font-semibold" style={{ color: "oklch(0.98 0.005 95)" }}>
+              5.0 ★ · 167 Google Reviews
+            </span>
+          </div>
+        </HeroFadeIn>
 
         {/* ── Main content — centered; pt accounts for header (80px) + gap + ticker (36px) ── */}
         <div className="flex-1 flex items-center pt-[110px] sm:pt-[130px] pb-24 sm:pb-8">
@@ -349,7 +270,7 @@ export default function Home() {
                 </div>
               </HeroFadeIn>
 
-              <StaggeredHero 
+              <StaggeredHero
                 title="Private Udawalawe Safari Tours"
                 subtitle="Experience Udawalawe wildly. Private, wildlife-first safaris with verified local partners, transparent pricing, and simple planning."
                 style={{ color: "oklch(0.98 0.005 95)" }}
@@ -418,12 +339,7 @@ export default function Home() {
             </div>
 
             {/* Right — enquiry glass card */}
-            <motion.div
-              initial={{ opacity: 0, x: 30, filter: "blur(8px)" }}
-              animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="hidden sm:block"
-            >
+            <Reveal delay={300} direction="left" className="hidden sm:block">
               <div
                 className="rounded-3xl p-6 sm:p-8 card-glass"
                 style={{
@@ -441,33 +357,26 @@ export default function Home() {
                 </div>
                 <EnquiryForm theme="dark" />
               </div>
-            </motion.div>
+            </Reveal>
           </div>
         </div>
 
         {/* ── Scroll cue ──────────────────────────────────────────── */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8, duration: 0.8 }}
+        <div
           className="absolute bottom-7 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2"
           style={{ color: "oklch(0.98 0.005 95 / 0.5)" }}
         >
           <span className="text-[9px] font-semibold uppercase tracking-[0.3em]">Explore</span>
-          <motion.div
-            animate={prefersReducedMotion ? {} : { y: [0, 6, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+          <div
             className="h-8 w-5 rounded-full flex items-start justify-center pt-1.5"
             style={{ border: "1.5px solid oklch(1 0 0 / 0.25)" }}
           >
-            <motion.div
-              className="h-1.5 w-1 rounded-full"
+            <div
+              className="h-1.5 w-1 rounded-full animate-bounce"
               style={{ background: "oklch(0.70 0.12 85)" }}
-              animate={prefersReducedMotion ? {} : { y: [0, 10, 0], opacity: [1, 0, 1] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
             />
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </section>
 
       {/* ------------------- TRUST STRIP ------------------------------- */}
@@ -481,10 +390,10 @@ export default function Home() {
           }}
         />
 
-        <StatsCount 
-          stats={trustStatsForComponent} 
+        <StatsCount
+          stats={trustStatsForComponent}
           title="TRUSTED BY ADVENTURERS WORLDWIDE"
-          className="bg-sand-200 text-forest-900" 
+          className="bg-sand-200 text-forest-900"
         />
       </div>
 
@@ -510,60 +419,7 @@ export default function Home() {
 
           {/* Mobile: horizontal snap scroll | Desktop: 5-col grid */}
           <div className="mt-10">
-            {/* Combined Responsive Grid */}
-            <div
-              ref={safariScrollRef}
-              className="flex gap-4 overflow-x-auto scroll-snap-x pb-2 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 sm:overflow-x-visible sm:snap-none"
-            >
-              {visibleSafaris.map((s, i) => (
-                <Reveal key={s.slug} delay={i * 70} className="h-full shrink-0 safari-snap-card sm:w-auto">
-                  <TiltCard className="h-full" intensity={7}>
-                    <article
-                      className="card-lift group flex h-full flex-col overflow-hidden rounded-xl card-glass"
-                      style={{ transformStyle: "preserve-3d" }}
-                    >
-                      <div className="relative aspect-[3/2] sm:aspect-[4/5] overflow-hidden bg-muted">
-                        <Image
-                          src={getSafariImage(i)}
-                          alt={`${s.name} - Udawalawe Safari Jeep Booking and Best Private Safari Tours`}
-                          title={`${s.name} - Udawalawe Safari Jeep Booking`}
-                          fill
-                          sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                          className="object-cover transition duration-700 group-hover:scale-[1.06]"
-                        />
-                      </div>
-                      <div className="flex flex-1 flex-col p-4">
-                        <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-muted-foreground">
-                          <Binoculars className="h-3 w-3" aria-hidden="true" />
-                          {s.duration}
-                        </div>
-                        <h3 className="mt-1.5 font-serif text-lg text-foreground">{s.name}</h3>
-                        <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground">
-                          {s.short}
-                        </p>
-                        <Link
-                          to="/safaris"
-                          className="link-underline mt-3 flex items-center gap-1 text-xs font-medium text-accent"
-                        >
-                          Learn more
-                          <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
-                        </Link>
-                      </div>
-                    </article>
-                  </TiltCard>
-                </Reveal>
-              ))}
-            </div>
-
-            {/* Scroll dots — hidden on sm+ via CSS */}
-            <div className="snap-dots sm:hidden flex justify-center gap-2 mt-4">
-              {visibleSafaris.map((_, i) => (
-                <div
-                  key={i}
-                  className={`snap-dot h-2 w-2 rounded-full bg-[color:var(--forest)] transition-opacity ${i === activeDot ? "opacity-100" : "opacity-40"}`}
-                />
-              ))}
-            </div>
+            <SafariScroll safaris={visibleSafaris} />
           </div>
         </Section>
       </div>
@@ -685,7 +541,10 @@ export default function Home() {
       <div className="bg-sand-100 text-forest-900">
         <Section style={{ contentVisibility: "auto", containIntrinsicSize: "auto 600px" }}>
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-            <Reveal direction="left" className="grain overflow-hidden rounded-2xl relative h-[280px] sm:h-[380px] lg:h-[480px] w-full">
+            <Reveal
+              direction="left"
+              className="grain overflow-hidden rounded-2xl relative h-[280px] sm:h-[380px] lg:h-[480px] w-full"
+            >
               <Image
                 src={wildlife}
                 alt="Peacock and water buffalo peacefully resting in Udawalawe National Park"
@@ -693,6 +552,7 @@ export default function Home() {
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
+                loading="lazy"
               />
             </Reveal>
 
@@ -704,19 +564,14 @@ export default function Home() {
               />
               <ul className="mt-6 space-y-3">
                 {ethicsRules.map(({ icon: Icon, r }, i) => (
-                  <motion.li
-                    key={r}
-                    initial={{ opacity: 0, x: -16 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                    className="flex items-start gap-3 text-sm text-foreground/85"
-                  >
-                    <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-forest-900/5 border border-forest-900/20">
-                      <Icon className="h-3.5 w-3.5 text-forest-900" aria-hidden="true" />
-                    </span>
-                    {r}
-                  </motion.li>
+                  <Reveal key={r} delay={i * 80} direction="right">
+                    <li className="flex items-start gap-3 text-sm text-foreground/85">
+                      <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-forest-900/5 border border-forest-900/20">
+                        <Icon className="h-3.5 w-3.5 text-forest-900" aria-hidden="true" />
+                      </span>
+                      {r}
+                    </li>
+                  </Reveal>
                 ))}
               </ul>
               <Link
@@ -750,48 +605,37 @@ export default function Home() {
           </Reveal>
           <div className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4 items-stretch">
             {visibleRoutes.map((r, i) => (
-                  <Reveal key={r.slug} delay={i * 70} className="h-full">
-                    <TiltCard className="h-full" intensity={6}>
-                      <Link
-                        to={`/${r.slug}`}
-                        className="group flex h-full flex-col gap-1.5 rounded-xl p-4 transition-all duration-300 card-glass"
-                        style={{ transformStyle: "preserve-3d" }}
-                        onMouseEnter={(e: React.MouseEvent) => {
-                          (e.currentTarget as HTMLElement).style.borderColor =
-                            "oklch(0.70 0.12 85 / 0.4)";
-                          (e.currentTarget as HTMLElement).style.boxShadow =
-                            "0 0 0 1px oklch(0.70 0.12 85 / 0.2), 0 16px 40px oklch(0 0 0 / 0.3)";
-                        }}
-                        onMouseLeave={(e: React.MouseEvent) => {
-                          (e.currentTarget as HTMLElement).style.borderColor = "oklch(1 0 0 / 0.1)";
-                          (e.currentTarget as HTMLElement).style.boxShadow =
-                            "0 8px 32px oklch(0 0 0 / 0.3), inset 0 1px 0 oklch(1 0 0 / 0.12)";
-                        }}
-                      >
-                        <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-[color:var(--text-light-on-dark)]/70">
-                          <MapPin className="h-2.5 w-2.5" aria-hidden="true" />
-                          From
-                        </div>
-                        <div
-                          className="font-serif text-base leading-tight sm:text-xl"
-                          style={{ color: "oklch(0.98 0.005 95)" }}
-                        >
-                          {r.from}
-                        </div>
-                        <div
-                          className="text-xs leading-snug"
-                          style={{ color: "oklch(0.70 0.01 135)" }}
-                        >
-                          {r.drive}
-                        </div>
-                        <div className="mt-auto pt-2 flex items-center gap-1 text-xs font-medium transition-opacity duration-200 text-accent">
-                          View route
-                          <ChevronRight className="h-3 w-3 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
-                        </div>
-                      </Link>
-                    </TiltCard>
-                  </Reveal>
-                ))}
+              <Reveal key={r.slug} delay={i * 70} className="h-full">
+                <TiltCard className="h-full" intensity={6}>
+                  <Link
+                    to={`/${r.slug}`}
+                    className="group flex h-full flex-col gap-1.5 rounded-xl p-4 transition-all duration-300 card-glass hover:border-[oklch(0.70_0.12_85_/_0.4)] hover:shadow-[0_0_0_1px_oklch(0.70_0.12_85_/_0.2),_0_16px_40px_oklch(0_0_0_/_0.3)]"
+                    style={{ transformStyle: "preserve-3d" }}
+                  >
+                    <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-[color:var(--text-light-on-dark)]/70">
+                      <MapPin className="h-2.5 w-2.5" aria-hidden="true" />
+                      From
+                    </div>
+                    <div
+                      className="font-serif text-base leading-tight sm:text-xl"
+                      style={{ color: "oklch(0.98 0.005 95)" }}
+                    >
+                      {r.from}
+                    </div>
+                    <div className="text-xs leading-snug" style={{ color: "oklch(0.70 0.01 135)" }}>
+                      {r.drive}
+                    </div>
+                    <div className="mt-auto pt-2 flex items-center gap-1 text-xs font-medium transition-opacity duration-200 text-accent">
+                      View route
+                      <ChevronRight
+                        className="h-3 w-3 transition-transform duration-200 group-hover:translate-x-0.5"
+                        aria-hidden="true"
+                      />
+                    </div>
+                  </Link>
+                </TiltCard>
+              </Reveal>
+            ))}
           </div>
         </Section>
       </div>
@@ -846,7 +690,9 @@ export default function Home() {
                   aria-hidden="true"
                 />
                 <div className="relative">
-                  <p className="text-sm leading-relaxed text-foreground/80 italic line-clamp-4">"{r.text}"</p>
+                  <p className="text-sm leading-relaxed text-foreground/80 italic line-clamp-4">
+                    "{r.text}"
+                  </p>
                 </div>
 
                 {/* Author */}
@@ -856,9 +702,19 @@ export default function Home() {
                 >
                   <div className="flex items-center gap-3">
                     {r.photoUrl ? (
-                      <Image src={r.photoUrl} alt={r.name} width={40} height={40} className="rounded-full object-cover" unoptimized={true} />
+                      <Image
+                        src={r.photoUrl}
+                        alt={r.name}
+                        width={40}
+                        height={40}
+                        className="rounded-full object-cover"
+                        unoptimized={true}
+                      />
                     ) : (
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center bg-sand-200 text-forest-900 font-bold text-sm" aria-hidden="true">
+                      <div
+                        className="w-10 h-10 rounded-full flex items-center justify-center bg-sand-200 text-forest-900 font-bold text-sm"
+                        aria-hidden="true"
+                      >
                         {r.name.charAt(0)}
                       </div>
                     )}
@@ -867,7 +723,12 @@ export default function Home() {
                       <div className="text-[10px] text-muted-foreground mt-0.5">{r.date}</div>
                     </div>
                   </div>
-                  <a href="https://maps.app.goo.gl/FMj8GgqVGXFyc9zQ7" target="_blank" rel="noopener noreferrer" className="shrink-0 text-right group hover:opacity-80 transition-opacity">
+                  <a
+                    href="https://maps.app.goo.gl/FMj8GgqVGXFyc9zQ7"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="shrink-0 text-right group hover:opacity-80 transition-opacity"
+                  >
                     <div className="text-[10px] uppercase tracking-widest text-muted-foreground group-hover:text-accent">
                       Google Review
                     </div>

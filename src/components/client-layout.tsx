@@ -14,12 +14,10 @@ export function ClientLayout({ children }: { children: ReactNode }) {
   return (
     <>
       {!isAdmin && <SiteHeader />}
-      
+
       <div className="flex min-h-screen flex-col bg-background text-foreground overflow-x-hidden relative">
         <div className="relative z-10 flex-1 bg-background">
-          <main className="relative flex-1 overflow-x-hidden">
-                {children}
-          </main>
+          <main className="relative flex-1 overflow-x-hidden">{children}</main>
         </div>
 
         {!isAdmin && (

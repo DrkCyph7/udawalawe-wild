@@ -19,7 +19,9 @@ export function Section({
 
 export function Eyebrow({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <div className={`mb-3 text-xs font-medium uppercase tracking-[0.2em] ${className || "text-foreground/60"}`}>
+    <div
+      className={`mb-3 text-xs font-medium uppercase tracking-[0.2em] ${className || "text-foreground/60"}`}
+    >
       {children}
     </div>
   );

@@ -37,7 +37,6 @@ import {
   X,
 } from "lucide-react";
 
-
 /* ------------------- TYPES -------------------------------------------- */
 
 type Booking = BookingEnquiryRow & { id: string };
@@ -612,7 +611,6 @@ export default function AdminDashboard({
     }
   };
 
-
   /* ── Dashboard ── */
   return (
     <div className="min-h-screen bg-[color:var(--sand)]/20">
@@ -713,9 +711,17 @@ export default function AdminDashboard({
         <div className="mb-6 flex gap-4">
           <div className="flex-1 rounded-xl border border-border bg-card p-4 shadow-sm flex items-center justify-between">
             <div>
-              <div className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Enquiries Today</div>
+              <div className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+                Enquiries Today
+              </div>
               <div className="mt-1 font-serif text-2xl text-foreground">
-                {bookings.filter(b => b.created_at && new Date(b.created_at).toDateString() === new Date().toDateString()).length}
+                {
+                  bookings.filter(
+                    (b) =>
+                      b.created_at &&
+                      new Date(b.created_at).toDateString() === new Date().toDateString(),
+                  ).length
+                }
               </div>
             </div>
             <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
@@ -724,16 +730,20 @@ export default function AdminDashboard({
           </div>
           <div className="flex-1 rounded-xl border border-border bg-card p-4 shadow-sm flex items-center justify-between">
             <div>
-              <div className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Upcoming Safaris (7 Days)</div>
+              <div className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+                Upcoming Safaris (7 Days)
+              </div>
               <div className="mt-1 font-serif text-2xl text-foreground">
-                {bookings.filter(b => {
-                  if (!b.safari_date) return false;
-                  const date = new Date(b.safari_date);
-                  const today = new Date();
-                  const in7Days = new Date();
-                  in7Days.setDate(today.getDate() + 7);
-                  return date >= today && date <= in7Days;
-                }).length}
+                {
+                  bookings.filter((b) => {
+                    if (!b.safari_date) return false;
+                    const date = new Date(b.safari_date);
+                    const today = new Date();
+                    const in7Days = new Date();
+                    in7Days.setDate(today.getDate() + 7);
+                    return date >= today && date <= in7Days;
+                  }).length
+                }
               </div>
             </div>
             <div className="h-10 w-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">

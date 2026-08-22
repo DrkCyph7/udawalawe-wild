@@ -81,9 +81,7 @@ export const buildSafariMessage = (data: Record<string, string>): string => {
   push(lines, data.pickup ? `📍 *Pickup:* ${data.pickup}` : null);
   push(
     lines,
-    data.dropoff && data.dropoff !== data.pickup
-      ? `🏁 *Drop-off:* ${data.dropoff}`
-      : null,
+    data.dropoff && data.dropoff !== data.pickup ? `🏁 *Drop-off:* ${data.dropoff}` : null,
   );
   push(lines, data.hotel ? `🏨 *Hotel:* ${data.hotel}` : null);
   push(lines, data.email ? `✉️ *Email:* ${data.email}` : null);

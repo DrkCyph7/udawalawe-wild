@@ -14,7 +14,6 @@ import { TiltCard } from "@/components/tilt-card";
 import { Magnetic } from "@/components/magnetic";
 import Image from "next/image";
 
-
 const imgs = [elephantPortrait, safariJeep, wildlife, landscape, elephantPortrait];
 
 export default function SafarisPage() {
@@ -37,11 +36,44 @@ export default function SafarisPage() {
     ],
   };
 
+  const serviceJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Udawalawe National Park Safari Tours",
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Udawalawe Wild",
+    },
+    description:
+      "Private jeep safari tours in Udawalawe National Park with verified local operators.",
+    areaServed: {
+      "@type": "Place",
+      name: "Udawalawe National Park",
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Safari Packages",
+      itemListElement: safaris.map((s, idx) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: s.name,
+          description: s.short,
+        },
+        position: idx + 1,
+      })),
+    },
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
       />
       {/* Page hero — dark cinematic banner */}
       <div className="page-hero">

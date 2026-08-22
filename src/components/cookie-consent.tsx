@@ -58,8 +58,8 @@ export function CookieConsent() {
           </div>
 
           <p className="mt-4 text-sm leading-relaxed text-white/70">
-            We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. 
-            By clicking "Accept", you consent to our use of cookies.
+            We use cookies to enhance your browsing experience, serve personalized content, and
+            analyze our traffic. By clicking "Accept", you consent to our use of cookies.
           </p>
 
           <div className="mt-5 flex items-center gap-3">

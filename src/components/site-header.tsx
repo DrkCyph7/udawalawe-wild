@@ -55,7 +55,7 @@ export function SiteHeader() {
           : "border-white/[0.12] ring-white/[0.08] shadow-[0_8px_40px_rgba(0,0,0,0.5)] bg-[oklch(0.20_0.018_135_/_0.82)] backdrop-blur-2xl py-0.5"
       }`}
       style={{
-        transitionProperty: "background-color, border-color, box-shadow, padding, backdrop-filter"
+        transitionProperty: "background-color, border-color, box-shadow, padding, backdrop-filter",
       }}
     >
       <div className="flex items-center justify-between px-3 py-2 sm:px-5 sm:py-2.5">
@@ -90,7 +90,9 @@ export function SiteHeader() {
                 key={n.to}
                 to={n.to}
                 className={`relative flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium transition-all duration-300 whitespace-nowrap ${
-                  isActive ? "text-white bg-white/15 shadow-sm" : "text-white/70 hover:bg-white/10 hover:text-white"
+                  isActive
+                    ? "text-white bg-white/15 shadow-sm"
+                    : "text-white/70 hover:bg-white/10 hover:text-white"
                 }`}
               >
                 <n.icon className="h-3.5 w-3.5 opacity-80 shrink-0" aria-hidden="true" />
@@ -171,11 +173,15 @@ export function SiteHeader() {
             ? "max-h-[32rem] opacity-100 border-t border-white/10 rounded-b-2xl"
             : "max-h-0 opacity-0"
         }`}
-        style={open ? {
-          background: "oklch(0.18 0.015 135 / 0.92)",
-          backdropFilter: "blur(24px) saturate(1.8)",
-          WebkitBackdropFilter: "blur(24px) saturate(1.8)",
-        } : undefined}
+        style={
+          open
+            ? {
+                background: "oklch(0.18 0.015 135 / 0.92)",
+                backdropFilter: "blur(24px) saturate(1.8)",
+                WebkitBackdropFilter: "blur(24px) saturate(1.8)",
+              }
+            : undefined
+        }
         aria-hidden={!open}
       >
         <nav className="flex flex-col gap-1.5 px-3 py-4 sm:px-5" aria-label="Mobile navigation">
@@ -187,7 +193,9 @@ export function SiteHeader() {
                 to={n.to}
                 onClick={() => setOpen(false)}
                 className={`flex items-center gap-3.5 rounded-xl px-4 py-3 text-[15px] font-medium transition-all duration-200 active:scale-[0.98] ${
-                  isActive ? "text-white bg-white/15 shadow-sm" : "text-white/75 hover:bg-white/10 hover:text-white"
+                  isActive
+                    ? "text-white bg-white/15 shadow-sm"
+                    : "text-white/75 hover:bg-white/10 hover:text-white"
                 }`}
               >
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/5 border border-white/10">

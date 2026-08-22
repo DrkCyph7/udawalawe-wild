@@ -621,7 +621,44 @@
   }
 }
 
-/* Safari card fixed height for mobile horizontal scroll */
+/* ── Mobile Safari horizontal scroll track ──────────────────────── */
+.safari-scroll-track {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  /* scroll-padding matches the left padding so snapping lands on card edge */
+  scroll-padding-left: 0px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+  /* No negative margin — sits inside the Section's 16px padding naturally */
+}
+
+.safari-scroll-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Each card: 80vw wide so you get a clear peek of the next card */
+.safari-scroll-item {
+  flex: 0 0 80vw;
+  max-width: 320px;
+  min-height: 360px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Make the article fill the full item height for uniform cards */
+.safari-scroll-item > article {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Desktop: these classes don't apply (sm:hidden on the wrapper) */
+
+/* Safari card fixed height for mobile horizontal scroll (legacy — kept for safety) */
 .safari-snap-card {
   width: 72vw;
   max-width: 280px;
@@ -636,6 +673,8 @@
     flex-shrink: 1;
   }
 }
+
+
 
 /* Benefit tiles — equal height grid */
 .benefit-tile {

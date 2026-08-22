@@ -74,7 +74,7 @@ export const TransitionLink = forwardRef(
                 } else {
                   router.push(to);
                 }
-                // Add artificial delay to allow Next.js App Router to fetch and render the new route 
+                // Add artificial delay to allow Next.js App Router to fetch and render the new route
                 // before the curtain lifts, preventing the snap-flash issue.
                 await new Promise((resolve) => setTimeout(resolve, 600));
               },

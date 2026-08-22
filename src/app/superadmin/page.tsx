@@ -54,9 +54,7 @@ function LoginScreen({ onSuccess }: { onSuccess: () => void }) {
           <h1 className="mt-5 text-xl font-bold text-green-500 tracking-widest uppercase">
             System.Root
           </h1>
-          <p className="mt-1.5 text-xs text-green-500/60">
-            &gt; WARNING: ALL ACTIVITY MONITORED_
-          </p>
+          <p className="mt-1.5 text-xs text-green-500/60">&gt; WARNING: ALL ACTIVITY MONITORED_</p>
 
           <form onSubmit={(e) => void handleSubmit(e)} className="mt-8 space-y-4">
             <div>
@@ -96,11 +94,7 @@ function LoginScreen({ onSuccess }: { onSuccess: () => void }) {
               className="mt-6 flex w-full items-center justify-between border border-green-500 bg-green-500/10 px-4 py-3 text-sm font-bold text-green-500 transition hover:bg-green-500 hover:text-black disabled:opacity-50"
             >
               <span>{loading ? "INITIALIZING..." : "EXECUTE"}</span>
-              {loading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Cpu className="h-4 w-4" />
-              )}
+              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Cpu className="h-4 w-4" />}
             </button>
           </form>
 

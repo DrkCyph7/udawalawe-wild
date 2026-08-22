@@ -22,7 +22,7 @@ export function StaggeredHero({
 }: StaggeredHeroProps) {
   // Split title into words to stagger them individually
   const titleWords = title.split(" ");
-  
+
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -48,7 +48,11 @@ export function StaggeredHero({
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, delay: staggerDelay + (titleWords.length * wordDelay) + 0.2, ease: "easeOut" },
+      transition: {
+        duration: 0.8,
+        delay: staggerDelay + titleWords.length * wordDelay + 0.2,
+        ease: "easeOut",
+      },
     },
   };
 
@@ -61,16 +65,12 @@ export function StaggeredHero({
         className="font-serif leading-[1.05] text-4xl sm:text-6xl lg:text-7xl flex flex-wrap m-0"
       >
         {titleWords.map((word, idx) => (
-          <motion.span
-            key={idx}
-            variants={itemVariants}
-            className="inline-block mr-[0.25em]"
-          >
+          <motion.span key={idx} variants={itemVariants} className="inline-block mr-[0.25em]">
             {word}
           </motion.span>
         ))}
       </motion.h1>
-      
+
       {subtitle && (
         <motion.p
           variants={subVariants}
@@ -84,11 +84,7 @@ export function StaggeredHero({
       )}
 
       {children && (
-        <motion.div
-          variants={subVariants}
-          initial="hidden"
-          animate="visible"
-        >
+        <motion.div variants={subVariants} initial="hidden" animate="visible">
           {children}
         </motion.div>
       )}

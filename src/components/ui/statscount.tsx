@@ -1,14 +1,8 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-  useTransform,
-  useInView,
-} from 'motion/react';
-import { cn } from '@/lib/utils';
+import { useEffect, useRef, useState } from "react";
+import { motion, useMotionValue, useSpring, useTransform, useInView } from "motion/react";
+import { cn } from "@/lib/utils";
 
 interface StatItem {
   value: number;
@@ -27,29 +21,29 @@ interface StatsCountProps {
 const defaultStats: StatItem[] = [
   {
     value: 50,
-    suffix: '+',
-    label: 'Handcrafted animated components',
+    suffix: "+",
+    label: "Handcrafted animated components",
     duration: 5,
   },
   {
     value: 12,
-    suffix: 'K+',
-    label: 'Developers building with ScrollX-UI',
+    suffix: "K+",
+    label: "Developers building with ScrollX-UI",
     duration: 6,
   },
   {
     value: 99,
-    suffix: '%',
-    label: 'Performance optimized for web',
+    suffix: "%",
+    label: "Performance optimized for web",
     duration: 5.5,
   },
 ];
 
-const defaultTitle = 'CREATE STUNNING INTERFACES WITH SCROLLX-UI COMPONENTS';
+const defaultTitle = "CREATE STUNNING INTERFACES WITH SCROLLX-UI COMPONENTS";
 
 function AnimatedCounter({
   value,
-  suffix = '',
+  suffix = "",
   duration = 1,
   delay = 0,
   label,
@@ -61,7 +55,7 @@ function AnimatedCounter({
   label: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { margin: '-50px' });
+  const isInView = useInView(ref, { margin: "-50px" });
 
   const motionValue = useMotionValue(value);
   const springValue = useSpring(motionValue, {
@@ -77,7 +71,7 @@ function AnimatedCounter({
   const [displayValue, setDisplayValue] = useState(value);
 
   useEffect(() => {
-    const unsubscribe = rounded.on('change', (latest) => {
+    const unsubscribe = rounded.on("change", (latest) => {
       setDisplayValue(latest);
     });
     return () => unsubscribe();
@@ -104,23 +98,21 @@ function AnimatedCounter({
       transition={{
         duration: 0.8,
         delay: delay * 0.2,
-        type: 'spring',
+        type: "spring",
         stiffness: 80,
       }}
-      className={cn(
-        'text-center flex-1 min-w-0 flex flex-col justify-center h-full',
-      )}
+      className={cn("text-center flex-1 min-w-0 flex flex-col justify-center h-full")}
     >
       <motion.div
         className={cn(
-          'text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-4 whitespace-nowrap',
+          "text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-4 whitespace-nowrap",
         )}
         initial={{ scale: 0.8 }}
         animate={isInView ? { scale: 1 } : { scale: 0.8 }}
         transition={{
           duration: 0.6,
           delay: delay * 0.2 + 0.3,
-          type: 'spring',
+          type: "spring",
           stiffness: 100,
         }}
       >
@@ -129,9 +121,9 @@ function AnimatedCounter({
       </motion.div>
       <motion.p
         className={cn(
-          'text-gray-600 dark:text-gray-400 text-xs sm:text-sm leading-relaxed px-1 sm:px-2 hyphens-auto wrap-break-word',
+          "text-gray-600 dark:text-gray-400 text-xs sm:text-sm leading-relaxed px-1 sm:px-2 hyphens-auto wrap-break-word",
         )}
-        style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}
+        style={{ wordBreak: "break-word", overflowWrap: "break-word" }}
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ delay: delay * 0.2 + 0.6, duration: 0.6 }}
@@ -146,16 +138,16 @@ export default function StatsCount({
   stats = defaultStats,
   title = defaultTitle,
   showDividers = true,
-  className = '',
+  className = "",
 }: StatsCountProps) {
   const containerRef = useRef<HTMLElement>(null);
-  const isInView = useInView(containerRef, { margin: '-100px' });
+  const isInView = useInView(containerRef, { margin: "-100px" });
 
   return (
     <motion.section
       ref={containerRef}
       className={cn(
-        'py-8 sm:py-12 lg:py-20 px-2 sm:px-4 md:px-8 w-full overflow-hidden',
+        "py-8 sm:py-12 lg:py-20 px-2 sm:px-4 md:px-8 w-full overflow-hidden",
         className,
       )}
       initial={{ opacity: 0 }}
@@ -163,45 +155,35 @@ export default function StatsCount({
       transition={{ duration: 0.8 }}
     >
       <motion.div
-        className={cn('text-center mb-8 sm:mb-12 lg:mb-16')}
+        className={cn("text-center mb-8 sm:mb-12 lg:mb-16")}
         initial={{ opacity: 0, y: -20 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
         <h2
           className={cn(
-            'text-sm sm:text-base md:text-lg lg:text-xl font-medium tracking-wide px-4',
+            "text-sm sm:text-base md:text-lg lg:text-xl font-medium tracking-wide px-4",
           )}
         >
-          <span className='hidden sm:inline'>
-            {title.includes('WITH') ? (
+          <span className="hidden sm:inline">
+            {title.includes("WITH") ? (
               <>
-                {title.split('WITH')[0]}WITH{' '}
-                <span
-                  className={cn(
-                    'text-blue-600 dark:text-blue-400 font-semibold',
-                  )}
-                >
-                  {title.split('WITH')[1]}
+                {title.split("WITH")[0]}WITH{" "}
+                <span className={cn("text-blue-600 dark:text-blue-400 font-semibold")}>
+                  {title.split("WITH")[1]}
                 </span>
               </>
             ) : (
               title
             )}
           </span>
-          <div
-            className={cn('flex flex-col items-center leading-tight sm:hidden')}
-          >
-            {title.includes('WITH') ? (
+          <div className={cn("flex flex-col items-center leading-tight sm:hidden")}>
+            {title.includes("WITH") ? (
               <>
-                <span>{title.split('WITH')[0].trim()}</span>
-                <span className={cn('text-center')}>WITH</span>
-                <span
-                  className={cn(
-                    'text-blue-600 dark:text-blue-400 font-semibold',
-                  )}
-                >
-                  {title.split('WITH')[1].trim()}
+                <span>{title.split("WITH")[0].trim()}</span>
+                <span className={cn("text-center")}>WITH</span>
+                <span className={cn("text-blue-600 dark:text-blue-400 font-semibold")}>
+                  {title.split("WITH")[1].trim()}
                 </span>
               </>
             ) : (
@@ -211,18 +193,16 @@ export default function StatsCount({
         </h2>
       </motion.div>
 
-      <div className={cn('w-full max-w-6xl mx-auto')}>
+      <div className={cn("w-full max-w-6xl mx-auto")}>
         <div
           className={cn(
-            'grid grid-cols-2 gap-y-8 gap-x-2 sm:flex sm:flex-row sm:items-stretch sm:justify-between sm:gap-4 lg:gap-8 w-full min-h-30 sm:min-h-35',
+            "grid grid-cols-2 gap-y-8 gap-x-2 sm:flex sm:flex-row sm:items-stretch sm:justify-between sm:gap-4 lg:gap-8 w-full min-h-30 sm:min-h-35",
           )}
         >
           {stats.map((stat, index) => (
             <div
               key={index}
-              className={cn(
-                'relative flex-1 min-w-0 flex flex-col justify-center h-full',
-              )}
+              className={cn("relative flex-1 min-w-0 flex flex-col justify-center h-full")}
             >
               <AnimatedCounter
                 value={stat.value}
@@ -234,15 +214,11 @@ export default function StatsCount({
               {index < stats.length - 1 && showDividers && (
                 <motion.div
                   className={cn(
-                    'absolute -right-1 sm:-right-2 lg:-right-4 top-1/2 transform -translate-y-1/2 h-12 sm:h-16 lg:h-20 w-px bg-gray-300/50 dark:bg-gray-700',
-                    index % 2 === 1 ? 'hidden sm:block' : 'block'
+                    "absolute -right-1 sm:-right-2 lg:-right-4 top-1/2 transform -translate-y-1/2 h-12 sm:h-16 lg:h-20 w-px bg-gray-300/50 dark:bg-gray-700",
+                    index % 2 === 1 ? "hidden sm:block" : "block",
                   )}
                   initial={{ opacity: 0, scaleY: 0 }}
-                  animate={
-                    isInView
-                      ? { opacity: 1, scaleY: 1 }
-                      : { opacity: 0, scaleY: 0 }
-                  }
+                  animate={isInView ? { opacity: 1, scaleY: 1 } : { opacity: 0, scaleY: 0 }}
                   transition={{ delay: 1.5 + index * 0.2, duration: 0.6 }}
                 />
               )}
