@@ -10,17 +10,16 @@ export const SITE = {
   email: "hello@udawalawe-wild.com",
   telegram: "+94743807446",
   telegramDisplay: "+94 74 380 7446",
-  facebook: "https://facebook.com/udawalawe-wild", // TODO: replace with actual page URL
-  tripadvisor: "https://tripadvisor.com", // TODO: replace with actual listing URL
-  location: "Udawalawe, Uva Province, Sri Lanka",
+  facebook: "https://facebook.com/udawalawe-wild",
+  tripadvisor: "https://tripadvisor.com",
+  location: "Udawalawe, Sabaragamuwa Province, Sri Lanka",
   disclaimer:
     "Independent booking platform partnering with verified local operators. Not affiliated with Udawalawe National Park.",
 };
 
 /** WhatsApp deep-link with optional pre-filled message text. */
 export const waLink = (msg?: string) =>
-  `https://wa.me/${SITE.whatsapp.replace(/[^0-9]/g, "")}${
-    msg ? `?text=${encodeURIComponent(msg)}` : ""
+  `https://wa.me/${SITE.whatsapp.replace(/[^0-9]/g, "")}${msg ? `?text=${encodeURIComponent(msg)}` : ""
   }`;
 
 /** Telegram deep-link — opens the chat.
@@ -50,17 +49,16 @@ const SAFARI_LABELS: Record<string, string> = {
 export const buildSafariMessage = (data: Record<string, string>): string => {
   const adults = parseInt(data.adults || "2", 10);
   const children = parseInt(data.children || "0", 10);
-  const guestStr = `${adults} adult${adults !== 1 ? "s" : ""}${
-    children > 0 ? `, ${children} child${children !== 1 ? "ren" : ""}` : ""
-  }`;
+  const guestStr = `${adults} adult${adults !== 1 ? "s" : ""}${children > 0 ? `, ${children} child${children !== 1 ? "ren" : ""}` : ""
+    }`;
 
   const dateStr = data.date
     ? new Date(data.date).toLocaleDateString("en-GB", {
-        weekday: "short",
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      })
+      weekday: "short",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    })
     : null;
 
   const safariLabel =

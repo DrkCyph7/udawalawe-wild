@@ -51,13 +51,13 @@ export function SafariScroll({ safaris }: { safaris: SafariPackage[] }) {
 
   return (
     <>
-      <div 
-        ref={safariScrollRef} 
+      <div
+        ref={safariScrollRef}
         className="flex gap-4 overflow-x-auto scroll-snap-x pb-2 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 sm:overflow-x-visible sm:snap-none"
       >
         {safaris.map((s, i) => (
           <div key={s.slug} className="flex shrink-0 safari-snap-card sm:w-auto">
-            <article 
+            <article
               className="card-lift group flex w-full flex-col overflow-hidden rounded-xl card-glass transition-all duration-300 hover:shadow-xl hover:border-[oklch(0.70_0.12_85_/_0.4)]"
               style={{ transformStyle: "preserve-3d" }}
             >
@@ -77,7 +77,7 @@ export function SafariScroll({ safaris }: { safaris: SafariPackage[] }) {
                   {s.duration}
                 </div>
                 <h3 className="mt-1.5 font-serif text-lg text-foreground">{s.name}</h3>
-                <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground line-clamp-3">
+                <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground">
                   {s.short}
                 </p>
                 <Link
