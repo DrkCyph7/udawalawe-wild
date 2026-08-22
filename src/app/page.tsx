@@ -35,6 +35,7 @@ import { HeroEditorialStagger, HeroLine, HeroFadeIn } from "@/components/ui/hero
 import { StaggeredHero } from "@/components/ui/staggered-hero";
 import { HeroSlideshow } from "@/components/hero-slideshow";
 import { SafariScroll } from "@/components/safari-scroll";
+import { ReviewCarousel } from "@/components/review-carousel";
 import { safaris, faqs, routes as travelRoutes } from "@/lib/content";
 import reviewsData from "@/lib/reviews.json";
 import { waLink } from "@/lib/site";
@@ -214,7 +215,7 @@ export default function Home() {
             ].map((s, i) => (
               <span
                 key={i}
-                className="px-5 text-[10px] font-semibold tracking-[0.22em] uppercase whitespace-nowrap"
+                className="px-5 text-[10px] font-semibold tracking-[0.22em] uppercase whitespace-nowrap text-white"
                 style={{ color: "oklch(0.98 0.005 95 / 0.6)" }}
               >
                 {s}
@@ -239,7 +240,7 @@ export default function Home() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[oklch(0.70_0.12_85)] opacity-70" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-[oklch(0.70_0.12_85)]" />
             </span>
-            <span className="text-xs font-semibold" style={{ color: "oklch(0.98 0.005 95)" }}>
+            <span className="text-xs font-semibold text-white" style={{ color: "oklch(0.98 0.005 95)" }}>
               5.0 ★ · 167 Google Reviews
             </span>
           </div>
@@ -262,7 +263,7 @@ export default function Home() {
                 >
                   <Sparkles className="h-3 w-3" style={{ color: "oklch(0.80 0.08 85)" }} />
                   <span
-                    className="text-[10px] font-semibold uppercase tracking-[0.2em]"
+                    className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white"
                     style={{ color: "oklch(0.98 0.005 95 / 0.85)" }}
                   >
                     Udawalawe, Sri Lanka
@@ -273,6 +274,7 @@ export default function Home() {
               <StaggeredHero
                 title="Private Udawalawe Safari Tours"
                 subtitle="Experience Udawalawe wildly. Private, wildlife-first safaris with verified local partners, transparent pricing, and simple planning."
+                className="text-white"
                 style={{ color: "oklch(0.98 0.005 95)" }}
               >
                 <div className="mt-8 flex flex-col sm:flex-row flex-wrap gap-3">
@@ -295,7 +297,7 @@ export default function Home() {
                       href={waLink("Hi Udawalawe Wild, I'd like to plan a safari.")}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-xl px-6 py-3.5 sm:py-3 text-sm font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
+                      className="inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-xl px-6 py-3.5 sm:py-3 text-sm font-semibold transition-all duration-300 hover:scale-105 active:scale-95 text-white"
                       style={{
                         border: "1px solid oklch(1 0 0 / 0.22)",
                         color: "oklch(0.98 0.005 95)",
@@ -316,7 +318,7 @@ export default function Home() {
                   {statPills.map(({ label, icon: Icon }) => (
                     <div
                       key={label}
-                      className="inline-flex shrink-0 items-center gap-1.5 sm:gap-2 rounded-full px-3 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-xs font-semibold"
+                      className="inline-flex shrink-0 items-center gap-1.5 sm:gap-2 rounded-full px-3 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-xs font-semibold text-white"
                       style={{
                         background: "oklch(1 0 0 / 0.1)",
                         border: "1px solid oklch(1 0 0 / 0.18)",
@@ -656,88 +658,7 @@ export default function Home() {
         </Reveal>
 
         {/* Infinite marquee track */}
-        <div className="select-none" aria-label="Guest reviews carousel">
-          <div className="reviews-track">
-            {allReviews.map((r, i) => (
-              <div
-                key={i}
-                className="card-lift w-80 shrink-0 rounded-2xl p-6"
-                style={{
-                  background: "oklch(1 0 0 / 0.78)",
-                  border: "1px solid oklch(0.70 0.12 85 / 0.14)",
-                  backdropFilter: "blur(16px) saturate(1.5)",
-                  WebkitBackdropFilter: "blur(16px) saturate(1.5)",
-                  boxShadow: "0 4px 24px oklch(0 0 0 / 0.07), inset 0 1px 0 oklch(1 0 0 / 0.8)",
-                }}
-                aria-hidden={i >= allReviews.length / 2 ? "true" : undefined}
-              >
-                {/* Stars */}
-                <div className="flex gap-0.5 mb-3">
-                  {Array.from({ length: r.rating }).map((_, s) => (
-                    <Star
-                      key={s}
-                      className="h-3.5 w-3.5"
-                      style={{ fill: "oklch(0.70 0.12 85)", color: "oklch(0.70 0.12 85)" }}
-                      aria-hidden="true"
-                    />
-                  ))}
-                </div>
-
-                {/* Quote */}
-                <Quote
-                  className="h-4 w-4 mb-2"
-                  style={{ color: "oklch(0.70 0.12 85 / 0.35)" }}
-                  aria-hidden="true"
-                />
-                <div className="relative">
-                  <p className="text-sm leading-relaxed text-foreground/80 italic line-clamp-4">
-                    "{r.text}"
-                  </p>
-                </div>
-
-                {/* Author */}
-                <div
-                  className="mt-4 flex items-center justify-between gap-3 pt-4"
-                  style={{ borderTop: "1px solid oklch(0.70 0.12 85 / 0.12)" }}
-                >
-                  <div className="flex items-center gap-3">
-                    {r.photoUrl ? (
-                      <Image
-                        src={r.photoUrl}
-                        alt={r.name}
-                        width={40}
-                        height={40}
-                        className="rounded-full object-cover"
-                        unoptimized={true}
-                      />
-                    ) : (
-                      <div
-                        className="w-10 h-10 rounded-full flex items-center justify-center bg-sand-200 text-forest-900 font-bold text-sm"
-                        aria-hidden="true"
-                      >
-                        {r.name.charAt(0)}
-                      </div>
-                    )}
-                    <div>
-                      <div className="text-sm font-semibold text-foreground">{r.name}</div>
-                      <div className="text-[10px] text-muted-foreground mt-0.5">{r.date}</div>
-                    </div>
-                  </div>
-                  <a
-                    href="https://maps.app.goo.gl/FMj8GgqVGXFyc9zQ7"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="shrink-0 text-right group hover:opacity-80 transition-opacity"
-                  >
-                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground group-hover:text-accent">
-                      Google Review
-                    </div>
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <ReviewCarousel allReviews={allReviews} />
       </section>
 
       {/* ------------------- FAQ ---------------------------------------- */}

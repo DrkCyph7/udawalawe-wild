@@ -32,14 +32,14 @@ const mobileHeroImages = [
     title: "Best time for elephant sightings in Udawalawe",
   },
   {
-    src: landscape,
-    alt: "Sweeping savanna landscape of Udawalawe National Park",
-    title: "Udawalawe Safari Jeep Booking - Best Private Safari Tours",
-  },
-  {
     src: ethicalImg,
     alt: "Wildlife viewing in its natural habitat at Udawalawe National Park",
     title: "Full Day Udawalawe National Park Safari",
+  },
+  {
+    src: landscape,
+    alt: "Sweeping savanna landscape of Udawalawe National Park",
+    title: "Udawalawe Safari Jeep Booking - Best Private Safari Tours",
   },
 ];
 
@@ -55,7 +55,7 @@ export function HeroSlideshow() {
 
   return (
     <>
-      <motion.div className="absolute inset-0 -z-10" aria-hidden="true">
+      <motion.div className="absolute inset-0 z-0" aria-hidden="true">
         <AnimatePresence initial={false}>
           <motion.div
             key={`slide-${activeHero}`}

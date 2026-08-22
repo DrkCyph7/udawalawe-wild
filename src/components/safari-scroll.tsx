@@ -50,19 +50,25 @@ export function SafariScroll({ safaris }: { safaris: SafariPackage[] }) {
   };
 
   return (
-    <div className="sm:hidden">
-      <div ref={safariScrollRef} className="safari-scroll-track">
+    <>
+      <div 
+        ref={safariScrollRef} 
+        className="flex gap-4 overflow-x-auto scroll-snap-x pb-2 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 sm:overflow-x-visible sm:snap-none"
+      >
         {safaris.map((s, i) => (
-          <div key={s.slug} className="safari-scroll-item">
-            <article className="group flex h-full flex-col overflow-hidden rounded-xl card-glass">
-              <div className="relative w-full" style={{ aspectRatio: "4/3" }}>
+          <div key={s.slug} className="h-full shrink-0 safari-snap-card sm:w-auto">
+            <article 
+              className="card-lift group flex h-full flex-col overflow-hidden rounded-xl card-glass transition-all duration-300 hover:shadow-xl hover:border-[oklch(0.70_0.12_85_/_0.4)]"
+              style={{ transformStyle: "preserve-3d" }}
+            >
+              <div className="relative w-full overflow-hidden" style={{ aspectRatio: "4/3" }}>
                 <Image
                   src={getSafariImage(i)}
                   alt={`${s.name} - Udawalawe Safari Jeep Booking`}
                   title={`${s.name} - Udawalawe Safari Jeep Booking`}
                   fill
                   sizes="80vw"
-                  className="object-cover"
+                  className="object-cover transition duration-700 group-hover:scale-[1.06]"
                 />
               </div>
               <div className="flex flex-1 flex-col p-4">
@@ -87,7 +93,7 @@ export function SafariScroll({ safaris }: { safaris: SafariPackage[] }) {
         ))}
       </div>
 
-      <div className="flex justify-center gap-1 mt-5" role="tablist" aria-label="Safari options">
+      <div className="flex sm:hidden justify-center gap-1 mt-5" role="tablist" aria-label="Safari options">
         {safaris.map((_, i) => (
           <button
             key={i}
@@ -108,6 +114,6 @@ export function SafariScroll({ safaris }: { safaris: SafariPackage[] }) {
           </button>
         ))}
       </div>
-    </div>
+    </>
   );
 }
