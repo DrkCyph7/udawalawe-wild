@@ -25,7 +25,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/guide/morning-vs-afternoon",
     "/guide/animals",
     "/guide/what-to-bring",
-    "/guide/udawalawe-vs-yala",
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),

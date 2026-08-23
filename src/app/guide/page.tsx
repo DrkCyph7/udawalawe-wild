@@ -232,14 +232,6 @@ export default function GuidePage() {
                       What to Bring
                     </Link>
                   </li>
-                  <li>
-                    <Link
-                      className="font-semibold underline underline-offset-4 decoration-[color:var(--terracotta)]/50 transition-colors hover:text-[color:var(--terracotta)] text-muted-foreground"
-                      to="/guide/udawalawe-vs-yala"
-                    >
-                      Udawalawe vs Yala
-                    </Link>
-                  </li>
                 </ul>
               </div>
             </TiltCard>
