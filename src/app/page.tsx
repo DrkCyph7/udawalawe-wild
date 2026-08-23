@@ -106,18 +106,31 @@ export default function Home() {
 
   const serviceJsonLd = {
     "@context": "https://schema.org",
-    "@type": "Service",
-    name: "Udawalawe National Park Safari Tours",
+    "@type": ["Service", "TouristTrip"],
+    name: "Udawalawe Safari — Private Jeep Safari Sri Lanka",
+    alternateName: [
+      "Udawalawa Safari",
+      "Udawalawe Wild Safari",
+      "Udawalawa Wild Safari",
+      "Udawalawe Jeep Safari",
+      "Udawalawa Jeep Safari",
+      "Udawalawe Private Safari",
+      "Elephant Safari Udawalawe",
+      "Wild Asia Safari",
+    ],
     provider: {
       "@type": "LocalBusiness",
       name: "Udawalawe Wild",
+      alternateName: ["Udawalawa Wild", "Udawalawe Wild Safari Service", "Udawalawa Safari Service"],
+      url: "https://www.udawalawe-wild.com",
     },
     description:
-      "Private jeep safari tours in Udawalawe National Park with verified local operators.",
-    areaServed: {
-      "@type": "Place",
-      name: "Udawalawe National Park",
-    },
+      "Private jeep safari tours in Udawalawe National Park, Sri Lanka. Expert guides specialising in elephant safari, wildlife photography, and responsible wild Asia experiences. Serving Udawalawa and Udawalawe National Park.",
+    touristType: ["Wildlife enthusiasts", "Nature travellers", "Elephant safari seekers", "Family travellers"],
+    areaServed: [
+      { "@type": "Place", name: "Udawalawe National Park, Sri Lanka" },
+      { "@type": "Place", name: "Udawalawa National Park, Sri Lanka" },
+    ],
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Safari Packages",
