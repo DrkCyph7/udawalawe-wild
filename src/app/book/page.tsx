@@ -7,6 +7,49 @@ import { Magnetic } from "@/components/magnetic";
 import { buildSafariMessage, waLink } from "@/lib/site";
 import { fetchGeoInfo } from "@/lib/geo";
 
+const COUNTRY_CODES = [
+  { code: "+94", label: "🇱🇰 +94" },
+  { code: "+1",  label: "🇺🇸 +1"  },
+  { code: "+44", label: "🇬🇧 +44" },
+  { code: "+49", label: "🇩🇪 +49" },
+  { code: "+33", label: "🇫🇷 +33" },
+  { code: "+61", label: "🇦🇺 +61" },
+  { code: "+91", label: "🇮🇳 +91" },
+  { code: "+65", label: "🇸🇬 +65" },
+  { code: "+60", label: "🇲🇾 +60" },
+  { code: "+81", label: "🇯🇵 +81" },
+  { code: "+82", label: "🇰🇷 +82" },
+  { code: "+86", label: "🇨🇳 +86" },
+  { code: "+971", label: "🇦🇪 +971" },
+  { code: "+966", label: "🇸🇦 +966" },
+  { code: "+31", label: "🇳🇱 +31" },
+  { code: "+41", label: "🇨🇭 +41" },
+  { code: "+39", label: "🇮🇹 +39" },
+  { code: "+34", label: "🇪🇸 +34" },
+  { code: "+46", label: "🇸🇪 +46" },
+  { code: "+47", label: "🇳🇴 +47" },
+  { code: "+45", label: "🇩🇰 +45" },
+  { code: "+358", label: "🇫🇮 +358" },
+  { code: "+55", label: "🇧🇷 +55" },
+  { code: "+27", label: "🇿🇦 +27" },
+  { code: "+64", label: "🇳🇿 +64" },
+  { code: "+63", label: "🇵🇭 +63" },
+  { code: "+66", label: "🇹🇭 +66" },
+  { code: "+62", label: "🇮🇩 +62" },
+  { code: "+84", label: "🇻🇳 +84" },
+  { code: "+880", label: "🇧🇩 +880" },
+  { code: "+92", label: "🇵🇰 +92" },
+  { code: "+20", label: "🇪🇬 +20" },
+];
+
+function isValidEmail(v: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
+}
+function isValidPhone(v: string) {
+  const digits = v.replace(/[\s\-().]/g, "");
+  return /^\d{6,14}$/.test(digits);
+}
+
 const steps = ["Dates & travellers", "Safari & pickup", "Your details", "Confirmed"];
 
 export default function BookPage() {
@@ -15,20 +58,50 @@ export default function BookPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
+  // Contact fields
+  const [email, setEmail] = useState("");
+  const [phoneCC, setPhoneCC] = useState("+94");
+  const [phone, setPhone] = useState("");
+  const [emailErr, setEmailErr] = useState("");
+  const [phoneErr, setPhoneErr] = useState("");
+  const [contactErr, setContactErr] = useState("");
+
   const setField = (k: string, v: string) => setData((d) => ({ ...d, [k]: v }));
 
   const handleNext = async () => {
+    // Step 2: validate contact before submission
     if (step === 2) {
+      setContactErr(""); setEmailErr(""); setPhoneErr("");
+      const hasEmail = email.trim().length > 0;
+      const hasPhone = phone.trim().length > 0;
+      if (!hasEmail && !hasPhone) {
+        setContactErr("Please provide at least one — email or WhatsApp/mobile number.");
+        return;
+      }
+      let contactOk = true;
+      if (hasEmail && !isValidEmail(email)) {
+        setEmailErr("Please enter a valid email address (e.g. you@example.com).");
+        contactOk = false;
+      }
+      if (hasPhone && !isValidPhone(phone)) {
+        setPhoneErr("Enter digits only, 6 to 14 numbers (e.g. 74 380 7446).");
+        contactOk = false;
+      }
+      if (!contactOk) return;
+
+      // merge phone with cc into data
+      const merged = { ...data };
+      merged.email = email.trim();
+      if (hasPhone) merged.whatsapp = `${phoneCC}${phone.trim().replace(/^0+/, "")}`;
+
       setIsSubmitting(true);
       setSubmitError(null);
       try {
-        // Fetch geo info first (max 4 s timeout), then save to DB.
-        // fetchGeoInfo() never throws — it always resolves with nulls on failure.
         const geo = await fetchGeoInfo();
-        await createBookingEnquiry(data, geo);
+        await createBookingEnquiry(merged, geo);
+        setData(merged);
         setStep(3);
       } catch (error) {
-        // Stay on the form so the guest sees the error and can retry.
         const fallbackMessage =
           error instanceof Error
             ? `Submission failed: ${error.message}. Please check your details or try again later.`
@@ -175,24 +248,70 @@ export default function BookPage() {
                     className={inputCls}
                   />
                 </Field>
-                <Field label="Email (for our reply)">
-                  <input
-                    type="email"
-                    required
-                    defaultValue={data.email}
-                    onChange={(e) => setField("email", e.target.value)}
-                    className={inputCls}
-                  />
-                </Field>
-                <Field label="WhatsApp number (optional)">
-                  <input
-                    type="tel"
-                    placeholder="+94 74 380 7446"
-                    defaultValue={data.whatsapp}
-                    onChange={(e) => setField("whatsapp", e.target.value)}
-                    className={inputCls}
-                  />
-                </Field>
+
+                {/* Contact section */}
+                <div className="rounded-xl border border-white/10 bg-white/5 p-4 space-y-4">
+                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">
+                    Contact details <span className="text-red-400">*</span> — provide email, WhatsApp/mobile, or both
+                  </p>
+
+                  {/* Email */}
+                  <div>
+                    <label className="block">
+                      <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">Email address</span>
+                      <input
+                        type="text"
+                        inputMode="email"
+                        autoComplete="email"
+                        value={email}
+                        onChange={(e) => { setEmail(e.target.value); setEmailErr(""); setContactErr(""); }}
+                        onBlur={() => { if (email && !isValidEmail(email)) setEmailErr("Please enter a valid email address."); }}
+                        placeholder="you@example.com"
+                        className={emailErr
+                          ? "block w-full rounded-xl border border-red-400/60 bg-red-900/10 px-4 py-3 text-sm outline-none transition-colors focus:border-red-400 focus:ring-1 focus:ring-red-400/40"
+                          : inputCls}
+                      />
+                    </label>
+                    {emailErr && <p className="mt-1 text-[11px] font-medium text-red-400">⚠ {emailErr}</p>}
+                  </div>
+
+                  {/* Phone with country code */}
+                  <div>
+                    <label className="block">
+                      <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">WhatsApp / Mobile number</span>
+                      <div className="flex gap-2">
+                        <select
+                          value={phoneCC}
+                          onChange={(e) => setPhoneCC(e.target.value)}
+                          className={inputCls.replace("block w-full", "w-[120px] flex-shrink-0 px-2")}
+                          aria-label="Country dialling code"
+                        >
+                          {COUNTRY_CODES.map((c) => (
+                            <option key={c.code} value={c.code}>{c.label}</option>
+                          ))}
+                        </select>
+                        <input
+                          type="tel"
+                          inputMode="numeric"
+                          autoComplete="tel-national"
+                          value={phone}
+                          onChange={(e) => { setPhone(e.target.value); setPhoneErr(""); setContactErr(""); }}
+                          onBlur={() => { if (phone && !isValidPhone(phone)) setPhoneErr("Enter digits only — 6 to 14 numbers."); }}
+                          placeholder="74 380 7446"
+                          className={phoneErr
+                            ? "flex-1 min-w-0 rounded-xl border border-red-400/60 bg-red-900/10 px-4 py-3 text-sm outline-none transition-colors focus:border-red-400 focus:ring-1 focus:ring-red-400/40"
+                            : inputCls.replace("block w-full", "flex-1 min-w-0")}
+                        />
+                      </div>
+                    </label>
+                    {phoneErr && <p className="mt-1 text-[11px] font-medium text-red-400">⚠ {phoneErr}</p>}
+                  </div>
+
+                  {contactErr && (
+                    <p className="text-[11px] font-medium text-red-400">⚠ {contactErr}</p>
+                  )}
+                </div>
+
                 <Field label="Hotel name (if known)">
                   <input
                     type="text"
