@@ -6,41 +6,7 @@ import { createBookingEnquiry } from "@/lib/supabase";
 import { Magnetic } from "@/components/magnetic";
 import { buildSafariMessage, waLink } from "@/lib/site";
 import { fetchGeoInfo } from "@/lib/geo";
-
-const COUNTRY_CODES = [
-  { code: "+94", label: "🇱🇰 +94" },
-  { code: "+1",  label: "🇺🇸 +1"  },
-  { code: "+44", label: "🇬🇧 +44" },
-  { code: "+49", label: "🇩🇪 +49" },
-  { code: "+33", label: "🇫🇷 +33" },
-  { code: "+61", label: "🇦🇺 +61" },
-  { code: "+91", label: "🇮🇳 +91" },
-  { code: "+65", label: "🇸🇬 +65" },
-  { code: "+60", label: "🇲🇾 +60" },
-  { code: "+81", label: "🇯🇵 +81" },
-  { code: "+82", label: "🇰🇷 +82" },
-  { code: "+86", label: "🇨🇳 +86" },
-  { code: "+971", label: "🇦🇪 +971" },
-  { code: "+966", label: "🇸🇦 +966" },
-  { code: "+31", label: "🇳🇱 +31" },
-  { code: "+41", label: "🇨🇭 +41" },
-  { code: "+39", label: "🇮🇹 +39" },
-  { code: "+34", label: "🇪🇸 +34" },
-  { code: "+46", label: "🇸🇪 +46" },
-  { code: "+47", label: "🇳🇴 +47" },
-  { code: "+45", label: "🇩🇰 +45" },
-  { code: "+358", label: "🇫🇮 +358" },
-  { code: "+55", label: "🇧🇷 +55" },
-  { code: "+27", label: "🇿🇦 +27" },
-  { code: "+64", label: "🇳🇿 +64" },
-  { code: "+63", label: "🇵🇭 +63" },
-  { code: "+66", label: "🇹🇭 +66" },
-  { code: "+62", label: "🇮🇩 +62" },
-  { code: "+84", label: "🇻🇳 +84" },
-  { code: "+880", label: "🇧🇩 +880" },
-  { code: "+92", label: "🇵🇰 +92" },
-  { code: "+20", label: "🇪🇬 +20" },
-];
+import { COUNTRY_CODES } from "@/lib/country-codes";
 
 function isValidEmail(v: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
