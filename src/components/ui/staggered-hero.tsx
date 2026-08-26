@@ -62,7 +62,7 @@ export function StaggeredHero({
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="font-serif leading-[1.05] text-4xl sm:text-6xl lg:text-7xl flex flex-wrap m-0"
+        className="font-serif leading-[1.05] text-[2.5rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] flex flex-wrap m-0"
       >
         {titleWords.map((word, idx) => (
           <motion.span key={idx} variants={itemVariants} className="inline-block mr-[0.25em]">

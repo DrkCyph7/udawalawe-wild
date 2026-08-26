@@ -171,7 +171,7 @@ export default function Home() {
       />
       {/* ----------------------- HERO ---------------------------------- */}
       {/* header is fixed+transparent, so hero fills full 100svh from top */}
-      <section className="relative isolate z-10 overflow-hidden h-[100svh] min-h-[600px] sm:min-h-[680px] flex flex-col">
+      <section className="relative isolate z-10 overflow-hidden min-h-[100svh] w-full flex items-center pb-12">
         {/* ── Background Slideshow & Static LCP ──────────────────────── */}
         <div className="absolute inset-0 -z-10">
           <Image
@@ -259,9 +259,9 @@ export default function Home() {
           </div>
         </HeroFadeIn>
 
-        {/* ── Main content — centered; pt accounts for header (80px) + gap + ticker (36px) ── */}
-        <div className="flex-1 flex items-center pt-[110px] sm:pt-[130px] pb-24 sm:pb-8">
-          <div className="mx-auto w-full max-w-6xl px-4 sm:px-8 py-4 sm:py-8 grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:items-center">
+        {/* ── Main content — centered; pt accounts for header ── */}
+        <div className="w-full pt-[140px] sm:pt-[160px] pb-16">
+          <div className="mx-auto w-full max-w-6xl px-4 sm:px-8 grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:items-center">
             {/* Left — headline + CTAs */}
             <div className="z-10">
               <HeroFadeIn>
@@ -354,7 +354,7 @@ export default function Home() {
             </div>
 
             {/* Right — enquiry glass card */}
-            <Reveal delay={300} direction="left" className="hidden sm:block">
+            <Reveal delay={300} direction="left" className="hidden lg:block">
               <div
                 className="rounded-3xl p-6 sm:p-8 card-glass"
                 style={{
