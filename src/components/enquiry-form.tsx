@@ -4,6 +4,7 @@ import { createBookingEnquiry, isSupabaseConfigured } from "@/lib/supabase";
 import { buildSafariMessage, waLink } from "@/lib/site";
 import { fetchGeoInfo } from "@/lib/geo";
 import { COUNTRY_CODES } from "@/lib/country-codes";
+import { CountrySelect } from "@/components/country-select";
 
 function isValidEmail(v: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
@@ -205,16 +206,11 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup, theme = "li
           <label className="block text-sm">
             <span className={labelCls}>WhatsApp / Mobile number</span>
             <div className="flex gap-2">
-              <select
+              <CountrySelect
                 value={phoneCC}
-                onChange={(e) => setPhoneCC(e.target.value)}
-                className={inputCls.replace("block w-full", "w-[110px] flex-shrink-0 text-center px-1")}
-                aria-label="Country dialling code"
-              >
-                {COUNTRY_CODES.map((c) => (
-                  <option key={c.code} value={c.code}>{c.label}</option>
-                ))}
-              </select>
+                onChange={setPhoneCC}
+                className={inputCls.replace("block w-full", "w-[130px] flex-shrink-0 text-center px-3")}
+              />
               <input
                 type="tel"
                 inputMode="numeric"
