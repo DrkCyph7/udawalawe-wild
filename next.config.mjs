@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {},
-  allowedDevOrigins: ['192.168.1.140', 'localhost', '127.0.0.1'],
+  allowedDevOrigins: ['192.168.1.139', '192.168.1.140', 'localhost', '127.0.0.1'],
 
   async redirects() {
     return [

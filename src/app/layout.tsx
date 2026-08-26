@@ -33,38 +33,66 @@ export const metadata: Metadata = {
   },
   title: {
     template: "%s | Udawalawe Wild",
-    default: "Udawalawe Safari | Private Jeep Safari Sri Lanka | Udawalawe Wild",
+    default: "Udawalawe Safari Jeep | Book a Private Jeep Safari | Udawalawe Wild",
   },
   description:
-    "Book a private Udawalawe safari in Sri Lanka — the best elephant safari in Asia. Udawalawa Wild offers exclusive jeep safaris in Udawalawe National Park with expert local guides. No shared vehicles, no hidden fees.",
+    "Udawalawe safari jeep tours — 100% private jeeps, expert local drivers. WhatsApp: +94 74 380 7446. Competitive jeep safari prices, instant booking, wild elephant encounters in Udawalawe National Park.",
   keywords: [
-    // Primary brand spellings (both correct & common misspelling)
-    "Udawalawe", "Udawalawa",
-    "Udawalawe Wild", "Udawalawa Wild",
-    // Safari — core terms
+    // Primary brand
+    "Udawalawe", "Udawalawa", "Udawalawa Wild", "Udawalawe Wild",
+    // TOP GSC queries (exact match)
+    "udawalawe safari jeep",
+    "udawalawe safari jeep service",
+    "udawalawe safari jeep contact number",
+    "udawalawe safari jeep price",
+    "udawalawe jeep safari price",
+    "udawalawe safari jeep tours",
+    "udawalawe safari jeep price for locals",
+    "udawalawe national park jeep",
+    "udawalawe national park safari jeep",
+    "jeep safari udawalawe",
+    "safari jeep sri lanka",
+    "jeep safari in sri lanka",
+    "jeep safari near me",
+    "safari jeep near me",
+    "4x4 tours near me",
+    "safari jeep tour",
+    "udawalwa safari",
+    "udawalawa safari",
+    // Safari core terms
     "Udawalawe safari", "Udawalawa safari",
     "Udawalawe safaris", "Udawalawa safaris",
-    "Udawalawe wild safari", "Udawalawa wild safari",
-    // Service type
-    "Udawalawe safari service", "Udawalawa safari service",
+    "Udawalawe safari tours", "Udawalawa safari tours",
     "Udawalawe jeep safari", "Udawalawa jeep safari",
     "Udawalawe private safari", "Udawalawa private safari",
-    // Geographic / regional
-    "safari Sri Lanka", "Safari Sri Lanka",
-    "Udawalawe Sri Lanka", "Udawalawa Sri Lanka",
-    // Animal / experience keywords
+    "Udawalawe wild safari", "Udawalawa wild safari",
+    "udawalawe wild safari tours",
+    // Service & contact
+    "Udawalawe safari service", "Udawalawa safari service",
+    "Udawalawe national park booking",
+    "Udawalawe national park safari booking",
+    "safari booking Sri Lanka",
+    // Pricing
+    "Udawalawe safari price", "Udawalawe safari cost",
+    "jeep safari price Sri Lanka",
+    "Udawalawe safari price for locals",
+    // Geographic
+    "safari Sri Lanka", "Udawalawe Sri Lanka", "Udawalawa Sri Lanka",
+    "safari udawalawe national park", "safari sri lanka udawalawe",
+    "udawalawe national park safari",
+    // Animal / experience
     "Wild Asia", "elephant safari", "elephant safari Sri Lanka",
+    "elephant safari near me",
     "Udawalawe elephant safari", "Udawalawa elephant safari",
-    // Long-tail variations
+    "elephant conservation Sri Lanka",
+    // Long-tail
     "Udawalawe National Park", "private jeep safari Sri Lanka",
     "best safari Sri Lanka", "Sri Lanka wildlife safari",
     "Elephant Transit Home", "ethical safari Sri Lanka",
     "morning safari Udawalawe", "afternoon safari Udawalawe",
-    "Udawalawe safari price", "Udawalawe safari cost",
-    "safari booking Sri Lanka", "wildlife photography Sri Lanka",
-    "leopard sighting Sri Lanka", "bird watching Udawalawe",
-    "family safari Udawalawe", "Udawalawe jeep hire",
-    "sustainable safari Sri Lanka", "Wild Asia safari",
+    "wildlife photography Sri Lanka", "leopard sighting Sri Lanka",
+    "bird watching Udawalawe", "family safari Udawalawe",
+    "sustainable safari Sri Lanka",
   ],
   authors: [{ name: "Udawalawe Wild" }],
   robots: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
@@ -72,24 +100,24 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "Udawalawe Wild",
     url: "https://www.udawalawe-wild.com",
-    title: "Udawalawe Wild — Private Jeep Safari in Udawalawe, Sri Lanka",
+    title: "Udawalawe Safari Jeep | Private Jeep Safari Sri Lanka | Udawalawe Wild",
     description:
-      "Book a private Udawalawe safari in Sri Lanka — the best elephant safari in Asia. Expert local guides, 100% private jeeps, no hidden fees. Udawalawa Wild safari service.",
+      "Private safari jeep tours in Udawalawe National Park — wild elephants, expert local drivers. WhatsApp +94 74 380 7446. Competitive prices, instant booking.",
     images: [
       {
         url: "https://www.udawalawe-wild.com/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Wild elephants in Udawalawe National Park, Sri Lanka — Udawalawa Wild Safari",
+        alt: "Private safari jeep in Udawalawe National Park, Sri Lanka — Udawalawe Wild",
       },
     ],
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Udawalawe Wild — Private Jeep Safari Sri Lanka",
+    title: "Udawalawe Safari Jeep | Private Jeep Safari Sri Lanka",
     description:
-      "Book a private Udawalawe safari in Sri Lanka — the best elephant safari in Asia. Expert local guides, 100% private jeeps, no hidden fees. Udawalawa Wild safari service.",
+      "Private safari jeep tours in Udawalawe National Park — wild elephants, expert local drivers. WhatsApp +94 74 380 7446. Competitive prices, instant booking.",
     images: ["https://www.udawalawe-wild.com/og-image.png"],
     site: "@udawalawewild",
   },
@@ -125,11 +153,27 @@ export default function RootLayout({
                   "@type": "Organization",
                   "@id": "https://www.udawalawe-wild.com/#organization",
                   name: "Udawalawe Wild",
-                  alternateName: ["Udawalawa Wild", "Udawalawe Wild Safari", "Udawalawa Wild Safari"],
+                  alternateName: ["Udawalawa Wild", "Udawalawe Wild Safari", "Udawalawa Wild Safari", "Udawalawe Safari Jeep"],
                   url: "https://www.udawalawe-wild.com",
                   logo: "https://www.udawalawe-wild.com/og-image.png",
-                  telephone: "+94701234567",
+                  telephone: "+94743807446",
                   email: "hello@udawalawe-wild.com",
+                  contactPoint: [
+                    {
+                      "@type": "ContactPoint",
+                      telephone: "+94743807446",
+                      contactType: "reservations",
+                      areaServed: "LK",
+                      availableLanguage: ["English", "Sinhala"],
+                    },
+                    {
+                      "@type": "ContactPoint",
+                      telephone: "+94743807446",
+                      contactType: "customer service",
+                      areaServed: "LK",
+                      availableLanguage: ["English", "Sinhala"],
+                    },
+                  ],
                   address: {
                     "@type": "PostalAddress",
                     addressLocality: "Udawalawe",
@@ -138,6 +182,7 @@ export default function RootLayout({
                   },
                   sameAs: [
                     "https://maps.app.goo.gl/FMj8GgqVGXFyc9zQ7",
+                    "https://wa.me/94743807446",
                   ],
                 },
                 {
@@ -162,10 +207,10 @@ export default function RootLayout({
                   "@type": ["LocalBusiness", "TouristInformationCenter"],
                   "@id": "https://www.udawalawe-wild.com/#localbusiness",
                   name: "Udawalawe Wild",
-                  alternateName: ["Udawalawa Wild", "Udawalawa Safari Service", "Udawalawe Safari Service"],
-                  description: "Private jeep safari operator in Udawalawe National Park, Sri Lanka. Specialising in elephant safaris and wildlife experiences.",
+                  alternateName: ["Udawalawa Wild", "Udawalawa Safari Service", "Udawalawe Safari Service", "Udawalawe Safari Jeep"],
+                  description: "Private safari jeep tours in Udawalawe National Park, Sri Lanka. Expert local guides specialising in elephant safaris, wildlife photography, and responsible wild Asia experiences.",
                   url: "https://www.udawalawe-wild.com",
-                  telephone: "+94701234567",
+                  telephone: "+94743807446",
                   email: "hello@udawalawe-wild.com",
                   priceRange: "$$",
                   address: {
@@ -179,21 +224,32 @@ export default function RootLayout({
                     latitude: 6.435,
                     longitude: 80.887,
                   },
-                  areaServed: {
-                    "@type": "Place",
-                    name: "Udawalawe National Park, Sri Lanka",
-                  },
+                  contactPoint: [
+                    {
+                      "@type": "ContactPoint",
+                      telephone: "+94743807446",
+                      contactType: "reservations",
+                      areaServed: "LK",
+                      availableLanguage: ["English", "Sinhala"],
+                    },
+                  ],
+                  areaServed: [
+                    { "@type": "Place", name: "Udawalawe National Park, Sri Lanka" },
+                    { "@type": "Place", name: "Udawalawa National Park, Sri Lanka" },
+                  ],
                   hasOfferCatalog: {
                     "@type": "OfferCatalog",
-                    name: "Safari Packages",
+                    name: "Safari Jeep Packages",
                     itemListElement: [
-                      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Private Udawalawe Jeep Safari" } },
-                      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Morning Elephant Safari Udawalawe" } },
-                      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Full Day Wildlife Safari Sri Lanka" } },
+                      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Private Udawalawe Safari Jeep Tour" } },
+                      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Morning Elephant Safari Jeep Udawalawe" } },
+                      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Full Day Wildlife Safari Jeep Sri Lanka" } },
+                      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Udawalawa Safari Jeep Service" } },
                     ],
                   },
                   sameAs: [
                     "https://maps.app.goo.gl/FMj8GgqVGXFyc9zQ7",
+                    "https://wa.me/94743807446",
                   ],
                 },
               ],
