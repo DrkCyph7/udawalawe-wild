@@ -24,8 +24,12 @@ const nextConfig = {
         destination: 'https://udawalawe-wild-blog.vercel.app/blog',
       },
       {
-        source: '/blog/:path*',
-        destination: 'https://udawalawe-wild-blog.vercel.app/blog/:path*',
+        source: '/blog/:path+',
+        destination: 'https://udawalawe-wild-blog.vercel.app/blog/:path+',
+      },
+      {
+        source: '/blog-static/:path+',
+        destination: 'https://udawalawe-wild-blog.vercel.app/blog-static/:path+',
       },
     ];
   },
