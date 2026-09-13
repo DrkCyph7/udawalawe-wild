@@ -1,3 +1,6 @@
 {
-  "framework": "nextjs"
+  "rewrites": [
+    { "source": "/blog/:path*", "destination": "https://vercel.com/kpdlakshan-gmailcoms-projects/udawalawe-wild-blog/gWTeP2YrSR5BM19XdeoAhsvRLfjz/:path*" },
+    { "source": "/_next/:path*", "destination": "https://udawalawe-wild-blog.vercel.app/_next/:path*" }
+  ]
 }
