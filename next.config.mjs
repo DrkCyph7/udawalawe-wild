@@ -16,6 +16,19 @@ const nextConfig = {
       { source: '/safari-from-nuwara-eliya', destination: '/routes/nuwara-eliya-to-udawalawe', permanent: true },
     ];
   },
+
+  async rewrites() {
+    return [
+      {
+        source: '/blog',
+        destination: 'https://udawalawe-wild-blog.vercel.app/blog',
+      },
+      {
+        source: '/blog/:path*',
+        destination: 'https://udawalawe-wild-blog.vercel.app/blog/:path*',
+      },
+    ];
+  },
 };
 
 export default nextConfig;
