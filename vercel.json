@@ -1,8 +1,13 @@
 {
   "framework": "nextjs",
   "rewrites": [
-    { "source": "/blog", "destination": "https://udawalawe-wild-blog.vercel.app/" },
-    { "source": "/blog/:path*", "destination": "https://udawalawe-wild-blog.vercel.app/:path*" },
-    { "source": "/_next/:path*", "destination": "https://udawalawe-wild-blog.vercel.app/_next/:path*" }
+    { 
+      "source": "/blog", 
+      "destination": "https://udawalawe-wild-blog.vercel.app/blog" 
+    },
+    { 
+      "source": "/blog/:path*", 
+      "destination": "https://udawalawe-wild-blog.vercel.app/blog/:path*" 
+    }
   ]
 }
