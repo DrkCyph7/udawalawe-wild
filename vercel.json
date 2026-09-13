@@ -1,4 +1,5 @@
 {
+  "framework": "nextjs",
   "rewrites": [
     { "source": "/blog", "destination": "https://udawalawe-wild-blog.vercel.app/" },
     { "source": "/blog/:path*", "destination": "https://udawalawe-wild-blog.vercel.app/:path*" },
