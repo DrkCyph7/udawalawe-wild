@@ -1,4 +1,5 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import type { GeoInfo } from "@/lib/geo";
 
 function normalizeSupabaseUrl(rawUrl: string) {
   const value = rawUrl.trim();
@@ -10,8 +11,8 @@ function normalizeSupabaseUrl(rawUrl: string) {
   return withoutTrailingSlash.replace(/\/(?:rest|auth)\/v1$/i, "");
 }
 
-const supabaseUrl = normalizeSupabaseUrl(import.meta.env.VITE_SUPABASE_URL ?? "");
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim() ?? "";
+const supabaseUrl = normalizeSupabaseUrl(process.env.NEXT_PUBLIC_SUPABASE_URL ?? "");
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ?? "";
 
 export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
 
@@ -24,9 +25,11 @@ export const supabase: SupabaseClient | null = isSupabaseConfigured
     })
   : null;
 
-export const adminEmailAllowList = (import.meta.env.VITE_ADMIN_EMAILS ?? "admin@udawalawewild.com")
+export const adminEmailAllowList = (
+  process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? "admin@udawalawe-wild.com"
+)
   .split(",")
-  .map((email) => email.trim().toLowerCase())
+  .map((email: string) => email.trim().toLowerCase())
   .filter(Boolean);
 
 export type BookingEnquiryRow = {
@@ -35,9 +38,13 @@ export type BookingEnquiryRow = {
   updated_at?: string;
   guest_name: string;
   guest_email: string;
-  guest_whatsapp: string;
+  guest_whatsapp: string; // optional in UI — stored as empty string when blank
   guest_hotel?: string | null;
-  guest_country?: string | null;
+  guest_country?: string | null; // country name, e.g. "Germany"
+  guest_country_code?: string | null; // ISO code, e.g. "DE"
+  guest_ip?: string | null;
+  guest_city?: string | null;
+  guest_timezone?: string | null;
   safari_date?: string | null;
   adults: number;
   children: number;
@@ -82,8 +89,12 @@ function toFriendlySupabaseError(error: unknown) {
       return "Supabase is rejecting the request because the table or RLS policies are not configured correctly.";
     }
 
-    if (message.includes("invalid api key") || message.includes("api key") || message.includes("not configured")) {
-      return "Supabase credentials are missing or invalid. Check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.";
+    if (
+      message.includes("invalid api key") ||
+      message.includes("api key") ||
+      message.includes("not configured")
+    ) {
+      return "Supabase credentials are missing or invalid. Check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.";
     }
 
     return rawMessage;
@@ -92,17 +103,25 @@ function toFriendlySupabaseError(error: unknown) {
   return "We couldn't reach the database. Check your connection and try again.";
 }
 
-export async function createBookingEnquiry(values: Record<string, string>) {
+export async function createBookingEnquiry(values: Record<string, string>, geo?: GeoInfo | null) {
   if (!supabase) {
-    throw new Error("Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
+    throw new Error(
+      "Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.",
+    );
   }
 
   const payload: BookingEnquiryRow = {
     guest_name: values.name ?? values.guest_name ?? "",
     guest_email: values.email ?? values.guest_email ?? "",
+    // WhatsApp is optional in the booking form — store empty string if not provided.
     guest_whatsapp: values.whatsapp ?? values.guest_whatsapp ?? "",
     guest_hotel: values.hotel ?? values.guest_hotel ?? null,
-    guest_country: values.country ?? values.guest_country ?? null,
+    // Prefer explicitly typed geo data; fall back to any value the form collected.
+    guest_country: geo?.country_name ?? values.country ?? values.guest_country ?? null,
+    guest_country_code: geo?.country_code ?? null,
+    guest_ip: geo?.ip ?? null,
+    guest_city: geo?.city ?? null,
+    guest_timezone: geo?.timezone ?? null,
     safari_date: values.date ?? null,
     adults: Number(values.adults ?? 2) || 2,
     children: Number(values.children ?? 0) || 0,
@@ -113,22 +132,19 @@ export async function createBookingEnquiry(values: Record<string, string>) {
     status: "new",
   };
 
-  const { data, error } = await supabase
-    .from("booking_enquiries")
-    .insert(payload)
-    .select("id")
-    .maybeSingle();
+  const { error } = await supabase.from("booking_enquiries").insert(payload);
 
   if (error) {
+    console.error("Supabase insert error:", error);
     throw new Error(toFriendlySupabaseError(error));
   }
-
-  return data;
 }
 
 export async function fetchBookingEnquiries() {
   if (!supabase) {
-    throw new Error("Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
+    throw new Error(
+      "Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.",
+    );
   }
 
   const { data, error } = await supabase
@@ -145,7 +161,9 @@ export async function fetchBookingEnquiries() {
 
 export async function updateBookingStatus(id: string, status: string) {
   if (!supabase) {
-    throw new Error("Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
+    throw new Error(
+      "Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.",
+    );
   }
 
   const { error } = await supabase.from("booking_enquiries").update({ status }).eq("id", id);
@@ -174,7 +192,11 @@ export async function isAdminUser(user: AuthUser | null) {
     return false;
   }
 
-  const { data, error } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .maybeSingle();
   if (error) {
     return false;
   }
