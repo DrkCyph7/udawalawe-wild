@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Providers } from "@/components/providers";
 import { ClientLayout } from "@/components/client-layout";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 import { Fraunces, Inter } from "next/font/google";
@@ -259,6 +260,7 @@ export default function RootLayout({
         <Providers>
           <ClientLayout>{children}</ClientLayout>
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
