@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { createBookingEnquiry, isSupabaseConfigured } from "@/lib/supabase";
+import { createBookingEnquiry, isFirebaseConfigured } from "@/lib/firebase";
 import { buildSafariMessage, waLink } from "@/lib/site";
 import { fetchGeoInfo } from "@/lib/geo";
 import { COUNTRY_CODES } from "@/lib/country-codes";
@@ -142,7 +142,7 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup, theme = "li
           await createBookingEnquiry(values, geo);
           setSubmitted(true);
         } catch (err) {
-          if (isSupabaseConfigured) {
+          if (isFirebaseConfigured) {
             setSubmitError(
               err instanceof Error
                 ? `Submission failed: ${err.message}. Please verify your details or try again.`
