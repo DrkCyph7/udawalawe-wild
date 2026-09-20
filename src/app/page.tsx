@@ -25,7 +25,8 @@ import elephantPortrait from "@/assets/elephant-portrait.jpg";
 import landscape from "@/assets/landscape.jpg";
 import wildlife from "@/assets/wildlife.jpg";
 import ethicalImg from "@/assets/ethical-safari-img.jpg";
-import { EnquiryForm } from "@/components/enquiry-form";
+import dynamic from "next/dynamic";
+const EnquiryForm = dynamic(() => import("@/components/enquiry-form").then(mod => mod.EnquiryForm));
 import StatsCount from "@/components/ui/statscount";
 import { Section, SectionHeading, Eyebrow } from "@/components/section";
 import { FaqList } from "@/components/faq-list";
@@ -35,7 +36,7 @@ import { HeroEditorialStagger, HeroLine, HeroFadeIn } from "@/components/ui/hero
 import { StaggeredHero } from "@/components/ui/staggered-hero";
 import { HeroSlideshow } from "@/components/hero-slideshow";
 import { SafariScroll } from "@/components/safari-scroll";
-import { ReviewCarousel } from "@/components/review-carousel";
+const ReviewCarousel = dynamic(() => import("@/components/review-carousel").then(mod => mod.ReviewCarousel));
 import { safaris, faqs, routes as travelRoutes } from "@/lib/content";
 import reviewsData from "@/lib/reviews.json";
 import { waLink } from "@/lib/site";
