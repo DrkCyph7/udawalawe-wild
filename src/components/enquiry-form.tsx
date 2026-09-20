@@ -149,7 +149,7 @@ export function EnquiryForm({ compact, defaultSafari, defaultPickup, theme = "li
                 : "Oops! We couldn't check availability right now. Please try again."
             );
           } else {
-            setSubmitted(true);
+            setSubmitError("Database is not configured. Please contact the administrator.");
           }
         } finally {
           setIsSubmitting(false);
