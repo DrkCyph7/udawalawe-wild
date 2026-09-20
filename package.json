@@ -82,6 +82,9 @@
     "typescript-eslint": "^8.56.1"
   },
   "allowScripts": {
-    "puppeteer@25.5.0": true
+    "puppeteer@25.5.0": true,
+    "@firebase/util@1.15.3": true,
+    "protobufjs@7.6.6": true,
+    "fsevents@2.3.2": true
   }
 }
