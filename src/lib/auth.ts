@@ -9,7 +9,7 @@ import { signInWithEmailAndPassword, signOut as firebaseSignOut, onAuthStateChan
 import { collection, addDoc, getDocs, query, orderBy, limit, doc, getDoc } from "firebase/firestore";
 import type { GeoInfo } from "@/lib/geo";
 
-export type AdminRole = "admin" | "superadmin";
+export type AdminRole = "admin";
 
 export interface LoginLogEntry {
   id: string;
@@ -32,7 +32,7 @@ export interface LoginLogEntry {
 export async function getSession(): Promise<User | null> {
   if (!auth) return null;
   return new Promise((resolve) => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth as any, (user) => {
       unsubscribe();
       resolve(user);
     });
@@ -55,8 +55,7 @@ export async function getCurrentRole(uid?: string): Promise<AdminRole | null> {
     const userDoc = await getDoc(userDocRef);
     if (userDoc.exists()) {
       const data = userDoc.data();
-      if (data.role === "superadmin") return "superadmin";
-      if (data.role === "admin") return "admin";
+      if (data.role === "superadmin" || data.role === "admin") return "admin";
     }
   } catch (error) {
     console.error("Error fetching user role:", error);
@@ -121,15 +120,29 @@ export async function signIn(
   }
 
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(auth as any, email, password);
     const user = userCredential.user;
 
     // Fetch the role AFTER successful sign-in
-    const role = await getCurrentRole(user.uid);
+    let role = await getCurrentRole(user.uid);
+
+    // Auto-provision from adminEmailAllowList if no profile is found
+    if (!role && db) {
+      const { adminEmailAllowList } = await import("@/lib/firebase");
+      if (adminEmailAllowList.includes(email.toLowerCase())) {
+        const { setDoc, doc } = await import("firebase/firestore");
+        try {
+          await setDoc(doc(db, "profiles", user.uid), { role: "admin" });
+          role = "admin";
+        } catch (e) {
+          console.error("Failed to auto-provision admin profile:", e);
+        }
+      }
+    }
 
     if (!role) {
       // Signed in to Firebase Auth but has no profile row — not an admin
-      await firebaseSignOut(auth);
+      await firebaseSignOut(auth as any);
       await writeLoginLog({
         user_id: user.uid,
         email,
@@ -180,7 +193,7 @@ export async function signIn(
 
 export async function signOut() {
   if (!auth) return;
-  await firebaseSignOut(auth);
+  await firebaseSignOut(auth as any);
 }
 
 // ─── Login log ───────────────────────────────────────────────
@@ -222,28 +235,6 @@ async function writeLoginLog(params: WriteLogParams): Promise<void> {
   }
 }
 
-// ─── Login logs reader (superadmin only) ─────────────────────
-
-/** Fetch all login logs. Firestore rules ensures only superadmins can read all rows. */
-export async function fetchLoginLogs(): Promise<LoginLogEntry[]> {
-  if (!db) return [];
-  try {
-    const q = query(
-      collection(db, "admin_login_logs"), 
-      orderBy("created_at", "desc"),
-      limit(500)
-    );
-    const snapshot = await getDocs(q);
-    
-    return snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    })) as LoginLogEntry[];
-  } catch (error: any) {
-    throw new Error(error.message);
-  }
-}
-
 // ─── Booking data fetchers ────────────────────────────────────
 
 /**
@@ -252,7 +243,7 @@ export async function fetchLoginLogs(): Promise<LoginLogEntry[]> {
  * not a superadmin, we mask the sensitive fields locally, OR we handle this 
  * via a Firebase Cloud Function for secure projection. For now, we fetch and mask.
  */
-export async function fetchBookingsForRole(role: AdminRole) {
+export async function fetchBookings() {
   if (!db) throw new Error("Firebase not configured.");
   try {
     const q = query(
@@ -261,21 +252,17 @@ export async function fetchBookingsForRole(role: AdminRole) {
     );
     const snapshot = await getDocs(q);
     
-    const docs = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
-
-    if (role !== "superadmin") {
-      return docs.map((doc: any) => ({
-        ...doc,
+    return snapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        ...data,
         guest_ip: null,
         guest_city: null,
-        guest_timezone: null
-      }));
-    }
-
-    return docs;
+        guest_timezone: null,
+        guest_country_code: null,
+      };
+    });
   } catch (error: any) {
     throw new Error(error.message);
   }
