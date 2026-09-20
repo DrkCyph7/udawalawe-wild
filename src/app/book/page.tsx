@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Section } from "@/components/section";
-import { createBookingEnquiry } from "@/lib/supabase";
+import { createBookingEnquiry } from "@/lib/firebase";
 import { Magnetic } from "@/components/magnetic";
 import { buildSafariMessage, waLink } from "@/lib/site";
 import { fetchGeoInfo } from "@/lib/geo";
