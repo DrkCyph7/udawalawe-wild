@@ -1,56 +1,45 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
-import { supabase, updateBookingStatus, type BookingEnquiryRow } from "@/lib/supabase";
-import { signOut, fetchBookingsForRole, type AdminRole } from "@/lib/auth";
+import { updateBookingStatus, updateBookingPartner, updateBookingNotes, type BookingEnquiryRow } from "@/lib/firebase";
+import { signOut, fetchBookings } from "@/lib/auth";
 import {
   AlertCircle, Bell, BellRing, CalendarDays, Check, ChevronDown,
-  ChevronLeft, ChevronRight, ClipboardList, Download, Globe,
+  ChevronLeft, ChevronRight, ClipboardList, Globe,
   LayoutDashboard, Loader2, LogOut, MapPin, MessageSquare, Phone,
-  RefreshCcw, Search, Shield, Star, Users, X,
+  RefreshCcw, Search, Star, Users, X, Download
 } from "lucide-react";
 
 /* ─── TYPES ─── */
 type Booking = BookingEnquiryRow & { id: string };
-type SortKey = keyof Booking | null;
-type SortDir = "asc" | "desc";
-type Tab = "overview" | "calendar" | "all" | "new" | "confirmed" | "archived";
-const STATUS_OPTIONS = ["new","reviewing","quoted","confirmed","cancelled","archived"] as const;
+type Tab = "overview" | "bookings" | "calendar";
+const STATUS_OPTIONS = ["new", "reviewing", "quoted", "confirmed", "cancelled", "archived"] as const;
 type Status = (typeof STATUS_OPTIONS)[number];
-const STATUS_STYLES: Record<Status,string> = {
-  new:"bg-blue-50 text-blue-700 border-blue-200",
-  reviewing:"bg-amber-50 text-amber-700 border-amber-200",
-  quoted:"bg-purple-50 text-purple-700 border-purple-200",
-  confirmed:"bg-emerald-50 text-emerald-700 border-emerald-200",
-  cancelled:"bg-red-50 text-red-600 border-red-200",
-  archived:"bg-gray-50 text-gray-500 border-gray-200",
+
+const STATUS_STYLES: Record<Status, string> = {
+  new: "bg-[#00ffcc] text-black border-black",
+  reviewing: "bg-[#ffef00] text-black border-black",
+  quoted: "bg-[#aa00ff] text-white border-black",
+  confirmed: "bg-[#00ff00] text-black border-black",
+  cancelled: "bg-[#ff3366] text-black border-black",
+  archived: "bg-[#cccccc] text-black border-black",
 };
-const STATUS_DOT: Record<Status,string> = {
-  new:"bg-blue-500", reviewing:"bg-amber-500", quoted:"bg-purple-500",
-  confirmed:"bg-emerald-500", cancelled:"bg-red-500", archived:"bg-gray-400",
-};
-const STATUS_BG: Record<Status,string> = {
-  new:"bg-blue-500", reviewing:"bg-amber-500", quoted:"bg-purple-500",
-  confirmed:"bg-emerald-500", cancelled:"bg-red-500", archived:"bg-gray-400",
-};
+
 type Reminder = { note: string; dueDate: string; bookingName: string };
 type RemindersMap = Record<string, Reminder>;
 
 /* ─── HELPERS ─── */
+function getDaysInMonth(y: number, m: number) { return new Date(y, m + 1, 0).getDate(); }
+function getFirstDayOfMonth(y: number, m: number) { return new Date(y, m, 1).getDay(); }
 function formatDate(s?: string | null) {
   if (!s) return "—";
-  try { return new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric"}).format(new Date(s)); }
+  try { return new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "short", year: "numeric" }).format(new Date(s)).toUpperCase(); }
   catch { return s; }
 }
-function formatShort(s?: string | null) {
-  if (!s) return "—";
-  try { return new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short"}).format(new Date(s)); }
-  catch { return s; }
-}
-function waLink(phone?: string|null, name?: string|null) {
-  const clean = (phone??"").replace(/[^0-9+]/g,"");
-  const msg = encodeURIComponent(`Hi ${name??"there"}, this is Udawalawe Wild. `);
-  return `https://wa.me/${clean.replace(/^\+/,"")}?text=${msg}`;
+function waLink(phone?: string | null, name?: string | null) {
+  const clean = (phone ?? "").replace(/[^0-9+]/g, "");
+  const msg = encodeURIComponent(`Hi ${name ?? "there"}, this is Udawalawe Wild. `);
+  return `https://wa.me/${clean.replace(/^\+/, "")}?text=${msg}`;
 }
 function exportCsv(rows: Booking[]) {
   const headers = ["id","created_at","guest_name","guest_email","guest_whatsapp","guest_country",
@@ -63,396 +52,308 @@ function exportCsv(rows: Booking[]) {
   const a = document.createElement("a"); a.href=url; a.download=`bookings-${new Date().toISOString().slice(0,10)}.csv`; a.click();
   URL.revokeObjectURL(url);
 }
-function getDaysInMonth(y:number,m:number){return new Date(y,m+1,0).getDate();}
-function getFirstDayOfMonth(y:number,m:number){return new Date(y,m,1).getDay();}
 
 /* ─── TOAST ─── */
-type Toast = {id:number;text:string;type:"ok"|"err"};
+type Toast = { id: number; text: string; type: "ok" | "err" };
 function useToast() {
-  const [toasts,setToasts] = useState<Toast[]>([]);
+  const [toasts, setToasts] = useState<Toast[]>([]);
   const counter = useRef(0);
-  const push = (text:string,type:"ok"|"err"="ok") => {
+  const push = useCallback((text: string, type: "ok" | "err" = "ok") => {
     const id = ++counter.current;
-    setToasts(t=>[...t,{id,text,type}]);
-    setTimeout(()=>setToasts(t=>t.filter(x=>x.id!==id)),3500);
-  };
-  const dismiss = (id:number) => setToasts(t=>t.filter(x=>x.id!==id));
-  return {toasts,push,dismiss};
+    setToasts(t => [...t, { id, text, type }]);
+    setTimeout(() => setToasts(t => t.filter(x => x.id !== id)), 3500);
+  }, []);
+  const dismiss = useCallback((id: number) => setToasts(t => t.filter(x => x.id !== id)), []);
+  return { toasts, push, dismiss };
 }
 
-/* ─── REMINDERS ─── */
+/* ─── REMINDERS HOOK ─── */
 function useReminders() {
-  const [reminders,setReminders] = useState<RemindersMap>({});
-  useEffect(()=>{
-    try { const s=localStorage.getItem("uw_reminders"); if(s) setReminders(JSON.parse(s)); } catch{/**/}
-  },[]);
-  const setReminder = useCallback((id:string,r:Reminder|null)=>{
-    setReminders(prev=>{
-      const next={...prev};
-      if(r===null) delete next[id]; else next[id]=r;
-      try{localStorage.setItem("uw_reminders",JSON.stringify(next));}catch{/**/}
+  const [reminders, setReminders] = useState<RemindersMap>({});
+  useEffect(() => {
+    try { const s = localStorage.getItem("uw_reminders"); if (s) setReminders(JSON.parse(s)); } catch {/**/ }
+  }, []);
+  const setReminder = useCallback((id: string, r: Reminder | null) => {
+    setReminders(prev => {
+      const next = { ...prev };
+      if (r === null) delete next[id]; else next[id] = r;
+      try { localStorage.setItem("uw_reminders", JSON.stringify(next)); } catch {/**/ }
       return next;
     });
-  },[]);
-  const dueToday = useMemo(()=>{
-    const today=new Date().toISOString().slice(0,10);
-    return Object.entries(reminders).filter(([,r])=>r.dueDate<=today).map(([id,r])=>({id,...r}));
-  },[reminders]);
-  return {reminders,setReminder,dueToday};
+  }, []);
+  const dueToday = useMemo(() => {
+    const today = new Date().toISOString().slice(0, 10);
+    return Object.entries(reminders).filter(([, r]) => r.dueDate <= today).map(([id, r]) => ({ id, ...r }));
+  }, [reminders]);
+  return { reminders, setReminder, dueToday };
 }
 
-/* ─── STAT CARD ─── */
-function StatCard({label,value,active,onClick,accent,icon}:{
-  label:string;value:number;active:boolean;onClick:()=>void;accent:string;icon:React.ReactNode;
-}) {
-  return (
-    <button type="button" onClick={onClick}
-      className={`flex flex-col gap-2 rounded-2xl border p-4 text-left transition-all duration-200 active:scale-95 ${
-        active ? "border-[color:var(--forest)] bg-[color:var(--forest)] text-[color:var(--ivory)] shadow-lg"
-               : "border-border bg-card text-foreground hover:border-[color:var(--forest)]/30 hover:shadow-md"}`}>
-      <div className={`flex items-center justify-between ${active?"text-[color:var(--ivory)]/70":"text-muted-foreground"}`}>
-        <span className="text-[10px] font-semibold uppercase tracking-widest">{label}</span>
-        <span className={`rounded-lg p-1.5 ${active?"bg-white/10":"bg-muted"}`}>{icon}</span>
-      </div>
-      <div className="font-serif text-3xl">{value}</div>
-      {!active && <div className={`h-0.5 w-8 rounded-full ${accent}`} />}
-    </button>
-  );
-}
+/* ─── COMPONENTS ─── */
 
-/* ─── BOOKING CARD (mobile) ─── */
-function BookingCard({row,onClick}:{row:Booking;onClick:()=>void}) {
-  const status = (row.status??"new") as Status;
+function BookingCard({ row, onClick }: { row: Booking; onClick: () => void }) {
+  const status = (row.status ?? "new") as Status;
   return (
     <button type="button" onClick={onClick}
-      className="w-full text-left rounded-2xl border border-border bg-card p-4 shadow-sm active:scale-[0.98] transition-all duration-150 hover:shadow-md">
-      <div className="flex items-start justify-between gap-2">
+      className="w-full text-left border-4 border-black bg-white p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] active:bg-black active:text-white transition-all duration-75 group relative overflow-hidden">
+      <div className="flex items-start justify-between gap-2 relative z-10">
         <div className="flex-1 min-w-0">
-          <div className="font-semibold text-foreground truncate">{row.guest_name}</div>
-          <div className="text-xs text-muted-foreground mt-0.5 flex items-center gap-1">
-            <Globe className="h-3 w-3 shrink-0"/>{row.guest_country??"—"}
+          <div className="font-black text-xl uppercase tracking-tighter truncate">{row.guest_name}</div>
+          <div className="text-sm font-bold uppercase mt-1 flex items-center gap-1 opacity-70 group-active:opacity-100">
+            <Globe className="h-4 w-4 shrink-0" />{row.guest_country ?? "UNKNOWN"}
           </div>
         </div>
-        <span className={`shrink-0 inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[10px] font-semibold capitalize ${STATUS_STYLES[status]}`}>
-          <span className={`h-1.5 w-1.5 rounded-full ${STATUS_DOT[status]}`}/>{status}
+        <span className={`shrink-0 inline-flex items-center gap-1 border-2 px-3 py-1 text-xs font-black uppercase tracking-widest ${STATUS_STYLES[status]}`}>
+          {status}
         </span>
       </div>
-      <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-muted-foreground">
-        <span className="flex items-center gap-1"><CalendarDays className="h-3.5 w-3.5"/>{formatDate(row.safari_date)}</span>
-        <span className="flex items-center gap-1"><Users className="h-3.5 w-3.5"/>{row.adults}A{row.children>0?` + ${row.children}C`:""}</span>
-        {row.safari_type && <span className="flex items-center gap-1"><Star className="h-3.5 w-3.5"/>{row.safari_type}</span>}
-      </div>
-      <div className="mt-3 flex items-center justify-between">
-        <span className="text-[10px] text-muted-foreground/60">Submitted {formatDate(row.created_at)}</span>
-        {row.guest_whatsapp && (
-          <a href={waLink(row.guest_whatsapp,row.guest_name)} target="_blank" rel="noopener noreferrer"
-            onClick={e=>e.stopPropagation()}
-            className="inline-flex items-center gap-1 rounded-xl bg-[#25D366]/10 px-2.5 py-1 text-[11px] font-medium text-[#128c7e] hover:bg-[#25D366]/20 active:scale-95 transition-all">
-            <Phone className="h-3 w-3"/>WhatsApp
-          </a>
-        )}
+      <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm font-bold uppercase relative z-10">
+        <span className="flex items-center gap-1 border-2 border-black bg-[#fdf5e6] px-2 py-1 group-active:text-black"><CalendarDays className="h-4 w-4" />{formatDate(row.safari_date)}</span>
+        <span className="flex items-center gap-1 border-2 border-black bg-[#fdf5e6] px-2 py-1 group-active:text-black"><Users className="h-4 w-4" />{row.adults}A{row.children > 0 ? ` + ${row.children}C` : ""}</span>
+        {row.safari_type && <span className="flex items-center gap-1 border-2 border-black bg-[#fdf5e6] px-2 py-1 group-active:text-black"><Star className="h-4 w-4" />{row.safari_type}</span>}
       </div>
     </button>
   );
 }
 
-/* ─── REMINDER DIALOG ─── */
-function ReminderDialog({bookingId,bookingName,existing,onSave,onClose}:{
-  bookingId:string;bookingName:string;existing:Reminder|null;
-  onSave:(id:string,r:Reminder|null)=>void;onClose:()=>void;
+function DetailSheet({ row, onUpdate, onClose, toast, reminders, setReminder }: {
+  row: Booking; onUpdate: (id: string, updates: Partial<Booking>) => void; onClose: () => void;
+  toast: (text: string, type?: "ok" | "err") => void; reminders: RemindersMap;
+  setReminder: (id: string, r: Reminder | null) => void;
 }) {
-  const [note,setNote] = useState(existing?.note??"");
-  const [dueDate,setDueDate] = useState(existing?.dueDate??new Date().toISOString().slice(0,10));
-  return (
-    <div className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose}/>
-      <div className="relative z-10 w-full max-w-sm rounded-3xl bg-card border border-border shadow-2xl p-6">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Reminder for</div>
-            <div className="font-serif text-lg text-foreground">{bookingName}</div>
-          </div>
-          <button onClick={onClose} className="rounded-full p-2 hover:bg-muted transition-colors"><X className="h-4 w-4"/></button>
-        </div>
-        <div className="space-y-3">
-          <div>
-            <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Due date</label>
-            <input type="date" value={dueDate} onChange={e=>setDueDate(e.target.value)}
-              className="mt-1 w-full rounded-xl border border-input bg-background px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"/>
-          </div>
-          <div>
-            <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Note</label>
-            <textarea value={note} onChange={e=>setNote(e.target.value)} rows={3}
-              placeholder="e.g. Follow up with quote, confirm pickup time…"
-              className="mt-1 w-full resize-none rounded-xl border border-input bg-background px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"/>
-          </div>
-        </div>
-        <div className="mt-4 flex gap-2">
-          {existing && (
-            <button onClick={()=>{onSave(bookingId,null);onClose();}}
-              className="flex-1 rounded-xl border border-red-200 bg-red-50 py-2.5 text-sm font-medium text-red-600 hover:bg-red-100 transition-colors">
-              Remove
-            </button>
-          )}
-          <button onClick={()=>{onSave(bookingId,{note,dueDate,bookingName});onClose();}}
-            className="flex-1 rounded-xl bg-[color:var(--forest)] py-2.5 text-sm font-semibold text-[color:var(--ivory)] hover:opacity-90 transition-opacity">
-            Save reminder
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
+  const [notes, setNotes] = useState(row.internal_notes ?? "");
+  const [partner, setPartner] = useState(row.assigned_partner ?? "");
+  const [savingNotes, setSavingNotes] = useState(false);
+  const [savingStatus, setSavingStatus] = useState(false);
+  const [savingPartner, setSavingPartner] = useState(false);
+  const status = (row.status ?? "new") as Status;
 
-/* ─── DETAIL PANEL ─── */
-function DetailPanel({row,onStatusChange,onClose,toast,reminders,setReminder,role}:{
-  row:Booking;onStatusChange:(id:string,status:string)=>Promise<void>;onClose:()=>void;
-  toast:(text:string,type?:"ok"|"err")=>void;reminders:RemindersMap;
-  setReminder:(id:string,r:Reminder|null)=>void;role:AdminRole;
-}) {
-  const [notes,setNotes] = useState(row.internal_notes??"");
-  const [partner,setPartner] = useState(row.assigned_partner??"");
-  const [savingNotes,setSavingNotes] = useState(false);
-  const [savingStatus,setSavingStatus] = useState(false);
-  const [savingPartner,setSavingPartner] = useState(false);
-  const [showReminder,setShowReminder] = useState(false);
-  const existingReminder = reminders[row.id]??null;
-  const PARTNERS = ["Unassigned","Udawalawe Safari Jeep Tours","Eco Safari Sri Lanka","Elephant Transit Home Tours","Wilderness Edge Safaris"];
-
-  const savePartner = async (p:string) => {
-    if(!supabase) return; setPartner(p); setSavingPartner(true);
+  const saveStatus = async (s: string) => {
+    setSavingStatus(true);
     try {
-      const {error} = await supabase.from("booking_enquiries").update({assigned_partner:p==="Unassigned"?null:p}).eq("id",row.id);
-      if(error) throw error; toast("Partner updated.");
-    } catch { toast("Failed to assign partner.","err"); setPartner(row.assigned_partner??""); }
+      await updateBookingStatus(row.id, s);
+      onUpdate(row.id, { status: s });
+      toast("STATUS UPDATED.");
+    } catch { toast("UPDATE FAILED.", "err"); }
+    finally { setSavingStatus(false); }
+  };
+
+  const savePartner = async (p: string) => {
+    setPartner(p); setSavingPartner(true);
+    try {
+      const assigned = p === "Unassigned" ? null : p;
+      await updateBookingPartner(row.id, assigned);
+      onUpdate(row.id, { assigned_partner: assigned });
+      toast("PARTNER ASSIGNED.");
+    } catch { toast("FAILED TO ASSIGN.", "err"); setPartner(row.assigned_partner ?? ""); }
     finally { setSavingPartner(false); }
   };
+  
   const saveNotes = async () => {
-    if(!supabase) return; setSavingNotes(true);
+    setSavingNotes(true);
     try {
-      const {error} = await supabase.from("booking_enquiries").update({internal_notes:notes}).eq("id",row.id);
-      if(error) throw error; toast("Notes saved.");
-    } catch { toast("Failed to save notes.","err"); }
+      await updateBookingNotes(row.id, notes);
+      onUpdate(row.id, { internal_notes: notes });
+      toast("NOTES SAVED.");
+    } catch { toast("FAILED TO SAVE.", "err"); }
     finally { setSavingNotes(false); }
   };
-  const status = (row.status??"new") as Status;
-  const Field = ({label,value}:{label:string;value?:string|number|null}) => (
-    <div>
-      <div className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">{label}</div>
-      <div className="mt-0.5 text-sm text-foreground">{value??"—"}</div>
+
+  const PARTNERS = ["Unassigned", "Udawalawe Safari Jeep Tours", "Eco Safari Sri Lanka", "Elephant Transit Home Tours", "Wilderness Edge Safaris"];
+  const Field = ({ label, value }: { label: string; value?: string | number | null }) => (
+    <div className="border-b-4 border-black pb-2">
+      <div className="text-xs font-black uppercase tracking-widest text-black/50">{label}</div>
+      <div className="mt-1 text-lg font-bold text-black uppercase">{value ?? "—"}</div>
     </div>
   );
+
   return (
-    <>
-      {showReminder && (
-        <ReminderDialog bookingId={row.id} bookingName={row.guest_name} existing={existingReminder}
-          onSave={setReminder} onClose={()=>setShowReminder(false)}/>
-      )}
-      <div className="fixed inset-0 z-50 flex items-start justify-end">
-        <button type="button" aria-label="Close" className="absolute inset-0 bg-black/30 backdrop-blur-[2px]" onClick={onClose}/>
-        <aside className="relative z-10 flex h-full min-h-screen w-full max-w-lg flex-col overflow-y-auto bg-card shadow-2xl">
-          <div className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-card/95 backdrop-blur px-5 py-4">
-            <div>
-              <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Booking detail</div>
-              <div className="mt-0.5 font-serif text-xl text-foreground">{row.guest_name}</div>
-            </div>
-            <div className="flex items-center gap-2">
-              <button type="button" onClick={()=>setShowReminder(true)}
-                className={`flex h-9 w-9 items-center justify-center rounded-xl transition-colors ${existingReminder?"bg-amber-100 text-amber-600 hover:bg-amber-200":"bg-muted text-muted-foreground hover:bg-muted/80"}`}
-                title={existingReminder?"Edit reminder":"Set reminder"}>
-                {existingReminder ? <BellRing className="h-4 w-4"/> : <Bell className="h-4 w-4"/>}
-              </button>
-              <button type="button" onClick={onClose} className="flex h-9 w-9 items-center justify-center rounded-xl bg-muted transition-colors hover:bg-muted/80">
-                <X className="h-4 w-4"/>
-              </button>
+    <div className="fixed inset-0 z-[100] flex flex-col justify-end sm:justify-center sm:items-center p-0 sm:p-4">
+      <button type="button" aria-label="Close" className="absolute inset-0 bg-[#fdf5e6]/80 backdrop-blur-sm transition-opacity" onClick={onClose} />
+      <div className="relative z-10 w-full max-w-2xl bg-white border-t-8 border-x-8 sm:border-b-8 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col max-h-[95vh] sm:max-h-[85vh] animate-in slide-in-from-bottom-16 duration-300">
+        
+        {/* Header */}
+        <div className="sticky top-0 z-20 flex items-center justify-between border-b-8 border-black bg-[#ffef00] px-6 py-4">
+          <div>
+            <div className="text-xs font-black uppercase tracking-widest text-black">ID: {row.id.split('-')[0]}</div>
+            <div className="mt-1 font-black text-3xl uppercase tracking-tighter text-black">{row.guest_name}</div>
+          </div>
+          <button type="button" onClick={onClose} className="flex h-12 w-12 items-center justify-center border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none active:bg-black active:text-white transition-all">
+            <X className="h-6 w-6" />
+          </button>
+        </div>
+
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto p-6 space-y-8 bg-[#fdf5e6]">
+          
+          {/* Status Updates */}
+          <div className="border-4 border-black bg-white p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+            <div className="mb-4 text-sm font-black uppercase tracking-widest text-black">Current Status</div>
+            <div className="flex flex-wrap gap-3">
+              {STATUS_OPTIONS.map(s => (
+                <button key={s} type="button" disabled={savingStatus}
+                  onClick={() => void saveStatus(s)}
+                  className={`border-4 px-4 py-2 text-sm font-black uppercase tracking-wider transition-all duration-150 ${
+                    status === s ? STATUS_STYLES[s] + " scale-105 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                               : "border-black bg-white text-black hover:bg-[#e0e0e0] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"}`}>
+                  {s}
+                </button>
+              ))}
             </div>
           </div>
-          <div className="flex-1 space-y-4 px-5 py-5">
-            {existingReminder && (
-              <div className="flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3">
-                <BellRing className="h-4 w-4 mt-0.5 text-amber-600 shrink-0"/>
-                <div className="flex-1 min-w-0">
-                  <div className="text-xs font-semibold text-amber-700">Reminder — {formatDate(existingReminder.dueDate)}</div>
-                  <div className="text-xs text-amber-600/80 mt-0.5 leading-relaxed">{existingReminder.note}</div>
-                </div>
-                <button onClick={()=>setShowReminder(true)} className="text-[10px] text-amber-600 underline underline-offset-2 shrink-0">Edit</button>
+
+          {/* Contact Actions */}
+          <div className="grid grid-cols-2 gap-4">
+            {row.guest_whatsapp && (
+              <a href={waLink(row.guest_whatsapp, row.guest_name)} target="_blank" rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 border-4 border-black bg-[#00ffcc] text-black px-4 py-4 font-black text-lg uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none active:bg-black active:text-white transition-all">
+                <Phone className="h-6 w-6" /> WhatsApp
+              </a>
+            )}
+            <a href={`mailto:${row.guest_email}`}
+              className="flex items-center justify-center gap-2 border-4 border-black bg-white text-black px-4 py-4 font-black text-lg uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none active:bg-black active:text-white transition-all">
+              <MessageSquare className="h-6 w-6" /> Email
+            </a>
+          </div>
+
+          {/* Details */}
+          <div className="border-4 border-black bg-white p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] space-y-6">
+            <div className="grid grid-cols-2 gap-y-6 gap-x-6">
+              <Field label="Phone" value={row.guest_whatsapp} />
+              <Field label="Email" value={row.guest_email} />
+              <Field label="Country" value={row.guest_country} />
+              <Field label="Hotel" value={row.guest_hotel} />
+              <Field label="Safari Date" value={formatDate(row.safari_date)} />
+              <Field label="Type" value={row.safari_type} />
+              <Field label="Adults" value={row.adults} />
+              <Field label="Children" value={row.children} />
+              <div className="col-span-2"><Field label="Pickup" value={row.pickup_location} /></div>
+              <div className="col-span-2"><Field label="Dropoff" value={row.dropoff_location} /></div>
+            </div>
+
+            {row.special_requests && (
+              <div className="border-4 border-black bg-[#ffef00] p-4 mt-6">
+                <div className="text-sm font-black uppercase tracking-widest text-black">Special requests</div>
+                <p className="mt-2 text-lg font-bold uppercase">{row.special_requests}</p>
               </div>
             )}
-            {/* Status */}
-            <div className="rounded-2xl border border-border bg-background p-4">
-              <div className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Status</div>
-              <div className="flex flex-wrap gap-2">
-                {STATUS_OPTIONS.map(s=>(
-                  <button key={s} type="button" disabled={savingStatus}
-                    onClick={async()=>{setSavingStatus(true);await onStatusChange(row.id,s);setSavingStatus(false);}}
-                    className={`rounded-full border px-3 py-1 text-xs font-medium capitalize transition-all duration-150 ${
-                      status===s ? STATUS_STYLES[s]+" scale-105 font-semibold shadow-sm"
-                                 : "border-border text-muted-foreground hover:border-foreground/20 hover:text-foreground"}`}>
-                    {s}
-                  </button>
-                ))}
+          </div>
+
+          {/* Partner & Notes */}
+          <div className="border-4 border-black bg-[#00ffcc] p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] space-y-6">
+            <div>
+              <div className="text-sm font-black uppercase tracking-widest text-black mb-3">Assign Partner</div>
+              <div className="relative">
+                <select value={partner || "Unassigned"} onChange={e => void savePartner(e.target.value)} disabled={savingPartner}
+                  className="w-full appearance-none border-4 border-black bg-white py-4 pl-4 pr-12 text-lg font-bold uppercase focus:outline-none focus:bg-[#ffef00] disabled:opacity-50">
+                  {PARTNERS.map(p => <option key={p} value={p}>{p}</option>)}
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-8 w-8 -translate-y-1/2 text-black" />
               </div>
             </div>
-            {/* Guest info */}
-            <div className="rounded-2xl border border-border bg-background p-4">
-              <div className="mb-3 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-                <Users className="h-3.5 w-3.5"/>Guest information
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <Field label="Name" value={row.guest_name}/>
-                <Field label="Country" value={row.guest_country}/>
-                {role==="superadmin" && row.guest_ip && (
-                  <><Field label="IP Address" value={row.guest_ip}/><Field label="City & Timezone" value={`${row.guest_city??"Unknown"} • ${row.guest_timezone??"Unknown"}`}/></>
-                )}
-                <div className="col-span-2"><Field label="Email" value={row.guest_email}/></div>
-                <div className="col-span-2">
-                  <div className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">WhatsApp</div>
-                  <div className="mt-1 flex items-center gap-2">
-                    <span className="text-sm text-foreground">{row.guest_whatsapp||"—"}</span>
-                    {row.guest_whatsapp && (
-                      <a href={waLink(row.guest_whatsapp,row.guest_name)} target="_blank" rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 rounded-xl bg-[#25D366]/10 px-3 py-1.5 text-xs font-medium text-[#128c7e] transition hover:bg-[#25D366]/20">
-                        <Phone className="h-3.5 w-3.5"/>Open WhatsApp
-                      </a>
-                    )}
-                  </div>
-                </div>
-                <Field label="Hotel / Accommodation" value={row.guest_hotel}/>
-              </div>
-            </div>
-            {/* Trip info */}
-            <div className="rounded-2xl border border-border bg-background p-4">
-              <div className="mb-3 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-                <CalendarDays className="h-3.5 w-3.5"/>Trip details
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <Field label="Safari date" value={formatDate(row.safari_date)}/>
-                <Field label="Safari type" value={row.safari_type}/>
-                <Field label="Adults" value={row.adults}/>
-                <Field label="Children" value={row.children}/>
-                <Field label="Pickup" value={row.pickup_location}/>
-                <Field label="Drop-off" value={row.dropoff_location}/>
-              </div>
-              {row.special_requests && (
-                <div className="mt-4 rounded-xl border border-dashed border-border bg-muted/30 p-3">
-                  <div className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Special requests</div>
-                  <p className="mt-1 text-sm leading-relaxed text-foreground/80">{row.special_requests}</p>
-                </div>
-              )}
-            </div>
-            {/* Quote & partner */}
-            <div className="rounded-2xl border border-border bg-background p-4">
-              <div className="mb-3 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-                <Star className="h-3.5 w-3.5"/>Quote & assignment
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <Field label="Quoted amount" value={row.quoted_amount!=null?`${row.quoted_currency??"USD"} ${row.quoted_amount}`:null}/>
-                <div>
-                  <div className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground mb-1">Partner</div>
-                  <div className="relative">
-                    <select value={partner||"Unassigned"} onChange={e=>void savePartner(e.target.value)} disabled={savingPartner}
-                      className="w-full appearance-none rounded-xl border border-input bg-background py-2 pl-3 pr-7 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-50">
-                      {PARTNERS.map(p=><option key={p} value={p}>{p}</option>)}
-                    </select>
-                    <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"/>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* Notes */}
-            <div className="rounded-2xl border border-border bg-background p-4">
-              <div className="mb-2 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-                <ClipboardList className="h-3.5 w-3.5"/>Internal notes
-              </div>
-              <textarea value={notes} onChange={e=>setNotes(e.target.value)} rows={4}
-                placeholder="Private notes for this enquiry…"
-                className="w-full resize-none rounded-xl border border-input bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"/>
-              <button type="button" disabled={savingNotes} onClick={()=>void saveNotes()}
-                className="mt-2 flex items-center gap-1.5 rounded-xl bg-[color:var(--forest)] px-4 py-2.5 text-xs font-semibold text-[color:var(--ivory)] transition hover:opacity-90 disabled:opacity-60">
-                {savingNotes ? <Loader2 className="h-3.5 w-3.5 animate-spin"/> : <Check className="h-3.5 w-3.5"/>}
-                Save notes
+
+            <div>
+              <div className="text-sm font-black uppercase tracking-widest text-black mb-3">Internal Notes</div>
+              <textarea value={notes} onChange={e => setNotes(e.target.value)} rows={4}
+                placeholder="PRIVATE NOTES..."
+                className="w-full resize-none border-4 border-black bg-white px-4 py-4 text-lg font-bold uppercase focus:outline-none focus:bg-[#ffef00]" />
+              <button type="button" disabled={savingNotes} onClick={() => void saveNotes()}
+                className="mt-4 w-full flex items-center justify-center gap-2 border-4 border-black bg-black text-white px-4 py-4 text-xl font-black uppercase shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none active:bg-white active:text-black transition-all disabled:opacity-60">
+                {savingNotes ? <Loader2 className="h-6 w-6 animate-spin" /> : <Check className="h-6 w-6" />}
+                Save Notes
               </button>
             </div>
-            {/* Meta */}
-            <div className="rounded-2xl border border-border bg-background/60 p-4 text-xs text-muted-foreground space-y-0.5">
-              <div>Created: {formatDate(row.created_at)}</div>
-              <div>Last updated: {formatDate(row.updated_at)}</div>
-              <div className="font-mono opacity-60">ID: {row.id}</div>
-            </div>
           </div>
-        </aside>
+
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 
-/* ─── CALENDAR VIEW ─── */
-function CalendarView({bookings,onSelectBooking}:{bookings:Booking[];onSelectBooking:(b:Booking)=>void}) {
+function CalendarView({ bookings, onSelectBooking }: { bookings: Booking[]; onSelectBooking: (b: Booking) => void }) {
   const today = new Date();
-  const [year,setYear] = useState(today.getFullYear());
-  const [month,setMonth] = useState(today.getMonth());
-  const [selectedDay,setSelectedDay] = useState<number|null>(null);
-  const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-  const DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-  const daysInMonth = getDaysInMonth(year,month);
-  const firstDay = getFirstDayOfMonth(year,month);
-  const bookingsByDay = useMemo(()=>{
-    const map: Record<number,Booking[]> = {};
-    bookings.forEach(b=>{
-      if(!b.safari_date) return;
+  const [year, setYear] = useState(today.getFullYear());
+  const [month, setMonth] = useState(today.getMonth());
+  const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  
+  const MONTHS = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+  const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  
+  const daysInMonth = getDaysInMonth(year, month);
+  const firstDay = getFirstDayOfMonth(year, month);
+  
+  const bookingsByDay = useMemo(() => {
+    const map: Record<number, Booking[]> = {};
+    bookings.forEach(b => {
+      if (!b.safari_date) return;
       const d = new Date(b.safari_date);
-      if(d.getFullYear()===year && d.getMonth()===month){
+      if (d.getFullYear() === year && d.getMonth() === month) {
         const day = d.getDate();
-        if(!map[day]) map[day]=[];
+        if (!map[day]) map[day] = [];
         map[day].push(b);
       }
     });
     return map;
-  },[bookings,year,month]);
-  const selectedDayBookings = selectedDay ? (bookingsByDay[selectedDay]??[]) : [];
-  const prevMonth = ()=>{ if(month===0){setYear(y=>y-1);setMonth(11);}else setMonth(m=>m-1); setSelectedDay(null); };
-  const nextMonth = ()=>{ if(month===11){setYear(y=>y+1);setMonth(0);}else setMonth(m=>m+1); setSelectedDay(null); };
+  }, [bookings, year, month]);
+  
+  const selectedDayBookings = selectedDay ? (bookingsByDay[selectedDay] ?? []) : [];
+  
+  const prevMonth = () => { if (month === 0) { setYear(y => y - 1); setMonth(11); } else setMonth(m => m - 1); setSelectedDay(null); };
+  const nextMonth = () => { if (month === 11) { setYear(y => y + 1); setMonth(0); } else setMonth(m => m + 1); setSelectedDay(null); };
+
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between rounded-2xl border border-border bg-card p-4">
-        <button onClick={prevMonth} className="flex h-9 w-9 items-center justify-center rounded-xl hover:bg-muted transition-colors"><ChevronLeft className="h-5 w-5"/></button>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between border-4 border-black bg-white p-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+        <button onClick={prevMonth} className="flex h-12 w-12 items-center justify-center border-4 border-black bg-[#ffef00] hover:translate-x-1 hover:translate-y-1 hover:shadow-none active:bg-black active:text-white transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <ChevronLeft className="h-6 w-6" />
+        </button>
         <div className="text-center">
-          <div className="font-serif text-xl text-foreground">{MONTHS[month]}</div>
-          <div className="text-xs text-muted-foreground">{year}</div>
+          <div className="font-black text-2xl uppercase tracking-tighter text-black">{MONTHS[month]} {year}</div>
         </div>
-        <button onClick={nextMonth} className="flex h-9 w-9 items-center justify-center rounded-xl hover:bg-muted transition-colors"><ChevronRight className="h-5 w-5"/></button>
+        <button onClick={nextMonth} className="flex h-12 w-12 items-center justify-center border-4 border-black bg-[#ffef00] hover:translate-x-1 hover:translate-y-1 hover:shadow-none active:bg-black active:text-white transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <ChevronRight className="h-6 w-6" />
+        </button>
       </div>
-      <div className="rounded-2xl border border-border bg-card overflow-hidden">
-        <div className="grid grid-cols-7 border-b border-border">
-          {DAYS.map(d=><div key={d} className="py-2 text-center text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">{d}</div>)}
+
+      <div className="border-4 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+        <div className="grid grid-cols-7 border-b-4 border-black bg-[#00ffcc]">
+          {DAYS.map(d => (
+            <div key={d} className="py-3 text-center text-sm font-black uppercase tracking-widest text-black border-r-4 border-black last:border-r-0">
+              {d}
+            </div>
+          ))}
         </div>
         <div className="grid grid-cols-7">
-          {Array.from({length:firstDay}).map((_,i)=>(
-            <div key={`e-${i}`} className="border-b border-r border-border/40 min-h-[56px] sm:min-h-[72px]"/>
+          {Array.from({ length: firstDay }).map((_, i) => (
+            <div key={`empty-${i}`} className="border-b-4 border-r-4 border-black bg-[#e0e0e0] min-h-[80px]" />
           ))}
-          {Array.from({length:daysInMonth}).map((_,i)=>{
-            const day=i+1;
-            const dayBookings=bookingsByDay[day]??[];
-            const isToday=day===today.getDate()&&month===today.getMonth()&&year===today.getFullYear();
-            const isSelected=selectedDay===day;
-            const hasBookings=dayBookings.length>0;
-            const colIndex=(firstDay+i)%7;
+          {Array.from({ length: daysInMonth }).map((_, i) => {
+            const day = i + 1;
+            const dayBookings = bookingsByDay[day] ?? [];
+            const isToday = day === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+            const isSelected = selectedDay === day;
+            const hasBookings = dayBookings.length > 0;
+            const colIndex = (firstDay + i) % 7;
+            
             return (
-              <button key={day} type="button" onClick={()=>setSelectedDay(isSelected?null:day)}
-                className={`relative flex flex-col items-center pt-2 pb-1.5 min-h-[56px] sm:min-h-[72px] border-b border-r border-border/40 transition-colors ${
-                  isSelected?"bg-[color:var(--forest)]/8":hasBookings?"hover:bg-[color:var(--forest)]/4":"hover:bg-muted/50"
-                } ${colIndex===6?"border-r-0":""}`}>
-                <span className={`flex h-7 w-7 items-center justify-center rounded-full text-sm font-medium ${
-                  isToday?"bg-[color:var(--forest)] text-[color:var(--ivory)]"
-                  :isSelected?"bg-[color:var(--forest)]/15 text-[color:var(--forest)]"
-                  :"text-foreground"}`}>{day}</span>
+              <button key={day} type="button" onClick={() => setSelectedDay(isSelected ? null : day)}
+                className={`relative flex flex-col items-center justify-start pt-2 pb-2 min-h-[80px] border-b-4 border-r-4 border-black transition-all ${
+                  colIndex === 6 ? "border-r-0" : ""
+                } ${
+                  isSelected ? "bg-black text-white" :
+                  hasBookings ? "bg-[#ffef00] hover:bg-[#ffe500]" :
+                  "bg-white hover:bg-[#f5f5f5]"
+                }`}>
+                
+                <span className={`flex h-8 w-8 items-center justify-center font-black text-lg ${
+                  isToday && !isSelected ? "border-4 border-black bg-[#00ffcc] text-black" : ""
+                }`}>
+                  {day}
+                </span>
+                
                 {hasBookings && (
-                  <div className="mt-1 flex flex-wrap justify-center gap-0.5 px-1 max-w-full">
-                    {dayBookings.slice(0,3).map((b,idx)=>{
-                      const s=(b.status??"new") as Status;
-                      return <span key={idx} className={`h-1.5 w-1.5 rounded-full ${STATUS_BG[s]}`}/>;
-                    })}
-                    {dayBookings.length>3 && <span className="text-[8px] text-muted-foreground">+{dayBookings.length-3}</span>}
+                  <div className="mt-2 flex items-center justify-center border-2 border-black bg-white px-2 py-0.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                    <span className="text-xs font-black text-black">{dayBookings.length}</span>
                   </div>
                 )}
               </button>
@@ -460,340 +361,36 @@ function CalendarView({bookings,onSelectBooking}:{bookings:Booking[];onSelectBoo
           })}
         </div>
       </div>
-      <div className="flex flex-wrap gap-3 text-[10px] text-muted-foreground px-1">
-        {(Object.keys(STATUS_BG) as Status[]).map(s=>(
-          <span key={s} className="flex items-center gap-1"><span className={`h-2 w-2 rounded-full ${STATUS_BG[s]}`}/>{s}</span>
-        ))}
-      </div>
-      {selectedDay!==null && (
-        <div className="rounded-2xl border border-border bg-card overflow-hidden">
-          <div className="border-b border-border px-5 py-3">
-            <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
-              {selectedDayBookings.length>0 ? `${selectedDayBookings.length} booking${selectedDayBookings.length!==1?"s":""} on` : "No bookings on"}
+
+      {selectedDay !== null && (
+        <div className="border-4 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] animate-in slide-in-from-top-4 duration-200">
+          <div className="border-b-4 border-black bg-[#aa00ff] text-white px-6 py-4">
+            <div className="font-black text-2xl uppercase tracking-tighter">
+              {MONTHS[month]} {selectedDay}, {year}
             </div>
-            <div className="font-serif text-lg text-foreground">{MONTHS[month]} {selectedDay}, {year}</div>
           </div>
-          {selectedDayBookings.length===0 ? (
-            <div className="flex flex-col items-center justify-center gap-2 py-10 text-muted-foreground">
-              <CalendarDays className="h-7 w-7 opacity-30"/><p className="text-sm">No safaris scheduled for this day.</p>
+          
+          {selectedDayBookings.length === 0 ? (
+            <div className="text-center py-16 text-black/50">
+              <span className="text-xl font-black uppercase">NO BOOKINGS</span>
             </div>
           ) : (
-            <div className="divide-y divide-border/60">
-              {selectedDayBookings.map(b=>{
-                const s=(b.status??"new") as Status;
-                return (
-                  <button key={b.id} type="button" onClick={()=>onSelectBooking(b)}
-                    className="w-full text-left px-5 py-4 hover:bg-muted/40 transition-colors">
-                    <div className="flex items-center justify-between gap-3">
-                      <div>
-                        <div className="font-medium text-foreground">{b.guest_name}</div>
-                        <div className="text-xs text-muted-foreground mt-0.5">
-                          {b.safari_type??"—"} · {b.adults}A{b.children>0?` + ${b.children}C`:""}{b.pickup_location?` · ${b.pickup_location}`:""}
-                        </div>
-                      </div>
-                      <span className={`shrink-0 inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[10px] font-semibold capitalize ${STATUS_STYLES[s]}`}>
-                        <span className={`h-1.5 w-1.5 rounded-full ${STATUS_DOT[s]}`}/>{s}
-                      </span>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-
-/* ─── BOOKINGS LIST VIEW ─── */
-function BookingsList({bookings,allBookings,onSelect}:{bookings:Booking[];allBookings:Booking[];onSelect:(b:Booking)=>void}) {
-  const [search,setSearch] = useState("");
-  const [typeFilter,setTypeFilter] = useState("all");
-  const [dateFrom,setDateFrom] = useState("");
-  const [dateTo,setDateTo] = useState("");
-  const [sortKey,setSortKey] = useState<SortKey>("created_at");
-  const [sortDir,setSortDir] = useState<SortDir>("desc");
-  const safariTypes = useMemo(()=>{
-    const types=[...new Set(allBookings.map(r=>r.safari_type).filter(Boolean))];
-    return types as string[];
-  },[allBookings]);
-  const filtered = useMemo(()=>{
-    let rows=[...bookings];
-    if(typeFilter!=="all") rows=rows.filter(r=>r.safari_type===typeFilter);
-    if(dateFrom) rows=rows.filter(r=>r.safari_date&&r.safari_date>=dateFrom);
-    if(dateTo) rows=rows.filter(r=>r.safari_date&&r.safari_date<=dateTo);
-    if(search.trim()){
-      const q=search.toLowerCase();
-      rows=rows.filter(r=>r.guest_name?.toLowerCase().includes(q)||r.guest_email?.toLowerCase().includes(q)||r.guest_whatsapp?.toLowerCase().includes(q)||r.guest_country?.toLowerCase().includes(q)||r.safari_type?.toLowerCase().includes(q));
-    }
-    if(sortKey){
-      rows.sort((a,b)=>{
-        const av=(a as Record<string,unknown>)[sortKey]??"";
-        const bv=(b as Record<string,unknown>)[sortKey]??"";
-        if(av<bv) return sortDir==="asc"?-1:1;
-        if(av>bv) return sortDir==="asc"?1:-1;
-        return 0;
-      });
-    }
-    return rows;
-  },[bookings,typeFilter,dateFrom,dateTo,search,sortKey,sortDir]);
-  const anyFilter=search||typeFilter!=="all"||dateFrom||dateTo;
-  const toggleSort=(key:SortKey)=>{
-    if(!key) return;
-    if(sortKey===key) setSortDir(d=>d==="asc"?"desc":"asc");
-    else {setSortKey(key);setSortDir("asc");}
-  };
-  return (
-    <div className="space-y-4">
-      <div className="rounded-2xl border border-border bg-card p-4 space-y-3">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"/>
-          <input type="search" placeholder="Search name, email, country…" value={search} onChange={e=>setSearch(e.target.value)}
-            className="w-full rounded-xl border border-input bg-background py-2.5 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-ring"/>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <div className="relative">
-            <select value={typeFilter} onChange={e=>setTypeFilter(e.target.value)}
-              className="appearance-none rounded-xl border border-input bg-background py-2 pl-3 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
-              <option value="all">All types</option>
-              {safariTypes.map(t=><option key={t} value={t}>{t}</option>)}
-            </select>
-            <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"/>
-          </div>
-          <div className="flex items-center gap-2 rounded-xl border border-input bg-background px-3 py-2 text-sm text-muted-foreground">
-            <CalendarDays className="h-4 w-4 shrink-0"/>
-            <input type="date" value={dateFrom} onChange={e=>setDateFrom(e.target.value)} className="bg-transparent text-sm focus:outline-none w-28"/>
-            <span>→</span>
-            <input type="date" value={dateTo} onChange={e=>setDateTo(e.target.value)} className="bg-transparent text-sm focus:outline-none w-28"/>
-          </div>
-          {anyFilter && (
-            <button type="button" onClick={()=>{setSearch("");setTypeFilter("all");setDateFrom("");setDateTo("");}}
-              className="flex items-center gap-1 rounded-xl border border-border px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:border-foreground/30">
-              <X className="h-3.5 w-3.5"/>Clear
-            </button>
-          )}
-        </div>
-        <div className="text-xs text-muted-foreground">Showing <strong>{filtered.length}</strong> of <strong>{bookings.length}</strong> bookings</div>
-      </div>
-      {/* Mobile cards */}
-      <div className="sm:hidden space-y-3">
-        {filtered.length===0 ? (
-          <div className="flex flex-col items-center justify-center gap-3 py-16 text-muted-foreground">
-            <MessageSquare className="h-8 w-8 opacity-30"/><p className="text-sm">No bookings match your filters.</p>
-          </div>
-        ) : filtered.map(row=><BookingCard key={row.id} row={row} onClick={()=>onSelect(row)}/>)}
-      </div>
-      {/* Desktop table */}
-      <div className="hidden sm:block overflow-hidden rounded-2xl border border-border bg-card">
-        {filtered.length===0 ? (
-          <div className="flex flex-col items-center justify-center gap-3 py-16 text-muted-foreground">
-            <MessageSquare className="h-8 w-8 opacity-30"/><p className="text-sm">No bookings match your filters.</p>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="min-w-full text-sm">
-              <thead className="border-b border-border bg-muted/40 text-left">
-                <tr>
-                  {([{label:"Guest",key:"guest_name"},{label:"Safari date",key:"safari_date"},{label:"Party",key:"adults"},
-                    {label:"Type",key:"safari_type"},{label:"Pickup",key:"pickup_location"},{label:"Status",key:"status"},
-                    {label:"Submitted",key:"created_at"},{label:"",key:null}] as {label:string;key:SortKey}[]).map(({label,key})=>(
-                    <th key={label} onClick={()=>toggleSort(key)}
-                      className={`px-4 py-3 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground ${key?"cursor-pointer select-none hover:text-foreground":""}`}>
-                      <div className="flex items-center gap-1">
-                        {label}
-                        {key&&sortKey===key && <ChevronDown className={`h-3 w-3 text-primary transition-transform ${sortDir==="asc"?"rotate-180":""}`}/>}
-                      </div>
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border/60">
-                {filtered.map(row=>{
-                  const s=(row.status??"new") as Status;
-                  return (
-                    <tr key={row.id} onClick={()=>onSelect(row)}
-                      className="cursor-pointer transition-colors duration-100 hover:bg-[color:var(--sand)]/20">
-                      <td className="px-4 py-3">
-                        <div className="font-medium text-foreground">{row.guest_name}</div>
-                        <div className="text-[11px] text-muted-foreground mt-0.5">{row.guest_country??"—"}</div>
-                        <div className="text-[11px] text-muted-foreground truncate max-w-[140px]">{row.guest_email}</div>
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm">{formatDate(row.safari_date)}</td>
-                      <td className="px-4 py-3 text-sm whitespace-nowrap">{row.adults}A{row.children>0?` + ${row.children}C`:""}</td>
-                      <td className="px-4 py-3"><span className="rounded-lg bg-muted px-2 py-0.5 text-xs font-medium">{row.safari_type??"—"}</span></td>
-                      <td className="px-4 py-3 text-xs text-muted-foreground"><div className="flex items-center gap-1"><MapPin className="h-3 w-3 shrink-0"/>{row.pickup_location??"—"}</div></td>
-                      <td className="px-4 py-3">
-                        <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-medium capitalize ${STATUS_STYLES[s]}`}>
-                          <span className={`h-1.5 w-1.5 rounded-full ${STATUS_DOT[s]}`}/>{s}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-xs text-muted-foreground whitespace-nowrap">{formatDate(row.created_at)}</td>
-                      <td className="px-4 py-3"><ChevronRight className="h-4 w-4 text-muted-foreground/40"/></td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-/* ─── OVERVIEW TAB ─── */
-function OverviewTab({bookings,stats,dueReminders,onSelectBooking,onTabChange}:{
-  bookings:Booking[];stats:Record<string,number>;
-  dueReminders:Array<{id:string;note:string;dueDate:string;bookingName:string}>;
-  onSelectBooking:(b:Booking)=>void;onTabChange:(t:Tab)=>void;
-}) {
-  const upcoming7 = useMemo(()=>{
-    const today=new Date(); today.setHours(0,0,0,0);
-    const in7=new Date(today); in7.setDate(today.getDate()+7);
-    return bookings.filter(b=>{
-      if(!b.safari_date) return false;
-      const d=new Date(b.safari_date); return d>=today&&d<=in7;
-    }).sort((a,b)=>(a.safari_date??"").localeCompare(b.safari_date??""));
-  },[bookings]);
-  const recentNew = useMemo(()=>
-    [...bookings].filter(b=>b.status==="new")
-      .sort((a,b)=>(b.created_at??"").localeCompare(a.created_at??"")).slice(0,5),
-    [bookings]);
-  const todayCount = useMemo(()=>
-    bookings.filter(b=>b.created_at&&new Date(b.created_at).toDateString()===new Date().toDateString()).length,
-    [bookings]);
-  const STAT_ITEMS = [
-    {label:"Total",value:stats.total,accent:"bg-foreground/15",tab:"all" as Tab,icon:<LayoutDashboard className="h-4 w-4"/>},
-    {label:"New",value:stats.new,accent:"bg-blue-400",tab:"new" as Tab,icon:<Star className="h-4 w-4"/>},
-    {label:"Confirmed",value:stats.confirmed,accent:"bg-emerald-400",tab:"confirmed" as Tab,icon:<Check className="h-4 w-4"/>},
-    {label:"Reviewing",value:stats.reviewing,accent:"bg-amber-400",tab:"all" as Tab,icon:<RefreshCcw className="h-4 w-4"/>},
-    {label:"Quoted",value:stats.quoted,accent:"bg-purple-400",tab:"all" as Tab,icon:<ClipboardList className="h-4 w-4"/>},
-    {label:"Cancelled",value:stats.cancelled,accent:"bg-red-400",tab:"archived" as Tab,icon:<X className="h-4 w-4"/>},
-  ];
-  return (
-    <div className="space-y-6">
-      {dueReminders.length>0 && (
-        <div className="rounded-2xl border border-amber-200 bg-amber-50 overflow-hidden">
-          <div className="flex items-center gap-2 border-b border-amber-200/80 px-5 py-3">
-            <BellRing className="h-4 w-4 text-amber-600"/>
-            <span className="text-sm font-semibold text-amber-700">{dueReminders.length} reminder{dueReminders.length!==1?"s":""} due</span>
-          </div>
-          <div className="divide-y divide-amber-200/50">
-            {dueReminders.map(r=>{
-              const booking=bookings.find(b=>b.id===r.id);
-              return (
-                <button key={r.id} type="button" onClick={()=>booking&&onSelectBooking(booking)}
-                  className="w-full text-left px-5 py-3 hover:bg-amber-100/50 transition-colors">
-                  <div className="font-medium text-amber-800 text-sm">{r.bookingName}</div>
-                  <div className="text-xs text-amber-600 mt-0.5">{r.note}</div>
-                  <div className="text-[10px] text-amber-500 mt-0.5">Due: {formatDate(r.dueDate)}</div>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      )}
-      <div className="grid grid-cols-2 gap-3">
-        <div className="rounded-2xl border border-border bg-card p-4 flex items-center justify-between">
-          <div>
-            <div className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Today</div>
-            <div className="mt-1 font-serif text-3xl text-foreground">{todayCount}</div>
-            <div className="text-xs text-muted-foreground mt-0.5">new enquiries</div>
-          </div>
-          <div className="h-11 w-11 rounded-2xl bg-blue-100 flex items-center justify-center text-blue-600"><CalendarDays className="h-5 w-5"/></div>
-        </div>
-        <button type="button" onClick={()=>onTabChange("calendar")}
-          className="rounded-2xl border border-border bg-card p-4 flex items-center justify-between cursor-pointer hover:border-[color:var(--forest)]/30 transition-colors text-left">
-          <div>
-            <div className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Next 7 Days</div>
-            <div className="mt-1 font-serif text-3xl text-foreground">{upcoming7.length}</div>
-            <div className="text-xs text-muted-foreground mt-0.5">safaris scheduled</div>
-          </div>
-          <div className="h-11 w-11 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-600"><Star className="h-5 w-5"/></div>
-        </button>
-      </div>
-      <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
-        {STAT_ITEMS.map(s=>(
-          <StatCard key={s.label} label={s.label} value={s.value} active={false}
-            onClick={()=>onTabChange(s.tab)} accent={s.accent} icon={s.icon}/>
-        ))}
-      </div>
-      {upcoming7.length>0 && (
-        <div className="rounded-2xl border border-border bg-card overflow-hidden">
-          <div className="border-b border-border px-5 py-3 flex items-center justify-between">
-            <div>
-              <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Upcoming this week</div>
-              <div className="font-serif text-base text-foreground mt-0.5">Safari schedule</div>
-            </div>
-            <button onClick={()=>onTabChange("calendar")} className="text-xs text-[color:var(--forest)] font-medium hover:underline">View calendar →</button>
-          </div>
-          <div className="divide-y divide-border/60">
-            {upcoming7.map(b=>{
-              const s=(b.status??"new") as Status;
-              return (
-                <button key={b.id} type="button" onClick={()=>onSelectBooking(b)}
-                  className="w-full text-left px-5 py-3.5 hover:bg-muted/30 transition-colors">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-3 min-w-0">
-                      <div className="shrink-0 flex flex-col items-center justify-center w-10 h-10 rounded-xl bg-[color:var(--forest)]/8 text-[color:var(--forest)]">
-                        <div className="text-[10px] font-semibold uppercase leading-none">
-                          {new Date(b.safari_date!).toLocaleString("en-GB",{month:"short"})}
-                        </div>
-                        <div className="text-lg font-bold leading-tight">{new Date(b.safari_date!).getDate()}</div>
-                      </div>
-                      <div className="min-w-0">
-                        <div className="font-medium text-foreground truncate">{b.guest_name}</div>
-                        <div className="text-xs text-muted-foreground mt-0.5">
-                          {b.safari_type??"—"} · {b.adults}A{b.children>0?` + ${b.children}C`:""}
-                        </div>
+            <div className="divide-y-4 divide-black">
+              {selectedDayBookings.map(b => (
+                <div key={b.id} className="p-4 bg-white hover:bg-[#fdf5e6] transition-colors cursor-pointer" onClick={() => onSelectBooking(b)}>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="font-black text-xl uppercase tracking-tighter truncate">{b.guest_name}</div>
+                      <div className="text-sm font-bold uppercase mt-1">
+                        {b.safari_type ?? "—"} · {b.adults}A{b.children > 0 ? ` + ${b.children}C` : ""}
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 shrink-0">
-                      {b.guest_whatsapp && (
-                        <a href={waLink(b.guest_whatsapp,b.guest_name)} target="_blank" rel="noopener noreferrer"
-                          onClick={e=>e.stopPropagation()}
-                          className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#25D366]/10 text-[#128c7e] hover:bg-[#25D366]/20 transition-colors">
-                          <Phone className="h-4 w-4"/>
-                        </a>
-                      )}
-                      <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-semibold capitalize ${STATUS_STYLES[s]}`}>{s}</span>
-                    </div>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      )}
-      {recentNew.length>0 && (
-        <div className="rounded-2xl border border-border bg-card overflow-hidden">
-          <div className="border-b border-border px-5 py-3 flex items-center justify-between">
-            <div>
-              <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Needs attention</div>
-              <div className="font-serif text-base text-foreground mt-0.5">New enquiries</div>
-            </div>
-            <button onClick={()=>onTabChange("new")} className="text-xs text-[color:var(--forest)] font-medium hover:underline">View all →</button>
-          </div>
-          <div className="divide-y divide-border/60">
-            {recentNew.map(b=>(
-              <button key={b.id} type="button" onClick={()=>onSelectBooking(b)}
-                className="w-full text-left px-5 py-3.5 hover:bg-muted/30 transition-colors">
-                <div className="flex items-center justify-between gap-2">
-                  <div className="min-w-0">
-                    <div className="font-medium text-foreground truncate">{b.guest_name}</div>
-                    <div className="text-xs text-muted-foreground mt-0.5">
-                      {b.guest_country??"—"} · {formatShort(b.safari_date)} · {b.safari_type??"—"}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 shrink-0">
-                    <span className="text-[10px] text-muted-foreground whitespace-nowrap">{formatDate(b.created_at)}</span>
-                    <ChevronRight className="h-4 w-4 text-muted-foreground/40"/>
+                    <ChevronRight className="h-6 w-6 text-black" />
                   </div>
                 </div>
-              </button>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -801,183 +398,259 @@ function OverviewTab({bookings,stats,dueReminders,onSelectBooking,onTabChange}:{
 }
 
 /* ─── MAIN DASHBOARD ─── */
-export default function AdminDashboard({initialRole,onSignOut}:{initialRole:AdminRole;onSignOut:()=>void}) {
-  const role = initialRole;
-  const [initLoading,setInitLoading] = useState(true);
-  const [bookings,setBookings] = useState<Booking[]>([]);
-  const [refreshing,setRefreshing] = useState(false);
-  const [activeTab,setActiveTab] = useState<Tab>("overview");
-  const [selected,setSelected] = useState<Booking|null>(null);
-  const {toasts,push:toast,dismiss} = useToast();
-  const {reminders,setReminder,dueToday} = useReminders();
+export default function AdminDashboard({ onSignOut }: { onSignOut: () => void }) {
+  const [activeTab, setActiveTab] = useState<Tab>("overview");
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [dataLoading, setDataLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const { toasts, push: toast, dismiss } = useToast();
+  const { reminders, setReminder, dueToday } = useReminders();
+  const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
 
-  useEffect(()=>{
-    async function init() {
-      try { const rows=await fetchBookingsForRole(initialRole); setBookings(rows as Booking[]); } catch{/**/}
-      setInitLoading(false);
-    }
-    void init();
-  },[initialRole]);
-
-  const handleSignOut = async ()=>{await signOut();onSignOut();};
-  const handleRefresh = async ()=>{
-    setRefreshing(true);
-    try { const rows=await fetchBookingsForRole(role); setBookings(rows as Booking[]); toast("Bookings refreshed."); }
-    catch(err){toast(err instanceof Error?err.message:"Refresh failed.","err");}
-    finally{setRefreshing(false);}
-  };
-  const handleStatusChange = async (id:string,status:string)=>{
+  const loadData = useCallback(async () => {
+    setDataLoading(true);
     try {
-      await updateBookingStatus(id,status);
-      setBookings(c=>c.map(r=>r.id===id?{...r,status}:r));
-      if(selected?.id===id) setSelected(s=>s?{...s,status}:s);
-      toast(`Status → "${status}".`);
-    } catch(err){toast(err instanceof Error?err.message:"Unable to update status.","err");}
-  };
-
-  const stats = useMemo(()=>({
-    total:bookings.length,
-    new:bookings.filter(r=>r.status==="new").length,
-    reviewing:bookings.filter(r=>r.status==="reviewing").length,
-    quoted:bookings.filter(r=>r.status==="quoted").length,
-    confirmed:bookings.filter(r=>r.status==="confirmed").length,
-    cancelled:bookings.filter(r=>r.status==="cancelled").length,
-  }),[bookings]);
-
-  const tabBookings = useMemo(()=>{
-    switch(activeTab){
-      case "new": return bookings.filter(b=>b.status==="new");
-      case "confirmed": return bookings.filter(b=>b.status==="confirmed");
-      case "archived": return bookings.filter(b=>b.status==="archived"||b.status==="cancelled");
-      default: return bookings;
+      const b = await fetchBookings();
+      setBookings(b as Booking[]);
+    } catch (err: any) {
+      toast(err.message, "err");
+    } finally {
+      setDataLoading(false);
     }
-  },[bookings,activeTab]);
+  }, [toast]);
 
-  const TABS: {id:Tab;label:string;badge?:number}[] = [
-    {id:"overview",label:"Overview"},
-    {id:"calendar",label:"Calendar"},
-    {id:"all",label:"All",badge:bookings.length},
-    {id:"new",label:"New",badge:stats.new},
-    {id:"confirmed",label:"Confirmed",badge:stats.confirmed},
-    {id:"archived",label:"Archived"},
-  ];
+  useEffect(() => { void loadData(); }, [loadData]);
 
-  const TAB_ICONS: Record<Tab,React.ReactNode> = {
-    overview:<LayoutDashboard className="h-5 w-5"/>,
-    calendar:<CalendarDays className="h-5 w-5"/>,
-    all:<ClipboardList className="h-5 w-5"/>,
-    new:<Star className="h-5 w-5"/>,
-    confirmed:<Check className="h-5 w-5"/>,
-    archived:<MessageSquare className="h-5 w-5"/>,
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    try {
+      const b = await fetchBookings();
+      setBookings(b as Booking[]);
+      toast("SYNC COMPLETE");
+    } catch {
+      toast("SYNC FAILED", "err");
+    }
+    setRefreshing(false);
   };
 
-  if(initLoading){
-    return <div className="flex min-h-screen items-center justify-center bg-background"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground"/></div>;
-  }
+  const handleBookingUpdate = (id: string, updates: Partial<Booking>) => {
+    setBookings(prev => prev.map(b => b.id === id ? { ...b, ...updates } : b));
+    setSelectedBooking(prev => prev && prev.id === id ? { ...prev, ...updates } : prev);
+  };
+
+
+
+  // Stats
+  const stats = useMemo(() => {
+    const today = new Date().toISOString().slice(0, 10);
+    const tomorrowDate = new Date();
+    tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+    const tomorrow = tomorrowDate.toISOString().slice(0, 10);
+
+    return {
+      total: bookings.length,
+      new: bookings.filter(b => b.status === "new" || !b.status).length,
+      confirmed: bookings.filter(b => b.status === "confirmed").length,
+      reviewing: bookings.filter(b => b.status === "reviewing").length,
+      quoted: bookings.filter(b => b.status === "quoted").length,
+      today: bookings.filter(b => b.safari_date && b.safari_date.startsWith(today)).length,
+      tomorrow: bookings.filter(b => b.safari_date && b.safari_date.startsWith(tomorrow)).length,
+    };
+  }, [bookings]);
 
   return (
-    <div className="min-h-screen bg-[color:var(--sand)]/15 pb-24 sm:pb-8">
-      {/* Toasts */}
-      <div className="fixed bottom-24 right-4 sm:bottom-5 sm:right-5 z-[60] flex flex-col gap-2 max-w-xs">
-        {toasts.map(t=>(
-          <div key={t.id} className={`flex items-center gap-2.5 rounded-2xl border px-4 py-3 text-sm shadow-xl backdrop-blur ${
-            t.type==="err"?"border-red-200 bg-red-50 text-red-700":"border-emerald-200 bg-emerald-50 text-emerald-700"}`}>
-            {t.type==="err"?<AlertCircle className="h-4 w-4 shrink-0"/>:<Check className="h-4 w-4 shrink-0"/>}
-            <span className="flex-1 text-xs">{t.text}</span>
-            <button type="button" onClick={()=>dismiss(t.id)} className="opacity-50 hover:opacity-100"><X className="h-3.5 w-3.5"/></button>
+    <div className="flex flex-col min-h-[100dvh] bg-[#fdf5e6] text-black font-mono">
+      
+      {/* Top Header */}
+      <header className="sticky top-0 z-30 border-b-8 border-black bg-white px-4 sm:px-8 py-4 flex items-center justify-between shadow-[0px_8px_0px_0px_rgba(0,0,0,1)]">
+        <div className="flex items-center gap-3">
+          <div className="flex h-12 w-12 items-center justify-center border-4 border-black bg-[#ffef00] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <LayoutDashboard className="h-6 w-6 text-black" />
           </div>
-        ))}
-      </div>
-
-      {/* Detail panel */}
-      {selected && (
-        <DetailPanel row={selected} onStatusChange={handleStatusChange}
-          onClose={()=>setSelected(null)} toast={toast}
-          reminders={reminders} setReminder={setReminder} role={role}/>
-      )}
-
-      {/* Top header */}
-      <div className="sticky top-0 z-40 border-b border-border bg-card/95 backdrop-blur shadow-sm">
-        <div className="mx-auto max-w-4xl px-4 py-3 sm:py-4">
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[color:var(--forest)]/10 text-[color:var(--forest)]">
-                <Shield className="h-4 w-4"/>
-              </div>
-              <div>
-                <div className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground leading-none">Udawalawe Wild</div>
-                <div className="font-serif text-base text-foreground leading-tight">Booking Manager</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${
-                role==="superadmin"?"border-amber-300 bg-amber-50 text-amber-700":"border-blue-200 bg-blue-50 text-blue-700"}`}>
-                {role}
-              </span>
-              <button type="button" onClick={()=>void handleRefresh()} disabled={refreshing}
-                className="flex h-8 w-8 items-center justify-center rounded-xl border border-border bg-background transition hover:bg-muted disabled:opacity-60" title="Refresh">
-                <RefreshCcw className={`h-3.5 w-3.5 ${refreshing?"animate-spin":""}`}/>
-              </button>
-              <button type="button" onClick={()=>exportCsv(bookings)}
-                className="hidden sm:flex h-8 items-center gap-1.5 rounded-xl border border-border bg-background px-3 text-xs font-medium hover:bg-muted transition">
-                <Download className="h-3.5 w-3.5"/>Export
-              </button>
-              <button type="button" onClick={()=>void handleSignOut()}
-                className="flex h-8 w-8 items-center justify-center rounded-xl border border-border bg-background transition hover:bg-red-50 hover:border-red-200 hover:text-red-600" title="Sign out">
-                <LogOut className="h-3.5 w-3.5"/>
-              </button>
-            </div>
-          </div>
-          {/* Desktop tabs */}
-          <div className="hidden sm:flex mt-3 gap-1 overflow-x-auto pb-0.5">
-            {TABS.map(tab=>(
-              <button key={tab.id} type="button" onClick={()=>setActiveTab(tab.id)}
-                className={`flex shrink-0 items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-medium transition-colors ${
-                  activeTab===tab.id?"bg-[color:var(--forest)] text-[color:var(--ivory)]":"text-muted-foreground hover:bg-muted hover:text-foreground"}`}>
-                {tab.label}
-                {tab.badge!==undefined&&tab.badge>0 && (
-                  <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold leading-none ${
-                    activeTab===tab.id?"bg-white/20 text-white":"bg-muted text-muted-foreground"}`}>
-                    {tab.badge}
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
+          <span className="font-black text-2xl uppercase tracking-tighter">CONTROL_PANEL</span>
         </div>
-      </div>
+        <div className="flex items-center gap-4">
+          <button onClick={handleRefresh} disabled={refreshing} className="flex h-12 w-12 items-center justify-center border-4 border-black bg-[#00ffcc] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
+            <RefreshCcw className={`h-6 w-6 text-black ${refreshing ? "animate-spin" : ""}`} />
+          </button>
+          <button onClick={() => exportCsv(bookings)} className="hidden sm:flex h-12 w-12 items-center justify-center border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
+            <Download className="h-6 w-6 text-black" />
+          </button>
+          <button onClick={async () => { await signOut(); onSignOut(); }} className="flex h-12 w-12 items-center justify-center border-4 border-black bg-[#ff3366] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
+            <LogOut className="h-6 w-6 text-black" />
+          </button>
+        </div>
+      </header>
 
-      {/* Content */}
-      <div className="mx-auto max-w-4xl px-4 py-5 sm:py-6">
-        {activeTab==="overview" && (
-          <OverviewTab bookings={bookings} stats={stats} dueReminders={dueToday}
-            onSelectBooking={setSelected} onTabChange={setActiveTab}/>
-        )}
-        {activeTab==="calendar" && (
-          <CalendarView bookings={bookings} onSelectBooking={setSelected}/>
-        )}
-        {(activeTab==="all"||activeTab==="new"||activeTab==="confirmed"||activeTab==="archived") && (
-          <BookingsList bookings={tabBookings} allBookings={bookings} onSelect={setSelected}/>
-        )}
-      </div>
+      {/* Main Content Area */}
+      <main className="flex-1 overflow-y-auto pb-32 sm:pb-12 px-4 sm:px-8 pt-10 max-w-6xl mx-auto w-full">
+        {dataLoading ? (
+          <div className="flex flex-col items-center justify-center py-32 space-y-6">
+            <Loader2 className="h-16 w-16 animate-spin text-black" />
+            <span className="text-xl font-black uppercase tracking-widest text-black">SYNCING_DATA...</span>
+          </div>
+        ) : (
+          <>
+            {/* OVERVIEW TAB */}
+            {activeTab === "overview" && (
+              <div className="space-y-8 animate-in fade-in duration-300">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+                  <div className="border-4 border-black bg-[#00ffcc] p-4 sm:p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                    <div className="text-xs sm:text-sm font-black uppercase tracking-widest text-black/70">New/Review</div>
+                    <div className="mt-2 text-4xl sm:text-6xl font-black tracking-tighter">{stats.new + stats.reviewing}</div>
+                  </div>
+                  <div className="border-4 border-black bg-[#aa00ff] p-4 sm:p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-white">
+                    <div className="text-xs sm:text-sm font-black uppercase tracking-widest text-white/70">Quoted</div>
+                    <div className="mt-2 text-4xl sm:text-6xl font-black tracking-tighter">{stats.quoted}</div>
+                  </div>
+                  <div className="border-4 border-black bg-[#ffef00] p-4 sm:p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                    <div className="text-xs sm:text-sm font-black uppercase tracking-widest text-black/70">Confirmed</div>
+                    <div className="mt-2 text-4xl sm:text-6xl font-black tracking-tighter">{stats.confirmed}</div>
+                  </div>
+                  <div className="border-4 border-black bg-white p-4 sm:p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                    <div className="text-xs sm:text-sm font-black uppercase tracking-widest text-black/70">Total</div>
+                    <div className="mt-2 text-4xl sm:text-6xl font-black tracking-tighter">{stats.total}</div>
+                  </div>
+                </div>
 
-      {/* Mobile bottom tab bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-card/95 backdrop-blur sm:hidden">
-        <div className="grid grid-cols-6 px-1 py-1.5">
-          {TABS.map(tab=>(
-            <button key={tab.id} type="button" onClick={()=>setActiveTab(tab.id)}
-              className={`relative flex flex-col items-center justify-center gap-0.5 py-1.5 rounded-xl transition-colors ${
-                activeTab===tab.id?"text-[color:var(--forest)] bg-[color:var(--forest)]/8":"text-muted-foreground"}`}>
-              {TAB_ICONS[tab.id]}
-              <span className="text-[9px] font-medium leading-none">{tab.label}</span>
-              {tab.badge!==undefined&&tab.badge>0 && (
-                <span className="absolute top-1 right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-blue-500 text-[9px] font-bold text-white leading-none">
-                  {tab.badge>9?"9+":tab.badge}
-                </span>
-              )}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="border-4 border-black bg-[#ff3366] p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] text-black">
+                    <div className="flex items-center justify-between border-b-4 border-black pb-4 mb-4">
+                      <h2 className="text-lg font-black uppercase tracking-widest">Safaris Today</h2>
+                      <span className="bg-black text-white px-3 py-1 text-sm font-black">{stats.today}</span>
+                    </div>
+                    {bookings.filter(b => b.safari_date && b.safari_date.startsWith(new Date().toISOString().slice(0, 10))).slice(0,3).map(b => (
+                       <div key={b.id} className="mb-2 last:mb-0 bg-white border-2 border-black p-3 hover:bg-black hover:text-white cursor-pointer" onClick={() => setSelectedBooking(b)}>
+                         <div className="font-black uppercase truncate">{b.guest_name}</div>
+                         <div className="text-xs font-bold">{b.adults}A {b.children}C • {b.safari_type}</div>
+                       </div>
+                    ))}
+                    {stats.today === 0 && <div className="text-sm font-black uppercase text-center py-4 opacity-50">No safaris today</div>}
+                  </div>
+                  
+                  <div className="border-4 border-black bg-[#00ff00] p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] text-black">
+                    <div className="flex items-center justify-between border-b-4 border-black pb-4 mb-4">
+                      <h2 className="text-lg font-black uppercase tracking-widest">Safaris Tomorrow</h2>
+                      <span className="bg-black text-white px-3 py-1 text-sm font-black">{stats.tomorrow}</span>
+                    </div>
+                    {bookings.filter(b => b.safari_date && b.safari_date.startsWith(new Date(Date.now() + 86400000).toISOString().slice(0, 10))).slice(0,3).map(b => (
+                       <div key={b.id} className="mb-2 last:mb-0 bg-white border-2 border-black p-3 hover:bg-black hover:text-white cursor-pointer" onClick={() => setSelectedBooking(b)}>
+                         <div className="font-black uppercase truncate">{b.guest_name}</div>
+                         <div className="text-xs font-bold">{b.adults}A {b.children}C • {b.safari_type}</div>
+                       </div>
+                    ))}
+                    {stats.tomorrow === 0 && <div className="text-sm font-black uppercase text-center py-4 opacity-50">No safaris tomorrow</div>}
+                  </div>
+                </div>
+
+                <div className="border-4 border-black bg-white p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                  <div className="flex items-center justify-between mb-6 border-b-4 border-black pb-4">
+                    <h2 className="text-xl font-black uppercase tracking-widest text-black">Action Required</h2>
+                    <button onClick={() => setActiveTab("bookings")} className="border-2 border-black bg-black text-white px-4 py-2 font-black uppercase hover:bg-white hover:text-black transition-colors">
+                      View All
+                    </button>
+                  </div>
+                  <div className="space-y-6">
+                    {bookings.filter(b => b.status === "new" || b.status === "reviewing").slice(0, 5).map(b => (
+                      <BookingCard key={b.id} row={b} onClick={() => setSelectedBooking(b)} />
+                    ))}
+                    {bookings.filter(b => b.status === "new" || b.status === "reviewing").length === 0 && (
+                      <div className="text-center py-16 border-4 border-dashed border-black bg-[#fdf5e6]">
+                        <span className="text-2xl font-black uppercase">0 PENDING ITEMS</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* BOOKINGS TAB */}
+            {activeTab === "bookings" && (
+              <div className="space-y-6 animate-in fade-in duration-300">
+                <div className="sticky top-24 z-20 -mx-4 px-4 py-4 bg-[#fdf5e6]">
+                   <div className="relative border-4 border-black bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] flex items-center">
+                     <Search className="absolute left-4 h-6 w-6 text-black" />
+                     <input type="search" placeholder="SEARCH QUERY..."
+                       className="w-full bg-transparent py-4 pl-14 pr-4 text-xl font-black uppercase focus:outline-none placeholder-black/30" />
+                   </div>
+                </div>
+                <div className="space-y-6">
+                  {bookings.map(b => (
+                    <BookingCard key={b.id} row={b} onClick={() => setSelectedBooking(b)} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* CALENDAR TAB */}
+            {activeTab === "calendar" && (
+              <div className="animate-in fade-in duration-300">
+                <CalendarView bookings={bookings} onSelectBooking={setSelectedBooking} />
+              </div>
+            )}
+          </>
+        )}
+      </main>
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t-8 border-black pb-safe shadow-[0px_-8px_0px_0px_rgba(0,0,0,1)]">
+        <div className="flex items-center">
+          {[
+            { id: "overview", label: "Overview", icon: LayoutDashboard },
+            { id: "bookings", label: "Bookings", icon: ClipboardList },
+            { id: "calendar", label: "Calendar", icon: CalendarDays }
+          ].map((tab, idx) => (
+            <button key={tab.id} onClick={() => setActiveTab(tab.id as Tab)}
+              className={`flex flex-col items-center justify-center w-full py-4 gap-2 border-r-4 border-black last:border-r-0 transition-colors ${
+                activeTab === tab.id ? "bg-[#ffef00] text-black" : "bg-white text-black hover:bg-[#e0e0e0]"
+              }`}>
+              <tab.icon className={`h-8 w-8`} />
+              <span className="text-[10px] font-black uppercase tracking-widest">{tab.label}</span>
             </button>
           ))}
         </div>
+      </nav>
+
+      {/* Desktop Side Navigation Alternative */}
+      <div className="hidden sm:flex fixed bottom-12 left-1/2 -translate-x-1/2 z-40 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-2 gap-2">
+         {[
+            { id: "overview", label: "OVERVIEW", icon: LayoutDashboard },
+            { id: "bookings", label: "BOOKINGS", icon: ClipboardList },
+            { id: "calendar", label: "CALENDAR", icon: CalendarDays }
+          ].map(tab => (
+            <button key={tab.id} onClick={() => setActiveTab(tab.id as Tab)}
+              className={`flex items-center gap-3 px-6 py-3 border-4 border-black transition-all ${
+                activeTab === tab.id ? "bg-black text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] translate-x-[-2px] translate-y-[-2px]" : "bg-white text-black hover:bg-[#ffef00]"
+              }`}>
+              <tab.icon className="h-5 w-5" />
+              <span className="text-sm font-black uppercase">{tab.label}</span>
+            </button>
+          ))}
+      </div>
+
+      {/* Detail Sheet Overlay */}
+      {selectedBooking && (
+        <DetailSheet
+          row={selectedBooking}
+          onUpdate={handleBookingUpdate}
+          onClose={() => setSelectedBooking(null)}
+          toast={toast}
+          reminders={reminders}
+          setReminder={setReminder}
+        />
+      )}
+
+      {/* Toasts */}
+      <div className="fixed top-24 sm:top-6 right-4 sm:right-6 z-[100] flex flex-col gap-4 pointer-events-none">
+        {toasts.map(t => (
+          <div key={t.id} className={`pointer-events-auto flex items-center gap-3 border-4 border-black px-6 py-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] animate-in slide-in-from-right-8 ${
+            t.type === "err" ? "bg-[#ff3366] text-black" : "bg-[#00ffcc] text-black"
+          }`}>
+            {t.type === "ok" ? <Check className="h-6 w-6 border-2 border-black bg-white rounded-full p-0.5" /> : <AlertCircle className="h-6 w-6 border-2 border-black bg-white rounded-full p-0.5" />}
+            <span className="text-sm font-black uppercase tracking-widest">{t.text}</span>
+            <button onClick={() => dismiss(t.id)} className="ml-4 border-2 border-black bg-white p-1 hover:bg-black hover:text-white transition-colors"><X className="h-4 w-4" /></button>
+          </div>
+        ))}
       </div>
     </div>
   );
