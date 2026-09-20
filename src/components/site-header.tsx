@@ -129,7 +129,7 @@ export function SiteHeader() {
 
         {/* Mobile controls — Call + Hamburger */}
         <div className="flex items-center gap-2.5 lg:hidden">
-          <Magnetic>
+          
             <a
               href="tel:+94743807446"
               className="inline-flex items-center justify-center rounded-full p-2.5 transition-all duration-300 shadow-sm"
@@ -142,9 +142,9 @@ export function SiteHeader() {
             >
               <Phone className="h-4.5 w-4.5 text-white" />
             </a>
-          </Magnetic>
+          
 
-          <Magnetic>
+          
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
@@ -163,7 +163,7 @@ export function SiteHeader() {
                 <Menu className="h-4.5 w-4.5 text-white transition-transform duration-300" />
               )}
             </button>
-          </Magnetic>
+          
         </div>
       </div>
 

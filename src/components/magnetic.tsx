@@ -1,10 +1,6 @@
 "use client";
 import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
-import { useRef, ReactNode } from "react";
-
-// Detect touch/mobile at module level (SSR safe)
-const isTouchDevice =
-  typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches;
+import { useRef, ReactNode, useEffect, useState } from "react";
 
 export function Magnetic({
   children,
@@ -18,10 +14,15 @@ export function Magnetic({
   className?: string;
 }) {
   const prefersReducedMotion = useReducedMotion();
+  const [isTouch, setIsTouch] = useState(true);
+
+  useEffect(() => {
+    setIsTouch(window.matchMedia("(pointer: coarse)").matches);
+  }, []);
 
   // On touch/mobile devices or reduced motion — render as a plain wrapper.
   // Magnetic effect is mouse-only and mounts 5 springs for zero benefit on touch.
-  if (isTouchDevice || prefersReducedMotion) {
+  if (isTouch || prefersReducedMotion) {
     return <div className={`inline-flex ${className}`}>{children}</div>;
   }
 
