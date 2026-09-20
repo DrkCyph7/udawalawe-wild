@@ -2,8 +2,36 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if false;
+    
+    function getRole() {
+      return get(/databases/$(database)/documents/profiles/$(request.auth.uid)).data.role;
+    }
+    
+    function isAdmin() {
+      return request.auth != null && (getRole() == 'admin' || getRole() == 'superadmin');
+    }
+
+    match /booking_enquiries/{enquiry} {
+      // Anyone can submit enquiries
+      allow create: if true;
+      
+      // Admins can read and update enquiries
+      allow read, update: if isAdmin();
+      
+      allow delete: if false;
+    }
+
+    match /profiles/{userId} {
+      // Users can read/write their own profile
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    match /admin_login_logs/{log} {
+      // Login logs can be created by anyone (success or failure logs)
+      allow create: if true;
+      
+      // Login logs are only read from a separate analytics app
+      allow read, update, delete: if false;
     }
   }
 }
