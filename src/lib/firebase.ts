@@ -23,11 +23,11 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-export const isFirebaseConfigured = Boolean(firebaseConfig.projectId);
+export const isFirebaseConfigured = Boolean(firebaseConfig.projectId && firebaseConfig.apiKey);
 
-export const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+export const app = isFirebaseConfigured ? (getApps().length > 0 ? getApp() : initializeApp(firebaseConfig)) : null;
+export const auth = app ? getAuth(app) : null;
+export const db = app ? getFirestore(app) : null;
 
 export const adminEmailAllowList = (
   process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? "admin@udawalawe-wild.com"
@@ -69,7 +69,7 @@ export type AuthUser = {
 };
 
 export async function createBookingEnquiry(values: Record<string, string>, geo?: GeoInfo | null) {
-  if (!isFirebaseConfigured) {
+  if (!isFirebaseConfigured || !db) {
     throw new Error("Firebase is not configured. Set NEXT_PUBLIC_FIREBASE_* environment variables.");
   }
 
@@ -104,7 +104,7 @@ export async function createBookingEnquiry(values: Record<string, string>, geo?:
 }
 
 export async function fetchBookingEnquiries() {
-  if (!isFirebaseConfigured) {
+  if (!isFirebaseConfigured || !db) {
     throw new Error("Firebase is not configured.");
   }
 
@@ -122,7 +122,7 @@ export async function fetchBookingEnquiries() {
 }
 
 export async function updateBookingStatus(id: string, status: string) {
-  if (!isFirebaseConfigured) {
+  if (!isFirebaseConfigured || !db) {
     throw new Error("Firebase is not configured.");
   }
 
@@ -148,7 +148,7 @@ export async function isAdminUser(user: AuthUser | null) {
     return true;
   }
 
-  if (!isFirebaseConfigured) {
+  if (!isFirebaseConfigured || !db) {
     return false;
   }
 
@@ -162,4 +162,22 @@ export async function isAdminUser(user: AuthUser | null) {
   } catch (error) {
     return false;
   }
+}
+
+export async function updateBookingPartner(id: string, partner: string | null) {
+  if (!isFirebaseConfigured || !db) throw new Error("Firebase is not configured.");
+  const enquiryRef = doc(db, "booking_enquiries", id);
+  await updateDoc(enquiryRef, { 
+    assigned_partner: partner,
+    updated_at: new Date().toISOString()
+  });
+}
+
+export async function updateBookingNotes(id: string, notes: string) {
+  if (!isFirebaseConfigured || !db) throw new Error("Firebase is not configured.");
+  const enquiryRef = doc(db, "booking_enquiries", id);
+  await updateDoc(enquiryRef, { 
+    internal_notes: notes,
+    updated_at: new Date().toISOString()
+  });
 }
