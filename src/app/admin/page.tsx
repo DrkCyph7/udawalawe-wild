@@ -7,12 +7,12 @@ import { fetchGeoInfo } from "@/lib/geo";
 import { Shield, AlertCircle, Loader2 } from "lucide-react";
 import { TransitionLink as Link } from "@/components/transition-link";
 
-// 1) Dynamically import the AdminDashboard so its huge bundle is NEVER shipped
-//    to the browser unless the user actually successfully authenticates.
+// Dynamically import the AdminDashboard so its huge bundle is NEVER shipped
+// to the browser unless the user actually successfully authenticates.
 const AdminDashboard = dynamic(() => import("@/components/admin/admin-dashboard"), {
   loading: () => (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+    <div className="flex min-h-screen items-center justify-center bg-[#fdf5e6]">
+      <Loader2 className="h-10 w-10 animate-spin text-black" />
     </div>
   ),
   ssr: false, // Must be client-side only due to localStorage Supabase Auth
@@ -28,7 +28,7 @@ function LoginScreen({ onSuccess }: { onSuccess: (role: AdminRole) => void }) {
     e.preventDefault();
     setError("");
     if (!email.trim() || !password) {
-      setError("Please enter your email and password.");
+      setError("ENTER EMAIL AND PASSWORD.");
       return;
     }
     setLoading(true);
@@ -40,86 +40,88 @@ function LoginScreen({ onSuccess }: { onSuccess: (role: AdminRole) => void }) {
       } else {
         setError(
           result.error === "AUTH_FAILURE"
-            ? "Incorrect email or password. Please try again."
-            : (result.error ?? "Authentication failed. Please check your credentials."),
+            ? "INCORRECT CREDENTIALS."
+            : (result.error ?? "AUTHENTICATION FAILED."),
         );
       }
     } catch {
-      setError("An unexpected error occurred. Please try again.");
+      setError("SYSTEM ERROR. TRY AGAIN.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-[color:var(--sand)]/40 via-background to-[color:var(--forest)]/5 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-[#fdf5e6] px-4 font-mono">
       <div className="w-full max-w-sm">
-        {/* Card */}
-        <div className="rounded-2xl border border-border bg-card p-8 shadow-2xl">
+        {/* BRUTALIST CARD */}
+        <div className="border-4 border-black bg-white p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
           {/* Icon */}
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[color:var(--forest)]/10 text-[color:var(--forest)]">
-            <Shield className="h-6 w-6" />
+          <div className="flex h-16 w-16 items-center justify-center border-4 border-black bg-[#ffef00] text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <Shield className="h-8 w-8" />
           </div>
 
-          <h1 className="mt-5 font-serif text-2xl text-foreground">Admin sign in</h1>
-          <p className="mt-1.5 text-sm text-muted-foreground">
-            Use your authorised admin email and password.
+          <h1 className="mt-6 text-3xl font-black uppercase tracking-tight text-black">Admin Access</h1>
+          <p className="mt-2 text-sm font-bold uppercase text-black/70">
+            Authorised personnel only.
           </p>
 
-          <form onSubmit={(e) => void handleSubmit(e)} className="mt-6 space-y-3">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@udawalawe-wild.com"
-              autoComplete="email"
-              required
-              className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-            />
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-              autoComplete="current-password"
-              required
-              className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-            />
+          <form onSubmit={(e) => void handleSubmit(e)} className="mt-8 space-y-4">
+            <div>
+              <label className="mb-1 block text-sm font-bold uppercase text-black">Email Address</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="admin@udawalawe-wild.com"
+                autoComplete="email"
+                required
+                className="w-full border-4 border-black bg-[#e0e0e0] px-4 py-3 text-base font-bold text-black placeholder-black/50 focus:bg-white focus:outline-none focus:ring-0"
+              />
+            </div>
+            
+            <div>
+              <label className="mb-1 block text-sm font-bold uppercase text-black">Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="PASSWORD"
+                autoComplete="current-password"
+                required
+                className="w-full border-4 border-black bg-[#e0e0e0] px-4 py-3 text-base font-bold text-black placeholder-black/50 focus:bg-white focus:outline-none focus:ring-0"
+              />
+            </div>
 
             {error && (
-              <div className="flex items-center gap-1.5 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700">
-                <AlertCircle className="h-3.5 w-3.5 shrink-0" />
-                {error}
+              <div className="flex items-center gap-2 border-4 border-black bg-[#ff3366] px-4 py-3 font-bold text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                <AlertCircle className="h-5 w-5 shrink-0" />
+                <span className="text-sm">{error}</span>
               </div>
             )}
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-xl bg-[color:var(--forest)] py-3 text-sm font-semibold text-[color:var(--ivory)] transition hover:opacity-90 disabled:opacity-60"
+              className="mt-4 w-full border-4 border-black bg-[#00ffcc] py-4 text-lg font-black uppercase text-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-transform hover:translate-x-1 hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-1.5 active:translate-y-1.5 active:shadow-none disabled:opacity-50"
             >
-              {loading ? (
-                <span className="flex items-center justify-center gap-2">
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  Signing in…
-                </span>
-              ) : (
-                "Sign in"
-              )}
+              {loading ? "AUTHENTICATING..." : "SIGN IN"}
             </button>
           </form>
 
-          <Link
-            to="/"
-            className="mt-5 block text-center text-xs text-muted-foreground hover:text-foreground"
-          >
-            ← Return to site
-          </Link>
+          <div className="mt-8 border-t-4 border-black pt-4">
+            <Link
+              to="/"
+              className="block text-center text-sm font-bold uppercase text-black hover:bg-black hover:text-white transition-colors py-2"
+            >
+              ← Return to site
+            </Link>
+          </div>
         </div>
 
         {/* Security note */}
-        <p className="mt-4 text-center text-[10px] text-muted-foreground/60">
-          All login attempts are logged securely.
+        <p className="mt-6 text-center text-xs font-bold uppercase text-black/50">
+          ALL LOGIN ATTEMPTS ARE LOGGED.
         </p>
       </div>
     </div>
@@ -146,15 +148,15 @@ export default function AdminPage() {
 
   if (initLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
-        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+      <div className="flex min-h-screen items-center justify-center bg-[#fdf5e6]">
+        <Loader2 className="h-10 w-10 animate-spin text-black" />
       </div>
     );
   }
 
   // If the user has successfully authenticated, lazily load the dashboard
   if (role) {
-    return <AdminDashboard initialRole={role} onSignOut={() => setRole(null)} />;
+    return <AdminDashboard onSignOut={() => setRole(null)} />;
   }
 
   // Otherwise, show the extremely lightweight login screen
