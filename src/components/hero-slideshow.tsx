@@ -71,7 +71,10 @@ export function HeroSlideshow() {
               alt={desktopHeroImages[activeHero].alt}
               title={desktopHeroImages[activeHero].title}
               fill
+              placeholder="blur"
+              priority={activeHero === 0}
               sizes="100vw"
+              quality={65}
               className="hidden sm:block object-cover object-center"
             />
             <Image
@@ -79,7 +82,10 @@ export function HeroSlideshow() {
               alt={mobileHeroImages[activeHero].alt}
               title={mobileHeroImages[activeHero].title}
               fill
+              placeholder="blur"
+              priority={activeHero === 0}
               sizes="100vw"
+              quality={65}
               className="block sm:hidden object-cover object-center"
             />
           </motion.div>
