@@ -17,6 +17,7 @@ import {
   Phone,
   Mail,
   ExternalLink,
+  Newspaper,
 } from "lucide-react";
 
 /* ─── User-Specified Brand SVG Icons (24x24 Clean Geometry) ────────────────────── */
@@ -74,6 +75,7 @@ const exploreLinks = [
   { to: "/safaris", label: "Safari Options", icon: Compass },
   { to: "/routes", label: "Travel Routes", icon: MapPin },
   { to: "/guide", label: "Visitor Guide", icon: BookOpen },
+  { to: "/blog", label: "Blog", icon: Newspaper },
   { to: "/ethical-safari", label: "Ethical Safari Code", icon: Leaf },
   { to: "/about", label: "About Us", icon: Info },
 ];
@@ -116,25 +118,22 @@ export function SiteFooter() {
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:px-8 md:grid-cols-12">
         {/* Brand column (span 5) */}
         <div className="md:col-span-5 space-y-5">
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col gap-2">
             <Image
               src="/logo.png"
               alt="Udawalawe Wild logo"
-              width={48}
-              height={48}
-              className="h-12 w-12 rounded-full object-cover ring-2 ring-[color:var(--ivory)]/20 shadow-md"
+              width={180}
+              height={84}
+              className="h-14 w-auto object-contain"
               unoptimized={true}
             />
             <div>
-              <span className="font-serif text-2xl font-medium tracking-tight text-[color:var(--ivory)] block">
-                {SITE.name}
-              </span>
-              <span className="text-[10px] uppercase tracking-widest text-[color:var(--terracotta)] block font-medium">
+              <span className="text-[10px] uppercase tracking-widest text-[color:var(--terracotta)] block font-medium ml-1">
                 Udawalawe · Sri Lanka
               </span>
             </div>
           </div>
-          <p className="max-w-sm text-sm leading-relaxed text-[color:var(--ivory)]/75">
+          <p className="max-w-sm text-sm leading-relaxed text-[color:var(--ivory)]/75 mt-4">
             {SITE.tagline}
           </p>
           <p className="max-w-md text-xs leading-relaxed text-[color:var(--ivory)]/50 border-l border-white/10 pl-3">
