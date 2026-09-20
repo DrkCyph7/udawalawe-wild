@@ -16,6 +16,7 @@ import {
   CalendarCheck,
   Home,
   Phone,
+  Newspaper,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -45,6 +46,7 @@ export function SiteHeader() {
     { to: "/guide", label: "Guide", icon: BookOpen },
     { to: "/ethical-safari", label: "Ethical", icon: Leaf },
     { to: "/about", label: "About", icon: Info },
+    { to: "/blog", label: "Blog", icon: Newspaper },
   ];
 
   return (
@@ -66,19 +68,16 @@ export function SiteHeader() {
           onClick={() => setOpen(false)}
           aria-label="Udawalawe Wild — Home"
         >
-          <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full overflow-hidden shadow-inner ring-2 ring-white/10 transition-all duration-500 group-hover:ring-white/40 group-hover:shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+          <div className="relative flex h-12 w-[140px] shrink-0 items-center justify-center overflow-hidden transition-all duration-500">
             <Image
               src="/logo.png"
               alt="Udawalawe Wild logo"
-              width={40}
-              height={40}
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+              width={140}
+              height={65}
+              className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
               unoptimized={true}
             />
           </div>
-          <span className="whitespace-nowrap font-serif text-lg tracking-wide transition-all duration-300 sm:text-xl text-white/90 group-hover:text-white drop-shadow-sm group-hover:drop-shadow-md">
-            Udawalawe Wild
-          </span>
         </Link>
 
         {/* Desktop nav */}
